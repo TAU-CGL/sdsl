@@ -10,30 +10,21 @@ namespace sdsl {
     template<typename FT>
     class R2xS1 {
     public:
-        R2xS1 (FT x, FT y, FT r) : x(x), y(y), r(r) {}
+        // R2xS1 (FT x, FT y, FT r) : x(x), y(y), r(r) {}
+        R2xS1 (double x, double y, double r) : x(FT(x)), y(FT(y)), r(FT(r)) {}
 
         FT getX() const { return x; }
         FT getY() const { return y; }
         FT getR() const { return r; }
 
-        template<TrigableFieldType T = FT>
         R2xS1 operator*(const R2xS1& other) const {
-            // `other` is translated and rotated by **this**
             return R2xS1(
-                other.x + this->x * cos(this->r) - this->y * sin(this->r),
-                other.y + this->x * sin(this->r) + this->y * cos(this->r),
-                other.r + this->r
+                CGAL::to_double(other.x + this->x * cos(CGAL::to_double(this->r)) - this->y * sin(CGAL::to_double(this->r))),
+                CGAL::to_double(other.y + this->x * sin(CGAL::to_double(this->r)) + this->y * cos(CGAL::to_double(this->r))),
+                CGAL::to_double(other.r + this->r)
             );
         }
 
-        template<FirstCvtTrigableFieldType T = FT>
-        R2xS1 operator*(const R2xS1& other) const {
-            return R2xS1(
-                other.x + this->x * cos(CGAL::to_double(this->r)) - this->y * sin(CGAL::to_double(this->r)),
-                other.y + this->x * sin(CGAL::to_double(this->r)) + this->y * cos(CGAL::to_double(this->r)),
-                other.r + this->r
-            );
-        }
 
 
 

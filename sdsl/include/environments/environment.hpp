@@ -6,10 +6,11 @@
 
 namespace sdsl {
 
-    template<typename T, typename Config>
-    concept Environment = requires(T t, Voxel<Config> v) {
+    template<typename T, typename Config, typename FT>
+    concept Environment = requires(T t, Voxel<Config> v, Config q) {
         Configuration<Config>;
         { t.intersects(v)} -> std::same_as<bool>;
+        { t.measureDistance(q)} -> std::same_as<double>;
         T::make;
     };
 
