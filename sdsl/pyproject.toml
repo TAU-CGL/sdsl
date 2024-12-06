@@ -9,7 +9,6 @@ description = "Unified library for all Sparse Distance Sampling Localization met
 readme = "README.md"
 authors = [
     { name = "Michael Bilevich", email = "michaelmoshe@mail.tau.ac.il" },
-    { name = "Shahar Guini Menashe", email = "shaharguini@mail.tau.ac.il" },
 ]
 requires-python = ">=3.10"
 classifiers = [

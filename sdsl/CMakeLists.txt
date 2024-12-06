@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.20)
 project(sdsl)
 
+set(CMAKE_CXX_STANDARD 23)
+set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
+
 # OpenMP hotfix for Apple Clang
 if(APPLE)
     set(CMAKE_C_COMPILER clang)
