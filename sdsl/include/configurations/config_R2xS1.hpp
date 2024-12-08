@@ -17,6 +17,10 @@ namespace sdsl {
         FT getY() const { return y; }
         FT getR() const { return r; }
 
+        double getXDouble() const { return CGAL::to_double(x); }
+        double getYDouble() const { return CGAL::to_double(y); }
+        double getRDouble() const { return CGAL::to_double(r); }
+
         R2xS1 operator*(const R2xS1& other) const {
             return R2xS1(
                 CGAL::to_double(other.x + this->x * cos(CGAL::to_double(this->r)) - this->y * sin(CGAL::to_double(this->r))),
@@ -39,13 +43,13 @@ namespace sdsl {
             return this->x < other.x && this->y < other.y && this->r < other.r;
         }
         bool operator<=(const R2xS1& other) const {
-            return *this < other || *this == other;
+            return this->x <= other.x && this->y <= other.y && this->r <= other.r;
         }
         bool operator>(const R2xS1& other) const {
             return this->x > other.x && this->y > other.y && this->r > other.r;
         }
         bool operator>=(const R2xS1& other) const {
-            return *this > other || *this == other;
+            return this->x >= other.x && this->y >= other.y && this->r >= other.r;
         }
         
     private:

@@ -2,6 +2,7 @@
 
 #include <nanobind/nanobind.h>
 #include <nanobind/ndarray.h>
+#include <nanobind/operators.h>
 namespace nb = nanobind;
 
 #include "sdsl.hpp"
@@ -25,16 +26,23 @@ NB_MODULE(sdsl, m) {
 
     nb::class_<R2xS1<FT>>(m, "R2xS1")
         .def(nb::init<double, double, double>())
-        .def("getX", &R2xS1<FT>::getX)
-        .def("getY", &R2xS1<FT>::getY)
-        .def("getR", &R2xS1<FT>::getR)
-        // .def("operator*", &R2xS1<FT>::operator*)
-        .def("operator==", &R2xS1<FT>::operator==)
-        .def("operator!=", &R2xS1<FT>::operator!=)
-        .def("operator<", &R2xS1<FT>::operator<)
-        .def("operator<=", &R2xS1<FT>::operator<=)
-        .def("operator>", &R2xS1<FT>::operator>)
-        .def("operator>=", &R2xS1<FT>::operator>=)
+        .def("x", &R2xS1<FT>::getXDouble)
+        .def("y", &R2xS1<FT>::getYDouble)
+        .def("r", &R2xS1<FT>::getRDouble)
+        .def(nb::self * nb::self)
+        .def(nb::self == nb::self)
+        .def(nb::self != nb::self)
+        .def(nb::self < nb::self)
+        .def(nb::self <= nb::self)
+        .def(nb::self > nb::self)
+        .def(nb::self >= nb::self)
+    ;
+
+    nb::class_<Voxel<R2xS1<FT>>>(m, "R2xS1_Voxel")
+        .def(nb::init<R2xS1<FT>, R2xS1<FT>>())
+        .def("bottom_left", &Voxel<R2xS1<FT>>::bottomLeft)
+        .def("top_right", &Voxel<R2xS1<FT>>::topRight)
+        .def("contains", &Voxel<R2xS1<FT>>::contains)
     ;
 
     // Create Env_R2 class
@@ -42,5 +50,6 @@ NB_MODULE(sdsl, m) {
         .def(nb::init<const nb::ndarray<double, nb::shape<-1, 4>> &>())
         .def("get_representation", &Env_R2<Arrangement_2, Traits_2>::getRepresentation)
         .def("measure_distance", &Env_R2<Arrangement_2, Traits_2>::measureDistance)
+        .def("intersects", &Env_R2<Arrangement_2, Traits_2>::intersects)
     ;
 }

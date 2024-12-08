@@ -50,7 +50,47 @@ namespace sdsl {
         }
 
         bool intersects(Voxel<R2xS1<FT>> v) {
-            return true;
+            std::vector<Segment> segments = {
+                Segment(
+                    Point(v.bottomLeft().getX(), v.bottomLeft().getY()),
+                    Point(v.topRight().getX(), v.bottomLeft().getY())
+                ),
+                Segment(
+                    Point(v.topRight().getX(), v.bottomLeft().getY()),
+                    Point(v.topRight().getX(), v.topRight().getY())
+                ),
+                Segment(
+                    Point(v.topRight().getX(), v.topRight().getY()),
+                    Point(v.bottomLeft().getX(), v.topRight().getY())
+                ),
+                Segment(
+                    Point(v.bottomLeft().getX(), v.topRight().getY()),
+                    Point(v.bottomLeft().getX(), v.bottomLeft().getY())
+                )
+            };
+            for (Segment segment : segments) {
+                std::vector<CGAL::Object> res;
+                CGAL::zone(m_arrangement, segment, std::back_inserter(res), m_pl);
+                for (auto& x : res) {
+                    typename Arrangement_2::Halfedge_handle e;
+                    typename Arrangement_2::Vertex_handle v;
+                    if (assign(e, x) || assign(v, x)) return true;
+                }
+            }
+
+            // Edge case: entire room is contained in voxel
+            // Note that it should be enough to check if one vertex is contained;
+            // We know the boundaries do not intersect. Hence either they are disjoint, or one is contained in the other.
+            // This trick assumes that the environment is connected
+            for (auto it = m_arrangement.vertices_begin(); it != m_arrangement.vertices_end(); ++it) {
+                if (v.contains(R2xS1<FT>(
+                    CGAL::to_double(it->point().x()), 
+                    CGAL::to_double(it->point().y()), 
+                    CGAL::to_double(v.bottomLeft().getR())))) return true; // Note we use the voxel's rotation so that we account only to XY
+                else return false;
+            }
+
+            return false;
         }
 
         double measureDistance(R2xS1<FT> q) {
