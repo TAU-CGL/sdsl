@@ -2,6 +2,7 @@
 #define _SDSL_CONFIGURATION_HPP
 #pragma once
 
+#include <string>
 #include <vector>
 #include <concepts>
 
@@ -28,18 +29,21 @@ namespace sdsl {
     template<typename T>
     concept Configuration = requires(T t, T& t_) {
         { t * t_ } -> std::same_as<T>;
+        { t.inv() } -> std::same_as<T>;
         { t == t_ } -> std::same_as<bool>;
         { t < t_ } -> std::same_as<bool>;
         { t <= t_ } -> std::same_as<bool>;
         { t > t_ } -> std::same_as<bool>;
         { t >= t_ } -> std::same_as<bool>;
         { t != t_ } -> std::same_as<bool>;
+        { t.toString() } -> std::same_as<std::string>;
     };
 
     template<typename T, class Config> 
     concept Action = requires(T t, T t_, Config q) {
         Configuration<Config>;
         { t * t_ } -> std::same_as<T>;
+        { t.inv() } -> std::same_as<T>;
         { t * q } -> std::same_as<Config>;
     };
 

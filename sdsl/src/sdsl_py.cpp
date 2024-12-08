@@ -3,6 +3,7 @@
 #include <nanobind/nanobind.h>
 #include <nanobind/ndarray.h>
 #include <nanobind/operators.h>
+#include <nanobind/stl/string.h>
 namespace nb = nanobind;
 
 #include "sdsl.hpp"
@@ -29,6 +30,7 @@ NB_MODULE(sdsl, m) {
         .def("x", &R2xS1<FT>::getXDouble)
         .def("y", &R2xS1<FT>::getYDouble)
         .def("r", &R2xS1<FT>::getRDouble)
+        .def("inv", &R2xS1<FT>::inv)
         .def(nb::self * nb::self)
         .def(nb::self == nb::self)
         .def(nb::self != nb::self)
@@ -36,6 +38,7 @@ NB_MODULE(sdsl, m) {
         .def(nb::self <= nb::self)
         .def(nb::self > nb::self)
         .def(nb::self >= nb::self)
+        .def("__repr__", &R2xS1<FT>::toString)
     ;
 
     nb::class_<Voxel<R2xS1<FT>>>(m, "R2xS1_Voxel")

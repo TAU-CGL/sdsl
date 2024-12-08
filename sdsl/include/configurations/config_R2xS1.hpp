@@ -23,10 +23,21 @@ namespace sdsl {
 
         R2xS1 operator*(const R2xS1& other) const {
             return R2xS1(
-                CGAL::to_double(other.x + this->x * cos(CGAL::to_double(this->r)) - this->y * sin(CGAL::to_double(this->r))),
-                CGAL::to_double(other.y + this->x * sin(CGAL::to_double(this->r)) + this->y * cos(CGAL::to_double(this->r))),
+                CGAL::to_double(other.x + this->x * cos(CGAL::to_double(other.r)) - this->y * sin(CGAL::to_double(other.r))),
+                CGAL::to_double(other.y + this->x * sin(CGAL::to_double(other.r)) + this->y * cos(CGAL::to_double(other.r))),
                 CGAL::to_double(other.r + this->r)
             );
+        }
+
+        R2xS1 inv() const {
+            // First, rotate by -r back to the original forward vector,
+            // then step backwards
+            return R2xS1(CGAL::to_double(-this->x), CGAL::to_double(-this->y), 0) * 
+                R2xS1(0, 0, CGAL::to_double(-this->r));
+        }
+
+        std::string toString() const {
+            return "(" + std::to_string(this->getXDouble()) + ", " + std::to_string(this->getYDouble()) + ", " + std::to_string(this->getRDouble()) + ")";
         }
 
 
@@ -34,7 +45,8 @@ namespace sdsl {
 
         // TODO: Check if we can use some method of FT
         bool operator==(const R2xS1& other) const {
-            return this->x == other.x && this->y == other.y && this->r == other.r;
+            // return this->x == other.x && this->y == other.y && this->r == other.r;
+            return abs(this->x - other.x) < PRECISION && abs(this->y - other.y) < PRECISION && abs(this->r - other.r) < PRECISION;
         }
         bool operator!=(const R2xS1& other) const {
             return !(*this == other);
@@ -54,6 +66,7 @@ namespace sdsl {
         
     private:
         FT x, y, r;
+        constexpr static double PRECISION = 1e-7; // Relatively reasonable precision for real life scenarios, in meters
     };
 
     template<typename FT> requires TrigableFieldType<FT>
