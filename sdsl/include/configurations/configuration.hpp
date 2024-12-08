@@ -61,7 +61,7 @@ namespace sdsl {
     public:
         Voxel(Config bottomLeft, Config topRight) : m_bottomLeft(bottomLeft), m_topRight(topRight) {}
 
-        void split(std::vector<Voxel<Config>>& vec) {} // Override this in specifcations
+        // void split(std::vector<Voxel<Config>>& vec) {} // Override this in specifcations
 
         Config bottomLeft() const { return m_bottomLeft; }
         Config topRight() const { return m_topRight; }
@@ -70,9 +70,27 @@ namespace sdsl {
             return q >= m_bottomLeft && q <= m_topRight;
         }
 
+        std::string toString() const {
+            return "Voxel(" + m_bottomLeft.toString() + ", " + m_topRight.toString() + ")";
+        }
+
+        bool operator==(const Voxel<Config>& other) const {
+            return m_bottomLeft == other.m_bottomLeft && m_topRight == other.m_topRight;
+        }
+
     private:
         Config m_bottomLeft, m_topRight;
     };
+
+    template<Configuration Config>
+    void split(Voxel<Config>& v, std::vector<Voxel<Config>>& vec) {
+    }
+
+    // Used for testing purposes
+    // Computes the bounding box of a list of voxels
+    template<Configuration Config>
+    Voxel<Config> voxelsBoundingBox(std::vector<Voxel<Config>>& vec) {
+    }
 };
 
 #endif

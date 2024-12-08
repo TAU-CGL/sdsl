@@ -20,4 +20,11 @@ def test_R2xS1_Voxel_init():
     assert not v.contains(q4)
 
 def test_R2xS1_Voxel_split():
-    assert True
+    v = sdsl.R2xS1_Voxel(
+        sdsl.R2xS1(-1, -2, 0),
+        sdsl.R2xS1(1, 2, 1.57)
+    )
+    split_v = v.split()
+    assert len(split_v) == 8
+    assert sdsl.R2xS1_Voxel.voxels_bounding_box(split_v) == v
+    assert not sdsl.R2xS1_Voxel.voxels_bounding_box(split_v[:3]) == v

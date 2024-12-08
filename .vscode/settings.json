@@ -70,6 +70,7 @@
         "format": "cpp",
         "stop_token": "cpp",
         "thread": "cpp",
-        "*.ipp": "cpp"
+        "*.ipp": "cpp",
+        "numeric": "cpp"
     }
 }

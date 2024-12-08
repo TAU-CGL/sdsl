@@ -10,7 +10,7 @@ namespace sdsl {
     template<typename FT>
     class R2xS1 {
     public:
-        // R2xS1 (FT x, FT y, FT r) : x(x), y(y), r(r) {}
+        R2xS1 (FT x, FT y, FT r, bool _ = false) : x(x), y(y), r(r) {} // last parameter is trick so that operator overload works
         R2xS1 (double x, double y, double r) : x(FT(x)), y(FT(y)), r(FT(r)) {}
 
         FT getX() const { return x; }
@@ -69,12 +69,60 @@ namespace sdsl {
         constexpr static double PRECISION = 1e-7; // Relatively reasonable precision for real life scenarios, in meters
     };
 
-    template<typename FT> requires TrigableFieldType<FT>
-    class Voxel<R2xS1<FT>> {
-        void split(std::vector<Voxel<R2xS1<FT>>>& vec) {
-            std::cout << "HI!" << std::endl;
+    template<typename FT>
+    void split(Voxel<R2xS1<FT>>& v, std::vector<Voxel<R2xS1<FT>>>& vec) {
+        R2xS1 midpoint(
+            (v.bottomLeft().getX() + v.topRight().getX()) / 2,
+            (v.bottomLeft().getY() + v.topRight().getY()) / 2,
+            (v.bottomLeft().getR() + v.topRight().getR()) / 2
+        );
+        FT lx = v.bottomLeft().getX(), mx = midpoint.getX(), rx = v.topRight().getX();
+        FT ly = v.bottomLeft().getY(), my = midpoint.getY(), ry = v.topRight().getY();
+        FT lr = v.bottomLeft().getR(), mr = midpoint.getR(), rr = v.topRight().getR();
+
+        // Split by x: [lx, mx]
+            // Split by y: [ly, my]
+                // Split by r: [lr, mr]
+                    vec.push_back(Voxel(R2xS1(lx, ly, lr), R2xS1(mx, my, mr)));
+                // Split by r: [mr, rr]
+                    vec.push_back(Voxel(R2xS1(lx, ly, mr), R2xS1(mx, my, rr)));
+            // Split by y: [my, ry]
+                // Split by r: [lr, mr]
+                    vec.push_back(Voxel(R2xS1(lx, my, lr), R2xS1(mx, ry, mr)));
+                // Split by r: [mr, rr]
+                    vec.push_back(Voxel(R2xS1(lx, my, mr), R2xS1(mx, ry, rr)));
+
+        // Split by x: [lx, mx]
+            // Split by y: [ly, my]
+                // Split by r: [lr, mr]
+                    vec.push_back(Voxel(R2xS1(mx, ly, lr), R2xS1(rx, my, mr)));
+                // Split by r: [mr, rr]
+                    vec.push_back(Voxel(R2xS1(mx, ly, mr), R2xS1(rx, my, rr)));
+            // Split by y: [my, ry]
+                // Split by r: [lr, mr]
+                    vec.push_back(Voxel(R2xS1(mx, my, lr), R2xS1(rx, ry, mr)));
+                // Split by r: [mr, rr]
+                    vec.push_back(Voxel(R2xS1(mx, my, mr), R2xS1(rx, ry, rr)));
+    }
+
+    template<typename FT>
+    Voxel<R2xS1<FT>> voxelsBoundingBox(std::vector<Voxel<R2xS1<FT>>>& vec) {
+        R2xS1<FT> bottomLeft(INFINITY, INFINITY, INFINITY);
+        R2xS1<FT> topRight(-INFINITY, -INFINITY, -INFINITY);
+        for (Voxel<R2xS1<FT>>& v : vec) {
+            bottomLeft = R2xS1<FT>(
+                std::min(bottomLeft.getX(), v.bottomLeft().getX()),
+                std::min(bottomLeft.getY(), v.bottomLeft().getY()),
+                std::min(bottomLeft.getR(), v.bottomLeft().getR())
+            );
+            topRight = R2xS1<FT>(
+                std::max(topRight.getX(), v.topRight().getX()),
+                std::max(topRight.getY(), v.topRight().getY()),
+                std::max(topRight.getR(), v.topRight().getR())
+            );
         }
-    };
+        return Voxel<R2xS1<FT>>(bottomLeft, topRight);
+    }
 }
 
 #endif

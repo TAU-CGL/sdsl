@@ -4,9 +4,11 @@
 #include <nanobind/ndarray.h>
 #include <nanobind/operators.h>
 #include <nanobind/stl/string.h>
+#include <nanobind/stl/vector.h>
 namespace nb = nanobind;
 
 #include "sdsl.hpp"
+#include "configurations/config_R2xS1.hpp"
 #include "environments/env_R2.hpp"
 using namespace sdsl;
 
@@ -46,6 +48,14 @@ NB_MODULE(sdsl, m) {
         .def("bottom_left", &Voxel<R2xS1<FT>>::bottomLeft)
         .def("top_right", &Voxel<R2xS1<FT>>::topRight)
         .def("contains", &Voxel<R2xS1<FT>>::contains)
+        .def("split", [](Voxel<R2xS1<FT>> &v) {
+            std::vector<Voxel<R2xS1<FT>>> split_v; split(v, split_v); return split_v;
+        })
+        .def("voxels_bounding_box", [](std::vector<Voxel<R2xS1<FT>>> &vec) {
+            return voxelsBoundingBox(vec);
+        })
+        .def(nb::self == nb::self)
+        .def("__repr__", &Voxel<R2xS1<FT>>::toString)
     ;
 
     // Create Env_R2 class
