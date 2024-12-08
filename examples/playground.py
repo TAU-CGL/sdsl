@@ -20,11 +20,12 @@ if __name__ == "__main__":
         ], dtype=np.double)
     env = sdsl.Env_R2(a)
 
-    # theta = 45 / 180 * np.pi
-    # q = sdsl.R2xS1(0, 0, theta)
-    # dist = env.measure_distance(q)
-    # print(dist)
-    # red = np.array([[0, 0, dist * np.cos(theta), dist * np.sin(theta)]], dtype=np.double)
+    theta = 10 / 180 * np.pi
+    q = sdsl.R2xS1(0, 0, theta)
+    dist = env.measure_distance(q)
+    print(dist)
+    red = np.array([[0, 0, dist * np.cos(theta), dist * np.sin(theta)]], dtype=np.double)
+    visualize_2d(env, red)
 
     v1 = sdsl.R2xS1_Voxel(
         sdsl.R2xS1(-0.1, -0.1, 0),
@@ -56,5 +57,5 @@ if __name__ == "__main__":
 
     print(v4.bottom_left() <= v4.top_right())
 
-    visualize_2d(env, np.array(red))
+    # visualize_2d(env, np.array(red))
     # print(env.get_representation())

@@ -94,11 +94,9 @@ namespace sdsl {
         }
 
         double measureDistance(R2xS1<FT> q) {
-            R2xS1<FT> tmp(1,0,CGAL::to_double(q.getR()));
-            tmp = tmp * R2xS1<FT>(0,0,0); // Trick to get direction of theta
             Segment ray(
                 Point(q.getX(), q.getY()), 
-                Point(q.getX() + FT(INF) * tmp.getX(), q.getY() + FT(INF) * tmp.getY())
+                Point(q.getX() + FT(INF) * cos(q.getRDouble()), q.getY() + FT(INF) * sin(q.getRDouble()))
             );
 
             // Use arrangement zone to find intersections
