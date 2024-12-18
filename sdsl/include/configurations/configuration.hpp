@@ -82,13 +82,14 @@ namespace sdsl {
         Config m_bottomLeft, m_topRight;
     };
 
-    template<Configuration Config>
-    void split(Voxel<Config>& v, std::vector<Voxel<Config>>& vec) {
-    }
 
-    template<Configuration Config, typename FT>
-    Voxel<Config> expandError(Voxel<Config>& v, FT error) {
-    }
+    // "Polymorphic" methods of Voxel
+    // (In Python API, they would be members of the voxel class)
+    template<Configuration Config> void split(Voxel<Config>& v, std::vector<Voxel<Config>>& vec) {}
+    template<Configuration Config, typename FT> Voxel<Config> expandError(Voxel<Config>& v, FT error) {}
+    template<Configuration Config> Config sample(Voxel<Config>& v) { return Config(); }
+
+
 
     // Used for testing purposes
     // Computes the bounding box of a list of voxels

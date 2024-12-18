@@ -59,6 +59,9 @@ NB_MODULE(sdsl, m) {
         .def("split", [](Voxel<R2xS1<FT>> &v) {
             std::vector<Voxel<R2xS1<FT>>> split_v; split(v, split_v); return split_v;
         })
+        .def("sample", [](Voxel<R2xS1<FT>> &v) {
+            return sample(v);
+        })
         .def("expand_error", [](Voxel<R2xS1<FT>> &v, double error) {
             return expandError(v, FT(error));
         })
@@ -76,6 +79,7 @@ NB_MODULE(sdsl, m) {
         .def("measure_distance", &Env_R2<Arrangement_2, Traits_2>::measureDistance)
         .def("intersects", &Env_R2<Arrangement_2, Traits_2>::intersects)
         .def("bounding_box", &Env_R2<Arrangement_2, Traits_2>::boundingBox)
+        .def("is_inside", &Env_R2<Arrangement_2, Traits_2>::isInside)
         .def("forward", [](Env_R2<Arrangement_2, Traits_2>& env, double d, R2xS1<FT> &q, Voxel<R2xS1<FT>> &v) {
             return env.forward(d, q, v);
         })

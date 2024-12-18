@@ -4,12 +4,14 @@
 
 #include <iostream>
 
+#include "random_utils.hpp"
 #include "configurations/configuration.hpp"
 
 namespace sdsl {
     template<typename FT>
     class R2xS1 {
     public:
+        R2xS1 () : x(0), y(0), r(0) {} 
         R2xS1 (FT x, FT y, FT r, bool _ = false) : x(x), y(y), r(r) {} // last parameter is trick so that operator overload works
         R2xS1 (double x, double y, double r) : x(FT(x)), y(FT(y)), r(FT(r)) {}
 
@@ -103,6 +105,17 @@ namespace sdsl {
                     vec.push_back(Voxel(R2xS1(mx, my, lr), R2xS1(rx, ry, mr)));
                 // Split by r: [mr, rr]
                     vec.push_back(Voxel(R2xS1(mx, my, mr), R2xS1(rx, ry, rr)));
+    }
+
+    template<typename FT>
+    R2xS1<FT> sample(Voxel<R2xS1<FT>>& v) {
+        FT x = FT(Random::randomDouble());
+        FT y = FT(Random::randomDouble());
+        FT r = FT(Random::randomDouble());
+        x = v.bottomLeft().getX() + x * (v.topRight().getX() - v.bottomLeft().getX());
+        y = v.bottomLeft().getY() + y * (v.topRight().getY() - v.bottomLeft().getY());
+        r = v.bottomLeft().getR() + r * (v.topRight().getR() - v.bottomLeft().getR());
+        return R2xS1<FT>(x, y, r);
     }
 
     template<typename FT>

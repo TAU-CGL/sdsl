@@ -58,6 +58,16 @@ def test_Env_R2_intersects():
     assert not env.intersects(v3)
     assert env.intersects(v4)
 
+def test_Env_R2_is_inside():
+    env = sdsl.Env_R2(TRIANGLE)
+    q1 = sdsl.R2xS1(0, 0, 0)
+    q2 = sdsl.R2xS1(2, 2, 0)
+    q3 = sdsl.R2xS1(0, 1, 0)
+
+    assert env.is_inside(q1)
+    assert not env.is_inside(q2)
+    assert env.is_inside(q3)
+
 
 def fdg(d: float, g: List[float], q: List[float]):
     gx, gy, gt = g

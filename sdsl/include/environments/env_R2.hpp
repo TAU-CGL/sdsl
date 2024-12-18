@@ -185,6 +185,19 @@ namespace sdsl {
             );
         }
 
+        bool isInside(R2xS1<FT> q) {
+            Segment upwards(Point(q.getX(), q.getY()), Point(q.getX(), q.getY() + INF));
+            std::vector<CGAL::Object> res;
+            CGAL::zone(m_arrangement, upwards, std::back_inserter(res), m_pl);
+            int numIsects = 0;
+            for (auto& x : res) {
+                typename Arrangement_2::Halfedge_handle e;
+                typename Arrangement_2::Vertex_handle v;
+                if (assign(e, x) || assign(v, x)) numIsects++;
+            }
+            return numIsects % 2 == 1;
+        }
+
     private:
         Arrangement_2 m_arrangement;
         Point_location m_pl;

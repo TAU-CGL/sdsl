@@ -24,6 +24,7 @@ find_package(CGAL REQUIRED)
 find_package(OpenMP REQUIRED)
 find_package(fmt REQUIRED)
 find_package(glm REQUIRED)
+find_package(Boost COMPONENTS container program_options REQUIRED)
 
 # OpenMP hotfix for Apple Clang
 if(APPLE)
@@ -48,6 +49,6 @@ execute_process(
 find_package(nanobind CONFIG REQUIRED)
 
 nanobind_add_module(sdsl src/sdsl_py.cpp)
-target_link_libraries(sdsl PRIVATE CGAL::CGAL OpenMP::OpenMP_CXX fmt::fmt)
+target_link_libraries(sdsl PRIVATE CGAL::CGAL OpenMP::OpenMP_CXX fmt::fmt ${Boost_LIBRARIES})
 
 install(TARGETS sdsl DESTINATION sdsl)
