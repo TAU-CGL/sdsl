@@ -33,3 +33,18 @@ def load_poly_file(filename: str) -> Env_R2:
     segments = np.array(segments, dtype=np.double)
 
     return Env_R2(segments)
+
+def sample_q0(env: Env_R2):
+    """
+    Sample random valid configuration that is inside the environment
+    """
+    MAX_TRY = 1000
+    cnt = 0
+    bb = env.bounding_box()
+    while True:
+        q0 = bb.sample()
+        if env.is_inside(q0):
+            return q0
+        cnt += 1
+        if cnt > MAX_TRY:
+            raise RuntimeError("Could not sample valid q0 configuration inside environment.")

@@ -15,7 +15,7 @@ namespace sdsl {
     // We assume that [x1, x2] \subseteq [0, 2pi]
     template<typename FT>
     void maxMinOnTrigRange(FT a, FT b, FT x1, FT x2, FT& max, FT& min) {
-        FT tmp = FT(atan(CGAL::to_double(b / a))); //TODO: Check if we need to verify a != 0
+        FT tmp = a == FT(0) ? FT(atan(0)) : FT(atan(CGAL::to_double(b / a))); //TODO: Check if we need to verify a != 0
         // Values to test
         FT v1 = x1;
         FT v2 = x2;

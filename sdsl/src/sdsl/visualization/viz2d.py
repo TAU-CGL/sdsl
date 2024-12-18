@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-from sdsl import Env_R2, R2xS1
+from sdsl import Env_R2, R2xS1, R2xS1_Voxel
 
 def visualize_2d(env: Env_R2, red_segments: np.array = None, blue_segments: np.array = None, points: np.array = None):
     """
@@ -38,3 +38,11 @@ def visualize_2d(env: Env_R2, red_segments: np.array = None, blue_segments: np.a
     plt.ylabel("Y")
     plt.grid(False)
     plt.show()
+
+def voxel_to_segments(v: R2xS1_Voxel):
+    return [
+        [v.bottom_left().x(), v.bottom_left().y(), v.top_right().x(), v.bottom_left().y()],
+        [v.top_right().x(), v.bottom_left().y(), v.top_right().x(), v.top_right().y()],
+        [v.top_right().x(), v.top_right().y(), v.bottom_left().x(), v.top_right().y()],
+        [v.bottom_left().x(), v.top_right().y(), v.bottom_left().x(), v.bottom_left().y()],
+    ]

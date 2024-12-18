@@ -24,7 +24,8 @@ namespace sdsl {
                 bool flag = true;
                 for (int j = 0; j < odometry.size(); j++) {
                     if (measurements[j] < 0) continue;
-                    if (!env.intersects(env.forward(measurements[j], odometry[j], v))) {
+                    Voxel<Config> v_ = env.forward(measurements[j], odometry[j], v);
+                    if (!env.intersects(expandError(v_, errorBound))) {
                         flag = false;
                         break;
                     }
