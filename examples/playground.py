@@ -33,6 +33,9 @@ def fdg(d: float, g: List[float], q: List[float]):
 
 if __name__ == "__main__":
     env = sdsl.Env_R2(TRIANGLE)
+
+    bb = env.bounding_box()
+    visualize_2d(env, np.array(voxel_to_segments(bb)))
     
     d = 0.5
     g = [0.0, 0.0, 0.0000001]

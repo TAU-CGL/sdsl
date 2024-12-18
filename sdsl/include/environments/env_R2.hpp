@@ -170,6 +170,21 @@ namespace sdsl {
             return a;
         }
 
+        Voxel<R2xS1<FT>> boundingBox() {
+            FT xmin = FT(INF), ymin = FT(INF), xmax = -FT(INF), ymax = -FT(INF);
+            for (auto it = m_arrangement.vertices_begin(); it != m_arrangement.vertices_end(); ++it) {
+                FT x = it->point().x(), y = it->point().y();
+                if (x < xmin) xmin = x;
+                if (x > xmax) xmax = x;
+                if (y < ymin) ymin = y;
+                if (y > ymax) ymax = y;
+            }
+            return Voxel<R2xS1<FT>>(
+                R2xS1<FT>(xmin, ymin, 0),
+                R2xS1<FT>(xmax, ymax, 2 * M_PI)
+            );
+        }
+
     private:
         Arrangement_2 m_arrangement;
         Point_location m_pl;
