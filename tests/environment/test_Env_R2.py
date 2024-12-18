@@ -1,3 +1,5 @@
+from typing import List
+
 import numpy as np
 
 import sdsl
@@ -55,3 +57,41 @@ def test_Env_R2_intersects():
     assert env.intersects(v2)
     assert not env.intersects(v3)
     assert env.intersects(v4)
+
+
+def fdg(d: float, g: List[float], q: List[float]):
+    gx, gy, gt = g
+    qx, qy, qt = q
+
+    return (
+        qx + (gx + d * np.cos(gt)) * np.cos(qt) + (-gy - d * np.sin(gt)) * np.sin(qt),
+        qy + (gy + d * np.sin(gt)) * np.cos(qt) + (gx + d * np.cos(gt)) * np.sin(qt),
+    )
+
+
+def test_Env_R2_forward():
+    env = sdsl.Env_R2(TRIANGLE)
+
+    d = 0.5
+    g = [0.0, 0.0, 0.0000001]
+    gx, gy, gt = g
+
+    xmin = 0; xmax = 0.02
+    ymin = 0.3; ymax = 0.35
+    tmin = 0.4; tmax = 0.8
+
+    voxel = env.forward(d, sdsl.R2xS1(gx, gy, gt), sdsl.R2xS1_Voxel(
+        sdsl.R2xS1(xmin, ymin, tmin),
+        sdsl.R2xS1(xmax, ymax, tmax)
+    ))
+
+    # Test the the bounding box is actually the bounding box
+    qs = []
+    for _ in range(10000):
+        qx = np.random.uniform(xmin, xmax)
+        qy = np.random.uniform(ymin, ymax)
+        qt = np.random.uniform(tmin, tmax)
+        qs.append([qx, qy, qt])
+    for q in qs:
+        x, y = fdg(d, g, q)
+        assert voxel.contains(sdsl.R2xS1(x, y, q[2]))

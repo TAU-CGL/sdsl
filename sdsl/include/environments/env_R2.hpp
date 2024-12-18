@@ -126,9 +126,24 @@ namespace sdsl {
         }
 
         Voxel<R2xS1<FT>> forward(FT d, R2xS1<FT> q, Voxel<R2xS1<FT>> v) {
-            // Fdg(q) = Fd(g * q) = Fd(x + g.x * cos(r) - g.y * sin(r), y + g.x * sin(r) + g.y * cos(r), r + g.r)
-            // = (x + g.x * cos(r) - g.y * sin(r) + d * cos(r + g.r), 
-            //    y + g.x * sin(r) + g.y * cos(r) + d * sin(r + g.r))
+            FT maxx, minx;
+            maxMinOnTrigRange(
+                q.getX() + d * FT(cos(q.getRDouble())),
+                -q.getY() - d * FT(sin(q.getRDouble())),
+                v.bottomLeft().getR(), v.topRight().getR(), maxx, minx
+            );
+
+            FT maxy, miny;
+            maxMinOnTrigRange(
+                q.getY() + d * FT(sin(q.getRDouble())),
+                q.getX() + d * FT(cos(q.getRDouble())),
+                v.bottomLeft().getR(), v.topRight().getR(), maxy, miny
+            );
+
+            return Voxel<R2xS1<FT>>(
+                R2xS1<FT>(v.bottomLeft().getX() + minx, v.bottomLeft().getY() + miny, v.bottomLeft().getR()),
+                R2xS1<FT>(v.topRight().getX() + maxx, v.topRight().getY() + maxy, v.topRight().getR())
+            );
         }
         
         using Env_R2_repr = nb::ndarray<double, nb::numpy, nb::shape<-1, 2 * 2>, nb::f_contig>;

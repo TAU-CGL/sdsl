@@ -72,5 +72,8 @@ NB_MODULE(sdsl, m) {
         .def("get_representation", &Env_R2<Arrangement_2, Traits_2>::getRepresentation)
         .def("measure_distance", &Env_R2<Arrangement_2, Traits_2>::measureDistance)
         .def("intersects", &Env_R2<Arrangement_2, Traits_2>::intersects)
+        .def("forward", [](Env_R2<Arrangement_2, Traits_2>& env, double d, R2xS1<FT> &q, Voxel<R2xS1<FT>> &v) {
+            return env.forward(d, q, v);
+        })
     ;
 }
