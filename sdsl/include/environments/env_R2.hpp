@@ -14,6 +14,7 @@ namespace nb = nanobind;
 
 #include "configurations/config_R2xS1.hpp"
 #include "environments/environment.hpp"
+#include "math_utils.hpp"
 
 namespace sdsl {
     template<typename Arrangement_2, typename Traits_2>
@@ -27,7 +28,7 @@ namespace sdsl {
         typename Arrangement_2::Vertex_handle, 
         typename Arrangement_2::Halfedge_handle, 
         typename Arrangement_2::Face_handle>;
-    static constexpr double INF = 1e10; // Arbitrary large number
+    
     public:
         Env_R2() {}
         Env_R2(Arrangement_2 arrangement) : m_arrangement(arrangement) { buildPointLocation();}
@@ -122,6 +123,12 @@ namespace sdsl {
             }
             
             return sqrt(CGAL::to_double(minDist));
+        }
+
+        Voxel<R2xS1<FT>> forward(FT d, R2xS1<FT> q, Voxel<R2xS1<FT>> v) {
+            // Fdg(q) = Fd(g * q) = Fd(x + g.x * cos(r) - g.y * sin(r), y + g.x * sin(r) + g.y * cos(r), r + g.r)
+            // = (x + g.x * cos(r) - g.y * sin(r) + d * cos(r + g.r), 
+            //    y + g.x * sin(r) + g.y * cos(r) + d * sin(r + g.r))
         }
         
         using Env_R2_repr = nb::ndarray<double, nb::numpy, nb::shape<-1, 2 * 2>, nb::f_contig>;

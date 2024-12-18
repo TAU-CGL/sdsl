@@ -1,19 +1,8 @@
 from typing import List
 
 import numpy as np
-import matplotlib.pyplot as plt
 
 import sdsl
-from sdsl.visualization.viz2d import visualize_2d
-
-def voxel_to_segments(v: sdsl.R2xS1_Voxel):
-    return [
-        [v.bottom_left().x(), v.bottom_left().y(), v.top_right().x(), v.bottom_left().y()],
-        [v.top_right().x(), v.bottom_left().y(), v.top_right().x(), v.top_right().y()],
-        [v.top_right().x(), v.top_right().y(), v.bottom_left().x(), v.top_right().y()],
-        [v.bottom_left().x(), v.top_right().y(), v.bottom_left().x(), v.bottom_left().y()],
-    ]
-
 
 def fdg(d: float, g: List[float], q: List[float]):
     gx, gy, gt = g
@@ -24,8 +13,7 @@ def fdg(d: float, g: List[float], q: List[float]):
         qy + (gy + d * np.sin(gt)) * np.cos(qt) + (gx + d * np.cos(gt)) * np.sin(qt),
     )
 
-if __name__ == "__main__":
-    
+def test_max_min_on_trig_range():
     d = 1.0
     g = [0.1, 0.2, 0.3]
     gx, gy, gt = g
@@ -35,7 +23,7 @@ if __name__ == "__main__":
     tmin = 0.4; tmax = 0.8
 
     qs = []
-    for _ in range(10000):
+    for _ in range(50000):
         qx = np.random.uniform(xmin, xmax)
         qy = np.random.uniform(ymin, ymax)
         qt = np.random.uniform(tmin, tmax)
@@ -44,21 +32,11 @@ if __name__ == "__main__":
     # Compute the absolute bounding box
     maxx, minx = sdsl.max_min_on_trig_range(float(gx + d * np.cos(gt)), float(-gy - d * np.sin(gt)), tmin, tmax)
     maxy, miny = sdsl.max_min_on_trig_range(float(gy + d * np.sin(gt)), float(gx + d * np.cos(gt)), tmin, tmax)
-    print(minx, maxx, miny, maxy)
     bottom_left = sdsl.R2xS1(minx + xmin, miny + ymin, tmin)
     top_right = sdsl.R2xS1(maxx + xmax, maxy + ymax, tmax)
     voxel = sdsl.R2xS1_Voxel(bottom_left, top_right)
-    voxel_segments = voxel_to_segments(voxel)
 
-    # Plot fdg(q):
-    fig, ax = plt.subplots()
+    # Test the the bounding box is actually the bounding box
     for q in qs:
         x, y = fdg(d, g, q)
-        ax.plot(x, y, "r.")
-
-    for segment in voxel_segments:
-        ax.plot([segment[0], segment[2]], [segment[1], segment[3]], "b-")
-    
-    ax.set_aspect("equal")
-    plt.show()
-
+        assert voxel.contains(sdsl.R2xS1(x, y, q[2]))

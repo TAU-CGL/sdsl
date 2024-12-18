@@ -5,6 +5,7 @@
 #include <nanobind/operators.h>
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
+#include <nanobind/stl/tuple.h>
 namespace nb = nanobind;
 
 #include "sdsl.hpp"
@@ -26,6 +27,13 @@ using Arrangement_2 = CGAL::Arrangement_2<Traits_2>;
 NB_MODULE(sdsl, m) {
     m.doc() = "Unified library for all Sparse Distance Sampling Localization methods.";
     m.attr("__version__") = "1.0.0";
+
+    m.def("max_min_on_trig_range", [](double a, double b, double x1, double x2){
+        FT max, min;
+        maxMinOnTrigRange(FT(a), FT(b), FT(x1), FT(x2), max, min);
+        return std::make_tuple(CGAL::to_double(max), CGAL::to_double(min));
+    });
+
 
     nb::class_<R2xS1<FT>>(m, "R2xS1")
         .def(nb::init<double, double, double>())
