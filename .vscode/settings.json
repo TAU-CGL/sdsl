@@ -71,6 +71,27 @@
         "stop_token": "cpp",
         "thread": "cpp",
         "*.ipp": "cpp",
-        "numeric": "cpp"
+        "numeric": "cpp",
+        "csignal": "cpp",
+        "hash_map": "cpp",
+        "strstream": "cpp",
+        "cfenv": "cpp",
+        "codecvt": "cpp",
+        "complex": "cpp",
+        "deque": "cpp",
+        "forward_list": "cpp",
+        "list": "cpp",
+        "unordered_set": "cpp",
+        "source_location": "cpp",
+        "fstream": "cpp",
+        "numbers": "cpp",
+        "ranges": "cpp",
+        "semaphore": "cpp",
+        "shared_mutex": "cpp",
+        "stdfloat": "cpp",
+        "text_encoding": "cpp",
+        "cinttypes": "cpp",
+        "typeindex": "cpp",
+        "valarray": "cpp"
     }
 }
