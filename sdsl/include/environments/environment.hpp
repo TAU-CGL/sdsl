@@ -13,7 +13,6 @@ namespace sdsl {
         { t.measureDistance(q)} -> std::same_as<double>;
         { t.forward(d, g, v) } -> std::same_as<Voxel<Config>>;
         { t.boundingBox() } -> std::same_as<Voxel<Config>>;
-        T::make;
     };
 
 };

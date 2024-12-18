@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 
 from sdsl import Env_R2, R2xS1
 
-def visualize_2d(env: Env_R2, red_segments: np.array = None, blue_segments: np.array = None):
+def visualize_2d(env: Env_R2, red_segments: np.array = None, blue_segments: np.array = None, points: np.array = None):
     """
     Visualize a 2D environment.
     """
@@ -23,6 +23,10 @@ def visualize_2d(env: Env_R2, red_segments: np.array = None, blue_segments: np.a
         for i in range(blue_segments.shape[0]):
             x1, y1, x2, y2 = blue_segments[i]
             ax.plot([x1, x2], [y1, y2], 'b-')
+    if points is not None:
+        for i in range(points.shape[0]):
+            x, y = points[i]
+            ax.plot(x, y, 'g.')
     
     min_x, max_x = min(min(segments[:,0]), min(segments[:,2])), max(max(segments[:,0]), max(segments[:,2]))
     min_y, max_y = min(min(segments[:,1]), min(segments[:,3])), max(max(segments[:,1]), max(segments[:,3]))

@@ -80,4 +80,18 @@ NB_MODULE(sdsl, m) {
             return env.forward(d, q, v);
         })
     ;
+
+    m.def("localize_R2", [](
+        Env_R2<Arrangement_2, Traits_2> &env, 
+        std::vector<R2xS1<FT>> odometry,
+        std::vector<double> measurements,
+        double errorBound,
+        int recursionDepth
+    ) {
+        std::vector<FT> measurements_;
+        for (double d : measurements) measurements_.push_back(FT(d));
+
+        return localize<R2xS1<FT>, R2xS1<FT>, FT, Env_R2<Arrangement_2, Traits_2>>
+            (env, odometry, measurements_, FT(errorBound), recursionDepth);
+    });
 }

@@ -40,10 +40,10 @@ if __name__ == "__main__":
 
     xmin = 0; xmax = 0.02
     ymin = 0.3; ymax = 0.35
-    tmin = 0.4; tmax = 0.8
+    tmin = 0.0; tmax = 5.8
 
     qs = []
-    for _ in range(10000):
+    for _ in range(1000):
         qx = np.random.uniform(xmin, xmax)
         qy = np.random.uniform(ymin, ymax)
         qt = np.random.uniform(tmin, tmax)
