@@ -106,6 +106,14 @@ namespace sdsl {
     }
 
     template<typename FT>
+    Voxel<R2xS1<FT>> expandError(Voxel<R2xS1<FT>>& v, FT error) {
+        return Voxel<R2xS1<FT>>(
+            R2xS1<FT>(v.bottomLeft().getX() - error, v.bottomLeft().getY() - error, v.bottomLeft().getR() - error),
+            R2xS1<FT>(v.topRight().getX() + error, v.topRight().getY() + error, v.topRight().getR() + error)
+        );
+    }
+
+    template<typename FT>
     Voxel<R2xS1<FT>> voxelsBoundingBox(std::vector<Voxel<R2xS1<FT>>>& vec) {
         R2xS1<FT> bottomLeft(INFINITY, INFINITY, INFINITY);
         R2xS1<FT> topRight(-INFINITY, -INFINITY, -INFINITY);

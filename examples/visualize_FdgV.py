@@ -54,6 +54,7 @@ if __name__ == "__main__":
         sdsl.R2xS1(xmax, ymax, tmax)
     ))
     voxel_segments = voxel_to_segments(voxel)
+    voxel_segments += voxel_to_segments(voxel.expand_error(0.01))
 
     # Plot fdg(q):
     fig, ax = plt.subplots()

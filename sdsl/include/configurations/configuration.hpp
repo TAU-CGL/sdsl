@@ -86,6 +86,10 @@ namespace sdsl {
     void split(Voxel<Config>& v, std::vector<Voxel<Config>>& vec) {
     }
 
+    template<Configuration Config, typename FT>
+    Voxel<Config> expandError(Voxel<Config>& v, FT error) {
+    }
+
     // Used for testing purposes
     // Computes the bounding box of a list of voxels
     template<Configuration Config>

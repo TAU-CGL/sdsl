@@ -59,6 +59,9 @@ NB_MODULE(sdsl, m) {
         .def("split", [](Voxel<R2xS1<FT>> &v) {
             std::vector<Voxel<R2xS1<FT>>> split_v; split(v, split_v); return split_v;
         })
+        .def("expand_error", [](Voxel<R2xS1<FT>> &v, double error) {
+            return expandError(v, FT(error));
+        })
         .def("voxels_bounding_box", [](std::vector<Voxel<R2xS1<FT>>> &vec) {
             return voxelsBoundingBox(vec);
         })
