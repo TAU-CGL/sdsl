@@ -10,9 +10,9 @@ from sdsl.visualization.viz2d import visualize_2d, voxel_to_segments
 
 MAP_PATH = "resources/maps/lab_lidar.poly"
 ARROW_LEN = 0.3
-K = 16; K_ = 10
+K = 8; K_ = 6
 EPS = 0.0
-RECURSION_DEPTH = 5
+RECURSION_DEPTH = 6
 
 def get_odometry(k):
     odometry = []
@@ -29,6 +29,8 @@ def get_measurements(env, odometry, q0):
 if __name__ == "__main__":
     env = sdsl.load_poly_file(MAP_PATH)
     bb = env.bounding_box()
+
+    sdsl.seed(100)
 
     for _ in range(1000):
         q0 = sdsl.sample_q0(env)

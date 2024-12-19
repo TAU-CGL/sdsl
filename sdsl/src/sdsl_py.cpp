@@ -36,6 +36,10 @@ NB_MODULE(sdsl, m) {
         return std::make_tuple(CGAL::to_double(max), CGAL::to_double(min));
     });
 
+    m.def("seed", [](int32_t seed) {
+        Random::seed(seed);
+    });
+
 
     nb::class_<R2xS1<FT>>(m, "R2xS1")
         .def(nb::init<double, double, double>())

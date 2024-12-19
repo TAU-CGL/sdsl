@@ -1,12 +1,12 @@
 from .sdsl import __doc__, __version__
 from .sdsl import R2xS1, R2xS1_Voxel, Env_R2, localize_R2, localize_R2_dynamic_naive
-from .sdsl import max_min_on_trig_range
+from .sdsl import seed, max_min_on_trig_range
 
 import numpy as np
 
 __all__ = [
     "R2xS1", "R2xS1_Voxel", "Env_R2", "localize_R2",
-    "max_min_on_trig_range",
+    "seed", "max_min_on_trig_range",
 ]
 
 def load_poly_file(filename: str) -> Env_R2:
