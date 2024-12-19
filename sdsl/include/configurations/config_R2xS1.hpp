@@ -13,7 +13,7 @@ namespace sdsl {
     public:
         R2xS1 () : x(0), y(0), r(0) {} 
         R2xS1 (FT x, FT y, FT r, bool _ = false) : x(x), y(y), r(r) {} // last parameter is trick so that operator overload works
-        R2xS1 (double x, double y, double r) : x(FT(x)), y(FT(y)), r(FT(r)) {}
+        // R2xS1 (double x, double y, double r) : x(FT(x)), y(FT(y)), r(FT(r)) {}
 
         FT getX() const { return x; }
         FT getY() const { return y; }
