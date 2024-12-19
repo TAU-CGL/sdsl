@@ -81,20 +81,23 @@ namespace sdsl {
         Predicate_Dynamic_Naive_Fast(int k, int k_) : k(k), k_(k_) {
         }
 
-        bool operator()(Env &env, std::vector<Act> &odometry, std::vector<FT> &measurements, FT errorBound, Voxel<Config> v) {
+        bool operator()(Env env, std::vector<Act> odometry, std::vector<FT> measurements, FT errorBound, Voxel<Config> v) {
             // assert k == odometry.size() == measurements.size()
             int numPositive = 0;
-            #pragma omp parallel for
+            // #pragma omp parallel for
             for (int j = 0; j < k; j++) {
                 if (measurements[j] < FT(0)) {
-                    #pragma omp critical
+                    // #pragma omp critical
                     numPositive++; 
-                    continue;
                 }
-                Voxel<Config> v_ = env.forward(measurements[j], odometry[j], v);
-                if(env.intersects(expandError(v_, errorBound))) {
-                    numPositive++;
+                else {
+                    Voxel<Config> v_ = env.forward(measurements[j], odometry[j], v);
+                    if(env.intersects(expandError(v_, errorBound))) {
+                        numPositive++;
+                    }
                 }
+
+                if (j - numPositive > k - k_) return false; // Small optimization
                 // #pragma omp critical
                 // numPositive += result;
             }

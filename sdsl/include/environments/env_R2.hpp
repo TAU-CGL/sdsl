@@ -3,6 +3,7 @@
 #pragma once 
 
 #include <vector>
+#include <memory>
 
 #include <nanobind/ndarray.h>
 #include <CGAL/squared_distance_2.h>
@@ -71,7 +72,7 @@ namespace sdsl {
             };
             for (Segment segment : segments) {
                 std::vector<CGAL::Object> res;
-                CGAL::zone(m_arrangement, segment, std::back_inserter(res), m_pl);
+                CGAL::zone(m_arrangement, segment, std::back_inserter(res), *m_pl);
                 for (auto& x : res) {
                     typename Arrangement_2::Halfedge_handle e;
                     typename Arrangement_2::Vertex_handle v;
@@ -102,7 +103,7 @@ namespace sdsl {
 
             // Use arrangement zone to find intersections
             std::vector<CGAL::Object> res;
-            CGAL::zone(m_arrangement, ray, std::back_inserter(res), m_pl);
+            CGAL::zone(m_arrangement, ray, std::back_inserter(res), *m_pl);
 
             FT minDist = FT(INF);
             for (auto x : res) {
@@ -188,7 +189,7 @@ namespace sdsl {
         bool isInside(R2xS1<FT> q) {
             Segment upwards(Point(q.getX(), q.getY()), Point(q.getX(), q.getY() + INF));
             std::vector<CGAL::Object> res;
-            CGAL::zone(m_arrangement, upwards, std::back_inserter(res), m_pl);
+            CGAL::zone(m_arrangement, upwards, std::back_inserter(res), *m_pl);
             int numIsects = 0;
             for (auto& x : res) {
                 typename Arrangement_2::Halfedge_handle e;
@@ -200,7 +201,7 @@ namespace sdsl {
 
     private:
         Arrangement_2 m_arrangement;
-        Point_location m_pl;
+        std::shared_ptr<Point_location> m_pl;
         std::vector<double> m_representation; // This representation only updates when requested
 
         void fromSegments(std::vector<Segment> segments) {
@@ -208,8 +209,9 @@ namespace sdsl {
         }
 
         void buildPointLocation() {
-            m_pl.detach();
-            m_pl.attach(m_arrangement);
+            // m_pl.detach();
+            // m_pl.attach(m_arrangement);
+            m_pl = std::make_shared<Point_location>(m_arrangement);
         }
     };
 };

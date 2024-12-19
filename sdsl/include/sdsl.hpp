@@ -21,10 +21,10 @@ namespace sdsl {
         Environment<Config, Act, FT> Env, 
         Predicate<Config, Act, Env, FT> Pred>
     std::vector<Voxel<Config>> localize(
-        Env &env, std::vector<Act> odometry, 
+        Env env, std::vector<Act> odometry, 
         std::vector<FT> measurements, 
         FT errorBound, int recursionDepth, Pred predicate) {
-        omp_set_num_threads(omp_get_max_threads());
+        // omp_set_num_threads(omp_get_max_threads());
 
         std::vector<Voxel<Config>> voxels, localization;
         voxels.push_back(env.boundingBox());
@@ -32,7 +32,7 @@ namespace sdsl {
             std::cout << "Iteration: " << i << std::endl;
             localization.clear();
 
-            #pragma omp parallel for
+            // #pragma omp parallel for
             for (auto v : voxels) { 
                 if (predicate(env, odometry, measurements, errorBound, v)) {
                     // #pragma omp critical
