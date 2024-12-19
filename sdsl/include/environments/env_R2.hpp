@@ -11,6 +11,10 @@
 #include <CGAL/Arrangement_2.h>
 #include <CGAL/Arrangement_on_surface_2.h>
 #include <CGAL/Arr_trapezoid_ric_point_location.h>
+#include <CGAL/AABB_tree.h>
+#include <CGAL/AABB_traits_3.h>
+#include <CGAL/AABB_segment_primitive_3.h>
+#include <CGAL/AABB_triangle_primitive_3.h>
 namespace nb = nanobind;
 
 #include "configurations/config_R2xS1.hpp"
@@ -29,6 +33,15 @@ namespace sdsl {
         typename Arrangement_2::Vertex_handle, 
         typename Arrangement_2::Halfedge_handle, 
         typename Arrangement_2::Face_handle>;
+    using Point_3 = typename Traits_2::Kernel::Point_3;
+    using Segment_3 = typename Traits_2::Kernel::Segment_3;
+    using Triangle_3 = typename Traits_2::Kernel::Triangle_3;
+    using Box_3 = typename Traits_2::Kernel::Iso_cuboid_3;
+    using AABB_tree = CGAL::AABB_tree<
+        CGAL::AABB_traits_3<
+            typename Traits_2::Kernel, 
+            CGAL::AABB_segment_primitive_3<typename Traits_2::Kernel, typename std::list<Segment_3>::iterator>>>;
+
     
     public:
         Env_R2() {}
@@ -51,34 +64,40 @@ namespace sdsl {
             buildPointLocation();
         }
 
+        
         bool intersects(Voxel<R2xS1<FT>> v) {
-            std::vector<Segment> segments = {
-                Segment(
-                    Point(v.bottomLeft().getX(), v.bottomLeft().getY()),
-                    Point(v.topRight().getX(), v.bottomLeft().getY())
-                ),
-                Segment(
-                    Point(v.topRight().getX(), v.bottomLeft().getY()),
-                    Point(v.topRight().getX(), v.topRight().getY())
-                ),
-                Segment(
-                    Point(v.topRight().getX(), v.topRight().getY()),
-                    Point(v.bottomLeft().getX(), v.topRight().getY())
-                ),
-                Segment(
-                    Point(v.bottomLeft().getX(), v.topRight().getY()),
-                    Point(v.bottomLeft().getX(), v.bottomLeft().getY())
-                )
-            };
-            for (Segment segment : segments) {
-                std::vector<CGAL::Object> res;
-                CGAL::zone(m_arrangement, segment, std::back_inserter(res), *m_pl);
-                for (auto& x : res) {
-                    typename Arrangement_2::Halfedge_handle e;
-                    typename Arrangement_2::Vertex_handle v;
-                    if (assign(e, x) || assign(v, x)) return true;
-                }
-            }
+            // std::vector<Segment> segments = {
+            //     Segment(
+            //         Point(v.bottomLeft().getX(), v.bottomLeft().getY()),
+            //         Point(v.topRight().getX(), v.bottomLeft().getY())
+            //     ),
+            //     Segment(
+            //         Point(v.topRight().getX(), v.bottomLeft().getY()),
+            //         Point(v.topRight().getX(), v.topRight().getY())
+            //     ),
+            //     Segment(
+            //         Point(v.topRight().getX(), v.topRight().getY()),
+            //         Point(v.bottomLeft().getX(), v.topRight().getY())
+            //     ),
+            //     Segment(
+            //         Point(v.bottomLeft().getX(), v.topRight().getY()),
+            //         Point(v.bottomLeft().getX(), v.bottomLeft().getY())
+            //     )
+            // };
+            // for (Segment segment : segments) {
+            //     std::vector<CGAL::Object> res;
+            //     CGAL::zone(m_arrangement, segment, std::back_inserter(res), *m_pl);
+            //     for (auto& x : res) {
+            //         typename Arrangement_2::Halfedge_handle e;
+            //         typename Arrangement_2::Vertex_handle v;
+            //         if (assign(e, x) || assign(v, x)) return true;
+            //     }
+            // }
+
+            Box_3 box(
+                Point_3(v.bottomLeft().getX(), v.bottomLeft().getY(), -1), 
+                Point_3(v.topRight().getX(), v.topRight().getY(), 1));
+            if (m_tree->do_intersect(box)) return true;
 
             // Edge case: entire room is contained in voxel
             // Note that it should be enough to check if one vertex is contained;
@@ -94,6 +113,7 @@ namespace sdsl {
 
             return false;
         }
+
 
         double measureDistance(R2xS1<FT> q) {
             Segment ray(
@@ -202,10 +222,20 @@ namespace sdsl {
     private:
         Arrangement_2 m_arrangement;
         std::shared_ptr<Point_location> m_pl;
+        std::shared_ptr<AABB_tree> m_tree;
         std::vector<double> m_representation; // This representation only updates when requested
+        std::list<Segment_3> m_segments;
 
         void fromSegments(std::vector<Segment> segments) {
             CGAL::insert(m_arrangement, segments.begin(), segments.end());
+            for (auto segment : segments) {
+                m_segments.push_back(Segment_3(
+                    Point_3(segment.source().x(), segment.source().y(), 0),
+                    Point_3(segment.target().x(), segment.target().y(), 0)
+                ));
+            }
+            m_tree = std::make_shared<AABB_tree>(m_segments.begin(), m_segments.end());
+            m_tree->accelerate_distance_queries();
         }
 
         void buildPointLocation() {

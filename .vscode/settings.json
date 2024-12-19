@@ -92,6 +92,7 @@
         "text_encoding": "cpp",
         "cinttypes": "cpp",
         "typeindex": "cpp",
-        "valarray": "cpp"
+        "valarray": "cpp",
+        "__tree": "cpp"
     }
 }
