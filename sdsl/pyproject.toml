@@ -23,6 +23,7 @@ classifiers = [
 
 [tool.scikit-build]
 wheel.expand-macos-universal-tags = true
+cmake.build-type = "Release"
 
 
 [tool.cibuildwheel]

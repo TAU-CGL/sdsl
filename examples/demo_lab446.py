@@ -1,3 +1,4 @@
+import time
 from typing import List
 
 import tqdm
@@ -9,9 +10,9 @@ from sdsl.visualization.viz2d import visualize_2d, voxel_to_segments
 
 MAP_PATH = "resources/maps/lab_lidar.poly"
 ARROW_LEN = 0.3
-K = 8
-EPS = 0.05
-RECURSION_DEPTH = 8
+K = 16; K_ = 10
+EPS = 0.0
+RECURSION_DEPTH = 5
 
 def get_odometry(k):
     odometry = []
@@ -34,7 +35,12 @@ if __name__ == "__main__":
         odometry = get_odometry(K)
         measurements = get_measurements(env, odometry, q0)
 
-        localization = sdsl.localize_R2(env, odometry, measurements, EPS, RECURSION_DEPTH)
+        start = time.time()
+        print("Starting localization...")
+        # localization = sdsl.localize_R2(env, odometry, measurements, EPS, RECURSION_DEPTH)
+        localization = sdsl.localize_R2_dynamic_naive(env, odometry, measurements, EPS, RECURSION_DEPTH, K_)
+        end = time.time()
+        print(f"End localization. Took {end - start}[sec]")
         segments = []
         for voxel in localization:
             segments += voxel_to_segments(voxel)

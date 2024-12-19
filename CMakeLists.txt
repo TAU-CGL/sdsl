@@ -21,3 +21,4 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 add_subdirectory(sdsl)
+add_subdirectory(apps)

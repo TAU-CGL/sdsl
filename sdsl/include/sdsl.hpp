@@ -3,35 +3,39 @@
 #pragma once
 
 #include <queue>
+#include <format>
+#include <iostream>
 
 #include <omp.h>
 
 #include "math_utils.hpp"
+#include "predicates/predicate.hpp"
 #include "environments/environment.hpp"
 #include "configurations/configuration.hpp"
 
 namespace sdsl {
-    template<Configuration Config, Action<Config> Act, typename FT, Environment<Config, Act, FT> Env>
-    std::vector<Voxel<Config>> localize(Env &env, std::vector<Act> odometry, std::vector<FT> measurements, FT errorBound, int recursionDepth) {
+    template<
+        Configuration Config, 
+        Action<Config> Act, 
+        typename FT, 
+        Environment<Config, Act, FT> Env, 
+        Predicate<Config, Act, Env, FT> Pred>
+    std::vector<Voxel<Config>> localize(
+        Env &env, std::vector<Act> odometry, 
+        std::vector<FT> measurements, 
+        FT errorBound, int recursionDepth, Pred predicate) {
         omp_set_num_threads(omp_get_max_threads());
 
         std::vector<Voxel<Config>> voxels, localization;
         voxels.push_back(env.boundingBox());
         for (int i = 0; i < recursionDepth; ++i) {
+            std::cout << std::format("Iteration: {}\n", i);
             localization.clear();
+
             #pragma omp parallel for
             for (auto v : voxels) { 
-                bool flag = true;
-                for (int j = 0; j < odometry.size(); j++) {
-                    if (measurements[j] < 0) continue;
-                    Voxel<Config> v_ = env.forward(measurements[j], odometry[j], v);
-                    if (!env.intersects(expandError(v_, errorBound))) {
-                        flag = false;
-                        break;
-                    }
-                }
-                if (flag) {
-                    #pragma omp critical
+                if (predicate(env, odometry, measurements, errorBound, v)) {
+                    // #pragma omp critical
                     localization.push_back(v);
                 }
             }

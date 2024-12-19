@@ -11,6 +11,8 @@ namespace nb = nanobind;
 #include "sdsl.hpp"
 #include "configurations/config_R2xS1.hpp"
 #include "environments/env_R2.hpp"
+#include "predicates/predicate_static.hpp"
+#include "predicates/predicate_dynamic.hpp"
 using namespace sdsl;
 
 #include <CGAL/Exact_predicates_exact_constructions_kernel.h>
@@ -94,8 +96,24 @@ NB_MODULE(sdsl, m) {
     ) {
         std::vector<FT> measurements_;
         for (double d : measurements) measurements_.push_back(FT(d));
+        Predicate_Static<R2xS1<FT>, R2xS1<FT>, FT, Env_R2<Arrangement_2, Traits_2>> predicate;
 
         return localize<R2xS1<FT>, R2xS1<FT>, FT, Env_R2<Arrangement_2, Traits_2>>
-            (env, odometry, measurements_, FT(errorBound), recursionDepth);
+            (env, odometry, measurements_, FT(errorBound), recursionDepth, predicate);
+    });
+    m.def("localize_R2_dynamic_naive", [](
+        Env_R2<Arrangement_2, Traits_2> &env, 
+        std::vector<R2xS1<FT>> odometry,
+        std::vector<double> measurements,
+        double errorBound,
+        int recursionDepth,
+        int k_
+    ) {
+        std::vector<FT> measurements_;
+        for (double d : measurements) measurements_.push_back(FT(d));
+        Predicate_Dynamic_Naive_Fast<R2xS1<FT>, R2xS1<FT>, FT, Env_R2<Arrangement_2, Traits_2>> predicate(odometry.size(), k_);
+
+        return localize<R2xS1<FT>, R2xS1<FT>, FT, Env_R2<Arrangement_2, Traits_2>>
+            (env, odometry, measurements_, FT(errorBound), recursionDepth, predicate);
     });
 }
