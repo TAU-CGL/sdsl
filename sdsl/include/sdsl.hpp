@@ -3,7 +3,7 @@
 #pragma once
 
 #include <queue>
-#include <format>
+//#include <format>
 #include <iostream>
 
 #include <omp.h>
@@ -29,7 +29,7 @@ namespace sdsl {
         std::vector<Voxel<Config>> voxels, localization;
         voxels.push_back(env.boundingBox());
         for (int i = 0; i < recursionDepth; ++i) {
-            std::cout << std::format("Iteration: {}\n", i);
+            std::cout << "Iteration: " << i << std::endl;
             localization.clear();
 
             #pragma omp parallel for

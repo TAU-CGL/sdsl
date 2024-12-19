@@ -2,7 +2,7 @@
 #define _SDSL_PREDICATE_DYNAMIC_HPP
 #pragma once
 
-#include <format>
+//#include <format>
 #include <iostream>
 
 #include "predicates/predicate.hpp"
@@ -38,11 +38,11 @@ namespace sdsl {
 
         Predicate_Dynamic_Naive(int k, int k_) : k(k), k_(k_) {
             combs = generateCombinations(k, k_);
-            for (auto comb : combs) {
+            /*for (auto comb : combs) {
                 std::string scomb = "";
                 for (int j : comb) scomb = std::format("{} {}", scomb, j);
                 std::cout << scomb << std::endl;
-            }
+            }*/
             tmpResults = std::vector<bool>(k);
         }
 
