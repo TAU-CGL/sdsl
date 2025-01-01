@@ -22,3 +22,10 @@ To install the Python bindings, run:
 <!-- ## Usage -->
 
 <!-- See `python/demo.py` for an example. -->
+
+## Data processing
+
+### 2D Data
+
+We process the JackRabbot, DROW and FROG datasets.
+TODO. Explain where (from and to) download these datasets - into `data/raw`, which is .gitignored.
