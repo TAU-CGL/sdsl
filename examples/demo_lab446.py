@@ -8,10 +8,10 @@ import matplotlib.pyplot as plt
 import sdsl
 from sdsl.visualization.viz2d import visualize_2d, voxel_to_segments
 
-MAP_PATH = "resources/maps/lab_lidar.poly"
+MAP_PATH = "resources/maps/checkpoint.poly"
 ARROW_LEN = 0.3
-K = 16; K_ = 12
-EPS = 0.02
+K = 12; K_ = 10
+EPS = 0.15
 RECURSION_DEPTH = 9
 
 def get_odometry(k):
@@ -49,6 +49,10 @@ if __name__ == "__main__":
             x = voxel.bottom_left().x()
             y = voxel.bottom_left().y()
             segments += [[x,y,x+ARROW_LEN * np.cos(r), y+ARROW_LEN * np.sin(r)]]
+
+        for g, d in zip(odometry, measurements):
+            segments += [[q0.x(), q0.y(), q0.x() + d * np.cos(q0.r() + g.r()), q0.y() + d * np.sin(q0.r() + g.r())]]
+
         segments = np.array(segments)
 
 
