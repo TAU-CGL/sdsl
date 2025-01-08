@@ -1,0 +1,6 @@
+RMW_IMPLEMENTATION=rmw_cyclonedds_cpp ros2 run rviz2 rviz2
+
+RMW_IMPLEMENTATION=rmw_cyclonedds_cpp ros2 run frog_publisher publisher
+
+the timestamp on the message is earlier than all the data in the transform cache'
+[INFO] [1736184222.444609679] [rviz]: Message Filter dropping message: frame 'laser' at time 1736184222.400 for reason 'the timestamp on the message is earlier than all the data in the transform cache'
