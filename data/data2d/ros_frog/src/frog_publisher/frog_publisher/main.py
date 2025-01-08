@@ -25,8 +25,8 @@ class FrogPublisher(Node):
         self.preprocess_events()
 
         # Then setup the ROS publishers
-        self.scan_publisher_ = self.create_publisher(LaserScan, 'scan', 100000000)
-        self.odom_publisher_ = self.create_publisher(Odometry, 'odom', 100000000)
+        self.scan_publisher_ = self.create_publisher(LaserScan, 'scan', 5)
+        self.odom_publisher_ = self.create_publisher(Odometry, 'odom', 5)
         self.timer = self.create_timer(PUBLISH_DELAY, self.timer_callback)
         self.i = 0
         self.is_done = False
