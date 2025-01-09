@@ -117,8 +117,10 @@ class FrogPublisher(Node):
 
         odom1 = np.load(FROG_ODOM1)
         odom2 = np.load(FROG_ODOM2)
-        self.odom_ts = np.concatenate((odom1["ts"], odom2["ts"]))
-        self.odom_data = np.concatenate((odom1["data"], odom2["data"]))
+        # self.odom_ts = np.concatenate((odom1["ts"], odom2["ts"]))
+        # self.odom_data = np.concatenate((odom1["data"], odom2["data"]))
+        self.odom_ts = odom1["ts"]
+        self.odom_data = odom1["data"]
 
     def preprocess_events(self):
         self.events = []
