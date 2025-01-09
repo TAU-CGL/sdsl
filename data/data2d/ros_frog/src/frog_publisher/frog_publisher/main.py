@@ -8,8 +8,9 @@ from rclpy.node import Node
 from sensor_msgs.msg import LaserScan
 from nav_msgs.msg import Odometry
 from geometry_msgs.msg import TransformStamped
+from tf2_ros import TransformBroadcaster
 
-PUBLISH_DELAY = 0.01
+PUBLISH_DELAY = 0.05
 FROG_H5 = os.environ["FROG_RAW_DATA"]
 FROG_ODOM1 = os.environ["FROG_ODOM1"]
 FROG_ODOM2 = os.environ["FROG_ODOM2"]
@@ -25,11 +26,16 @@ class FrogPublisher(Node):
         self.preprocess_events()
 
         # Then setup the ROS publishers
-        self.scan_publisher_ = self.create_publisher(LaserScan, 'scan', 5)
-        self.odom_publisher_ = self.create_publisher(Odometry, 'odom', 5)
+        self.scan_publisher_ = self.create_publisher(LaserScan, 'scan', 5000)
+        self.odom_publisher_ = self.create_publisher(Odometry, 'odom', 5000)
+        self.tf_publisher_ = TransformBroadcaster(self)
         self.timer = self.create_timer(PUBLISH_DELAY, self.timer_callback)
         self.i = 0
         self.is_done = False
+
+        self.x = 0.0
+        self.y = 0.0
+        self.r = 0.0
 
     def timer_callback(self):
         if self.i >= len(self.events):
@@ -44,6 +50,19 @@ class FrogPublisher(Node):
             self.publish_scans(i)
         elif type == self.TYPE_ODOM:
             self.publish_odom(i)
+
+        msg = TransformStamped()
+        msg.header.frame_id = 'odom'
+        msg.header.stamp = self.get_clock().now().to_msg()
+        msg.child_frame_id = 'base_footprint'
+        msg.transform.translation.x = self.x
+        msg.transform.translation.y = self.y
+        msg.transform.translation.z = 0.0
+        msg.transform.rotation.x = 0.0
+        msg.transform.rotation.y = 0.0
+        msg.transform.rotation.z = float(np.sin(self.r / 2))
+        msg.transform.rotation.w = float(np.cos(self.r / 2))
+        self.tf_publisher_.sendTransform(msg)
         
         
     def publish_odom(self, i):
@@ -52,7 +71,7 @@ class FrogPublisher(Node):
         msg = Odometry()
         msg.header.frame_id = 'odom'
         msg.header.stamp = self.get_clock().now().to_msg()
-        # msg.child_frame_id = 'odom'
+        # msg.child_frame_id = 'base_link'
         msg.pose.pose.position.x = float(odom[0])
         msg.pose.pose.position.y = float(odom[1])
         msg.pose.pose.position.z = 0.0
@@ -60,6 +79,9 @@ class FrogPublisher(Node):
         msg.pose.pose.orientation.y = 0.0
         msg.pose.pose.orientation.z = float(np.sin(odom[2] / 2))
         msg.pose.pose.orientation.w = float(np.cos(odom[2] / 2))
+        self.x = float(odom[0])
+        self.y = float(odom[1])
+        self.r = float(odom[2])
         self.odom_publisher_.publish(msg)
         self.get_logger().info('Publishing odometry #%d {%s}' % (self.i, "..."))
 
@@ -68,9 +90,9 @@ class FrogPublisher(Node):
         msg = LaserScan()
         msg.header.frame_id = 'laser_frame'
         msg.header.stamp = self.get_clock().now().to_msg()
-        msg.angle_min = -np.pi * 0.5
-        msg.angle_max = np.pi * 0.5
         msg.angle_increment = np.pi / scans.shape[0]
+        msg.angle_min = -np.pi * 0.5
+        msg.angle_max = np.pi * 0.5 - msg.angle_increment 
         msg.time_increment = 1 / scans.shape[0]
         # msg.scan_time = self.timestamps[self.i]
         # scan_time is float:
