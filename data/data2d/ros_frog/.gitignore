@@ -2,3 +2,4 @@ install/
 log/
 src/frog_publisher/test
 env.bash
+env.zsh

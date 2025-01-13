@@ -10,10 +10,11 @@ from nav_msgs.msg import Odometry
 from geometry_msgs.msg import TransformStamped
 from tf2_ros import TransformBroadcaster
 
-PUBLISH_DELAY = 0.05
+PUBLISH_DELAY = 0.0025
 FROG_H5 = os.environ["FROG_RAW_DATA"]
 FROG_ODOM1 = os.environ["FROG_ODOM1"]
 FROG_ODOM2 = os.environ["FROG_ODOM2"]
+DUMMY_SCAN_MIN_TIME = 15
 
 class FrogPublisher(Node):
     TYPE_ODOM = 0
@@ -26,12 +27,13 @@ class FrogPublisher(Node):
         self.preprocess_events()
 
         # Then setup the ROS publishers
-        self.scan_publisher_ = self.create_publisher(LaserScan, 'scan', 5000)
-        self.odom_publisher_ = self.create_publisher(Odometry, 'odom', 5000)
+        self.scan_publisher_ = self.create_publisher(LaserScan, 'scan', 1000000)
+        self.odom_publisher_ = self.create_publisher(Odometry, 'odom', 50000)
         self.tf_publisher_ = TransformBroadcaster(self)
         self.timer = self.create_timer(PUBLISH_DELAY, self.timer_callback)
         self.i = 0
         self.is_done = False
+        self.time_without_scans = 0
 
         self.x = 0.0
         self.y = 0.0
@@ -50,6 +52,10 @@ class FrogPublisher(Node):
             self.publish_scans(i)
         elif type == self.TYPE_ODOM:
             self.publish_odom(i)
+
+        if self.time_without_scans > DUMMY_SCAN_MIN_TIME:
+            self.publish_scans(-1)
+            self.get_logger().info('!!!Publishing dummy scan #%d {%s}' % (self.i, "..."))
 
         msg = TransformStamped()
         msg.header.frame_id = 'odom'
@@ -84,9 +90,16 @@ class FrogPublisher(Node):
         self.r = float(odom[2])
         self.odom_publisher_.publish(msg)
         self.get_logger().info('Publishing odometry #%d {%s}' % (self.i, "..."))
+        self.time_without_scans += 1
 
     def publish_scans(self, i):
-        scans = self.scans[i]
+        if i < 0:
+            scans = np.array([np.inf] * self.scans.shape[1])
+        else:
+            scans = self.scans[i]
+
+        self.time_without_scans = 0
+        
         msg = LaserScan()
         msg.header.frame_id = 'laser_frame'
         msg.header.stamp = self.get_clock().now().to_msg()
@@ -129,6 +142,19 @@ class FrogPublisher(Node):
         for i in range(self.odom_ts.shape[0]):
             self.events.append((self.odom_ts[i], self.TYPE_ODOM, i))
         self.events.sort(key=lambda x: x[0])
+
+        # Keep only one odometry per scan:
+        # tmp = []
+        # await_odom = False
+        # for event in self.events:
+        #     _, ttype, _ = event
+        #     if ttype == self.TYPE_SCAN:
+        #         await_odom = True
+        #         tmp.append(event)
+        #     elif await_odom:
+        #         await_odom = False
+        #         tmp.append(event)
+        # self.events = tmp
 
 
 
