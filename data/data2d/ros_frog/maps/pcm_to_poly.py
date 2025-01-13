@@ -27,14 +27,15 @@ def pgm_to_polygon(pgm_file, min_area=10):
         if len(coordinates) > 2:  # Valid polygon requires at least 3 points
             polygon = Polygon(coordinates)
             if polygon.area >= min_area:  # Filter small polygons by area
-                polygons.append(polygon)
+                simplified_polygon = polygon.simplify(10.0, preserve_topology=True)
+                polygons.append(simplified_polygon)
 
     return polygons
 
 # Example usage
 if __name__ == "__main__":
     pgm_file = "map3.png"  # Replace with your PGM file
-    polygons = pgm_to_polygon(pgm_file, min_area=50)  # Adjust min_area as needed
+    polygons = pgm_to_polygon(pgm_file, min_area=275)  # Adjust min_area as needed
 
     # Display the polygon
     for poly in polygons:  # Use .geoms to iterate MultiPolygon
@@ -53,5 +54,6 @@ if __name__ == "__main__":
             y = float(y) * 0.05
             poly_content += f"{x} {y}\n"
         poly_content += "\n"
+        print("polygon len: ", len(xs))
     with open("frog.poly", "w") as fp:
         fp.write(poly_content)
