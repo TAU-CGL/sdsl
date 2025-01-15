@@ -10,7 +10,7 @@ from sdsl.visualization.viz2d import visualize_2d, voxel_to_segments
 
 MAP_PATH = "resources/maps/frog.poly"
 ARROW_LEN = 0.3
-K = 12; K_ = 10
+K = 16; K_ = 14
 EPS = 0.02
 RECURSION_DEPTH = 9
 

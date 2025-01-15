@@ -1,0 +1,32 @@
+rosbag2_bagfile_information:
+  version: 5
+  storage_identifier: sqlite3
+  duration:
+    nanoseconds: 31867035989
+  starting_time:
+    nanoseconds_since_epoch: 1736926654128097968
+  message_count: 10255
+  topics_with_message_count:
+    - topic_metadata:
+        name: /scan_idx
+        type: std_msgs/msg/Int32
+        serialization_format: cdr
+        offered_qos_profiles: "- history: 1\n  depth: 100000\n  reliability: 1\n  durability: 2\n  deadline:\n    sec: 9223372036\n    nsec: 854775807\n  lifespan:\n    sec: 9223372036\n    nsec: 854775807\n  liveliness: 1\n  liveliness_lease_duration:\n    sec: 9223372036\n    nsec: 854775807\n  avoid_ros_namespace_conventions: false"
+      message_count: 10055
+    - topic_metadata:
+        name: /pose
+        type: geometry_msgs/msg/PoseWithCovarianceStamped
+        serialization_format: cdr
+        offered_qos_profiles: "- history: 1\n  depth: 10\n  reliability: 1\n  durability: 2\n  deadline:\n    sec: 9223372036\n    nsec: 854775807\n  lifespan:\n    sec: 9223372036\n    nsec: 854775807\n  liveliness: 1\n  liveliness_lease_duration:\n    sec: 9223372036\n    nsec: 854775807\n  avoid_ros_namespace_conventions: false"
+      message_count: 200
+  compression_format: ""
+  compression_mode: ""
+  relative_file_paths:
+    - traj_0.db3
+  files:
+    - path: traj_0.db3
+      starting_time:
+        nanoseconds_since_epoch: 1736926654128097968
+      duration:
+        nanoseconds: 31867035989
+      message_count: 10255

@@ -7,6 +7,7 @@ import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import LaserScan
 from nav_msgs.msg import Odometry
+from std_msgs.msg import Int32
 from geometry_msgs.msg import TransformStamped
 from tf2_ros import TransformBroadcaster
 
@@ -29,6 +30,7 @@ class FrogPublisher(Node):
         # Then setup the ROS publishers
         self.scan_publisher_ = self.create_publisher(LaserScan, 'scan', 1000000)
         self.odom_publisher_ = self.create_publisher(Odometry, 'odom', 50000)
+        self.idx_publisher_ = self.create_publisher(Int32, 'scan_idx', 100000)
         self.tf_publisher_ = TransformBroadcaster(self)
         self.timer = self.create_timer(PUBLISH_DELAY, self.timer_callback)
         self.i = 0
@@ -99,6 +101,10 @@ class FrogPublisher(Node):
             scans = self.scans[i]
 
         self.time_without_scans = 0
+
+        msg = Int32()
+        msg.data = i
+        self.idx_publisher_.publish(msg)
         
         msg = LaserScan()
         msg.header.frame_id = 'laser_frame'
