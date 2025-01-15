@@ -6,6 +6,7 @@ This was run on Apple Silicon (M1) computer, with RoboStack, and ROS2 (Humble), 
 
 Don't forget to run `colcon build` from this root folder, activate ROS environment.
 Also install dependencies: `mamba install h5py numpy`.
+Install (into the mamba environment) the `nml_bad` repository: https://github.com/ricmua/nml_bag
 
 ## Map Generation
 
@@ -54,7 +55,7 @@ Terminal 3: First make sure to edit the `env.zsh` script to point at the correct
 
 Terminal 4:
     ```
-    ros2 bag record -o bag_files/traj /scan_idx /pose
+    ros2 bag record -o bag_files/traj -s mcap /scan_idx /pose
     ```
 
 Then run `bag_files/process_traj.py` to create the h5 file of the localized trajectory with correlations to original point clouds.
