@@ -10,6 +10,9 @@ def pgm_to_polygon(pgm_file, min_area=10):
     image = np.array(image)
     image = image[:, :, 0]  # Extract single channel (assuming grayscale)
 
+    # Flip y
+    image = np.flipud(image)
+
     # Threshold the grid to binary (e.g., 0 for occupied, 1 for free space)
     # Assuming values > 200 are free space
     binary_grid = (image > 250).astype(np.uint8)
@@ -35,7 +38,7 @@ def pgm_to_polygon(pgm_file, min_area=10):
 # Example usage
 if __name__ == "__main__":
     pgm_file = "map3.png"  # Replace with your PGM file
-    polygons = pgm_to_polygon(pgm_file, min_area=275)  # Adjust min_area as needed
+    polygons = pgm_to_polygon(pgm_file, min_area=100)  # Adjust min_area as needed
 
     # Display the polygon
     for poly in polygons:  # Use .geoms to iterate MultiPolygon
@@ -49,11 +52,10 @@ if __name__ == "__main__":
     poly_content = ""
     for poly in polygons:
         xs, ys = poly.exterior.xy
-        for x, y in zip(xs, ys):
-            x = float(x) * 0.05
-            y = float(y) * 0.05
+        for x, y in zip(xs[:-1], ys[:-1]):
+            x = float(x) * 0.05 - 8.72
+            y = float(y) * 0.05 - 115
             poly_content += f"{x} {y}\n"
         poly_content += "\n"
-        print("polygon len: ", len(xs))
     with open("frog.poly", "w") as fp:
         fp.write(poly_content)
