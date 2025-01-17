@@ -5,7 +5,7 @@ from .sdsl import seed, max_min_on_trig_range
 from typing import List
 
 from .dynamic_obstacles import *
-from .simulation import *
+# from .simulation import *
 
 import numpy as np
 

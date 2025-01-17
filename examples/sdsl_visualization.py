@@ -20,9 +20,7 @@ if __name__ == "__main__":
     sdsl.seed(100)
     env = sdsl.load_poly_file(MAP_PATH)
 
-    dynamic_obstacles = [
-        sdsl.DynamicObstacle_Disc2D(-0.7, 0.7, 0.1),
-    ]
+    dynamic_obstacles = sample_uniform_dynamic_obstacles(env, 10, 0.1)
 
     for _ in range(1000):
         bb = env.bounding_box()

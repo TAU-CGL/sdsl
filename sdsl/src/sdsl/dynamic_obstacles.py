@@ -25,7 +25,11 @@ class DynamicObstacle_Disc2D(DynamicObstacle):
         if isect.is_empty:
             return math.inf
         d = math.inf
-        for p in isect.geoms:
-            p = p.coords[0]
-            d = min(d, (p[0] - q.x()) ** 2 + (p[1] - q.y()) ** 2)
+        if type(isect) == shapely.geometry.Point:
+            p = isect.coords[0]
+            d = (p[0] - q.x()) ** 2 + (p[1] - q.y()) ** 2
+        else:
+            for p in isect.geoms:
+                p = p.coords[0]
+                d = min(d, (p[0] - q.x()) ** 2 + (p[1] - q.y()) ** 2)
         return math.sqrt(d)

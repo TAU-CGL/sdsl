@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 from sdsl import Env_R2, R2xS1, R2xS1_Voxel, DynamicObstacle, DynamicObstacle_Disc2D
 
-def visualize_2d(env: Env_R2, dynamic_obstacles: List[DynamicObstacle] = None , red_segments: np.array = None, blue_segments: np.array = None, points: np.array = None):
+def visualize_2d(env: Env_R2, dynamic_obstacles: List[DynamicObstacle] = None , red_segments: np.array = None, blue_segments: np.array = None, magenta_segments: np.array = None, points: np.array = None, point_colors: List[str] = None):
     """
     Visualize a 2D environment.
     """
@@ -20,13 +20,17 @@ def visualize_2d(env: Env_R2, dynamic_obstacles: List[DynamicObstacle] = None , 
     if dynamic_obstacles is not None:
         for obs in dynamic_obstacles:
             if isinstance(obs, DynamicObstacle_Disc2D):
-                circle = plt.Circle((obs.x, obs.y), obs.radius, color='g', fill=False)
+                circle = plt.Circle((obs.x, obs.y), obs.radius, color='orange', fill=True)
                 ax.add_artist(circle)
 
     if red_segments is not None:
         for i in range(red_segments.shape[0]):
             x1, y1, x2, y2 = red_segments[i]
-            ax.plot([x1, x2], [y1, y2], 'r-')
+            ax.plot([x1, x2], [y1, y2], "-", color="#ff0000")
+    if magenta_segments is not None:
+        for i in range(magenta_segments.shape[0]):
+            x1, y1, x2, y2 = magenta_segments[i]
+            ax.plot([x1, x2], [y1, y2], "-", color="#ff00ff")
     if blue_segments is not None:
         for i in range(blue_segments.shape[0]):
             x1, y1, x2, y2 = blue_segments[i]
@@ -34,7 +38,7 @@ def visualize_2d(env: Env_R2, dynamic_obstacles: List[DynamicObstacle] = None , 
     if points is not None:
         for i in range(points.shape[0]):
             x, y = points[i]
-            ax.plot(x, y, 'g.')
+            ax.plot(x, y, '.', color=point_colors[i])
     
     min_x, max_x = min(min(segments[:,0]), min(segments[:,2])), max(max(segments[:,0]), max(segments[:,2]))
     min_y, max_y = min(min(segments[:,1]), min(segments[:,3])), max(max(segments[:,1]), max(segments[:,3]))
