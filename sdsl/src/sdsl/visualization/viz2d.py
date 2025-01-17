@@ -1,9 +1,11 @@
+from typing import List
+
 import numpy as np
 import matplotlib.pyplot as plt
 
-from sdsl import Env_R2, R2xS1, R2xS1_Voxel
+from sdsl import Env_R2, R2xS1, R2xS1_Voxel, DynamicObstacle, DynamicObstacle_Disc2D
 
-def visualize_2d(env: Env_R2, red_segments: np.array = None, blue_segments: np.array = None, points: np.array = None):
+def visualize_2d(env: Env_R2, dynamic_obstacles: List[DynamicObstacle] = None , red_segments: np.array = None, blue_segments: np.array = None, points: np.array = None):
     """
     Visualize a 2D environment.
     """
@@ -14,6 +16,12 @@ def visualize_2d(env: Env_R2, red_segments: np.array = None, blue_segments: np.a
     for i in range(segments.shape[0]):
         x1, y1, x2, y2 = segments[i]
         ax.plot([x1, x2], [y1, y2], 'k-')
+
+    if dynamic_obstacles is not None:
+        for obs in dynamic_obstacles:
+            if isinstance(obs, DynamicObstacle_Disc2D):
+                circle = plt.Circle((obs.x, obs.y), obs.radius, color='g', fill=False)
+                ax.add_artist(circle)
 
     if red_segments is not None:
         for i in range(red_segments.shape[0]):
