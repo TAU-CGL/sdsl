@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 import sdsl
 from sdsl.visualization.viz2d import visualize_2d, voxel_to_segments
 
-MAP_PATH = "resources/maps/frog.poly"
+MAP_PATH = "resources/maps/checkpoint.poly"
 ARROW_LEN = 0.3
 K = 16; K_ = 14
 EPS = 0.02
@@ -42,6 +42,9 @@ if __name__ == "__main__":
         localization = sdsl.localize_R2_dynamic_naive(env, odometry, measurements, EPS, RECURSION_DEPTH, K_)
         end = time.time()
         print(f"End localization. Took {end - start}[sec]")
+
+        print(sdsl.post_processing(env, odometry, measurements, EPS, localization))
+
         segments = []
         for voxel in localization:
             segments += voxel_to_segments(voxel)

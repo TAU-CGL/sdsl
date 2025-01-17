@@ -46,6 +46,56 @@ namespace sdsl {
 
         return localization;
     }
+    
+
+    //TODO - MOVE TO SEPERATE FILE
+    template<
+        Configuration Config, 
+        Action<Config> Act, 
+        typename FT, 
+        Environment<Config, Act, FT> Env>
+        std::vector<Config> post_processing(
+            Env env, std::vector<Act> odometry, 
+            std::vector<FT> measurements, 
+            FT errorBound,
+            std::vector<Voxel<Config>> voxels
+            )
+        {
+            // TODO union find
+            // TODO merge voxels
+            // concise clean
+            
+            std::vector<Config> candidates;
+            for (auto v : voxels)
+            {
+                candidates.push_back(middle(v));
+            }
+
+            std::vector<Config> outputs;
+            for(auto possible_output : candidates)
+            {
+                bool is_leagal = true;
+                for (int i = 0; i < odometry.size(); i++)
+                {
+                    auto g = odometry[i];
+                    auto expected_distance = measurements[i];
+
+                    FT distance = env.measureDistance(g*possible_output);
+                    if (!(distance <= expected_distance + errorBound && distance >= expected_distance - errorBound))
+                    {
+                        is_leagal = false;
+                        break; // TODO maybe parralel for instead of break
+                    }
+                }
+
+                if (is_leagal)
+                {
+                    outputs.push_back(possible_output);
+                }
+                
+            }
+            return outputs;
+        }
 };
 
 #endif

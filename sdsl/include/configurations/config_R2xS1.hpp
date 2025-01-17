@@ -119,6 +119,17 @@ namespace sdsl {
     }
 
     template<typename FT>
+    R2xS1<FT> middle(Voxel<R2xS1<FT>>& v) {
+        FT x = FT(Random::randomDouble());
+        FT y = FT(Random::randomDouble());
+        FT r = FT(Random::randomDouble());
+        x = 0.5 * (v.bottomLeft().getX() + v.topRight().getX());
+        y = 0.5 * (v.bottomLeft().getY() + v.topRight().getY());
+        r = 0.5 * (v.bottomLeft().getR() + v.topRight().getR());
+        return R2xS1<FT>(x, y, r);
+    }
+
+    template<typename FT>
     Voxel<R2xS1<FT>> expandError(Voxel<R2xS1<FT>>& v, FT error) {
         return Voxel<R2xS1<FT>>(
             R2xS1<FT>(v.bottomLeft().getX() - error, v.bottomLeft().getY() - error, v.bottomLeft().getR() - error),

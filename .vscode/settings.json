@@ -93,6 +93,7 @@
         "cinttypes": "cpp",
         "typeindex": "cpp",
         "valarray": "cpp",
-        "__tree": "cpp"
+        "__tree": "cpp",
+        "queue": "cpp"
     }
 }

@@ -1,11 +1,11 @@
 from .sdsl import __doc__, __version__
-from .sdsl import R2xS1, R2xS1_Voxel, Env_R2, localize_R2, localize_R2_dynamic_naive
+from .sdsl import R2xS1, R2xS1_Voxel, Env_R2, localize_R2, localize_R2_dynamic_naive, post_processing
 from .sdsl import seed, max_min_on_trig_range
 
 import numpy as np
 
 __all__ = [
-    "R2xS1", "R2xS1_Voxel", "Env_R2", "localize_R2",
+    "R2xS1", "R2xS1_Voxel", "Env_R2", "localize_R2", "post_processing",
     "seed", "max_min_on_trig_range",
 ]
 

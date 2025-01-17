@@ -122,4 +122,16 @@ NB_MODULE(sdsl, m) {
         return localize<R2xS1<FT>, R2xS1<FT>, FT, Env_R2<Arrangement_2, Traits_2>>
             (env, odometry, measurements_, FT(errorBound), recursionDepth, predicate);
     });
+
+
+    m.def("post_processing", [](
+        Env_R2<Arrangement_2, Traits_2> &env, 
+        std::vector<R2xS1<FT>> odometry,
+        std::vector<double> measurements,
+        double errorBound,
+        std::vector<Voxel<R2xS1<FT>>> voxels
+    ) {
+        return post_processing<R2xS1<FT>, R2xS1<FT>, FT, Env_R2<Arrangement_2, Traits_2>>
+            (env, odometry, measurements, FT(errorBound), voxels);
+    });
 }

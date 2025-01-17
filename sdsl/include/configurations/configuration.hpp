@@ -88,6 +88,7 @@ namespace sdsl {
     template<Configuration Config> void split(Voxel<Config>& v, std::vector<Voxel<Config>>& vec) {}
     template<Configuration Config, typename FT> Voxel<Config> expandError(Voxel<Config>& v, FT error) {}
     template<Configuration Config> Config sample(Voxel<Config>& v) { return Config(); }
+    template<Configuration Config> Config middle(Voxel<Config>& v) { return Config(); }
 
 
 
