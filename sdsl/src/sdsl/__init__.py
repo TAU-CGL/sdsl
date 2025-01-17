@@ -5,6 +5,7 @@ from .sdsl import seed, max_min_on_trig_range
 from typing import List
 
 from .dynamic_obstacles import *
+from .simulation import *
 
 import numpy as np
 
@@ -52,9 +53,4 @@ def sample_q0(env: Env_R2):
         cnt += 1
         if cnt > MAX_TRY:
             raise RuntimeError("Could not sample valid q0 configuration inside environment.")
-        
-def measure_distance(env: Env_R2, q: R2xS1, dynamic_obstacles: List[DynamicObstacle]) -> float:
-    dist = env.measure_distance(q)
-    for obs in dynamic_obstacles:
-        dist = min(dist, obs.measureDistance(q))
-    return dist
+    
