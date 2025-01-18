@@ -85,6 +85,7 @@ NB_MODULE(sdsl, m) {
         .def(nb::init<const nb::ndarray<double, nb::shape<-1, 4>> &>())
         .def("get_representation", &Env_R2<Arrangement_2, Traits_2>::getRepresentation)
         .def("measure_distance", &Env_R2<Arrangement_2, Traits_2>::measureDistance)
+        .def("hausdorff_distance", &Env_R2<Arrangement_2, Traits_2>::hausdorffDistance)
         .def("intersects", &Env_R2<Arrangement_2, Traits_2>::intersects)
         .def("bounding_box", &Env_R2<Arrangement_2, Traits_2>::boundingBox)
         .def("is_inside", &Env_R2<Arrangement_2, Traits_2>::isInside)

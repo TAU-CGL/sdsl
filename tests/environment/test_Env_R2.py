@@ -12,13 +12,15 @@ TRIANGLE = np.array(
             [ 1, -1, -1, -1],
         ], dtype=np.double)
 
+TOLERANCE = 1e-7
+
 
 def test_Env_R2_init():
     env = sdsl.Env_R2(TRIANGLE)
     assert np.allclose(
         np.sort(env.get_representation(), axis=0), 
         np.sort(TRIANGLE, axis=0), 
-        atol=1e-7)
+        atol=TOLERANCE)
     
 def test_Env_R2_measure_distance():
     env = sdsl.Env_R2(TRIANGLE)
@@ -31,7 +33,15 @@ def test_Env_R2_measure_distance():
     print(p)
     print(1 - 2 * p[0])
     print(p[1])
-    assert np.allclose(1 - 2 * p[0], p[1], atol=1e-7)
+    assert np.allclose(1 - 2 * p[0], p[1], atol=TOLERANCE)
+
+def test_Env_R2_hausdorff_distance():
+    env = sdsl.Env_R2(TRIANGLE)
+    d1 = env.hausdorff_distance(sdsl.R2xS1(0, 0, 0))
+    d2 = env.hausdorff_distance(sdsl.R2xS1(0.1, 0.3, 0))
+    d3 = env.hausdorff_distance(sdsl.R2xS1(0.6, 0.5, 0))
+
+    assert np.allclose([d1, d2, d3], [0.4472136, 0.2236068, 0.3130495], atol=TOLERANCE)
 
 def test_Env_R2_intersects():
     env = sdsl.Env_R2(TRIANGLE)

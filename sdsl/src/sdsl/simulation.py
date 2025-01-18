@@ -39,6 +39,26 @@ def sample_uniform_dynamic_obstacles(env: Env_R2, n: int, radius: float) -> List
         obstacles.append(DynamicObstacle_Disc2D(q0.x(), q0.y(), radius))
     return obstacles
 
+def verify_scenario(env: Env_R2, dynamic_obstacles: List[DynamicObstacle], q0: R2xS1, odometry: List[R2xS1]) -> bool:
+    if not env.is_inside(q0):
+        return False
+    for g in odometry:
+        q = g * q0
+        if not env.is_inside(q):
+            return False
+    for obs in dynamic_obstacles:
+        o = R2xS1(obs.x, obs.y, 0.0)
+        if not env.is_inside(o):
+            return False
+        if env.hausdorff_distance(o) <= obs.radius:
+            return False
+    for g in odometry:
+        q = g * q0
+        for obs in dynamic_obstacles:
+            if (q.x() - obs.x)**2 + (q.y() - obs.y)**2 <= obs.radius**2:
+                return False
+    return True
+
 
 def visualize_simulation(env: Env_R2, q0: R2xS1, odometry: List[R2xS1], measurements: List[float], dynamic_obstacles: List[DynamicObstacle] = []):
     blue_segments = []

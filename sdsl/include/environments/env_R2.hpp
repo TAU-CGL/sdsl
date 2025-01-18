@@ -146,6 +146,12 @@ namespace sdsl {
             return sqrt(CGAL::to_double(minDist));
         }
 
+        double hausdorffDistance(R2xS1<FT> q) {
+            Point_3 p1(q.getX(), q.getY(), 0);
+            Point_3 p2 = m_tree->closest_point(p1);
+            return sqrt(CGAL::to_double(CGAL::squared_distance(p1, p2)));
+        }
+
         Voxel<R2xS1<FT>> forward(FT d, R2xS1<FT> q, Voxel<R2xS1<FT>> v) {
             FT maxx, minx;
             maxMinOnTrigRange(
