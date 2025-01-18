@@ -12,6 +12,10 @@ set(SDSL_PROJECT_EMAILS "michaelmoshe@mail.tau.ac.il")
 set(SDSL_PROJECT_URL "https://www.cgl.cs.tau.ac.il/projects/sensor-localization-by-few-distance-measurements-via-the-intersection-of-implicit-manifolds/")
 ###################
 
+if (WIN32)
+    set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
+endif()
+
 option(SDSL_WITH_PYBINDINGS "With Python bindings" ON)
 
 set(SDSL_MODULES_REL_DIR cmake/modules)

@@ -214,3 +214,4 @@ build/
 .DS_Store
 
 data/raw
+cache/
