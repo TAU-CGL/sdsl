@@ -77,9 +77,9 @@ namespace sdsl {
                 bool is_leagal = true;
                 for (int i = 0; i < odometry.size(); i++)
                 {
-                    auto g = odometry[i];
-                    auto expected_distance = measurements[i];
+                    const Act& g = odometry[i];
 
+                    FT expected_distance = measurements[i];
                     FT distance = env.measureDistance(g*possible_output);
                     if (!(distance <= expected_distance + errorBound && distance >= expected_distance - errorBound))
                     {
