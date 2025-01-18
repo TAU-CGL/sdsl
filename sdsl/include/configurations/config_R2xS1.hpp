@@ -65,6 +65,22 @@ namespace sdsl {
         bool operator>=(const R2xS1& other) const {
             return this->x >= other.x && this->y >= other.y && this->r >= other.r;
         }
+
+        R2xS1 center_of_mass(const std::vector<R2xS1>& voxcel_list) {
+            R2xS1 v_result = R2xS1(0,0,0);
+            for (const R2xS1& v: voxcel_list)
+            {
+                v_result.x += v.x;
+                v_result.y += v.y;
+                v_result.r += v.r;
+            }
+
+            v_result.x /= voxcel_list.size();
+            v_result.y /= voxcel_list.size();
+            v_result.r /= voxcel_list.size();
+            return v_result;
+        }
+
         
     private:
         FT x, y, r;
@@ -128,6 +144,29 @@ namespace sdsl {
         r = 0.5 * (v.bottomLeft().getR() + v.topRight().getR());
         return R2xS1<FT>(x, y, r);
     }
+
+    template<typename FT>
+    bool are_intercecting(const Voxel<R2xS1<FT>>& v1, const Voxel<R2xS1<FT>>& v2) {
+        // non intercecting coordinate looks like ()[]
+        if ((v1.topRight().getX() < v2.bottomLeft().getX()) || 
+            (v2.topRight().getX() < v1.bottomLeft().getX()))
+        {
+            return false;
+        }
+        if ((v1.topRight().getY() < v2.bottomLeft().getY()) || 
+            (v2.topRight().getY() < v1.bottomLeft().getY()))
+        {
+            return false;
+        }
+        if ((v1.topRight().getZ() < v2.bottomLeft().getZ()) || 
+            (v2.topRight().getZ() < v1.bottomLeft().getZ()))
+        {
+            return false;
+        }
+        return true;
+    }
+
+
 
     template<typename FT>
     Voxel<R2xS1<FT>> expandError(Voxel<R2xS1<FT>>& v, FT error) {

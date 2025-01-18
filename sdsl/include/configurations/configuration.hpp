@@ -39,6 +39,9 @@ namespace sdsl {
         { t.toString() } -> std::same_as<std::string>;
     };
 
+    // TODO - maybe replace with iterabel
+    template<Configuration Config> Config center_of_mass(const std::vector<Config>& v) { return Config(); }
+
     template<typename T, class Config> 
     concept Action = requires(T t, T t_, Config q) {
         Configuration<Config>;
@@ -89,6 +92,8 @@ namespace sdsl {
     template<Configuration Config, typename FT> Voxel<Config> expandError(Voxel<Config>& v, FT error) {}
     template<Configuration Config> Config sample(Voxel<Config>& v) { return Config(); }
     template<Configuration Config> Config middle(Voxel<Config>& v) { return Config(); }
+    // intercect in closure
+    template<Configuration Config> bool are_intercecting(const Voxel<Config>& v1, const Voxel<Config>& v2) { return false; }
 
 
 
