@@ -72,7 +72,9 @@ def get_valid_scenario(env: Env_R2, k: int, sensor_offset: float, n: int, radius
             return None, None, None
 
 
-def visualize_simulation(env: Env_R2, q0: R2xS1, odometry: List[R2xS1], measurements: List[float], dynamic_obstacles: List[DynamicObstacle] = []):
+def visualize_simulation(
+        env: Env_R2, q0: R2xS1, odometry: List[R2xS1], measurements: List[float], dynamic_obstacles: List[DynamicObstacle] = [],
+        extra_points: List[R2xS1] = []):
     blue_segments = []
     red_segments = []
     magenta_segments = []
@@ -81,6 +83,10 @@ def visualize_simulation(env: Env_R2, q0: R2xS1, odometry: List[R2xS1], measurem
 
     points.append([q0.x(), q0.y()])
     point_colors.append("#00ff00")
+
+    for p in extra_points:
+        points.append([p.x(), p.y()])
+        point_colors.append("#ff9900")
 
     # Visualize rays
     for g, d in zip(odometry, measurements):

@@ -1,29 +1,38 @@
 import time
+import pickle
 
 import sdsl
 from sdsl.simulation import *
 
-MAP_PATH = "resources/maps/square_room.poly"
+MAP_PATH = "resources/maps/frog.poly"
 ARROW_LEN = 0.3
 K = 16; K_ = 12
 EPS = 0.02
 RECURSION_DEPTH = 9
 SENSOR_OFFSET = 0.01
 
+PICKLE_PATH = "resources/obstacles/scenarios.pkl"
+
 if __name__ == "__main__":
     sdsl.seed(100)
     env = sdsl.load_poly_file(MAP_PATH)
 
+    with open(PICKLE_PATH, "rb") as fp:
+        scenarios = pickle.load(fp)
+    
     for _ in range(1000):
-        bb = env.bounding_box()
-        q0, odometry, dynamic_obstacles = get_valid_scenario(env, K, SENSOR_OFFSET, 10, 0.1)
+        idx = np.random.randint(len(scenarios))
+        q0_, dynamic_obstacles, odometry_ = scenarios[idx]
+
+        q0 = R2xS1(q0_[0], q0_[1], q0_[2])
+        odometry = [R2xS1(g[0], g[1], g[2]) for g in odometry_]
         measurements = get_measurements(env, odometry, q0, dynamic_obstacles)
 
-        start = time.time()
-        print("Starting localization...")
-        localization = sdsl.localize_R2_dynamic_naive(env, odometry, measurements, EPS, RECURSION_DEPTH, K_)
-        end = time.time()
-        print(f"End localization. Took {end - start}[sec]")
+        # start = time.time()
+        # print("Starting localization...")
+        # localization = sdsl.localize_R2_dynamic_naive(env, odometry, measurements, EPS, RECURSION_DEPTH, K_)
+        # end = time.time()
+        # print(f"End localization. Took {end - start}[sec]")
 
         visualize_simulation(env, q0, odometry, measurements, dynamic_obstacles)
 

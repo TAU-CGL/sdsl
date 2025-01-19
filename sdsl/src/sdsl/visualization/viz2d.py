@@ -20,7 +20,7 @@ def visualize_2d(env: Env_R2, dynamic_obstacles: List[DynamicObstacle] = None , 
     if dynamic_obstacles is not None:
         for obs in dynamic_obstacles:
             if isinstance(obs, DynamicObstacle_Disc2D):
-                circle = plt.Circle((obs.x, obs.y), obs.radius, color='orange', fill=True)
+                circle = plt.Circle((obs.x, obs.y), obs.radius, color='green', fill=True)
                 ax.add_artist(circle)
 
     if red_segments is not None:
