@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 import numpy as np
 
@@ -58,6 +58,18 @@ def verify_scenario(env: Env_R2, dynamic_obstacles: List[DynamicObstacle], q0: R
             if (q.x() - obs.x)**2 + (q.y() - obs.y)**2 <= obs.radius**2:
                 return False
     return True
+
+def get_valid_scenario(env: Env_R2, k: int, sensor_offset: float, n: int, radius: float) -> Tuple[R2xS1, List[R2xS1], List[DynamicObstacle]]:
+    num_tries = 0
+    while True:
+        q0 = sample_q0(env)
+        odometry = get_odometry(k, sensor_offset)
+        dynamic_obstacles = sample_uniform_dynamic_obstacles(env, n, radius)
+        if verify_scenario(env, dynamic_obstacles, q0, odometry):
+            return q0, odometry, dynamic_obstacles
+        num_tries += 1
+        if num_tries > 10:
+            return None, None, None
 
 
 def visualize_simulation(env: Env_R2, q0: R2xS1, odometry: List[R2xS1], measurements: List[float], dynamic_obstacles: List[DynamicObstacle] = []):

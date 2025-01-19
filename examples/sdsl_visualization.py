@@ -1,13 +1,7 @@
 import time
-from typing import List
-
-import tqdm
-import numpy as np
-import matplotlib.pyplot as plt
 
 import sdsl
 from sdsl.simulation import *
-from sdsl.visualization.viz2d import visualize_2d, voxel_to_segments
 
 MAP_PATH = "resources/maps/square_room.poly"
 ARROW_LEN = 0.3
@@ -16,21 +10,13 @@ EPS = 0.02
 RECURSION_DEPTH = 9
 SENSOR_OFFSET = 0.01
 
-def get_valid_scenario(env):
-    while True:
-        q0 = sdsl.sample_q0(env)
-        odometry = get_odometry(K, SENSOR_OFFSET)
-        dynamic_obstacles = sample_uniform_dynamic_obstacles(env, 10, 0.1)
-        if verify_scenario(env, dynamic_obstacles, q0, odometry):
-            return q0, odometry, dynamic_obstacles
-
 if __name__ == "__main__":
     sdsl.seed(100)
     env = sdsl.load_poly_file(MAP_PATH)
 
     for _ in range(1000):
         bb = env.bounding_box()
-        q0, odometry, dynamic_obstacles = get_valid_scenario(env)
+        q0, odometry, dynamic_obstacles = get_valid_scenario(env, K, SENSOR_OFFSET, 10, 0.1)
         measurements = get_measurements(env, odometry, q0, dynamic_obstacles)
 
         start = time.time()
