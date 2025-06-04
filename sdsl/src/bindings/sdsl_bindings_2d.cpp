@@ -3,7 +3,7 @@
 
 #include "sdsl.hpp"
 #include "configurations/config_R2xS1.hpp"
-#include "environments/env_R2.hpp"
+#include "environments/env_R2_arrangement.hpp"
 #include "predicates/predicate_static.hpp"
 #include "predicates/predicate_dynamic.hpp"
 using namespace sdsl;
@@ -46,22 +46,22 @@ void sdsl_bindings_2d(nb::module_ &m) {
         .def("__repr__", &Voxel<R2xS1<FT>>::toString)
     ;
 
-    // Create Env_R2 class
-    nb::class_<Env_R2<Arrangement_2, Traits_2>>(m, "Env_R2")
+    // Create Env_R2_Arrangement class
+    nb::class_<Env_R2_Arrangement<Arrangement_2, Traits_2>>(m, "Env_R2_Arrangement")
         .def(nb::init<const nb::ndarray<double, nb::shape<-1, 4>> &>())
-        .def("get_representation", &Env_R2<Arrangement_2, Traits_2>::getRepresentation)
-        .def("measure_distance", &Env_R2<Arrangement_2, Traits_2>::measureDistance)
-        .def("hausdorff_distance", &Env_R2<Arrangement_2, Traits_2>::hausdorffDistance)
-        .def("intersects", &Env_R2<Arrangement_2, Traits_2>::intersects)
-        .def("bounding_box", &Env_R2<Arrangement_2, Traits_2>::boundingBox)
-        .def("is_inside", &Env_R2<Arrangement_2, Traits_2>::isInside)
-        .def("forward", [](Env_R2<Arrangement_2, Traits_2>& env, double d, R2xS1<FT> &q, Voxel<R2xS1<FT>> &v) {
+        .def("get_representation", &Env_R2_Arrangement<Arrangement_2, Traits_2>::getRepresentation)
+        .def("measure_distance", &Env_R2_Arrangement<Arrangement_2, Traits_2>::measureDistance)
+        .def("hausdorff_distance", &Env_R2_Arrangement<Arrangement_2, Traits_2>::hausdorffDistance)
+        .def("intersects", &Env_R2_Arrangement<Arrangement_2, Traits_2>::intersects)
+        .def("bounding_box", &Env_R2_Arrangement<Arrangement_2, Traits_2>::boundingBox)
+        .def("is_inside", &Env_R2_Arrangement<Arrangement_2, Traits_2>::isInside)
+        .def("forward", [](Env_R2_Arrangement<Arrangement_2, Traits_2>& env, double d, R2xS1<FT> &q, Voxel<R2xS1<FT>> &v) {
             return env.forward(d, q, v);
         })
     ;
 
     m.def("localize_R2", [](
-        Env_R2<Arrangement_2, Traits_2> &env, 
+        Env_R2_Arrangement<Arrangement_2, Traits_2> &env, 
         std::vector<R2xS1<FT>> odometry,
         std::vector<double> measurements,
         double errorBound,
@@ -69,13 +69,13 @@ void sdsl_bindings_2d(nb::module_ &m) {
     ) {
         std::vector<FT> measurements_;
         for (double d : measurements) measurements_.push_back(FT(d));
-        Predicate_Static<R2xS1<FT>, R2xS1<FT>, FT, Env_R2<Arrangement_2, Traits_2>> predicate;
+        Predicate_Static<R2xS1<FT>, R2xS1<FT>, FT, Env_R2_Arrangement<Arrangement_2, Traits_2>> predicate;
 
-        return localize<R2xS1<FT>, R2xS1<FT>, FT, Env_R2<Arrangement_2, Traits_2>>
+        return localize<R2xS1<FT>, R2xS1<FT>, FT, Env_R2_Arrangement<Arrangement_2, Traits_2>>
             (env, odometry, measurements_, FT(errorBound), recursionDepth, predicate);
     });
     m.def("localize_R2_dynamic_naive", [](
-        Env_R2<Arrangement_2, Traits_2> &env, 
+        Env_R2_Arrangement<Arrangement_2, Traits_2> &env, 
         std::vector<R2xS1<FT>> odometry,
         std::vector<double> measurements,
         double errorBound,
@@ -84,21 +84,21 @@ void sdsl_bindings_2d(nb::module_ &m) {
     ) {
         std::vector<FT> measurements_;
         for (double d : measurements) measurements_.push_back(FT(d));
-        Predicate_Dynamic_Naive_Fast<R2xS1<FT>, R2xS1<FT>, FT, Env_R2<Arrangement_2, Traits_2>> predicate(odometry.size(), k_);
+        Predicate_Dynamic_Naive_Fast<R2xS1<FT>, R2xS1<FT>, FT, Env_R2_Arrangement<Arrangement_2, Traits_2>> predicate(odometry.size(), k_);
 
-        return localize<R2xS1<FT>, R2xS1<FT>, FT, Env_R2<Arrangement_2, Traits_2>>
+        return localize<R2xS1<FT>, R2xS1<FT>, FT, Env_R2_Arrangement<Arrangement_2, Traits_2>>
             (env, odometry, measurements_, FT(errorBound), recursionDepth, predicate);
     });
 
 
     m.def("post_processing", [](
-        Env_R2<Arrangement_2, Traits_2> &env, 
+        Env_R2_Arrangement<Arrangement_2, Traits_2> &env, 
         std::vector<R2xS1<FT>> odometry,
         std::vector<double> measurements,
         double errorBound,
         std::vector<Voxel<R2xS1<FT>>> voxels
     ) {
-        return post_processing<R2xS1<FT>, R2xS1<FT>, FT, Env_R2<Arrangement_2, Traits_2>>
+        return post_processing<R2xS1<FT>, R2xS1<FT>, FT, Env_R2_Arrangement<Arrangement_2, Traits_2>>
             (env, odometry, measurements, FT(errorBound), voxels);
     });
 }

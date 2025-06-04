@@ -1,5 +1,5 @@
 from .sdsl import __doc__, __version__
-from .sdsl import R2xS1, R2xS1_Voxel, Env_R2, localize_R2, localize_R2_dynamic_naive, post_processing
+from .sdsl import R2xS1, R2xS1_Voxel, Env_R2_Arrangement, localize_R2, localize_R2_dynamic_naive, post_processing
 from .sdsl import seed, max_min_on_trig_range
 
 from typing import List
@@ -10,11 +10,11 @@ from .dynamic_obstacles import *
 import numpy as np
 
 __all__ = [
-    "R2xS1", "R2xS1_Voxel", "Env_R2", "localize_R2", "post_processing",
+    "R2xS1", "R2xS1_Voxel", "Env_R2_Arrangement", "localize_R2", "post_processing",
     "seed", "max_min_on_trig_range",
 ]
 
-def load_poly_file(filename: str) -> Env_R2:
+def load_poly_file(filename: str) -> Env_R2_Arrangement:
     polygons = []
     curr_polygon = []
     with open(filename, "r") as fp:
@@ -37,9 +37,9 @@ def load_poly_file(filename: str) -> Env_R2:
             segments.append([*polygon[i], *polygon[(i+1) % len(polygon)]])
     segments = np.array(segments, dtype=np.double)
 
-    return Env_R2(segments)
+    return Env_R2_Arrangement(segments)
 
-def sample_q0(env: Env_R2):
+def sample_q0(env: Env_R2_Arrangement):
     """
     Sample random valid configuration that is inside the environment
     """

@@ -2,17 +2,17 @@ from typing import List, Tuple
 
 import numpy as np
 
-from sdsl import R2xS1, Env_R2, DynamicObstacle, DynamicObstacle_Disc2D, sample_q0
+from sdsl import R2xS1, Env_R2_Arrangement, DynamicObstacle, DynamicObstacle_Disc2D, sample_q0
 from sdsl.visualization.viz2d import visualize_2d, voxel_to_segments
 
 
-def measure_distance(env: Env_R2, q: R2xS1, dynamic_obstacles: List[DynamicObstacle]) -> float:
+def measure_distance(env: Env_R2_Arrangement, q: R2xS1, dynamic_obstacles: List[DynamicObstacle]) -> float:
     dist = env.measure_distance(q)
     for obs in dynamic_obstacles:
         dist = min(dist, obs.measureDistance(q))
     return dist
 
-def is_outlier_measurement(env: Env_R2, q: R2xS1, dynamic_obstacles: List[DynamicObstacle]) -> bool:
+def is_outlier_measurement(env: Env_R2_Arrangement, q: R2xS1, dynamic_obstacles: List[DynamicObstacle]) -> bool:
     dist = env.measure_distance(q)
     for obs in dynamic_obstacles:
         if obs.measureDistance(q) < dist:
@@ -26,20 +26,20 @@ def get_odometry(k: int, sensor_offset: float) -> List[R2xS1]:
         odometry.append(R2xS1(sensor_offset * np.cos(angle), sensor_offset * np.sin(angle), angle))
     return odometry
 
-def get_measurements(env: Env_R2, odometry: List[R2xS1], q0: R2xS1, dynamic_obstacles: List[DynamicObstacle]) -> List[float]:
+def get_measurements(env: Env_R2_Arrangement, odometry: List[R2xS1], q0: R2xS1, dynamic_obstacles: List[DynamicObstacle]) -> List[float]:
     measurements = []
     for g in odometry:
         measurements.append(measure_distance(env, g * q0, dynamic_obstacles))
     return measurements
 
-def sample_uniform_dynamic_obstacles(env: Env_R2, n: int, radius: float) -> List[DynamicObstacle]:
+def sample_uniform_dynamic_obstacles(env: Env_R2_Arrangement, n: int, radius: float) -> List[DynamicObstacle]:
     obstacles = []
     for _ in range(n):
         q0 = sample_q0(env)
         obstacles.append(DynamicObstacle_Disc2D(q0.x(), q0.y(), radius))
     return obstacles
 
-def verify_scenario(env: Env_R2, dynamic_obstacles: List[DynamicObstacle], q0: R2xS1, odometry: List[R2xS1]) -> bool:
+def verify_scenario(env: Env_R2_Arrangement, dynamic_obstacles: List[DynamicObstacle], q0: R2xS1, odometry: List[R2xS1]) -> bool:
     if not env.is_inside(q0):
         return False
     for g in odometry:
@@ -59,7 +59,7 @@ def verify_scenario(env: Env_R2, dynamic_obstacles: List[DynamicObstacle], q0: R
                 return False
     return True
 
-def get_valid_scenario(env: Env_R2, k: int, sensor_offset: float, n: int, radius: float) -> Tuple[R2xS1, List[R2xS1], List[DynamicObstacle]]:
+def get_valid_scenario(env: Env_R2_Arrangement, k: int, sensor_offset: float, n: int, radius: float) -> Tuple[R2xS1, List[R2xS1], List[DynamicObstacle]]:
     num_tries = 0
     while True:
         q0 = sample_q0(env)
@@ -73,7 +73,7 @@ def get_valid_scenario(env: Env_R2, k: int, sensor_offset: float, n: int, radius
 
 
 def visualize_simulation(
-        env: Env_R2, q0: R2xS1, odometry: List[R2xS1], measurements: List[float], dynamic_obstacles: List[DynamicObstacle] = [],
+        env: Env_R2_Arrangement, q0: R2xS1, odometry: List[R2xS1], measurements: List[float], dynamic_obstacles: List[DynamicObstacle] = [],
         extra_points: List[R2xS1] = []):
     blue_segments = []
     red_segments = []

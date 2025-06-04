@@ -15,15 +15,15 @@ TRIANGLE = np.array(
 TOLERANCE = 1e-7
 
 
-def test_Env_R2_init():
-    env = sdsl.Env_R2(TRIANGLE)
+def test_Env_R2_Arrangement_init():
+    env = sdsl.Env_R2_Arrangement(TRIANGLE)
     assert np.allclose(
         np.sort(env.get_representation(), axis=0), 
         np.sort(TRIANGLE, axis=0), 
         atol=TOLERANCE)
     
-def test_Env_R2_measure_distance():
-    env = sdsl.Env_R2(TRIANGLE)
+def test_Env_R2_Arrangement_measure_distance():
+    env = sdsl.Env_R2_Arrangement(TRIANGLE)
     theta = 45 / 180 * np.pi
     q = sdsl.R2xS1(0, 0, theta)
     dist = env.measure_distance(q)
@@ -35,16 +35,16 @@ def test_Env_R2_measure_distance():
     print(p[1])
     assert np.allclose(1 - 2 * p[0], p[1], atol=TOLERANCE)
 
-def test_Env_R2_hausdorff_distance():
-    env = sdsl.Env_R2(TRIANGLE)
+def test_Env_R2_Arrangement_hausdorff_distance():
+    env = sdsl.Env_R2_Arrangement(TRIANGLE)
     d1 = env.hausdorff_distance(sdsl.R2xS1(0, 0, 0))
     d2 = env.hausdorff_distance(sdsl.R2xS1(0.1, 0.3, 0))
     d3 = env.hausdorff_distance(sdsl.R2xS1(0.6, 0.5, 0))
 
     assert np.allclose([d1, d2, d3], [0.4472136, 0.2236068, 0.3130495], atol=TOLERANCE)
 
-def test_Env_R2_intersects():
-    env = sdsl.Env_R2(TRIANGLE)
+def test_Env_R2_Arrangement_intersects():
+    env = sdsl.Env_R2_Arrangement(TRIANGLE)
 
     v1 = sdsl.R2xS1_Voxel(
         sdsl.R2xS1(-0.1, -0.1, 0),
@@ -68,8 +68,8 @@ def test_Env_R2_intersects():
     assert not env.intersects(v3)
     assert env.intersects(v4)
 
-def test_Env_R2_is_inside():
-    env = sdsl.Env_R2(TRIANGLE)
+def test_Env_R2_Arrangement_is_inside():
+    env = sdsl.Env_R2_Arrangement(TRIANGLE)
     q1 = sdsl.R2xS1(0, 0, 0)
     q2 = sdsl.R2xS1(2, 2, 0)
     q3 = sdsl.R2xS1(0, 1, 0)
@@ -89,8 +89,8 @@ def fdg(d: float, g: List[float], q: List[float]):
     )
 
 
-def test_Env_R2_forward():
-    env = sdsl.Env_R2(TRIANGLE)
+def test_Env_R2_Arrangement_forward():
+    env = sdsl.Env_R2_Arrangement(TRIANGLE)
 
     d = 0.5
     g = [0.0, 0.0, 0.0000001]

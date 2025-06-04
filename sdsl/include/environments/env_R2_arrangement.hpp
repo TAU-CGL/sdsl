@@ -23,7 +23,7 @@ namespace nb = nanobind;
 
 namespace sdsl {
     template<typename Arrangement_2, typename Traits_2>
-    class Env_R2 {
+    class Env_R2_Arrangement {
     using FT = Traits_2::Kernel::FT;
     using Ray = Traits_2::Kernel::Ray_2;
     using Point = Traits_2::Point_2;
@@ -44,13 +44,13 @@ namespace sdsl {
 
     
     public:
-        Env_R2() {}
-        Env_R2(Arrangement_2 arrangement) : m_arrangement(arrangement) { buildPointLocation();}
-        Env_R2(std::vector<Segment> segments) {
+        Env_R2_Arrangement() {}
+        Env_R2_Arrangement(Arrangement_2 arrangement) : m_arrangement(arrangement) { buildPointLocation();}
+        Env_R2_Arrangement(std::vector<Segment> segments) {
             fromSegments(segments);
             buildPointLocation();
         }
-        Env_R2(const nb::ndarray<double, nb::shape<-1, 2 * 2>> a) {
+        Env_R2_Arrangement(const nb::ndarray<double, nb::shape<-1, 2 * 2>> a) {
             std::vector<typename Traits_2::X_monotone_curve_2> segments;
             size_t N = a.shape(0);
             for (size_t i = 0; i < N; ++i) {
@@ -66,34 +66,6 @@ namespace sdsl {
 
         
         bool intersects(Voxel<R2xS1<FT>> v) {
-            // std::vector<Segment> segments = {
-            //     Segment(
-            //         Point(v.bottomLeft().getX(), v.bottomLeft().getY()),
-            //         Point(v.topRight().getX(), v.bottomLeft().getY())
-            //     ),
-            //     Segment(
-            //         Point(v.topRight().getX(), v.bottomLeft().getY()),
-            //         Point(v.topRight().getX(), v.topRight().getY())
-            //     ),
-            //     Segment(
-            //         Point(v.topRight().getX(), v.topRight().getY()),
-            //         Point(v.bottomLeft().getX(), v.topRight().getY())
-            //     ),
-            //     Segment(
-            //         Point(v.bottomLeft().getX(), v.topRight().getY()),
-            //         Point(v.bottomLeft().getX(), v.bottomLeft().getY())
-            //     )
-            // };
-            // for (Segment segment : segments) {
-            //     std::vector<CGAL::Object> res;
-            //     CGAL::zone(m_arrangement, segment, std::back_inserter(res), *m_pl);
-            //     for (auto& x : res) {
-            //         typename Arrangement_2::Halfedge_handle e;
-            //         typename Arrangement_2::Vertex_handle v;
-            //         if (assign(e, x) || assign(v, x)) return true;
-            //     }
-            // }
-
             Box_3 box(
                 Point_3(v.bottomLeft().getX(), v.bottomLeft().getY(), -1), 
                 Point_3(v.topRight().getX(), v.topRight().getY(), 1));
@@ -173,8 +145,8 @@ namespace sdsl {
             );
         }
         
-        using Env_R2_repr = nb::ndarray<double, nb::numpy, nb::shape<-1, 2 * 2>, nb::f_contig>;
-        Env_R2_repr getRepresentation() {
+        using Env_R2_Arrangement_repr = nb::ndarray<double, nb::numpy, nb::shape<-1, 2 * 2>, nb::f_contig>;
+        Env_R2_Arrangement_repr getRepresentation() {
             m_representation.clear();
             for (auto it = m_arrangement.edges_begin(); it != m_arrangement.edges_end(); ++it) {
                 auto curve = it->curve();
@@ -193,7 +165,7 @@ namespace sdsl {
                 m_representation[3 * (m_representation.size() / 4) + i] = tmp[3 + 4 * i];
             }
 
-            Env_R2_repr a(&m_representation[0], {m_representation.size() / 4, 4});
+            Env_R2_Arrangement_repr a(&m_representation[0], {m_representation.size() / 4, 4});
             return a;
         }
 
