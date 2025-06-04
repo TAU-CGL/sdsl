@@ -1,4 +1,0 @@
-output_bags:
-  - uri: traj
-    storage_id: mcap
-    all: true

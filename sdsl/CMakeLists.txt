@@ -54,7 +54,12 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE nanobind_ROOT)
 find_package(nanobind CONFIG REQUIRED)
 
-nanobind_add_module(sdsl src/sdsl_py.cpp)
+# Get all files in src/bindings directory
+file(GLOB_RECURSE SDSL_BINDINGS_SRC
+    "${CMAKE_CURRENT_SOURCE_DIR}/src/bindings/*.cpp"
+)
+
+nanobind_add_module(sdsl src/sdsl_py.cpp ${SDSL_BINDINGS_SRC})
 target_link_libraries(sdsl PRIVATE CGAL::CGAL OpenMP::OpenMP_CXX fmt::fmt ${Boost_LIBRARIES})
 
 install(TARGETS sdsl DESTINATION sdsl)
