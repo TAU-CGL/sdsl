@@ -58,10 +58,10 @@ jobs:
         python-version: '3.10' 
       if: matrix.os != 'windows-latest'
 
-    - uses: crazy-max/ghaction-chocolatey@v3
-      with:
-        args: -h
-      if: matrix.os == 'windows-latest'
+    - name: Run choclatey profile
+      if: runner.os == 'Windows'
+      run: |
+        Import-Module $env:ChocolateyInstall\helpers\chocolateyProfile.psm1
     
     - name: Install Python with dev headers (Windows only)
       if: runner.os == 'Windows'
