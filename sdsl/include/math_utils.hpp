@@ -2,6 +2,7 @@
 #define _SDSL_MATH_UTILS_HPP
 #pragma once
 
+#define _USE_MATH_DEFINES
 #include <cmath>
 
 #include <CGAL/number_utils.h>

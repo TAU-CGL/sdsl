@@ -69,11 +69,16 @@ jobs:
       run: |
         echo "build-output-dir=${{ github.workspace }}/build" >> "$GITHUB_OUTPUT"
 
-    # - name: Install Ubuntu deps
-    #   run: |
-    #     sudo apt-get update
-    #     sudo apt-get install -y libfmt-dev libcgal-dev libglm-dev
-    #   if: matrix.os == 'ubuntu-latest'
+    - name: Install Ubuntu deps
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libfmt-dev libcgal-dev libglm-dev
+      if: matrix.os == 'ubuntu-latest'
+
+    - uses: tecolicom/actions-use-homebrew-tools@v1
+      with:
+        tools: libomp fmt cgal glm
+      if: matrix.os == 'macos-latest'
 
     - name: Get Conan
       uses: turtlebrowser/get-conan@main
