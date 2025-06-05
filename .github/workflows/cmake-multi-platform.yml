@@ -81,6 +81,7 @@ jobs:
 
     - name: Install nanobind (CMake-compatible)
       run: |
+        python3 -m pip install typing-extensions
         git clone https://github.com/wjakob/nanobind.git
         cd nanobind
         git submodule update --init --recursive
