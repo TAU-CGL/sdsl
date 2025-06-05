@@ -82,6 +82,9 @@ jobs:
     - name: Install nanobind (CMake-compatible)
       run: |
         git clone https://github.com/wjakob/nanobind.git
+        cd nanobind
+        git submodule update --init --recursive
+        git ..
         cmake -B build-nb -S nanobind -DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/nanobind-install
         cmake --build build-nb --target install
 
