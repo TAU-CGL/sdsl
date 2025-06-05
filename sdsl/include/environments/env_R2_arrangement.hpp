@@ -24,23 +24,23 @@ namespace nb = nanobind;
 namespace sdsl {
     template<typename Arrangement_2, typename Traits_2>
     class Env_R2_Arrangement {
-    using FT = Traits_2::Kernel::FT;
-    using Ray = Traits_2::Kernel::Ray_2;
-    using Point = Traits_2::Point_2;
-    using Segment = Traits_2::X_monotone_curve_2;
-    using Point_location = CGAL::Arr_trapezoid_ric_point_location<Arrangement_2>;
-    using Point_location_result = std::variant<
-        typename Arrangement_2::Vertex_handle, 
-        typename Arrangement_2::Halfedge_handle, 
-        typename Arrangement_2::Face_handle>;
-    using Point_3 = typename Traits_2::Kernel::Point_3;
-    using Segment_3 = typename Traits_2::Kernel::Segment_3;
-    using Triangle_3 = typename Traits_2::Kernel::Triangle_3;
-    using Box_3 = typename Traits_2::Kernel::Iso_cuboid_3;
-    using AABB_tree = CGAL::AABB_tree<
-        CGAL::AABB_traits_3<
-            typename Traits_2::Kernel, 
-            CGAL::AABB_segment_primitive_3<typename Traits_2::Kernel, typename std::list<Segment_3>::iterator>>>;
+        using FT = Traits_2::Kernel::FT;
+        using Ray = Traits_2::Kernel::Ray_2;
+        using Point = Traits_2::Point_2;
+        using Segment = Traits_2::X_monotone_curve_2;
+        using Point_location = CGAL::Arr_trapezoid_ric_point_location<Arrangement_2>;
+        using Point_location_result = std::variant<
+            typename Arrangement_2::Vertex_handle, 
+            typename Arrangement_2::Halfedge_handle, 
+            typename Arrangement_2::Face_handle>;
+        using Point_3 = typename Traits_2::Kernel::Point_3;
+        using Segment_3 = typename Traits_2::Kernel::Segment_3;
+        using Triangle_3 = typename Traits_2::Kernel::Triangle_3;
+        using Box_3 = typename Traits_2::Kernel::Iso_cuboid_3;
+        using AABB_tree = CGAL::AABB_tree<
+            CGAL::AABB_traits_3<
+                typename Traits_2::Kernel, 
+                CGAL::AABB_segment_primitive_3<typename Traits_2::Kernel, typename std::list<Segment_3>::iterator>>>;
 
     
     public:

@@ -2,6 +2,7 @@
 
 void sdsl_bindings_util(nb::module_ &);
 void sdsl_bindings_2d(nb::module_ &);
+void sdsl_bindings_3d(nb::module_ &);
 
 NB_MODULE(sdsl, m) {
     m.doc() = "Unified library for all Sparse Distance Sampling Localization methods.";
@@ -9,4 +10,5 @@ NB_MODULE(sdsl, m) {
 
     sdsl_bindings_util(m);
     sdsl_bindings_2d(m);
+    sdsl_bindings_3d(m);
 }
