@@ -34,7 +34,8 @@ namespace sdsl {
             localization.clear();
 
             #pragma omp parallel for
-            for (auto v : voxels) { 
+            for (int v_i = 0; v_i < voxels.size(); ++v_i) {
+                auto v = voxels[v_i];
                 if (predicate(env, odometry, measurements, errorBound, v)) {
                     #pragma omp critical
                     localization.push_back(v);
