@@ -88,11 +88,6 @@ namespace sdsl {
                 Point_3(q.getX(), q.getY(), q.getZ()), 
                 Direction_3(q.getV1(), q.getV2(), q.getV3()));
 
-            // TODO: 
-            //      [x] Find smallest distance between two points [use KD-Tree?]
-            //      [x] Use this distance to distiguish points that "intersect" with the ray
-            //      [ ] Find the "time" along the ray and decide the nearest intersection
-
             std::vector<std::pair<Point_3, double>> intersections;
             rayIntersections(ray, intersections);
 
@@ -105,7 +100,6 @@ namespace sdsl {
                     bestPoint = intersection.first;
                 }
             }
-            std::cout << "Best point: " << bestPoint << ", min distance: " << minDistance << std::endl;
             return minDistance;
         }
 
@@ -156,15 +150,12 @@ namespace sdsl {
             // Update the average pair distance
             // To ignore outliers, we use some percentile (defined in constants.hpp)
             size_t N = (size_t) (PCD_DISTANCE_PAIR_PERCENTILE * (double)m_distances.size());
-            // m_averagePairDistance = m_distances[N];
-            // m_averagePairDistance = 0.1;
-            // m_averagePairDistance *= m_averagePairDistance; // Convert to squared distance
             m_averagePairDistance = 0.0;
             for (size_t i = 0; i < N; ++i) {
                 m_averagePairDistance += m_distances[i];
             }
             m_averagePairDistance /= (double)N;
-            // m_averagePairDistance *= 2.0;
+            m_averagePairDistance *= 2.0;
         }
 
         void rayIntersections(Ray_3& ray, std::vector<std::pair<Point_3, double>>& intersections) {
@@ -174,7 +165,6 @@ namespace sdsl {
                          proj.y() * ray.direction().dy() +
                          proj.z() * ray.direction().dz();
                 if (dot < 0) continue; // Skip if the point is opposite to the ray direction
-                // double t = CGAL::to_double(CGAL::squared_distance(ray.source(), pt));
 
                 // l(t) = s + t * d = proj
                 // t * d = (proj - s)  /- apply cdot to d
@@ -186,7 +176,6 @@ namespace sdsl {
                              (proj.y() - ray.source().y()) * ray.direction().dy() +
                              (proj.z() - ray.source().z()) * ray.direction().dz();
 
-                std::cout << "Point: " << pt <<", Proj: " << proj << ", t: " << t <<  ", d: " << CGAL::squared_distance(proj, pt) << ", avg: " << m_averagePairDistance << std::endl;
                 if (CGAL::squared_distance(proj, pt) > m_averagePairDistance) continue; // Skip if the point is too far away
                 intersections.push_back({pt, t});
             }

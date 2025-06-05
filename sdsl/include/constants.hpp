@@ -3,7 +3,7 @@
 #pragma once
 
 namespace sdsl {
-    constexpr double PCD_DISTANCE_PAIR_PERCENTILE = 0.8;
+    constexpr double PCD_DISTANCE_PAIR_PERCENTILE = 0.95;
 }
 
 #endif
