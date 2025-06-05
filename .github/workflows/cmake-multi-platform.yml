@@ -58,23 +58,6 @@ jobs:
         python-version: '3.10' 
       if: matrix.os != 'windows-latest'
     
-    - name: Install Python with dev headers (Windows only)
-      if: runner.os == 'Windows'
-      run: |
-        choco install python --version=3.10.11 -y
-        Import-Module "$env:ChocolateyInstall/helpers/chocolateyInstaller.psm1"
-        refreshenv
-
-    
-    - name: Set environment for Python linking
-      if: runner.os == 'Windows'
-      run: |
-        echo "C:\Python310" | Out-File -Append -Encoding ascii $env:GITHUB_PATH
-        echo "PYTHON_HOME=C:\Python310" | Out-File -Append -Encoding ascii $env:GITHUB_ENV
-        echo "LIB=C:\Python310\libs" | Out-File -Append -Encoding ascii $env:GITHUB_ENV
-        echo "INCLUDE=C:\Python310\include" | Out-File -Append -Encoding ascii $env:GITHUB_ENV
-
-
     - name: Install nanobind
       run: |
         python3 -m pip install nanobind
@@ -131,7 +114,6 @@ jobs:
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake"
-        -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nanobind-install"
         -S ${{ github.workspace }}
 
     - name: Build
