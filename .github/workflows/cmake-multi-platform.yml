@@ -75,9 +75,15 @@ jobs:
         echo "INCLUDE=C:\Python310\include" | Out-File -Append -Encoding ascii $env:GITHUB_ENV
 
 
-    - name: Install nanobind
+    # - name: Install nanobind
+    #   run: |
+    #     python3 -m pip install nanobind
+
+    - name: Install nanobind (CMake-compatible)
       run: |
-        python3 -m pip install nanobind
+        git clone https://github.com/wjakob/nanobind.git
+        cmake -B build-nb -S nanobind -DBUILD_TESTING=OFF -DCMAKE_INSTALL_PREFIX=${{ github.workspace }}/nanobind-install
+        cmake --build build-nb --target install
 
     - name: Set reusable strings
       # Turn repeated input strings (such as the build output directory) into step outputs. These step outputs can be used throughout the workflow file.
@@ -115,6 +121,7 @@ jobs:
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake"
+        -DCMAKE_PREFIX_PATH="${{ github.workspace }}/nanobind-install"
         -S ${{ github.workspace }}
 
     - name: Build
