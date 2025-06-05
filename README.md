@@ -1,8 +1,11 @@
 
 ![banner](resources/images/sdsl_banner.png?raw=true)
 
-# sdsl
+# SDSL: Sparse Distance Sampling Localization
+
 Unified library for all Sparse Distance Sampling Localization methods.
+Based on our previous works, presented in ICRA`23, WAFR`24, ICRA`25.
+Supports deterministic solution for the kidnapped-robot problem for different kinds of environments and configuration spaces. Also contains implementaion of particle filters for the same problem for comparison.
 
 ## Install
 
