@@ -18,4 +18,4 @@ def visualize_pcd_2d(env: Env_R3_PCD):
     ax.set_ylabel("Y")
     ax.grid(False)
 
-    return fig
+    return fig, ax
