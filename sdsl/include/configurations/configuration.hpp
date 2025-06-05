@@ -44,7 +44,7 @@ namespace sdsl {
         Configuration<Config>;
         { t * t_ } -> std::same_as<T>;
         { t.inv() } -> std::same_as<T>;
-        { t * q } -> std::same_as<Config>;
+        { q * t } -> std::same_as<T>; // Note that this "action" is backwards - the config space acts on the "action" space
     };
 
     // template<typename T, typename Config>
