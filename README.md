@@ -1,3 +1,6 @@
+
+![banner](resources/images/sdsl_banner.png?raw=true)
+
 # sdsl
 Unified library for all Sparse Distance Sampling Localization methods.
 
