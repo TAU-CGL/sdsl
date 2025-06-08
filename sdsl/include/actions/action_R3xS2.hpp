@@ -2,8 +2,8 @@
 #define _SDSL_ACTION_R3XS2_HPP
 #pragma once 
 
-#include "configurations/configuration.hpp"
-#include "configurations/config_R3xS1.hpp"
+// #include "configurations/configuration.hpp"
+// #include "configurations/config_R3xS1.hpp"
 
 namespace sdsl {
     template<typename FT>
