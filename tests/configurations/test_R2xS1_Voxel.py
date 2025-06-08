@@ -27,4 +27,4 @@ def test_R2xS1_Voxel_split():
     split_v = v.split()
     assert len(split_v) == 8
     assert sdsl.R2xS1_Voxel.voxels_bounding_box(split_v) == v
-    assert not sdsl.R2xS1_Voxel.voxels_bounding_box(split_v[:3]) == v
+    assert not sdsl.R2xS1_Voxel.voxels_bounding_box(split_v[:4]) == v

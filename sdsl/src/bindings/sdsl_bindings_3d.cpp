@@ -37,6 +37,27 @@ void sdsl_bindings_3d(nb::module_ & m) {
         .def("__repr__", &R3xS2<FT>::toString)
     ;
 
+    nb::class_<Voxel<R3xS1<FT>>>(m, "R3xS1_Voxel")
+        .def(nb::init<R3xS1<FT>, R3xS1<FT>>())
+        .def("bottom_left", &Voxel<R3xS1<FT>>::bottomLeft)
+        .def("top_right", &Voxel<R3xS1<FT>>::topRight)
+        .def("contains", &Voxel<R3xS1<FT>>::contains)
+        .def("split", [](Voxel<R3xS1<FT>> &v) {
+            std::vector<Voxel<R3xS1<FT>>> split_v; split(v, split_v); return split_v;
+        })
+        .def("sample", [](Voxel<R3xS1<FT>> &v) {
+            return sample(v);
+        })
+        .def("expand_error", [](Voxel<R3xS1<FT>> &v, double error) {
+            return expandError(v, FT(error));
+        })
+        .def("voxels_bounding_box", [](std::vector<Voxel<R3xS1<FT>>> &vec) {
+            return voxelsBoundingBox(vec);
+        })
+        .def(nb::self == nb::self)
+        .def("__repr__", &Voxel<R3xS1<FT>>::toString)
+    ;
+
 
     nb::class_<Env_R3_PCD<Kernel>>(m, "Env_R3_PCD")
         .def(nb::init<const nb::ndarray<double, nb::shape<-1, 3>> &>())

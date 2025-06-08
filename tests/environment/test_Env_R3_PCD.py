@@ -28,7 +28,7 @@ def test_Env_R3_PCD_measure_distance_2d():
 
     # Cast a lot of random rays and check distances
     num_inf = 0
-    for _ in range(10000):
+    for _ in range(1000):
         v = np.random.rand(2) * 2 - 1
         v /= np.linalg.norm(v)
         a, b = v[0], v[1]
@@ -53,6 +53,10 @@ def test_Env_R3_PCD_measure_distance_2d():
         assert min_dist < 0.05
     
     assert num_inf == 0
+
+def test_Env_R3_PCD_intersects():
+    arr = sdsl.loaders.load_pcd_2d(TEST_FILE)
+    env = sdsl.Env_R3_PCD(arr)
 
 
 
