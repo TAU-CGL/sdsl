@@ -90,7 +90,7 @@ def test_Env_R3_PCD_intersects_2d():
     assert not env.intersects(v3)
     assert env.intersects(v4)
 
-def test_Env_R3_PCD_is_inside():
+def test_Env_R3_PCD_is_inside_2d():
     arr = sdsl.loaders.load_pcd_2d(TEST_FILE)
     env = sdsl.Env_R3_PCD(arr)
 
