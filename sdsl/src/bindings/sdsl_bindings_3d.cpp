@@ -67,5 +67,8 @@ void sdsl_bindings_3d(nb::module_ & m) {
         .def("hausdorff_distance", &Env_R3_PCD<Kernel>::hausdorffDistance)
         .def("bounding_box", &Env_R3_PCD<Kernel>::boundingBox)
         .def("is_inside", &Env_R3_PCD<Kernel>::isInside)
+        .def("forward", [](Env_R3_PCD<Kernel>& env, FT d, R3xS2<FT> &g, Voxel<R3xS1<FT>> &v) {
+            return env.forward(d, g, v);
+        })
     ;
 }

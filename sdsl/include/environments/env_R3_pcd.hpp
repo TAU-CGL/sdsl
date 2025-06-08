@@ -168,6 +168,35 @@ namespace sdsl {
             return count % 2 == 1;
         } 
 
+        Voxel<R3xS1<FT>> forward(FT d, R3xS2<FT> g, Voxel<R3xS1<FT>> v) {
+            FT maxx, minx;
+            maxMinOnTrigRange(
+                g.getX() + d * g.getV1(),
+                -g.getY() - d * g.getV2(),
+                v.bottomLeft().getR(), v.topRight().getR(), maxx, minx
+            );
+            minx += v.bottomLeft().getX();
+            maxx += v.topRight().getX();
+
+            FT maxy, miny;
+            maxMinOnTrigRange(
+                g.getY() + d * g.getV2(),
+                g.getX() + d * g.getV1(),
+                v.bottomLeft().getR(), v.topRight().getR(), maxy, miny
+            );
+            miny += v.bottomLeft().getY();
+            maxy += v.topRight().getY();
+
+            FT maxz, minz;
+            minz = v.bottomLeft().getZ() + d * g.getV3();
+            maxz = v.topRight().getZ() + d * g.getV3();
+
+            return Voxel<R3xS1<FT>>(
+                R3xS1<FT>(minx, miny, minz, v.bottomLeft().getR()),
+                R3xS1<FT>(maxx, maxy, maxz, v.topRight().getR())
+            );
+        }
+
 
     private:
         //------------------------------
