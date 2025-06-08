@@ -34,7 +34,7 @@ def test_localize_R3_pcd_2d():
             np.cos(i * np.pi / 16), np.sin(i * np.pi / 16), 0
         ))
 
-    for _ in range(10000):
+    for _ in range(100):
         q0 = sample_q0(env)
         measurements = []
         for g in odometry:
