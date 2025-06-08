@@ -125,6 +125,23 @@ namespace sdsl {
             return sqrt(CGAL::to_double(CGAL::squared_distance(p1, p2)));
         }
 
+        Voxel<R3xS1<FT>> boundingBox() {
+            FT xmin = FT(INF), ymin = FT(INF), zmin = FT(INF);
+            FT xmax = -FT(INF), ymax = -FT(INF), zmax = -FT(INF);
+            for (const auto& pt : m_points) {
+                if (pt.x() < xmin) xmin = pt.x();
+                if (pt.x() > xmax) xmax = pt.x();
+                if (pt.y() < ymin) ymin = pt.y();
+                if (pt.y() > ymax) ymax = pt.y();
+                if (pt.z() < zmin) zmin = pt.z();
+                if (pt.z() > zmax) zmax = pt.z();
+            }
+            return Voxel<R3xS1<FT>>(
+                R3xS1<FT>(xmin, ymin, zmin, 0),
+                R3xS1<FT>(xmax, ymax, zmax, 2 * M_PI)
+            );
+        }
+
 
     private:
         //------------------------------
