@@ -4,6 +4,7 @@
 
 namespace sdsl {
     constexpr double PCD_DISTANCE_PAIR_PERCENTILE = 0.95;
+    constexpr double PCD_DISTANCE_PAIR_IS_INSIDE_FACTOR = 2.5; // Very finicky
 }
 
 #endif

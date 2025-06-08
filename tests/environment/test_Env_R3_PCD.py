@@ -90,7 +90,29 @@ def test_Env_R3_PCD_intersects_2d():
     assert not env.intersects(v3)
     assert env.intersects(v4)
 
+def test_Env_R3_PCD_is_inside():
+    arr = sdsl.loaders.load_pcd_2d(TEST_FILE)
+    env = sdsl.Env_R3_PCD(arr)
 
+    q1 = sdsl.R3xS1(0, 0, 0, 0)
+    q2 = sdsl.R3xS1(3, 1, 0, 0)
+    q3 = sdsl.R3xS1(-2, 2, 0, 0)
+    q4 = sdsl.R3xS1(-0.55, 2.21, 0, 0)
+    q5 = sdsl.R3xS1(0.19, -1.24, 0, 0)
+    q6 = sdsl.R3xS1(2.73, -0.61, 0, 0)
+    q7 = sdsl.R3xS1(2, -1, 0, 0)
+    q8 = sdsl.R3xS1(0.55, -1.14, 0, 0)
+    q9 = sdsl.R3xS1(0, 2, 0, 0)
+
+    assert env.is_inside(q1)
+    assert not env.is_inside(q2)
+    assert env.is_inside(q3)
+    assert env.is_inside(q4)
+    assert env.is_inside(q5)
+    assert env.is_inside(q6)
+    assert not env.is_inside(q7)
+    assert not env.is_inside(q8)
+    assert not env.is_inside(q9)
 
 
 if __name__ == "__main__":

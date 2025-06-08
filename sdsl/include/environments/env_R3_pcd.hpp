@@ -142,6 +142,38 @@ namespace sdsl {
             );
         }
 
+        // Note: This is extremely difficult when dealing with point clouds, and is prone to errors!
+        bool isInside(R3xS1<FT> q) {
+            Ray_3 ray(
+                Point_3(q.getX(), q.getY(), q.getZ()),
+                Direction_3(1, 0, 0) // Arbitrary direction, we just need to check if the point is inside
+            );
+            std::vector<std::pair<Point_3, double>> intersections;
+            rayIntersections(ray, intersections);
+            std::sort(intersections.begin(), intersections.end(),
+                [](const std::pair<Point_3, double>& a, const std::pair<Point_3, double>& b) {
+                    return a.second < b.second;
+                });
+            
+            for (auto pair : intersections) {
+                std::cout << pair.first << std::endl;
+            }
+
+            if (intersections.empty()) return false; // No intersections, point is outside
+            // We only count actual intersections (and cluster points that are too close)
+            size_t count = 1;
+            Point_3 lastPoint = intersections[0].first;
+            std::cout << std::endl;
+            for (size_t i = 1; i < intersections.size(); ++i) {
+                std::cout << CGAL::squared_distance(lastPoint, intersections[i].first) << " " << 2 * m_averagePairDistance << std::endl;
+                if (CGAL::squared_distance(lastPoint, intersections[i].first) > PCD_DISTANCE_PAIR_IS_INSIDE_FACTOR * m_averagePairDistance) {
+                    count++;
+                }
+                lastPoint = intersections[i].first;
+            }
+            return count % 2 == 1;
+        } 
+
 
     private:
         //------------------------------
@@ -200,9 +232,9 @@ namespace sdsl {
         void rayIntersections(Ray_3& ray, std::vector<std::pair<Point_3, double>>& intersections) {
             for (auto& pt : m_points) {
                 Point_3 proj = ray.supporting_line().projection(pt);
-                FT dot = proj.x() * ray.direction().dx() +
-                         proj.y() * ray.direction().dy() +
-                         proj.z() * ray.direction().dz();
+                FT dot = (proj.x() - ray.source().x()) * ray.direction().dx() +
+                         (proj.y() - ray.source().y()) * ray.direction().dy() +
+                         (proj.z() - ray.source().z()) * ray.direction().dz();
                 if (dot < 0) continue; // Skip if the point is opposite to the ray direction
 
                 // l(t) = s + t * d = proj
@@ -211,9 +243,7 @@ namespace sdsl {
                 double denom = ray.direction().dx() * ray.direction().dx() +
                              ray.direction().dy() * ray.direction().dy() +
                              ray.direction().dz() * ray.direction().dz();
-                double t = (proj.x() - ray.source().x()) * ray.direction().dx() +
-                             (proj.y() - ray.source().y()) * ray.direction().dy() +
-                             (proj.z() - ray.source().z()) * ray.direction().dz();
+                double t = dot;
 
                 if (CGAL::squared_distance(proj, pt) > m_averagePairDistance) continue; // Skip if the point is too far away
                 intersections.push_back({pt, t});
