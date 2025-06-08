@@ -154,18 +154,12 @@ namespace sdsl {
                 [](const std::pair<Point_3, double>& a, const std::pair<Point_3, double>& b) {
                     return a.second < b.second;
                 });
-            
-            for (auto pair : intersections) {
-                std::cout << pair.first << std::endl;
-            }
 
             if (intersections.empty()) return false; // No intersections, point is outside
             // We only count actual intersections (and cluster points that are too close)
             size_t count = 1;
             Point_3 lastPoint = intersections[0].first;
-            std::cout << std::endl;
             for (size_t i = 1; i < intersections.size(); ++i) {
-                std::cout << CGAL::squared_distance(lastPoint, intersections[i].first) << " " << 2 * m_averagePairDistance << std::endl;
                 if (CGAL::squared_distance(lastPoint, intersections[i].first) > PCD_DISTANCE_PAIR_IS_INSIDE_FACTOR * m_averagePairDistance) {
                     count++;
                 }
