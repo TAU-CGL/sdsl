@@ -42,9 +42,10 @@ namespace sdsl {
     template<typename T, class Config> 
     concept Action = requires(T t, T t_, Config q) {
         Configuration<Config>;
-        { t * t_ } -> std::same_as<T>;
-        { t.inv() } -> std::same_as<T>;
-        { q * t } -> std::same_as<T>; // Note that this "action" is backwards - the config space acts on the "action" space
+        // TODO: Enforce some properties on the action type
+        // { t * t_ } -> std::same_as<T>;
+        // { t.inv() } -> std::same_as<T>;
+        // { q * t } -> std::same_as<T>; // Note that this "action" is backwards - the config space acts on the "action" space
     };
 
     // template<typename T, typename Config>

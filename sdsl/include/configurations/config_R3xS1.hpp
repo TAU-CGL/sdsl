@@ -6,6 +6,7 @@
 
 #include "random_utils.hpp"
 #include "configurations/configuration.hpp"
+#include "actions/action_R3xS2.hpp"
 
 namespace sdsl {
     template<typename FT>
@@ -31,6 +32,17 @@ namespace sdsl {
                 CGAL::to_double(other.y + this->x * sin(CGAL::to_double(other.r)) + this->y * cos(CGAL::to_double(other.r))),
                 CGAL::to_double(other.z + this->z),
                 CGAL::to_double(other.r + this->r)
+            );
+        }
+
+        R3xS2<FT> operator*(const R3xS2<FT>& other) const {
+            return R3xS2<FT>(
+                this->x + other.getX() * cos(this->r) - other.getY() * sin(this->r),
+                this->y + other.getX() * sin(this->r) + other.getY() * cos(this->r),
+                this->z + other.getZ(),
+                other.getV1() * cos(this->r) - other.getV2() * sin(this->r),
+                other.getV1() * sin(this->r) + other.getV2() * cos(this->r),
+                other.getV3()
             );
         }
 

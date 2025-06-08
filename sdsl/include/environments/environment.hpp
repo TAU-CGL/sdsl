@@ -10,7 +10,7 @@ namespace sdsl {
     concept Environment = requires(T t, Voxel<Config> v, Config q, FT d, Action g) {
         Configuration<Config>;
         { t.intersects(v)} -> std::same_as<bool>;
-        { t.measureDistance(q)} -> std::same_as<double>;
+        { t.measureDistance(g)} -> std::same_as<double>;
         { t.hausdorffDistance(q) } -> std::same_as<double>;
         { t.forward(d, g, v) } -> std::same_as<Voxel<Config>>;
         { t.boundingBox() } -> std::same_as<Voxel<Config>>;
