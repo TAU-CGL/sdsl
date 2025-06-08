@@ -56,17 +56,17 @@ jobs:
     - uses: actions/setup-python@v5
       with:
         python-version: '3.10' 
-      if: matrix.os != 'windows-latest'
+      # if: matrix.os != 'windows-latest'
     
     - name: Install nanobind
       run: |
         python3 -m pip install nanobind
       if: matrix.os != 'windows-latest'
 
-    - name: Install nanobind (Windows)
-      if: matrix.os == 'windows-latest'
-      run: |
-        C:/hostedtoolcache/windows/Python/3.13.3/x64/python3.exe -m pip install nanobind
+    # - name: Install nanobind (Windows)
+    #   if: matrix.os == 'windows-latest'
+    #   run: |
+    #     C:/hostedtoolcache/windows/Python/3.13.3/x64/python3.exe -m pip install nanobind
 
     # - name: Install nanobind (CMake-compatible)
     #   run: |
@@ -114,6 +114,7 @@ jobs:
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake"
+        -DPython_ROOT_DIR=${{ env.PYTHONPATH }}
         -S ${{ github.workspace }}
 
     - name: Build
