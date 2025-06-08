@@ -114,8 +114,8 @@ jobs:
         -DCMAKE_C_COMPILER=${{ matrix.c_compiler }}
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake"
-        -DPython_ROOT_DIR=${{ env.PYTHONPATH }}
-        -DCMAKE_PREFIX_PATH=${{ env.PYTHONPATH }}/site-packages/nanobind/cmake
+        -DPython_ROOT_DIR=${{ env.Python_ROOT_DIR }}
+        -DCMAKE_PREFIX_PATH=${{ env.Python_ROOT_DIR }}/site-packages/nanobind/cmake
         -S ${{ github.workspace }}
 
     - name: Build
