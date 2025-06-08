@@ -22,6 +22,7 @@ namespace nb = nanobind;
 #include "environments/environment.hpp"
 #include "configurations/config_R3xS1.hpp"
 
+
 namespace sdsl {
     /*
     * Point cloud representation of maps in 3D.
@@ -83,6 +84,21 @@ namespace sdsl {
             return a;
         }
 
+        bool intersects(Voxel<R3xS1<FT>> v) {
+            Box_3 box(
+                Point_3(v.bottomLeft().getX(), v.bottomLeft().getY(), v.bottomLeft().getZ()),
+                Point_3(v.topRight().getX(), v.topRight().getY(), v.topRight().getZ()));
+            if (m_tree->do_intersect(box)) return true;
+
+            // Edge case: see env_R2_arrangement.hpp for explanation
+            for (auto& pt : m_points) {
+                if (v.contains(R3xS1<FT>(pt.x(), pt.y(), pt.z(), v.bottomLeft().getR()))) return true;
+                else return false;
+            }
+
+            return false;
+        }
+
         double measureDistance(R3xS2<FT> q) {
             Ray_3 ray(
                 Point_3(q.getX(), q.getY(), q.getZ()), 
@@ -108,7 +124,7 @@ namespace sdsl {
         //------------------------------
         // Core inner representation
         //------------------------------
-    std::shared_ptr<AABB_tree> m_tree;
+        std::shared_ptr<AABB_tree> m_tree;
         std::vector<Point_3> m_points;
 
         //------------------------------

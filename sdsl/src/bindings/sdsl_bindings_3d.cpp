@@ -63,5 +63,6 @@ void sdsl_bindings_3d(nb::module_ & m) {
         .def(nb::init<const nb::ndarray<double, nb::shape<-1, 3>> &>())
         .def("get_representation", &Env_R3_PCD<Kernel>::getRepresentation)
         .def("measure_distance", &Env_R3_PCD<Kernel>::measureDistance)
+        .def("intersects", &Env_R3_PCD<Kernel>::intersects)
     ;
 }

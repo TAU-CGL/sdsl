@@ -54,9 +54,32 @@ def test_Env_R3_PCD_measure_distance_2d():
     
     assert num_inf == 0
 
-def test_Env_R3_PCD_intersects():
+def test_Env_R3_PCD_intersects_2d():
     arr = sdsl.loaders.load_pcd_2d(TEST_FILE)
     env = sdsl.Env_R3_PCD(arr)
+
+    v1 = sdsl.R3xS1_Voxel(
+        sdsl.R3xS1(-0.1, -0.1, 0, 0),
+        sdsl.R3xS1(0.1, 0.1, 0, 0)
+    )
+    v2 = sdsl.R3xS1_Voxel(
+        sdsl.R3xS1(0.7, 1.1, 0, 0),
+        sdsl.R3xS1(-1.4, -1.1, 0, 0)
+    )
+    v3 = sdsl.R3xS1_Voxel(
+        sdsl.R3xS1(2.8, 0.7, 0, 0),
+        sdsl.R3xS1(2.9, 0.8, 0, 0)
+    )
+    v4 = sdsl.R3xS1_Voxel(
+        sdsl.R3xS1(-2.7, -1.9, -1, 2),
+        sdsl.R3xS1(3.6, 2.9, 1, 2)
+    )
+
+    assert not env.intersects(v1)
+    assert env.intersects(v2)
+    assert not env.intersects(v3)
+    assert env.intersects(v4)
+
 
 
 
@@ -80,8 +103,7 @@ if __name__ == "__main__":
         dist = env.measure_distance(ray)
         if dist > 100:
             dist = 100
-        else:
-            continue
+
         ax.plot([c, c + dist * a], [d, d + dist * b], 'r-')
 
         plt.show()
