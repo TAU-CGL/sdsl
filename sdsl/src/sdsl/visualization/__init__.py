@@ -1,1 +1,2 @@
 from .visualize_pcd_2d import visualize_pcd_2d
+from .visualize_voxel_2d import visualize_voxel_2d

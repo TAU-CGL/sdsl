@@ -67,25 +67,26 @@ if __name__ == "__main__":
         ))
 
     while True:
-        fig, ax = sdsl.visualization.visualize_pcd_2d(env)
-
         q0 = sample_q0(env)
         measurements = []
+        bad_example = False
         for g in odometry:
             g_ = q0.act(g)
-            d = env.measure_distance(g_)
-            measurements.append(d)
-            color = "r-"
-            if d > 100:
-                d = 100
-                color = "b-"
-            ax.plot([g_.x(), g_.x() + d * g_.v1()], [g_.y(), g_.y() + d * g_.v2()], color)
+            measurements.append(env.measure_distance(g_))
+            if measurements[-1] > 100:
+                bad_example = True
+                break
+        if bad_example:
+            continue
 
-
+        fig, ax = sdsl.visualization.visualize_pcd_2d(env)
+        for g, d in zip(odometry, measurements):
+            g_ = q0.act(g)
+            ax.plot([g_.x(), g_.x() + d * g_.v1()], [g_.y(), g_.y() + d * g_.v2()], "r-")
         res = sdsl.localize_R3_pcd(env, odometry, measurements, 0.05, 8)
-        print(res)
+        for v in res:
+            sdsl.visualization.visualize_voxel_2d(ax, v)
 
-        
         plt.show()
 
 
