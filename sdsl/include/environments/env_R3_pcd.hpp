@@ -119,6 +119,12 @@ namespace sdsl {
             return minDistance;
         }
 
+        double hausdorffDistance(R3xS1<FT> q) {
+            Point_3 p1(q.getX(), q.getY(), q.getZ());
+            Point_3 p2 = m_tree->closest_point(p1);
+            return sqrt(CGAL::to_double(CGAL::squared_distance(p1, p2)));
+        }
+
 
     private:
         //------------------------------

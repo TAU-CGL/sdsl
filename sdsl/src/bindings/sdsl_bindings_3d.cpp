@@ -64,5 +64,6 @@ void sdsl_bindings_3d(nb::module_ & m) {
         .def("get_representation", &Env_R3_PCD<Kernel>::getRepresentation)
         .def("measure_distance", &Env_R3_PCD<Kernel>::measureDistance)
         .def("intersects", &Env_R3_PCD<Kernel>::intersects)
+        .def("hausdorff_distance", &Env_R3_PCD<Kernel>::hausdorffDistance)
     ;
 }

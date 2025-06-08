@@ -54,6 +54,16 @@ def test_Env_R3_PCD_measure_distance_2d():
     
     assert num_inf == 0
 
+def test_Env_R3_PCD_hausdorff_distance_2d():
+    arr = sdsl.loaders.load_pcd_2d(TEST_FILE)
+    env = sdsl.Env_R3_PCD(arr)
+
+    d1 = env.hausdorff_distance(sdsl.R3xS1(0, 0, 0, 0))
+    d2 = env.hausdorff_distance(sdsl.R3xS1(2, 1, 0, 0))
+    d3 = env.hausdorff_distance(sdsl.R3xS1(-1.8, -0.9, 0, 0))
+
+    assert np.allclose([d1, d2, d3], [0.58447737, 0.311576485, 0.161913577], atol=TOLERANCE)
+
 def test_Env_R3_PCD_intersects_2d():
     arr = sdsl.loaders.load_pcd_2d(TEST_FILE)
     env = sdsl.Env_R3_PCD(arr)
