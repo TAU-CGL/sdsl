@@ -61,7 +61,7 @@ jobs:
     - name: Install nanobind
       run: |
         python3 -m pip install nanobind
-      if: matrix.os != 'windows-latest'
+      # if: matrix.os != 'windows-latest'
 
     # - name: Install nanobind (Windows)
     #   if: matrix.os == 'windows-latest'
