@@ -1,14 +1,11 @@
-from typing import List
-
 import numpy as np
 
 import sdsl
 
-import sdsl.visualization
 
-
-TEST_FILE = "resources/maps/lab_lidar.poly"
+TEST_FILE = "resources/maps/2d/lab_lidar.poly"
 TOLERANCE = 1e-7
+
 
 def test_Env_R3_PCD_init_2d():
     arr = sdsl.loaders.load_pcd_2d(TEST_FILE)
