@@ -1,4 +1,4 @@
 from .visualize_pcd_2d import visualize_pcd_2d
 from .visualize_pcd_3d import visualize_pcd_3d
 from .visualize_voxel_2d import visualize_voxel_2d
-from .visualize_voxel_3d import visualize_line_3d
+from .visualize_voxel_3d import visualize_line_3d, visualize_voxel_3d
