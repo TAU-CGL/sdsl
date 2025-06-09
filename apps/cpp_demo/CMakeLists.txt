@@ -31,17 +31,9 @@ if(APPLE)
     link_directories("/opt/homebrew/opt/libomp/lib")
 endif()
 
-find_package(Python COMPONENTS Interpreter Development.Module REQUIRED)
 
 include_directories(${CMAKE_SOURCE_DIR}/sdsl/include)
 
-# Detect the installed nanobind package and import it into CMake
-execute_process(
-    COMMAND "${Python_EXECUTABLE}" -m nanobind --cmake_dir
-    OUTPUT_STRIP_TRAILING_WHITESPACE OUTPUT_VARIABLE nanobind_ROOT)
-find_package(nanobind CONFIG REQUIRED)
-include_directories(${Python_INCLUDE_DIRS})
-include_directories("${nanobind_ROOT}/../include")
-
 add_executable(${PROJECT_NAME} main.cpp)
+target_compile_definitions(${PROJECT_NAME} PUBLIC -DSDSL_CPP_ONLY)
 target_link_libraries(${PROJECT_NAME} PRIVATE CGAL::CGAL OpenMP::OpenMP_CXX fmt::fmt ${Boost_LIBRARIES})

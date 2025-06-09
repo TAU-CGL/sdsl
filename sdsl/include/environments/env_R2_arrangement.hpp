@@ -19,7 +19,6 @@
 #include "environments/environment.hpp"
 #include "math_utils.hpp"
 #include "bindings/sdsl_binding.hpp"
-namespace nb = nanobind;
 
 namespace sdsl {
     template<typename Arrangement_2, typename Traits_2>
@@ -50,19 +49,21 @@ namespace sdsl {
             fromSegments(segments);
             buildPointLocation();
         }
-        Env_R2_Arrangement(const nb::ndarray<double, nb::shape<-1, 2 * 2>> a) {
-            std::vector<typename Traits_2::X_monotone_curve_2> segments;
-            size_t N = a.shape(0);
-            for (size_t i = 0; i < N; ++i) {
-                FT vals[4]; for (size_t j = 0; j < 4; ++j) vals[j] = a(i, j);
-                segments.push_back(typename Traits_2::X_monotone_curve_2(
-                    typename Traits_2::Point_2(vals[0], vals[1]),
-                    typename Traits_2::Point_2(vals[2], vals[3])
-                ));
+        #ifndef SDSL_CPP_ONLY
+            Env_R2_Arrangement(const nb::ndarray<double, nb::shape<-1, 2 * 2>> a) {
+                std::vector<typename Traits_2::X_monotone_curve_2> segments;
+                size_t N = a.shape(0);
+                for (size_t i = 0; i < N; ++i) {
+                    FT vals[4]; for (size_t j = 0; j < 4; ++j) vals[j] = a(i, j);
+                    segments.push_back(typename Traits_2::X_monotone_curve_2(
+                        typename Traits_2::Point_2(vals[0], vals[1]),
+                        typename Traits_2::Point_2(vals[2], vals[3])
+                    ));
+                }
+                fromSegments(segments);
+                buildPointLocation();
             }
-            fromSegments(segments);
-            buildPointLocation();
-        }
+        #endif
 
         
         bool intersects(Voxel<R2xS1<FT>> v) {
@@ -145,29 +146,31 @@ namespace sdsl {
             );
         }
         
-        using Env_R2_Arrangement_repr = nb::ndarray<double, nb::numpy, nb::shape<-1, 2 * 2>, nb::f_contig>;
-        Env_R2_Arrangement_repr getRepresentation() {
-            m_representation.clear();
-            for (auto it = m_arrangement.edges_begin(); it != m_arrangement.edges_end(); ++it) {
-                auto curve = it->curve();
-                m_representation.push_back(CGAL::to_double(curve.source().x()));
-                m_representation.push_back(CGAL::to_double(curve.source().y()));
-                m_representation.push_back(CGAL::to_double(curve.target().x()));
-                m_representation.push_back(CGAL::to_double(curve.target().y()));
-            }
+        #ifndef SDSL_CPP_ONLY
+            using Env_R2_Arrangement_repr = nb::ndarray<double, nb::numpy, nb::shape<-1, 2 * 2>, nb::f_contig>;
+            Env_R2_Arrangement_repr getRepresentation() {
+                m_representation.clear();
+                for (auto it = m_arrangement.edges_begin(); it != m_arrangement.edges_end(); ++it) {
+                    auto curve = it->curve();
+                    m_representation.push_back(CGAL::to_double(curve.source().x()));
+                    m_representation.push_back(CGAL::to_double(curve.source().y()));
+                    m_representation.push_back(CGAL::to_double(curve.target().x()));
+                    m_representation.push_back(CGAL::to_double(curve.target().y()));
+                }
 
-            // transpose the representation
-            std::vector<double> tmp = m_representation;
-            for (size_t i = 0; i < m_representation.size() / 4; ++i) {
-                m_representation[0 * (m_representation.size() / 4) + i] = tmp[0 + 4 * i];
-                m_representation[1 * (m_representation.size() / 4) + i] = tmp[1 + 4 * i];
-                m_representation[2 * (m_representation.size() / 4) + i] = tmp[2 + 4 * i];
-                m_representation[3 * (m_representation.size() / 4) + i] = tmp[3 + 4 * i];
-            }
+                // transpose the representation
+                std::vector<double> tmp = m_representation;
+                for (size_t i = 0; i < m_representation.size() / 4; ++i) {
+                    m_representation[0 * (m_representation.size() / 4) + i] = tmp[0 + 4 * i];
+                    m_representation[1 * (m_representation.size() / 4) + i] = tmp[1 + 4 * i];
+                    m_representation[2 * (m_representation.size() / 4) + i] = tmp[2 + 4 * i];
+                    m_representation[3 * (m_representation.size() / 4) + i] = tmp[3 + 4 * i];
+                }
 
-            Env_R2_Arrangement_repr a(&m_representation[0], {m_representation.size() / 4, 4});
-            return a;
-        }
+                Env_R2_Arrangement_repr a(&m_representation[0], {m_representation.size() / 4, 4});
+                return a;
+            }
+        #endif
 
         Voxel<R2xS1<FT>> boundingBox() {
             FT xmin = FT(INF), ymin = FT(INF), xmax = -FT(INF), ymax = -FT(INF);

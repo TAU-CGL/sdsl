@@ -20,7 +20,6 @@
 #include "actions/action_R3xS2.hpp"
 #include "environments/environment.hpp"
 #include "configurations/config_R3xS1.hpp"
-namespace nb = nanobind;
 
 
 namespace sdsl {
@@ -52,37 +51,41 @@ namespace sdsl {
         Env_R3_PCD(std::vector<Point_3> points) {
             fromPoints(points);
         }
-        Env_R3_PCD(const nb::ndarray<double, nb::shape<-1, 3>> a) {
-            std::vector<Point_3> points;
-            size_t N = a.shape(0);
-            for (size_t i = 0; i < N; ++i) {
-                FT vals[3]; for (size_t j = 0; j < 3; ++j) vals[j] = a(i, j);
-                points.push_back(Point_3(vals[0], vals[1], vals[2]));
+        #ifndef SDSL_CPP_ONLY
+            Env_R3_PCD(const nb::ndarray<double, nb::shape<-1, 3>> a) {
+                std::vector<Point_3> points;
+                size_t N = a.shape(0);
+                for (size_t i = 0; i < N; ++i) {
+                    FT vals[3]; for (size_t j = 0; j < 3; ++j) vals[j] = a(i, j);
+                    points.push_back(Point_3(vals[0], vals[1], vals[2]));
+                }
+                fromPoints(points);
             }
-            fromPoints(points);
-        }
+        #endif
 
         // Numpy array representation
-        using Env_R3_PCD_repr = nb::ndarray<double, nb::numpy, nb::shape<-1, 3>, nb::f_contig>;
-        Env_R3_PCD_repr getRepresentation() {
-            m_representation.clear();
-            for (const auto& pt : m_points) {
-                m_representation.push_back(CGAL::to_double(pt.x()));
-                m_representation.push_back(CGAL::to_double(pt.y()));
-                m_representation.push_back(CGAL::to_double(pt.z()));
-            }
+        #ifndef SDSL_CPP_ONLY
+            using Env_R3_PCD_repr = nb::ndarray<double, nb::numpy, nb::shape<-1, 3>, nb::f_contig>;
+            Env_R3_PCD_repr getRepresentation() {
+                m_representation.clear();
+                for (const auto& pt : m_points) {
+                    m_representation.push_back(CGAL::to_double(pt.x()));
+                    m_representation.push_back(CGAL::to_double(pt.y()));
+                    m_representation.push_back(CGAL::to_double(pt.z()));
+                }
 
-            // transpose the representation
-            std::vector<double> tmp = m_representation;
-            for (size_t i = 0; i < m_representation.size() / 3; ++i) {
-                m_representation[0 * (m_representation.size() / 3) + i] = tmp[0 + 3 * i];
-                m_representation[1 * (m_representation.size() / 3) + i] = tmp[1 + 3 * i];
-                m_representation[2 * (m_representation.size() / 3) + i] = tmp[2 + 3 * i];
-            }
+                // transpose the representation
+                std::vector<double> tmp = m_representation;
+                for (size_t i = 0; i < m_representation.size() / 3; ++i) {
+                    m_representation[0 * (m_representation.size() / 3) + i] = tmp[0 + 3 * i];
+                    m_representation[1 * (m_representation.size() / 3) + i] = tmp[1 + 3 * i];
+                    m_representation[2 * (m_representation.size() / 3) + i] = tmp[2 + 3 * i];
+                }
 
-            Env_R3_PCD_repr a(&m_representation[0], {m_representation.size() / 3, 3});
-            return a;
-        }
+                Env_R3_PCD_repr a(&m_representation[0], {m_representation.size() / 3, 3});
+                return a;
+            }
+        #endif
 
         bool intersects(Voxel<R3xS1<FT>> v) {
             Box_3 box(
