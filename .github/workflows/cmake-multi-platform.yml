@@ -101,6 +101,15 @@ jobs:
 
     - name: Create default profile
       run: conan profile detect
+
+    - name: Cache Conan
+      uses: actions/cache@v4
+      with:
+        path: ~/.conan2
+        key: ${{ runner.os }}-conan-${{ hashFiles('**/conanfile.*') }}
+        restore-keys: |
+          ${{ runner.os }}-conan-
+
     - name: Install dependencies
       run: |
         conan install ./sdsl -s build_type=${{matrix.build_type}} --output-folder=. --build=missing -s compiler.cppstd=20
