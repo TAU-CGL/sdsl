@@ -115,6 +115,7 @@ jobs:
         -DCMAKE_BUILD_TYPE=${{ matrix.build_type }}
         -DCMAKE_TOOLCHAIN_FILE="conan_toolchain.cmake"
         -DPython_ROOT_DIR=${{ env.Python_ROOT_DIR }}
+        -DPython3_LIBRARY=${{ env.Python_ROOT_DIR }}\\libs\\python310.lib
         -DCMAKE_PREFIX_PATH=${{ env.Python_ROOT_DIR }}/site-packages/nanobind/cmake
         -S ${{ github.workspace }}
 

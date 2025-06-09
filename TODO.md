@@ -16,5 +16,10 @@ Mostly nice-to-haves, but are important for readability/usability of the package
 ### Utility / Clean-Code
 - [ ] Add source & direction methods for R3xS2 bindings (that return numpy array)
 
+### More Features
+- [ ] Add 3D mesh environments (represented as triangle soups) -> most of the code of PCD is suitable
+- [ ] Support ROS occupancy grids (maybe in a seperate sdsl-ros2 package)
+- [ ] Clustering of voxels in C++
+
 ### Completed Tasks
 - [x] Create this TODO.md file
