@@ -61,6 +61,21 @@ def test_Env_R3_PCD_hausdorff_distance_2d():
     assert np.allclose([d1, d2, d3], [0.695282344436283, 0.1209748463061244, 0.7940803411478589], atol=TOLERANCE)
 
 
+def test_Env_R3_PCD_intersects_3d():
+    env = sdsl.Env_R3_PCD(ARR)
+
+    v1 = sdsl.R3xS1_Voxel(
+        sdsl.R3xS1(0.7, 1.0, 1.5, 0),
+        sdsl.R3xS1(0.8, 1.1, 1.6, 0)
+    )
+    v2 = sdsl.R3xS1_Voxel(
+        sdsl.R3xS1(-0.1, -0.1, -0.1, 0),
+        sdsl.R3xS1(0.1, 0.1, 0.1, 0)
+    )
+    assert not env.intersects(v1)
+    assert env.intersects(v2)
+
+
 
 if __name__ == "__main__":
     env = sdsl.Env_R3_PCD(ARR)
@@ -81,5 +96,12 @@ if __name__ == "__main__":
 
         line = sdsl.visualization.visualize_line_3d(s, t)
         lines.append(line)
+
+    v1 = sdsl.R3xS1_Voxel(
+        sdsl.R3xS1(0.7, 1.0, 1.5, 0),
+        sdsl.R3xS1(0.8, 1.1, 1.6, 0)
+    )
+    lines += sdsl.visualization.visualize_voxel_3d(v1)
+
     sdsl.visualization.visualize_pcd_3d(env, lines)
 
