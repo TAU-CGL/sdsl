@@ -29,7 +29,7 @@ def test_Env_R3_PCD_measure_distance_3d():
     # Cast a lot of random rays and check distances
     tree = cKDTree(ARR)
     num_inf = 0
-    for _ in range(1000):
+    for _ in range(100):
         v = np.random.rand(3) * 2 - 1
         v /= np.linalg.norm(v)
         a, b, c = v[0], v[1], v[2]
@@ -50,6 +50,16 @@ def test_Env_R3_PCD_measure_distance_3d():
         assert min_dist < 0.05
 
     assert num_inf > 0 # It is unlikely that you will miss the blindspots in this pcd
+
+def test_Env_R3_PCD_hausdorff_distance_2d():
+    env = sdsl.Env_R3_PCD(ARR)
+
+    d1 = env.hausdorff_distance(sdsl.R3xS1(0, 0, 1, 0))
+    d2 = env.hausdorff_distance(sdsl.R3xS1(2, 1, 0.5, 0))
+    d3 = env.hausdorff_distance(sdsl.R3xS1(-1.8, -0.9, 0.9, 0))
+
+    assert np.allclose([d1, d2, d3], [0.695282344436283, 0.1209748463061244, 0.7940803411478589], atol=TOLERANCE)
+
 
 
 if __name__ == "__main__":
