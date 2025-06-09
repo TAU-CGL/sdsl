@@ -1,5 +1,4 @@
-[![CMake Build (Multi-Platform)](https://github.com/TAU-CGL/sdsl/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/TAU-CGL/sdsl/actions/workflows/cmake-multi-platform.yml)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/TAU-CGL/sdsl/blob/main/LICENSE)
-
+[![CMake Build (Multi-Platform)](https://github.com/TAU-CGL/sdsl/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/TAU-CGL/sdsl/actions/workflows/cmake-multi-platform.yml) [![Tests](https://github.com/TAU-CGL/sdsl/actions/workflows/python-test.yml/badge.svg)](https://github.com/TAU-CGL/sdsl/actions/workflows/python-test.yml) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/TAU-CGL/sdsl/blob/main/LICENSE)
 -----
 
 ![banner](resources/images/sdsl_banner.png?raw=true)
