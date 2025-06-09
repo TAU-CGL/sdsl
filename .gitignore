@@ -213,6 +213,9 @@ build/
 
 .DS_Store
 .vscode/
+.conan/
+_skbuild/
+CMakeUserPresets.json
 
 data/raw
 cache/

@@ -1,6 +1,9 @@
 from skbuild_conan import setup
 from setuptools import find_packages
 
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
+
 setup(
     name = "sdsl",
     version = "1.0.0",
@@ -19,5 +22,6 @@ setup(
         "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: 3.13",
     ],
-    conanfile = "./conanfile.txt"
+    conanfile = "./conanfile.txt",
+    install_requires=required,
 )
