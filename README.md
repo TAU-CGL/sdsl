@@ -1,3 +1,5 @@
+[![CMake on multiple platforms](https://github.com/TAU-CGL/sdsl/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/TAU-CGL/sdsl/actions/workflows/cmake-multi-platform.yml)
+
 
 ![banner](resources/images/sdsl_banner.png?raw=true)
 
