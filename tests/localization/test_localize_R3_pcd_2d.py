@@ -3,7 +3,7 @@ import numpy as np
 import sdsl
 
 
-TEST_FILE = "resources/maps/lab_lidar.poly"
+TEST_FILE = "resources/maps/2d/lab_lidar.poly"
 TOLERANCE = 1e-7
 
 
