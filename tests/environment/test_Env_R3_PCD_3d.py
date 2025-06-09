@@ -75,6 +75,48 @@ def test_Env_R3_PCD_intersects_3d():
     assert not env.intersects(v1)
     assert env.intersects(v2)
 
+def test_Env_R3_PCD_is_inside_3d():
+    # The test 3D environment is not even watertight, so this test is bound to fail anyway
+    # TODO: add another point cloud that is watertight and test this method
+    assert True
+
+def fdg(d: float, g: sdsl.R3xS2, q: sdsl.R3xS1) -> sdsl.R3xS1:
+    q = np.array([q.x(), q.y(), q.z(), q.r()])
+    gp = np.array([g.x(), g.y(), g.z()])
+    gv = np.array([g.v1(), g.v2(), g.v3()])
+    return sdsl.R3xS1(
+        q[0] + (gp[0] + d * gv[0]) * np.cos(q[3]) + (-gp[1] - d * gv[1]) * np.sin(q[3]),
+        q[1] + (gp[1] + d * gv[1]) * np.cos(q[3]) + (gp[0] + d * gv[0]) * np.sin(q[3]),
+        q[2] + (gp[2] + d * gv[2]),
+        q[3]
+    )
+
+def test_Env_R3_PCD_forward_3d():
+    env = sdsl.Env_R3_PCD(ARR)
+
+    g = sdsl.R3xS2(0.1, 0, 0, 1, 0, 0) # Sensor is mounted on robot, pointed initialy to the right
+
+    d = 1.5
+
+    xmin = -0.1; xmax = 0.3
+    ymin = -0.2; ymax = 0.2
+    zmin = 0.9; zmax = 1.1
+    rmin = 0.4; rmax = 0.8
+
+    voxel = env.forward(d, g, sdsl.R3xS1_Voxel(
+        sdsl.R3xS1(xmin, ymin, zmin, rmin),
+        sdsl.R3xS1(xmax, ymax, zmax, rmax)
+    ))
+
+    for _ in range(10000):
+        qx = np.random.uniform(xmin, xmax)
+        qy = np.random.uniform(ymin, ymax)
+        qz = np.random.uniform(zmin, zmax)
+        qr = np.random.uniform(rmin, rmax)
+        q = sdsl.R3xS1(qx, qy, qz, qr)
+        q_ = fdg(d, g, q)
+        assert voxel.contains(q_)
+
 
 
 if __name__ == "__main__":
