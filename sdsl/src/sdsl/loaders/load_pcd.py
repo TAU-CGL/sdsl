@@ -1,3 +1,4 @@
+import trimesh
 import numpy as np
 
 
@@ -23,3 +24,18 @@ def load_pcd_2d(filename: str) -> np.array:
             points.append([x, y, 0])
 
     return np.array(points, dtype=np.double)
+
+
+def load_pcd_3d(filename: str) -> np.array:
+    """
+    Load a 3D point cloud from any file supported by trimesh. 
+    In this method we only consider the vertices of the mesh file.
+
+    Args:
+        filename (str): Path to the PCD file.
+
+    Returns:
+        np.array: A 2D numpy array with shape (N, 3), where N is the number of points.
+    """
+    ply = trimesh.load(filename)
+    return np.array(ply.vertices)
