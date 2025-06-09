@@ -5,7 +5,6 @@
 #include <vector>
 #include <memory>
 
-#include <nanobind/ndarray.h>
 #include <CGAL/squared_distance_2.h>
 #include <CGAL/intersections.h>
 #include <CGAL/Arrangement_2.h>
@@ -15,11 +14,12 @@
 #include <CGAL/AABB_traits_3.h>
 #include <CGAL/AABB_segment_primitive_3.h>
 #include <CGAL/AABB_triangle_primitive_3.h>
-namespace nb = nanobind;
 
 #include "configurations/config_R2xS1.hpp"
 #include "environments/environment.hpp"
 #include "math_utils.hpp"
+#include "bindings/sdsl_binding.hpp"
+namespace nb = nanobind;
 
 namespace sdsl {
     template<typename Arrangement_2, typename Traits_2>

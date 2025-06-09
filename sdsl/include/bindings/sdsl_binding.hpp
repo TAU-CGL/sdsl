@@ -1,5 +1,6 @@
 #pragma once
 
+#define PY_NO_LINK_LIB
 #include <nanobind/nanobind.h>
 #include <nanobind/ndarray.h>
 #include <nanobind/operators.h>

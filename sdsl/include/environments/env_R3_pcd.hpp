@@ -5,7 +5,6 @@
 #include <vector>
 #include <memory>
 
-#include <nanobind/ndarray.h>
 #include <CGAL/squared_distance_3.h>
 #include <CGAL/intersections.h>
 #include <CGAL/AABB_tree.h>
@@ -14,13 +13,14 @@
 #include <CGAL/Kd_tree.h>
 #include <CGAL/Search_traits_3.h>
 #include <CGAL/K_neighbor_search.h>
-namespace nb = nanobind;
 
 #include "constants.hpp"
 #include "math_utils.hpp"
+#include "bindings/sdsl_binding.hpp"
 #include "actions/action_R3xS2.hpp"
 #include "environments/environment.hpp"
 #include "configurations/config_R3xS1.hpp"
+namespace nb = nanobind;
 
 
 namespace sdsl {
