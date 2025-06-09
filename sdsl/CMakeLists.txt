@@ -5,7 +5,7 @@ if (WIN32)
     set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake" CACHE STRING "")
 endif()
 
-project(sdsl)
+project(_sdsl)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
@@ -59,7 +59,7 @@ file(GLOB_RECURSE SDSL_BINDINGS_SRC
     "${CMAKE_CURRENT_SOURCE_DIR}/src/bindings/*.cpp"
 )
 
-nanobind_add_module(sdsl src/sdsl_py.cpp ${SDSL_BINDINGS_SRC})
-target_link_libraries(sdsl PRIVATE CGAL::CGAL OpenMP::OpenMP_CXX fmt::fmt ${Boost_LIBRARIES})
+nanobind_add_module(_sdsl src/sdsl_py.cpp ${SDSL_BINDINGS_SRC})
+target_link_libraries(_sdsl PRIVATE CGAL::CGAL OpenMP::OpenMP_CXX fmt::fmt ${Boost_LIBRARIES})
 
-install(TARGETS sdsl DESTINATION sdsl)
+install(TARGETS _sdsl LIBRARY DESTINATION lib/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages/sdsl)
