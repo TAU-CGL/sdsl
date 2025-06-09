@@ -13,5 +13,8 @@ Mostly nice-to-haves, but are important for readability/usability of the package
 - [ ] Make the install of Python bindings a single `pip install ...` command
 - [ ] Make sure the Python and C++ prerequisites are minimal and clearly stated
 
+### Utility / Clean-Code
+- [ ] Add source & direction methods for R3xS2 bindings (that return numpy array)
+
 ### Completed Tasks
 - [x] Create this TODO.md file

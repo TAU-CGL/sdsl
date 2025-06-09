@@ -18,4 +18,22 @@ def test_Env_R3_PCD_init_3d():
 if __name__ == "__main__":
     arr = sdsl.loaders.load_pcd_3d(TEST_FILE)
     env = sdsl.Env_R3_PCD(arr)
-    sdsl.visualization.visualize_pcd_3d(env)
+    
+    lines = []
+    dirs = [(1,0,0), (0,1,0), (-1,0,0), (0,-1,0), (0,0,-1)]
+
+    for dr in dirs:
+        ray = sdsl.R3xS2(0,0,0.9,*dr)
+        dist = env.measure_distance(ray)
+        if (dist > 100):
+            dist = 100
+
+        s = np.array([ray.x(), ray.y(), ray.z()])
+        v = np.array([ray.v1(), ray.v2(), ray.v3()])
+        t = s + dist * v
+        print(s, t)
+
+        line = sdsl.visualization.visualize_line_3d(s, t)
+        lines.append(line)
+    sdsl.visualization.visualize_pcd_3d(env, lines)
+
