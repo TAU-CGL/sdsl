@@ -1,23 +1,59 @@
 import numpy as np
+from scipy.spatial import cKDTree
 
 import sdsl
 
 
 TEST_FILE = "resources/maps/3d/lab446a.ply"
 TOLERANCE = 1e-7
+ARR = sdsl.loaders.load_pcd_3d(TEST_FILE)
 
 def test_Env_R3_PCD_init_3d():
-    arr = sdsl.loaders.load_pcd_3d(TEST_FILE)
-    env = sdsl.Env_R3_PCD(arr)
+    env = sdsl.Env_R3_PCD(ARR)
     assert np.allclose(
         np.sort(env.get_representation(), axis=0),
-        np.sort(arr, axis=0),
+        np.sort(ARR, axis=0),
         atol=TOLERANCE
     )
 
+
+def test_Env_R3_PCD_measure_distance_3d():
+    env = sdsl.Env_R3_PCD(ARR)
+    dirs = [(1,0,0), (0,1,0), (-1,0,0), (0,-1,0), (0,0,-1)]
+    dists = [2.77911139, 0.73157191, 0.97499287, 2.43388128, 0.88810048]
+    for dr, dist_ in zip(dirs, dists):
+        ray = sdsl.R3xS2(0,0,0.9,*dr)
+        dist = env.measure_distance(ray)
+        assert abs(dist - dist_) < TOLERANCE
+    
+    # Cast a lot of random rays and check distances
+    tree = cKDTree(ARR)
+    num_inf = 0
+    for _ in range(1000):
+        v = np.random.rand(3) * 2 - 1
+        v /= np.linalg.norm(v)
+        a, b, c = v[0], v[1], v[2]
+
+        v = np.random.rand(3) * 2 - 1
+        v *= 0.3
+        v[2] += 0.9
+        d, e, f = v[0], v[1], v[2]
+
+        ray = sdsl.R3xS2(d,e,f,a,b,c)
+        dist = env.measure_distance(ray)
+        if dist > 100:
+            num_inf += 1
+            continue
+
+        query_pt = np.array([d + a * dist, e + b * dist, f + c * dist])
+        min_dist, _ = tree.query(query_pt)
+        assert min_dist < 0.05
+
+    assert num_inf > 0 # It is unlikely that you will miss the blindspots in this pcd
+
+
 if __name__ == "__main__":
-    arr = sdsl.loaders.load_pcd_3d(TEST_FILE)
-    env = sdsl.Env_R3_PCD(arr)
+    env = sdsl.Env_R3_PCD(ARR)
     
     lines = []
     dirs = [(1,0,0), (0,1,0), (-1,0,0), (0,-1,0), (0,0,-1)]
