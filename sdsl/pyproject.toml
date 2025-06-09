@@ -6,33 +6,31 @@ requires = [
     "scikit-build-core",
     "skbuild-conan", 
     "nanobind"]
-build-backend = "scikit_build_core.build"
+# build-backend = "scikit_build_core.build"
+build-backend = "setuptools.build_meta"
 
-[project]
-name = "sdsl"
-version = "1.0.0"
-description = "Unified library for all Sparse Distance Sampling Localization methods."
-readme = "README.md"
-authors = [
-    { name = "Michael Bilevich", email = "michaelmoshe@mail.tau.ac.il" },
-]
-requires-python = ">=3.10"
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-]
+# [project]
+# name = "sdsl"
+# version = "1.0.0"
+# description = "Unified library for all Sparse Distance Sampling Localization methods."
+# readme = "README.md"
+# authors = [
+#     { name = "Michael Bilevich", email = "michaelmoshe@mail.tau.ac.il" },
+# ]
+# requires-python = ">=3.10"
+# classifiers = [
+#     "Development Status :: 4 - Beta",
+#     "License :: OSI Approved :: MIT License",
+#     "Programming Language :: Python :: 3 :: Only",
+#     "Programming Language :: Python :: 3.10",
+#     "Programming Language :: Python :: 3.11",
+#     "Programming Language :: Python :: 3.12",
+#     "Programming Language :: Python :: 3.13",
+# ]
 
 [tool.scikit-build]
 wheel.expand-macos-universal-tags = true
 cmake.build-type = "Release"
-
-[tool.skbuild-conan]
-conanfile = "."
 
 [tool.cibuildwheel]
 build-verbosity = 1
