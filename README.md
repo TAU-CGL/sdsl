@@ -1,5 +1,6 @@
-[![CMake on multiple platforms](https://github.com/TAU-CGL/sdsl/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/TAU-CGL/sdsl/actions/workflows/cmake-multi-platform.yml)
+[![CMake Build (Multi-Platform)](https://github.com/TAU-CGL/sdsl/actions/workflows/cmake-multi-platform.yml/badge.svg)](https://github.com/TAU-CGL/sdsl/actions/workflows/cmake-multi-platform.yml)  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/TAU-CGL/sdsl/blob/main/LICENSE)
 
+-----
 
 ![banner](resources/images/sdsl_banner.png?raw=true)
 
