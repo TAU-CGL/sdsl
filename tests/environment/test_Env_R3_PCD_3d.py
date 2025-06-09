@@ -14,3 +14,8 @@ def test_Env_R3_PCD_init_3d():
         np.sort(arr, axis=0),
         atol=TOLERANCE
     )
+
+if __name__ == "__main__":
+    arr = sdsl.loaders.load_pcd_3d(TEST_FILE)
+    env = sdsl.Env_R3_PCD(arr)
+    sdsl.visualization.visualize_pcd_3d(env)
