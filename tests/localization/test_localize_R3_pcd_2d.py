@@ -1,10 +1,8 @@
-from typing import List
 import numpy as np
 import sdsl
 
 
 TEST_FILE = "resources/maps/2d/lab_lidar.poly"
-TOLERANCE = 1e-7
 
 
 def sample_q0(env: sdsl.Env_R3_PCD):
