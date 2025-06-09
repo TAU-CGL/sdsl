@@ -26,11 +26,13 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
 ]
-conanfile = "."
 
 [tool.scikit-build]
 wheel.expand-macos-universal-tags = true
 cmake.build-type = "Release"
+
+[tool.skbuild-conan]
+conanfile = "."
 
 [tool.cibuildwheel]
 build-verbosity = 1
