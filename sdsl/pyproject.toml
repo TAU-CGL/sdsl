@@ -1,5 +1,5 @@
 [build-system]
-requires = ["scikit-build-core", "nanobind"]
+requires = ["scikit-build-core", "skbuild-conan", "nanobind"]
 build-backend = "scikit_build_core.build"
 
 [project]
@@ -24,7 +24,6 @@ classifiers = [
 [tool.scikit-build]
 wheel.expand-macos-universal-tags = true
 cmake.build-type = "Release"
-
 
 [tool.cibuildwheel]
 build-verbosity = 1
