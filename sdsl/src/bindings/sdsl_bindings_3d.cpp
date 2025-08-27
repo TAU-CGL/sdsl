@@ -6,6 +6,7 @@
 #include "environments/env_R3_pcd.hpp"
 #include "configurations/config_R3xS1.hpp"
 #include "predicates/predicate_static.hpp"
+#include "predicates/predicate_dynamic.hpp"
 using namespace sdsl;
 
 
@@ -86,6 +87,23 @@ void sdsl_bindings_3d(nb::module_ & m) {
         std::vector<FT> measurements_;
         for (double d : measurements) measurements_.push_back(FT(d));
         Predicate_Static<R3xS1<FT>, R3xS2<FT>, FT, Env_R3_PCD<Kernel>> predicate;
+
+        return localize<R3xS1<FT>, R3xS2<FT>, FT, Env_R3_PCD<Kernel>>(
+            env, odometry, measurements_, errorBound, recursionDepth, predicate
+        );
+    });
+
+    m.def("localize_R3_pcd_dynamic", [](
+        Env_R3_PCD<Kernel> &env,
+        std::vector<R3xS2<FT>> odometry,
+        std::vector<double> measurements,
+        double errorBound,
+        int recursionDepth,
+        int k_
+    ) {
+        std::vector<FT> measurements_;
+        for (double d : measurements) measurements_.push_back(FT(d));
+        Predicate_Dynamic_Naive_Fast<R3xS1<FT>, R3xS2<FT>, FT, Env_R3_PCD<Kernel>> predicate(measurements.size(), k_);
 
         return localize<R3xS1<FT>, R3xS2<FT>, FT, Env_R3_PCD<Kernel>>(
             env, odometry, measurements_, errorBound, recursionDepth, predicate
