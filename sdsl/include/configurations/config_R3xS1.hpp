@@ -95,6 +95,8 @@ namespace sdsl {
         FT lz = v.bottomLeft().getZ(), mz = midpoint.getZ(), rz = v.topRight().getZ();
         FT lr = v.bottomLeft().getR(), mr = midpoint.getR(), rr = v.topRight().getR();
 
+
+        // TODO: Add way, using template arguments, to decide if skip z-splitting (for 2D pcds)
         // Split by x: [lx, mx]
             // Split by y: [ly, my]
                 // Split by z: [lz, mz]
@@ -104,9 +106,9 @@ namespace sdsl {
                         vec.push_back(Voxel(R3xS1(lx, ly, lz, mr), R3xS1(mx, my, mz, rr)));
                 // Split by z: [mz, rz]
                     // Split by r: [lr, mr]
-                        vec.push_back(Voxel(R3xS1(lx, ly, mz, lr), R3xS1(mx, my, rz, mr)));
+                        // vec.push_back(Voxel(R3xS1(lx, ly, mz, lr), R3xS1(mx, my, rz, mr)));
                     // Split by r: [mr, rr]
-                        vec.push_back(Voxel(R3xS1(lx, ly, mz, mr), R3xS1(mx, my, rz, rr)));
+                        // vec.push_back(Voxel(R3xS1(lx, ly, mz, mr), R3xS1(mx, my, rz, rr)));
             // Split by y: [my, ry]
                 // Split by z: [lz, mz]
                     // Split by r: [lr, mr]
@@ -115,9 +117,9 @@ namespace sdsl {
                         vec.push_back(Voxel(R3xS1(lx, my, lz, mr), R3xS1(mx, ry, mz, rr)));
                 // Split by z: [mz, rz]
                     // Split by r: [lr, mr]
-                        vec.push_back(Voxel(R3xS1(lx, my, mz, lr), R3xS1(mx, ry, rz, mr)));
+                        // vec.push_back(Voxel(R3xS1(lx, my, mz, lr), R3xS1(mx, ry, rz, mr)));
                     // Split by r: [mr, rr]
-                        vec.push_back(Voxel(R3xS1(lx, my, mz, mr), R3xS1(mx, ry, rz, rr)));
+                        // vec.push_back(Voxel(R3xS1(lx, my, mz, mr), R3xS1(mx, ry, rz, rr)));
 
         // Split by x: [mx, rx]
             // Split by y: [ly, my]
@@ -128,9 +130,9 @@ namespace sdsl {
                         vec.push_back(Voxel(R3xS1(mx, ly, lz, mr), R3xS1(rx, my, mz, rr)));
                 // Split by z: [mz, rz]
                     // Split by r: [lr, mr]
-                        vec.push_back(Voxel(R3xS1(mx, ly, mz, lr), R3xS1(rx, my, rz, mr)));
+                        // vec.push_back(Voxel(R3xS1(mx, ly, mz, lr), R3xS1(rx, my, rz, mr)));
                     // Split by r: [mr, rr]
-                        vec.push_back(Voxel(R3xS1(mx, ly, mz, mr), R3xS1(rx, my, rz, rr)));
+                        // vec.push_back(Voxel(R3xS1(mx, ly, mz, mr), R3xS1(rx, my, rz, rr)));
             // Split by y: [my, ry]
                 // Split by z: [lz, mz]
                     // Split by r: [lr, mr]
@@ -139,9 +141,9 @@ namespace sdsl {
                         vec.push_back(Voxel(R3xS1(mx, my, lz, mr), R3xS1(rx, ry, mz, rr)));
                 // Split by z: [mz, rz]
                     // Split by r: [lr, mr]
-                        vec.push_back(Voxel(R3xS1(mx, my, mz, lr), R3xS1(rx, ry, rz, mr)));
+                        // vec.push_back(Voxel(R3xS1(mx, my, mz, lr), R3xS1(rx, ry, rz, mr)));
                     // Split by r: [mr, rr]
-                        vec.push_back(Voxel(R3xS1(mx, my, mz, mr), R3xS1(rx, ry, rz, rr)));
+                        // vec.push_back(Voxel(R3xS1(mx, my, mz, mr), R3xS1(rx, ry, rz, rr)));
     }
 
     template<typename FT>
