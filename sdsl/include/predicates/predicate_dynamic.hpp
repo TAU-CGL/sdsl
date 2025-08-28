@@ -98,6 +98,7 @@ namespace sdsl {
                 }
 
                 if (j - numPositive > k - k_) return false; // Small optimization
+                if (numPositive >= k_) return true;
                 // #pragma omp critical
                 // numPositive += result;
             }
