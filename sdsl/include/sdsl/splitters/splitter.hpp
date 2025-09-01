@@ -11,6 +11,7 @@ namespace sdsl {
     concept Splitter = requires(T t, Voxel<Config>& v, std::vector<Voxel<Config>>& out) {
         Configuration<Config>;
         { t(v, out)} -> std::same_as<void>;
+        { t.inc() } -> std::same_as<void>;
     };
 }
 

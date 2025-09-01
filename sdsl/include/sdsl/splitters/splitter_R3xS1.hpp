@@ -10,8 +10,10 @@ namespace sdsl {
     template<typename FT>
     class Splitter_R3xS1 {
     public:
-        Splitter_R3xS1() : numSplitX(2), numSplitY(2), numSplitZ(2), numSplitR(2) {}
-        Splitter_R3xS1(int x, int y, int z, int r) : numSplitX(x), numSplitY(y), numSplitZ(z), numSplitR(r) {}
+        Splitter_R3xS1() : numSplitX(2), numSplitY(2), numSplitZ(2), numSplitR(2), incrementCount(0) {}
+        Splitter_R3xS1(int x, int y, int z, int r) : numSplitX(x), numSplitY(y), numSplitZ(z), numSplitR(r), incrementCount(0) {}
+
+        virtual void inc() { incrementCount++; }
 
         void operator()(Voxel<R3xS1<FT>>& v, std::vector<Voxel<R3xS1<FT>>>& out) {
             std::vector<Voxel<R3xS1<FT>>> queue1, queue2; // And we swap between those to avoid unneseecary copying
@@ -77,8 +79,28 @@ namespace sdsl {
             }
         }
 
-    private:
+    protected:
         int numSplitX, numSplitY, numSplitZ, numSplitR;
+        int incrementCount;
+    };
+
+    template<typename FT>
+    class ScheduledSplitter_R3xS1 : public Splitter_R3xS1<FT> {
+        ScheduledSplitter_R3xS1(std::vector<std::vector<int>> schedule) : schedule(schedule), Splitter_R3xS1<FT>() {
+            this->incrementCount = -1;
+            inc(); // Initialize the 0-level split params
+        }
+
+        void inc() override {
+            Splitter_R3xS1<FT>::inc();
+            this->numSplitX = schedule[this->incrementCount][0];
+            this->numSplitY = schedule[this->incrementCount][1];
+            this->numSplitZ = schedule[this->incrementCount][2];
+            this->numSplitR = schedule[this->incrementCount][3];
+        }
+
+    protected:
+        std::vector<std::vector<int>> schedule;
     };
 
 }

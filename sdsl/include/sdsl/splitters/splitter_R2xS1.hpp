@@ -10,8 +10,10 @@ namespace sdsl {
     template<typename FT>
     class Splitter_R2xS1 {
     public:
-        Splitter_R2xS1() : numSplitX(2), numSplitY(2), numSplitR(2) {}
-        Splitter_R2xS1(int x, int y, int r) : numSplitX(x), numSplitY(y), numSplitR(r) {}
+        Splitter_R2xS1() : numSplitX(2), numSplitY(2), numSplitR(2), incrementCount(0) {}
+        Splitter_R2xS1(int x, int y, int r) : numSplitX(x), numSplitY(y), numSplitR(r), incrementCount(0) {}
+
+        void inc() { incrementCount++; }
 
         void operator()(Voxel<R2xS1<FT>>& v, std::vector<Voxel<R2xS1<FT>>>& out) {
             std::vector<Voxel<R2xS1<FT>>> queue1, queue2; // And we swap between those to avoid unneseecary copying
@@ -65,6 +67,7 @@ namespace sdsl {
 
     private:
         int numSplitX, numSplitY, numSplitR;
+        int incrementCount;
     };
 
 }

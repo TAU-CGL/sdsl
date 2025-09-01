@@ -45,6 +45,7 @@ namespace sdsl {
             }
             voxels.clear();
             for (auto v : localization) splitter(v, voxels);
+            splitter.inc(); // For sceduled splitters
         }
 
         return localization;
