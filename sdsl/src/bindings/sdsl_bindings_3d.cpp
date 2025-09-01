@@ -113,5 +113,24 @@ void sdsl_bindings_3d(nb::module_ & m) {
             env, odometry, measurements_, errorBound, recursionDepth, predicate, splitter
         );
     });
+
+    m.def("localize_R3_pcd_dynamic_scheduled", [](
+        Env_R3_PCD<Kernel> &env,
+        std::vector<R3xS2<FT>> odometry,
+        std::vector<double> measurements,
+        double errorBound,
+        int recursionDepth,
+        int k_,
+        std::vector<std::vector<int>> splitSchedule
+    ) {
+        std::vector<FT> measurements_;
+        for (double d : measurements) measurements_.push_back(FT(d));
+        ScheduledSplitter_R3xS1<FT> splitter = ScheduledSplitter_R3xS1<FT>(splitSchedule);
+        Predicate_Dynamic_Naive_Fast<R3xS1<FT>, R3xS2<FT>, FT, Env_R3_PCD<Kernel>> predicate(measurements.size(), k_);
+
+        return localize<R3xS1<FT>, ScheduledSplitter_R3xS1<FT>, R3xS2<FT>, FT, Env_R3_PCD<Kernel>>(
+            env, odometry, measurements_, errorBound, recursionDepth, predicate, splitter
+        );
+    });
     
 }

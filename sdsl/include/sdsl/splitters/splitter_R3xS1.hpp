@@ -5,6 +5,8 @@
 #include "sdsl/splitters/splitter.hpp"
 #include "sdsl/configurations/config_R3xS1.hpp"
 
+#include <fmt/core.h>
+
 namespace sdsl {
 
     template<typename FT>
@@ -86,6 +88,7 @@ namespace sdsl {
 
     template<typename FT>
     class ScheduledSplitter_R3xS1 : public Splitter_R3xS1<FT> {
+    public:
         ScheduledSplitter_R3xS1(std::vector<std::vector<int>> schedule) : schedule(schedule), Splitter_R3xS1<FT>() {
             this->incrementCount = -1;
             inc(); // Initialize the 0-level split params
@@ -97,6 +100,7 @@ namespace sdsl {
             this->numSplitY = schedule[this->incrementCount][1];
             this->numSplitZ = schedule[this->incrementCount][2];
             this->numSplitR = schedule[this->incrementCount][3];
+            fmt::print("Increment to {} [{},{},{},{}]\n", this->incrementCount, this->numSplitX, this->numSplitY, this->numSplitZ, this->numSplitR);
         }
 
     protected:
