@@ -2,6 +2,7 @@
 #include "sdsl/bindings/sdsl_cgal.hpp"
 
 #include "sdsl/sdsl.hpp"
+#include "sdsl/splitters/splitter_R2xS1.hpp"
 #include "sdsl/configurations/config_R2xS1.hpp"
 #include "sdsl/environments/env_R2_arrangement.hpp"
 #include "sdsl/predicates/predicate_static.hpp"
@@ -31,7 +32,8 @@ void sdsl_bindings_2d(nb::module_ &m) {
         .def("top_right", &Voxel<R2xS1<FT>>::topRight)
         .def("contains", &Voxel<R2xS1<FT>>::contains)
         .def("split", [](Voxel<R2xS1<FT>> &v) {
-            std::vector<Voxel<R2xS1<FT>>> split_v; split(v, split_v); return split_v;
+            Splitter_R2xS1<FT> splitter;
+            std::vector<Voxel<R2xS1<FT>>> split_v; splitter(v, split_v); return split_v;
         })
         .def("sample", [](Voxel<R2xS1<FT>> &v) {
             return sample(v);
@@ -69,10 +71,11 @@ void sdsl_bindings_2d(nb::module_ &m) {
     ) {
         std::vector<FT> measurements_;
         for (double d : measurements) measurements_.push_back(FT(d));
+        Splitter_R2xS1<FT> splitter;
         Predicate_Static<R2xS1<FT>, R2xS1<FT>, FT, Env_R2_Arrangement<Arrangement_2, Traits_2>> predicate;
 
-        return localize<R2xS1<FT>, R2xS1<FT>, FT, Env_R2_Arrangement<Arrangement_2, Traits_2>>
-            (env, odometry, measurements_, FT(errorBound), recursionDepth, predicate);
+        return localize<R2xS1<FT>, Splitter_R2xS1<FT>, R2xS1<FT>, FT, Env_R2_Arrangement<Arrangement_2, Traits_2>>
+            (env, odometry, measurements_, FT(errorBound), recursionDepth, predicate, splitter);
     });
     m.def("localize_R2_dynamic_naive", [](
         Env_R2_Arrangement<Arrangement_2, Traits_2> &env, 
@@ -84,10 +87,11 @@ void sdsl_bindings_2d(nb::module_ &m) {
     ) {
         std::vector<FT> measurements_;
         for (double d : measurements) measurements_.push_back(FT(d));
+        Splitter_R2xS1<FT> splitter;
         Predicate_Dynamic_Naive_Fast<R2xS1<FT>, R2xS1<FT>, FT, Env_R2_Arrangement<Arrangement_2, Traits_2>> predicate(odometry.size(), k_);
 
-        return localize<R2xS1<FT>, R2xS1<FT>, FT, Env_R2_Arrangement<Arrangement_2, Traits_2>>
-            (env, odometry, measurements_, FT(errorBound), recursionDepth, predicate);
+        return localize<R2xS1<FT>, Splitter_R2xS1<FT>, R2xS1<FT>, FT, Env_R2_Arrangement<Arrangement_2, Traits_2>>
+            (env, odometry, measurements_, FT(errorBound), recursionDepth, predicate, splitter);
     });
 
 

@@ -48,15 +48,6 @@ namespace sdsl {
         // { q * t } -> std::same_as<T>; // Note that this "action" is backwards - the config space acts on the "action" space
     };
 
-    // template<typename T, typename Config>
-    // concept Voxel = requires(T t, std::vector<T>& vec, Config q) {
-    //     Configuration<Config>;
-    //     { t.split(vec) } -> std::same_as<void>;
-    //     { t.bottomLeft() } -> std::same_as<Config>;
-    //     { t.topRight() } -> std::same_as<Config>;
-    //     { t.contains(q) } -> std::same_as<bool>;
-    // };
-
     template<Configuration Config>
     class Voxel {
     public:

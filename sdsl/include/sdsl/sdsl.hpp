@@ -12,10 +12,12 @@
 #include "predicates/predicate.hpp"
 #include "environments/environment.hpp"
 #include "configurations/configuration.hpp"
+#include "splitters/splitter.hpp"
 
 namespace sdsl {
     template<
-        Configuration Config, 
+        Configuration Config,
+        Splitter<Config> VoxelSplitter, 
         Action<Config> Act, 
         typename FT, 
         Environment<Config, Act, FT> Env, 
@@ -23,7 +25,7 @@ namespace sdsl {
     std::vector<Voxel<Config>> localize(
         Env env, std::vector<Act> odometry, 
         std::vector<FT> measurements, 
-        FT errorBound, int recursionDepth, Pred predicate) {
+        FT errorBound, int recursionDepth, Pred predicate, VoxelSplitter splitter) {
         omp_set_num_threads(omp_get_max_threads());
 
         std::vector<Voxel<Config>> voxels, localization;
@@ -42,7 +44,7 @@ namespace sdsl {
                 }
             }
             voxels.clear();
-            for (auto v : localization) split(v, voxels);
+            for (auto v : localization) splitter(v, voxels);
         }
 
         return localization;
