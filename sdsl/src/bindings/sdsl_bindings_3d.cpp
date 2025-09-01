@@ -4,6 +4,7 @@
 #include "sdsl/sdsl.hpp"
 #include "sdsl/actions/action_R3xS2.hpp"
 #include "sdsl/environments/env_R3_pcd.hpp"
+#include "sdsl/splitters/splitter_R3xS1.hpp"
 #include "sdsl/configurations/config_R3xS1.hpp"
 #include "sdsl/predicates/predicate_static.hpp"
 #include "sdsl/predicates/predicate_dynamic.hpp"
@@ -48,7 +49,8 @@ void sdsl_bindings_3d(nb::module_ & m) {
         .def("top_right", &Voxel<R3xS1<FT>>::topRight)
         .def("contains", &Voxel<R3xS1<FT>>::contains)
         .def("split", [](Voxel<R3xS1<FT>> &v) {
-            std::vector<Voxel<R3xS1<FT>>> split_v; split(v, split_v); return split_v;
+            Splitter_R3xS1<FT> splitter;
+            std::vector<Voxel<R3xS1<FT>>> split_v; splitter(v, split_v); return split_v;
         })
         .def("sample", [](Voxel<R3xS1<FT>> &v) {
             return sample(v);
@@ -77,37 +79,39 @@ void sdsl_bindings_3d(nb::module_ & m) {
         })
     ;
 
-    // m.def("localize_R3_pcd", [](
-    //     Env_R3_PCD<Kernel> &env,
-    //     std::vector<R3xS2<FT>> odometry,
-    //     std::vector<double> measurements,
-    //     double errorBound,
-    //     int recursionDepth
-    // ) {
-    //     std::vector<FT> measurements_;
-    //     for (double d : measurements) measurements_.push_back(FT(d));
-    //     Predicate_Static<R3xS1<FT>, R3xS2<FT>, FT, Env_R3_PCD<Kernel>> predicate;
+    m.def("localize_R3_pcd", [](
+        Env_R3_PCD<Kernel> &env,
+        std::vector<R3xS2<FT>> odometry,
+        std::vector<double> measurements,
+        double errorBound,
+        int recursionDepth
+    ) {
+        std::vector<FT> measurements_;
+        for (double d : measurements) measurements_.push_back(FT(d));
+        Splitter_R3xS1<FT> splitter;
+        Predicate_Static<R3xS1<FT>, R3xS2<FT>, FT, Env_R3_PCD<Kernel>> predicate;
 
-    //     return localize<R3xS1<FT>, R3xS2<FT>, FT, Env_R3_PCD<Kernel>>(
-    //         env, odometry, measurements_, errorBound, recursionDepth, predicate
-    //     );
-    // });
+        return localize<R3xS1<FT>, Splitter_R3xS1<FT>, R3xS2<FT>, FT, Env_R3_PCD<Kernel>>(
+            env, odometry, measurements_, errorBound, recursionDepth, predicate, splitter
+        );
+    });
 
-    // m.def("localize_R3_pcd_dynamic", [](
-    //     Env_R3_PCD<Kernel> &env,
-    //     std::vector<R3xS2<FT>> odometry,
-    //     std::vector<double> measurements,
-    //     double errorBound,
-    //     int recursionDepth,
-    //     int k_
-    // ) {
-    //     std::vector<FT> measurements_;
-    //     for (double d : measurements) measurements_.push_back(FT(d));
-    //     Predicate_Dynamic_Naive_Fast<R3xS1<FT>, R3xS2<FT>, FT, Env_R3_PCD<Kernel>> predicate(measurements.size(), k_);
+    m.def("localize_R3_pcd_dynamic", [](
+        Env_R3_PCD<Kernel> &env,
+        std::vector<R3xS2<FT>> odometry,
+        std::vector<double> measurements,
+        double errorBound,
+        int recursionDepth,
+        int k_
+    ) {
+        std::vector<FT> measurements_;
+        for (double d : measurements) measurements_.push_back(FT(d));
+        Splitter_R3xS1<FT> splitter;
+        Predicate_Dynamic_Naive_Fast<R3xS1<FT>, R3xS2<FT>, FT, Env_R3_PCD<Kernel>> predicate(measurements.size(), k_);
 
-    //     return localize<R3xS1<FT>, R3xS2<FT>, FT, Env_R3_PCD<Kernel>>(
-    //         env, odometry, measurements_, errorBound, recursionDepth, predicate
-    //     );
-    // });
+        return localize<R3xS1<FT>, Splitter_R3xS1<FT>, R3xS2<FT>, FT, Env_R3_PCD<Kernel>>(
+            env, odometry, measurements_, errorBound, recursionDepth, predicate, splitter
+        );
+    });
     
 }
