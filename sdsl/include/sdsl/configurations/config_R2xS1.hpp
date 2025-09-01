@@ -4,8 +4,8 @@
 
 #include <iostream>
 
-#include "random_utils.hpp"
-#include "configurations/configuration.hpp"
+#include "sdsl/random_utils.hpp"
+#include "sdsl/configurations/configuration.hpp"
 
 namespace sdsl {
     template<typename FT>

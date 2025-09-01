@@ -1,11 +1,11 @@
-#include "bindings/sdsl_binding.hpp"
-#include "bindings/sdsl_cgal.hpp"
+#include "sdsl/bindings/sdsl_binding.hpp"
+#include "sdsl/bindings/sdsl_cgal.hpp"
 
-#include "sdsl.hpp"
-#include "configurations/config_R2xS1.hpp"
-#include "environments/env_R2_arrangement.hpp"
-#include "predicates/predicate_static.hpp"
-#include "predicates/predicate_dynamic.hpp"
+#include "sdsl/sdsl.hpp"
+#include "sdsl/configurations/config_R2xS1.hpp"
+#include "sdsl/environments/env_R2_arrangement.hpp"
+#include "sdsl/predicates/predicate_static.hpp"
+#include "sdsl/predicates/predicate_dynamic.hpp"
 using namespace sdsl;
 
 void sdsl_bindings_2d(nb::module_ &m) {

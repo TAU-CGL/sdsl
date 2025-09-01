@@ -1,9 +1,9 @@
-#include "bindings/sdsl_binding.hpp"
-#include "bindings/sdsl_cgal.hpp"
+#include "sdsl/bindings/sdsl_binding.hpp"
+#include "sdsl/bindings/sdsl_cgal.hpp"
 
-#include "sdsl.hpp"
-#include "math_utils.hpp"
-#include "random_utils.hpp"
+#include "sdsl/sdsl.hpp"
+#include "sdsl/math_utils.hpp"
+#include "sdsl/random_utils.hpp"
 using namespace sdsl;
 
 void sdsl_bindings_util(nb::module_ &m) {

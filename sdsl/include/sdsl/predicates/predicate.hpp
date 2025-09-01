@@ -2,8 +2,8 @@
 #define _SDSL_PREDICATE_HPP
 #pragma once
 
-#include "configurations/configuration.hpp"
-#include "environments/environment.hpp"
+#include "sdsl/configurations/configuration.hpp"
+#include "sdsl/environments/environment.hpp"
 
 namespace sdsl {
 

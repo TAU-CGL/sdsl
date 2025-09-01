@@ -2,7 +2,7 @@
 #define _SDSL_ENVIRONMENT_HPP
 #pragma once
 
-#include "configurations/configuration.hpp"
+#include "sdsl/configurations/configuration.hpp"
 
 namespace sdsl {
 

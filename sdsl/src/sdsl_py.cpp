@@ -1,4 +1,4 @@
-#include "bindings/sdsl_binding.hpp"
+#include "sdsl/bindings/sdsl_binding.hpp"
 
 void sdsl_bindings_util(nb::module_ &);
 void sdsl_bindings_2d(nb::module_ &);

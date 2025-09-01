@@ -14,12 +14,12 @@
 #include <CGAL/Search_traits_3.h>
 #include <CGAL/K_neighbor_search.h>
 
-#include "constants.hpp"
-#include "math_utils.hpp"
-#include "bindings/sdsl_binding.hpp"
-#include "actions/action_R3xS2.hpp"
-#include "environments/environment.hpp"
-#include "configurations/config_R3xS1.hpp"
+#include "sdsl/constants.hpp"
+#include "sdsl/math_utils.hpp"
+#include "sdsl/bindings/sdsl_binding.hpp"
+#include "sdsl/actions/action_R3xS2.hpp"
+#include "sdsl/environments/environment.hpp"
+#include "sdsl/configurations/config_R3xS1.hpp"
 
 
 namespace sdsl {

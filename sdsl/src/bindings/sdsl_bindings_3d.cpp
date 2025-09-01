@@ -1,12 +1,12 @@
-#include "bindings/sdsl_binding.hpp"
-#include "bindings/sdsl_cgal.hpp"
+#include "sdsl/bindings/sdsl_binding.hpp"
+#include "sdsl/bindings/sdsl_cgal.hpp"
 
-#include "sdsl.hpp"
-#include "actions/action_R3xS2.hpp"
-#include "environments/env_R3_pcd.hpp"
-#include "configurations/config_R3xS1.hpp"
-#include "predicates/predicate_static.hpp"
-#include "predicates/predicate_dynamic.hpp"
+#include "sdsl/sdsl.hpp"
+#include "sdsl/actions/action_R3xS2.hpp"
+#include "sdsl/environments/env_R3_pcd.hpp"
+#include "sdsl/configurations/config_R3xS1.hpp"
+#include "sdsl/predicates/predicate_static.hpp"
+#include "sdsl/predicates/predicate_dynamic.hpp"
 using namespace sdsl;
 
 

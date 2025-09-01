@@ -2,7 +2,7 @@
 #define _SDSL_PREDICATE_STATIC_HPP
 #pragma once
 
-#include "predicates/predicate.hpp"
+#include "sdsl/predicates/predicate.hpp"
 
 namespace sdsl {
     template<Configuration Config, Action<Config> Act, typename FT, Environment<Config, Act, FT> Env>

@@ -15,10 +15,10 @@
 #include <CGAL/AABB_segment_primitive_3.h>
 #include <CGAL/AABB_triangle_primitive_3.h>
 
-#include "configurations/config_R2xS1.hpp"
-#include "environments/environment.hpp"
-#include "math_utils.hpp"
-#include "bindings/sdsl_binding.hpp"
+#include "sdsl/configurations/config_R2xS1.hpp"
+#include "sdsl/environments/environment.hpp"
+#include "sdsl/math_utils.hpp"
+#include "sdsl/bindings/sdsl_binding.hpp"
 
 namespace sdsl {
     template<typename Arrangement_2, typename Traits_2>
