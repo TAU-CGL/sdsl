@@ -48,15 +48,6 @@ namespace sdsl {
         // { q * t } -> std::same_as<T>; // Note that this "action" is backwards - the config space acts on the "action" space
     };
 
-    // template<typename T, typename Config>
-    // concept Voxel = requires(T t, std::vector<T>& vec, Config q) {
-    //     Configuration<Config>;
-    //     { t.split(vec) } -> std::same_as<void>;
-    //     { t.bottomLeft() } -> std::same_as<Config>;
-    //     { t.topRight() } -> std::same_as<Config>;
-    //     { t.contains(q) } -> std::same_as<bool>;
-    // };
-
     template<Configuration Config>
     class Voxel {
     public:
@@ -86,7 +77,6 @@ namespace sdsl {
 
     // "Polymorphic" methods of Voxel
     // (In Python API, they would be members of the voxel class)
-    template<Configuration Config> void split(Voxel<Config>& v, std::vector<Voxel<Config>>& vec) {}
     template<Configuration Config, typename FT> Voxel<Config> expandError(Voxel<Config>& v, FT error) {}
     template<Configuration Config> Config sample(Voxel<Config>& v) { return Config(); }
     template<Configuration Config> Config middle(Voxel<Config>& v) { return Config(); }

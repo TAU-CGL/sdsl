@@ -1,6 +1,6 @@
 from ._sdsl import __doc__, __version__
 from ._sdsl import R2xS1, R2xS1_Voxel, Env_R2_Arrangement, localize_R2, localize_R2_dynamic_naive, post_processing
-from ._sdsl import R3xS1, R3xS1_Voxel, R3xS2, Env_R3_PCD, localize_R3_pcd, localize_R3_pcd_dynamic
+from ._sdsl import R3xS1, R3xS1_Voxel, R3xS2, Env_R3_PCD, localize_R3_pcd, localize_R3_pcd_dynamic, localize_R3_pcd_dynamic_scheduled
 from ._sdsl import seed, max_min_on_trig_range
 from . import loaders
 from . import visualization
@@ -14,7 +14,7 @@ import numpy as np
 
 __all__ = [
     "R2xS1", "R2xS1_Voxel", "Env_R2_Arrangement", "localize_R2", "post_processing",
-    "R3xS1", "R3xS1_Voxel", "R3xS2", "Env_R3_PCD", "localize_R3_pcd", "localize_R3_pcd_dynamic",
+    "R3xS1", "R3xS1_Voxel", "R3xS2", "Env_R3_PCD", "localize_R3_pcd", "localize_R3_pcd_dynamic", "localize_R3_pcd_dynamic_scheduled",
     "seed", "max_min_on_trig_range",
 ]
 

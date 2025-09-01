@@ -72,42 +72,6 @@ namespace sdsl {
     };
 
     template<typename FT>
-    void split(Voxel<R2xS1<FT>>& v, std::vector<Voxel<R2xS1<FT>>>& vec) {
-        R2xS1 midpoint(
-            (v.bottomLeft().getX() + v.topRight().getX()) / 2,
-            (v.bottomLeft().getY() + v.topRight().getY()) / 2,
-            (v.bottomLeft().getR() + v.topRight().getR()) / 2
-        );
-        FT lx = v.bottomLeft().getX(), mx = midpoint.getX(), rx = v.topRight().getX();
-        FT ly = v.bottomLeft().getY(), my = midpoint.getY(), ry = v.topRight().getY();
-        FT lr = v.bottomLeft().getR(), mr = midpoint.getR(), rr = v.topRight().getR();
-
-        // Split by x: [lx, mx]
-            // Split by y: [ly, my]
-                // Split by r: [lr, mr]
-                    vec.push_back(Voxel(R2xS1(lx, ly, lr), R2xS1(mx, my, mr)));
-                // Split by r: [mr, rr]
-                    vec.push_back(Voxel(R2xS1(lx, ly, mr), R2xS1(mx, my, rr)));
-            // Split by y: [my, ry]
-                // Split by r: [lr, mr]
-                    vec.push_back(Voxel(R2xS1(lx, my, lr), R2xS1(mx, ry, mr)));
-                // Split by r: [mr, rr]
-                    vec.push_back(Voxel(R2xS1(lx, my, mr), R2xS1(mx, ry, rr)));
-
-        // Split by x: [lx, mx]
-            // Split by y: [ly, my]
-                // Split by r: [lr, mr]
-                    vec.push_back(Voxel(R2xS1(mx, ly, lr), R2xS1(rx, my, mr)));
-                // Split by r: [mr, rr]
-                    vec.push_back(Voxel(R2xS1(mx, ly, mr), R2xS1(rx, my, rr)));
-            // Split by y: [my, ry]
-                // Split by r: [lr, mr]
-                    vec.push_back(Voxel(R2xS1(mx, my, lr), R2xS1(rx, ry, mr)));
-                // Split by r: [mr, rr]
-                    vec.push_back(Voxel(R2xS1(mx, my, mr), R2xS1(rx, ry, rr)));
-    }
-
-    template<typename FT>
     R2xS1<FT> sample(Voxel<R2xS1<FT>>& v) {
         FT x = FT(Random::randomDouble());
         FT y = FT(Random::randomDouble());
