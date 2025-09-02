@@ -11,7 +11,7 @@ set(SDSL_PROJECT_EMAILS "michaelmoshe@mail.tau.ac.il")
 set(SDSL_PROJECT_URL "https://www.cgl.cs.tau.ac.il/projects/sensor-localization-by-few-distance-measurements-via-the-intersection-of-implicit-manifolds/")
 ###################
 
-option(SDSL_WITH_PYBINDINGS "With Python bindings" OFF)
+option(SDSL_WITH_PYBINDINGS "With Python bindings" ON)
 
 set(SDSL_MODULES_REL_DIR cmake/modules)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/${SDSL_MODULES_REL_DIR})
