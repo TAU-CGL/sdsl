@@ -59,9 +59,7 @@ file(GLOB_RECURSE SDSL_BINDINGS_SRC
     "${CMAKE_CURRENT_SOURCE_DIR}/src/bindings/*.cpp"
 )
 
-if (SDSL_WITH_PYBINDINGS)
 nanobind_add_module(_sdsl src/sdsl_py.cpp ${SDSL_BINDINGS_SRC})
 target_link_libraries(_sdsl PRIVATE CGAL::CGAL OpenMP::OpenMP_CXX fmt::fmt ${Boost_LIBRARIES})
 
 install(TARGETS _sdsl LIBRARY DESTINATION lib/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages/sdsl)
-endif()
