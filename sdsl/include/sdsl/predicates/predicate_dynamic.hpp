@@ -22,7 +22,7 @@ namespace sdsl {
             
             if (k_ < 0) {
                 // Use the k_ heuristic: distance from environment < 1 is ratio of 0.8, otherwise 0.7
-                if (env.voxelHausdorffDistance(v) < 1.0) {
+                if (env.voxelHausdorffDistance(v) < 0.975) {
                     k_ = (int)(0.8 * (double)k);
                 } else {
                     k_ = (int)(0.7 * (double)k);
