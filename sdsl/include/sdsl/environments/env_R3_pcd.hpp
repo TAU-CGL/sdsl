@@ -131,26 +131,27 @@ namespace sdsl {
         double voxelHausdorffDistance(Voxel<R3xS1<FT>> v) {
             double d1  = hausdorffDistance(v.bottomLeft());
             double d2  = hausdorffDistance(R3xS1<FT>(v.bottomLeft().getX(), v.bottomLeft().getY(), v.bottomLeft().getZ(), v.topRight().getR()));
-            double d3  = hausdorffDistance(R3xS1<FT>(v.bottomLeft().getX(), v.bottomLeft().getY(), v.topRight().getZ(), v.bottomLeft().getR()));
-            double d4  = hausdorffDistance(R3xS1<FT>(v.bottomLeft().getX(), v.bottomLeft().getY(), v.topRight().getZ(), v.topRight().getR()));
+            // double d3  = hausdorffDistance(R3xS1<FT>(v.bottomLeft().getX(), v.bottomLeft().getY(), v.topRight().getZ(), v.bottomLeft().getR()));
+            // double d4  = hausdorffDistance(R3xS1<FT>(v.bottomLeft().getX(), v.bottomLeft().getY(), v.topRight().getZ(), v.topRight().getR()));
 
             double d5  = hausdorffDistance(R3xS1<FT>(v.bottomLeft().getX(), v.topRight().getY(), v.bottomLeft().getZ(), v.bottomLeft().getR()));
             double d6  = hausdorffDistance(R3xS1<FT>(v.bottomLeft().getX(), v.topRight().getY(), v.bottomLeft().getZ(), v.topRight().getR()));
-            double d7  = hausdorffDistance(R3xS1<FT>(v.bottomLeft().getX(), v.topRight().getY(), v.topRight().getZ(), v.bottomLeft().getR()));
-            double d8  = hausdorffDistance(R3xS1<FT>(v.bottomLeft().getX(), v.topRight().getY(), v.topRight().getZ(), v.topRight().getR()));
+            // double d7  = hausdorffDistance(R3xS1<FT>(v.bottomLeft().getX(), v.topRight().getY(), v.topRight().getZ(), v.bottomLeft().getR()));
+            // double d8  = hausdorffDistance(R3xS1<FT>(v.bottomLeft().getX(), v.topRight().getY(), v.topRight().getZ(), v.topRight().getR()));
 
             double d9  = hausdorffDistance(R3xS1<FT>(v.topRight().getX(), v.bottomLeft().getY(), v.bottomLeft().getZ(), v.bottomLeft().getR()));
             double d10 = hausdorffDistance(R3xS1<FT>(v.topRight().getX(), v.bottomLeft().getY(), v.bottomLeft().getZ(), v.topRight().getR()));
-            double d11 = hausdorffDistance(R3xS1<FT>(v.topRight().getX(), v.bottomLeft().getY(), v.topRight().getZ(), v.bottomLeft().getR()));
-            double d12 = hausdorffDistance(R3xS1<FT>(v.topRight().getX(), v.bottomLeft().getY(), v.topRight().getZ(), v.topRight().getR()));
+            // double d11 = hausdorffDistance(R3xS1<FT>(v.topRight().getX(), v.bottomLeft().getY(), v.topRight().getZ(), v.bottomLeft().getR()));
+            // double d12 = hausdorffDistance(R3xS1<FT>(v.topRight().getX(), v.bottomLeft().getY(), v.topRight().getZ(), v.topRight().getR()));
 
             double d13 = hausdorffDistance(R3xS1<FT>(v.topRight().getX(), v.topRight().getY(), v.bottomLeft().getZ(), v.bottomLeft().getR()));
             double d14 = hausdorffDistance(R3xS1<FT>(v.topRight().getX(), v.topRight().getY(), v.bottomLeft().getZ(), v.topRight().getR()));
-            double d15 = hausdorffDistance(R3xS1<FT>(v.topRight().getX(), v.topRight().getY(), v.topRight().getZ(), v.bottomLeft().getR()));
-            double d16 = hausdorffDistance(R3xS1<FT>(v.topRight()));
+            // double d15 = hausdorffDistance(R3xS1<FT>(v.topRight().getX(), v.topRight().getY(), v.topRight().getZ(), v.bottomLeft().getR()));
+            // double d16 = hausdorffDistance(R3xS1<FT>(v.topRight()));
 
             double d17 = hausdorffDistance(middle(v));
-            return std::max({d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17});
+            // return std::max({d1, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11, d12, d13, d14, d15, d16, d17});
+            return std::max({d1, d2, d5, d6, d9, d10, d13, d14, d17});
         }
 
         Voxel<R3xS1<FT>> boundingBox() {
