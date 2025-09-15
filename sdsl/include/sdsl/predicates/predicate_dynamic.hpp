@@ -19,6 +19,16 @@ namespace sdsl {
 
         bool operator()(Env env, std::vector<Act> odometry, std::vector<FT> measurements, FT errorBound, Voxel<Config> v) {
             // assert k == odometry.size() == measurements.size()
+            
+            if (k_ < 0) {
+                // Use the k_ heuristic: distance from environment < 1 is ratio of 0.8, otherwise 0.7
+                if (env.voxelHausdorffDistance(v) < 1.0) {
+                    k_ = (int)(0.8 * (double)k);
+                } else {
+                    k_ = (int)(0.7 * (double)k);
+                }
+            }
+
             int numPositive = 0;
             // #pragma omp parallel for
             for (int j = 0; j < k; j++) {
