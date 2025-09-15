@@ -125,6 +125,19 @@ namespace sdsl {
             return sqrt(CGAL::to_double(CGAL::squared_distance(p1, p2)));
         }
 
+        double voxelHausdorffDistance(Voxel<R2xS1<FT>> v) {
+            double d1 = hausdorffDistance(v.bottomLeft());
+            double d2 = hausdorffDistance(R2xS1<FT>(v.bottomLeft().getX(), v.bottomLeft().getY(), v.topRight().getR()));
+            double d3 = hausdorffDistance(R2xS1<FT>(v.bottomLeft().getX(), v.topRight().getY(), v.bottomLeft().getR()));
+            double d4 = hausdorffDistance(R2xS1<FT>(v.bottomLeft().getX(), v.topRight().getY(), v.topRight().getR()));
+            double d5 = hausdorffDistance(R2xS1<FT>(v.topRight().getX(), v.bottomLeft().getY(), v.bottomLeft().getR()));
+            double d6 = hausdorffDistance(R2xS1<FT>(v.topRight().getX(), v.bottomLeft().getY(), v.topRight().getR()));
+            double d7 = hausdorffDistance(R2xS1<FT>(v.topRight().getX(), v.topRight().getY(), v.bottomLeft().getR()));
+            double d8 = hausdorffDistance(v.topRight());
+            double d9 = hausdorffDistance(middle(v));
+            return std::max({d1, d2, d3, d4, d5, d6, d7, d8, d9});
+        }
+
         Voxel<R2xS1<FT>> forward(FT d, R2xS1<FT> q, Voxel<R2xS1<FT>> v) {
             FT maxx, minx;
             maxMinOnTrigRange(
