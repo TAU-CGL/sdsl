@@ -1,0 +1,7 @@
+pytest
+numpy
+scipy
+trimesh
+open3d
+matplotlib
+shapely

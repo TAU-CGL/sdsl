@@ -1,0 +1,8 @@
+[requires]
+fmt/10.2.1
+cgal/6.0.1
+glm/cci.20230113
+
+[generators]
+CMakeDeps
+CMakeToolchain
