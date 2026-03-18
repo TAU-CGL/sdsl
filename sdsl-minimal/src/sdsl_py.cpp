@@ -2,9 +2,12 @@
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
 #include <nanobind/operators.h>
+#include <nanobind/stl/function.h>
 namespace nb = nanobind;
 
 #include "sdsl/configuration.hpp"
+#include "sdsl/sdsl.hpp"
+#include "sdsl/predicates/unit_sphere.hpp"
 using namespace sdsl;
 
 template<int D>
@@ -74,4 +77,36 @@ NB_MODULE(_sdsl, m) {
     bind_voxel<2>(m, "Voxel_2d");
     bind_voxel<3>(m, "Voxel_3d");
     bind_voxel<4>(m, "Voxel_4d");
+
+    // Unit sphere predicate for 3D
+    nb::class_<UnitSpherePredicate<double>>(m, "UnitSpherePredicate")
+        .def(nb::init<>())
+        .def("__call__", &UnitSpherePredicate<double>::operator());
+
+    // Localize function for 3D with unit sphere predicate
+    m.def("localize_unit_sphere", [](
+        const Voxel<3, double>& boundingBox,
+        int recursionDepth
+    ) {
+        UnitSpherePredicate<double> predicate;
+        return localize<3, double>(boundingBox, predicate, recursionDepth);
+    }, nb::arg("bounding_box"), nb::arg("recursion_depth"),
+       "Localize voxels that intersect with the unit sphere surface (S^2) in 3D");
+
+    // Generic localize function for 3D with custom predicate (Python callable)
+    m.def("localize_3d", [](
+        const Voxel<3, double>& boundingBox,
+        std::function<bool(const Voxel<3, double>&)> predicate,
+        int recursionDepth
+    ) {
+        // Wrap the Python callable in a C++ predicate struct
+        struct PyPredicate {
+            std::function<bool(const Voxel<3, double>&)> func;
+            bool operator()(const Voxel<3, double>& v) const { return func(v); }
+        };
+        
+        PyPredicate pred{predicate};
+        return localize<3, double>(boundingBox, pred, recursionDepth);
+    }, nb::arg("bounding_box"), nb::arg("predicate"), nb::arg("recursion_depth"),
+       "Localize voxels in 3D using a custom predicate function");
 }
