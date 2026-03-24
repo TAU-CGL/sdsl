@@ -6,7 +6,7 @@ using namespace sdsl;
 template<int D, typename FT, Predicate<D,FT> Pred>
 void bind_omp_forkjoin(nb::module_ &m, const char* name) {
     m.def(name, &localize_omp_forkjoin<D, FT, Pred>, 
-        nb::arg("boundingBox"), nb::arg("predicate"), nb::arg("recursionDepth"));
+        nb::arg("boundingBox"), nb::arg("predicate"), nb::arg("recursionDepth"), nb::arg("verbose"));
 }
 
 

@@ -7,7 +7,7 @@ def test_omp_always_true_3d():
     pred = sdsl.Predicate_AlwaysTrue_3d()
     depth = 4
 
-    res = sdsl.localize_omp_forkjoin_3d(v, pred, depth)
+    res = sdsl.localize_omp_forkjoin_3d(v, pred, depth, verbose=False)
     assert len(res) == (2**3) ** (depth-1)
 
 def test_omp_always_true_4d():
@@ -17,5 +17,5 @@ def test_omp_always_true_4d():
     pred = sdsl.Predicate_AlwaysTrue_4d()
     depth = 4
 
-    res = sdsl.localize_omp_forkjoin_4d(v, pred, depth)
+    res = sdsl.localize_omp_forkjoin_4d(v, pred, depth, verbose=False)
     assert len(res) == (2**4) ** (depth-1)
