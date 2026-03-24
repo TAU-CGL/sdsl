@@ -4,7 +4,7 @@ import pickle
 import sdsl
 from sdsl.simulation import *
 
-MAP_PATH = "resources/maps/frog.poly"
+MAP_PATH = "resources/maps/2d/frog.poly"
 ARROW_LEN = 0.3
 K = 16; K_ = 14
 EPS = 0.02
@@ -34,7 +34,7 @@ if __name__ == "__main__":
         end = time.time()
         print(f"End localization. Took {end - start}[sec]")
 
-        # visualize_simulation(env, q0, odometry, measurements, dynamic_obstacles)
+        visualize_simulation(env, q0, odometry, measurements, dynamic_obstacles)
 
         segments = []
         for voxel in localization:

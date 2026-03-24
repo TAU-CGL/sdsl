@@ -44,6 +44,16 @@ namespace sdsl {
             }
             return mid;
         }
+
+        bool contains(const Configuration<D, FT>& p) const {
+            bool result = true;
+            for (int i = 0; i < D; ++i) {
+                result &= (p[i] >= bottomLeft[i]) & (p[i] <= topRight[i]);
+            }
+            return result;
+        }
+
+        
         
     private:
         // Generate subvoxel for a given binary index
