@@ -27,9 +27,36 @@ void bind_configuration(nb::module_ &m, const char* name) {
     ;
 }
 
+template<int D, typename FT=double>
+void bind_voxel(nb::module_ &m, const char* name) {
+    nb::class_<Voxel<D,FT>>(m, name)
+        .def(nb::init<>())
+        .def(nb::init<const Configuration<D, double>&, const Configuration<D, double>&>())
+        .def_rw("bottom_left", &Voxel<D, double>::bottomLeft)
+        .def_rw("top_right", &Voxel<D, double>::topRight)
+        .def("midpoint", &Voxel<D, double>::midpoint)
+        .def("split", [](const Voxel<D, double>& v) {
+            std::vector<Voxel<D, double>> result;
+            v.split(result);
+            return result;
+        })
+        .def("split", [](const Voxel<D, double>& v, const Configuration<D, double>& mid) {
+            std::vector<Voxel<D, double>> result;
+            v.split(mid, result);
+            return result;
+        })
+        .def("__repr__", [](const Voxel<D,FT>& v) { return v.to_string(); })
+    ;
+}
+
 void sdsl_bindings_configuration(nb::module_ &m) {
     bind_configuration<1, double>(m, "R1"); // probably useless
     bind_configuration<2, double>(m, "R2");
     bind_configuration<3, double>(m, "R3");
     bind_configuration<4, double>(m, "R4");
+
+    bind_voxel<1, double>(m, "Voxel_R1");
+    bind_voxel<2, double>(m, "Voxel_R2");
+    bind_voxel<3, double>(m, "Voxel_R3");
+    bind_voxel<4, double>(m, "Voxel_R4");
 }

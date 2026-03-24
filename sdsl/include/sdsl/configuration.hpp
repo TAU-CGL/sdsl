@@ -110,6 +110,14 @@ namespace sdsl {
         void split(std::vector<Voxel<D, FT>>& output) const {
             split(midpoint(), output);
         }
+
+        std::string to_string() const {
+            std::string s = "Voxel_R" + std::to_string(D) + "(";
+            s += "bottomLeft=[" + bottomLeft.to_string();
+            s += "], topRight=[" + topRight.to_string();
+            s += "])";
+            return s;
+        }
     };
 
 }
