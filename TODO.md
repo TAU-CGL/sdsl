@@ -1,3 +1,7 @@
+-- Refactor ---
+
+- [ ] Make the binding across all possible combinations of <localize alg> and <predicate> automatic.
+
 # SDSL - TODO list
 This is a broad list of todo-tasks.
 Mostly nice-to-haves, but are important for readability/usability of the package.
