@@ -5,6 +5,7 @@
 #include <array>
 #include <vector>
 #include <cstddef>
+#include <string>
 #include <utility>
 
 namespace sdsl {
@@ -22,6 +23,16 @@ namespace sdsl {
         
         FT& operator[](size_t i) { return coords[i]; }
         const FT& operator[](size_t i) const { return coords[i]; }
+
+        std::string to_string() const {
+            std::string s = "R" + std::to_string(D) + "(";
+            for (int i = 0; i < D; ++i) {
+                if (i > 0) s += ", ";
+                s += std::to_string(coords[i]);
+            }
+            s += ")";
+            return s;
+        }
     };
     
     /*
