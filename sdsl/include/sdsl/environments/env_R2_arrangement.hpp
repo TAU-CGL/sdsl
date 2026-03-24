@@ -3,6 +3,9 @@
 #include <vector>
 #include <memory>
 
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include <CGAL/squared_distance_2.h>
 #include <CGAL/intersections.h>
 #include <CGAL/Arrangement_2.h>
@@ -35,6 +38,9 @@ namespace sdsl {
             CGAL::AABB_traits_3<
                 typename Traits_2::Kernel, 
                 CGAL::AABB_segment_primitive_3<typename Traits_2::Kernel, typename std::list<Segment_3>::iterator>>>;
+
+    static constexpr double INF = 100000.0;
+
 
     public:
         Env_R2_Arrangement() {}
@@ -77,6 +83,60 @@ namespace sdsl {
                 if (v.contains(p)) return true;
                 else return false;
             }
+            return false;
+        }
+
+        template<int D>
+        double measureDistance(Configuration<D,FT> q) {
+            Segment ray(
+                Point(q[0], q[1]), 
+                Point(q[0] + FT(INF) * cos(q[2]), q[1] + FT(INF) * sin(q[2]))
+            );
+
+            // Use arrangement zone to find intersections
+            std::vector<CGAL::Object> res;
+            CGAL::zone(m_arrangement, ray, std::back_inserter(res), *m_pl);
+
+            FT minDist = FT(INF);
+            for (auto x : res) {
+                typename Arrangement_2::Halfedge_handle e;
+                typename Arrangement_2::Vertex_handle v;
+
+                if (assign(e, x)) {
+                    // Find intersection point
+                    Point p;
+                    if (CGAL::assign(p, CGAL::intersection(e->curve(), ray))) {
+                        FT dist = CGAL::squared_distance(p, ray.source());
+                        if (dist < minDist) minDist = dist;
+                    }
+                } else if (assign(v, x)) {
+                    FT dist = CGAL::squared_distance(v->point(), ray.source());
+                    if (dist < minDist) minDist = dist;
+                }
+            }
+            
+            return sqrt(CGAL::to_double(minDist));
+        }
+
+        template<int D>
+        double hausdorffDistance(Configuration<D,FT> q) {
+            Point_3 p1(q[0], q[1], 0);
+            Point_3 p2 = m_tree->closest_point(p1);
+            return sqrt(CGAL::to_double(CGAL::squared_distance(p1, p2)));
+        }
+
+        template<int D>
+        double voxelHausdorffDistance(Voxel<D,FT> v) {
+            double d1 = hausdorffDistance(v.bottomLeft);
+            double d2 = hausdorffDistance(Configuration<D,FT>(v.bottomLeft[0], v.bottomLeft[1], v.topRight[2]));
+            double d3 = hausdorffDistance(Configuration<D,FT>(v.bottomLeft[0], v.topRight[1], v.bottomLeft[2]));
+            double d4 = hausdorffDistance(Configuration<D,FT>(v.bottomLeft[0], v.topRight[1], v.topRight[2]));
+            double d5 = hausdorffDistance(Configuration<D,FT>(v.topRight[0], v.bottomLeft[1], v.bottomLeft[2]));
+            double d6 = hausdorffDistance(Configuration<D,FT>(v.topRight[0], v.bottomLeft[1], v.topRight[2]));
+            double d7 = hausdorffDistance(Configuration<D,FT>(v.topRight[0], v.topRight[1], v.bottomLeft[2]));
+            double d8 = hausdorffDistance(v.topRight);
+            double d9 = hausdorffDistance(v.midpoint());
+            return std::max({d1, d2, d3, d4, d5, d6, d7, d8, d9});
         }
 
 
@@ -106,5 +166,56 @@ namespace sdsl {
             }
         #endif
 
+        template<int D>
+        Voxel<D,FT> boundingBox() {
+            FT xmin = FT(INF), ymin = FT(INF), xmax = -FT(INF), ymax = -FT(INF);
+            for (auto it = m_arrangement.vertices_begin(); it != m_arrangement.vertices_end(); ++it) {
+                FT x = it->point().x(), y = it->point().y();
+                if (x < xmin) xmin = x;
+                if (x > xmax) xmax = x;
+                if (y < ymin) ymin = y;
+                if (y > ymax) ymax = y;
+            }
+            return Voxel<D,FT>(
+                Configuration<D,FT>(xmin, ymin, 0),
+                Configuration<D,FT>(xmax, ymax, 2 * M_PI)
+            );
+        }
+
+        template<int D>
+        bool isInside(Configuration<D,FT> q) {
+            Segment upwards(Point(q[0], q[1]), Point(q[0], q[1] + INF));
+            std::vector<CGAL::Object> res;
+            CGAL::zone(m_arrangement, upwards, std::back_inserter(res), *m_pl);
+            int numIsects = 0;
+            for (auto& x : res) {
+                typename Arrangement_2::Halfedge_handle e;
+                typename Arrangement_2::Vertex_handle v;
+                if (assign(e, x) || assign(v, x)) numIsects++;
+            }
+            return numIsects % 2 == 1;
+        }
+    private:
+        Arrangement_2 m_arrangement;
+        std::shared_ptr<Point_location> m_pl;
+        std::shared_ptr<AABB_tree> m_tree;
+        std::vector<double> m_representation; // This representation only updates when requested
+        std::list<Segment_3> m_segments;
+
+        void fromSegments(std::vector<Segment> segments) {
+            CGAL::insert(m_arrangement, segments.begin(), segments.end());
+            for (auto segment : segments) {
+                m_segments.push_back(Segment_3(
+                    Point_3(segment.source().x(), segment.source().y(), 0),
+                    Point_3(segment.target().x(), segment.target().y(), 0)
+                ));
+            }
+            m_tree = std::make_shared<AABB_tree>(m_segments.begin(), m_segments.end());
+            m_tree->accelerate_distance_queries();
+        }
+
+        void buildPointLocation() {
+            m_pl = std::make_shared<Point_location>(m_arrangement);
+        }
     };
 }
