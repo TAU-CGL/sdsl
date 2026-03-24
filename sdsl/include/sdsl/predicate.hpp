@@ -1,5 +1,3 @@
-#ifndef _SDSL_PREDICATE_HPP
-#define _SDSL_PREDICATE_HPP
 #pragma once
 
 #include "sdsl/configuration.hpp"
@@ -14,5 +12,3 @@ namespace sdsl {
         {t(v)} -> std::same_as<bool>;
     };
 }
-
-#endif

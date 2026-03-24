@@ -1,5 +1,3 @@
-#ifndef _SDSL_HPP
-#define _SDSL_HPP
 #pragma once
 
 #include <queue>
@@ -41,5 +39,3 @@ namespace sdsl {
     }
 
 }
-
-#endif

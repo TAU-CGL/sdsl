@@ -1,5 +1,3 @@
-#ifndef _SDSL_RANDOM_UTILS_HPP
-#define _SDSL_RANDOM_UTILS_HPP
 #pragma once
 
 #include <boost/random/mersenne_twister.hpp>
@@ -41,5 +39,3 @@ namespace sdsl {
         boost::mt19937 rng;
     };
 }
-
-#endif

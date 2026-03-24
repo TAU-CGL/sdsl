@@ -1,5 +1,3 @@
-#ifndef _SDSL_CONFIGURATION_HPP
-#define _SDSL_CONFIGURATION_HPP
 #pragma once
 
 #include <array>
@@ -121,5 +119,3 @@ namespace sdsl {
     };
 
 }
-
-#endif

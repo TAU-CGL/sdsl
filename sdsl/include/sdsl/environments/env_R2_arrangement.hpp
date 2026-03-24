@@ -1,5 +1,3 @@
-#ifndef _SDSL_ENV_R2_HPP
-#define _SDSL_ENV_R2_HPP
 #pragma once
 
 #include <vector>
