@@ -18,6 +18,12 @@ void bind_configuration(nb::module_ &m, const char* name) {
         .def("__getitem__", [](const Configuration<D,FT>& c, size_t i) { return c[i]; })
         .def("__setitem__", [](Configuration<D,FT>& c, size_t i, FT val) { c[i] = val; })
         .def("__repr__", [](const Configuration<D,FT>& c) { return c.to_string(); })
+        .def("__eq__", &Configuration<D,FT>::operator==)
+        .def("__ne__", &Configuration<D,FT>::operator!=)
+        .def("__lt__", &Configuration<D,FT>::operator<)
+        .def("__le__", &Configuration<D,FT>::operator<=)
+        .def("__gt__", &Configuration<D,FT>::operator>)
+        .def("__ge__", &Configuration<D,FT>::operator>=)
     ;
 }
 

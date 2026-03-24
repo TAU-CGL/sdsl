@@ -21,6 +21,13 @@ namespace sdsl {
             static_assert(sizeof...(args) == D, "Number of arguments must match dimension");
         }
         
+        bool operator==(const Configuration& o) const { return coords == o.coords; }
+        bool operator!=(const Configuration& o) const { return coords != o.coords; }
+        bool operator< (const Configuration& o) const { for (int i=0;i<D;++i) if (!(coords[i] <  o.coords[i])) return false; return true; }
+        bool operator<=(const Configuration& o) const { for (int i=0;i<D;++i) if (!(coords[i] <= o.coords[i])) return false; return true; }
+        bool operator> (const Configuration& o) const { for (int i=0;i<D;++i) if (!(coords[i] >  o.coords[i])) return false; return true; }
+        bool operator>=(const Configuration& o) const { for (int i=0;i<D;++i) if (!(coords[i] >= o.coords[i])) return false; return true; }
+
         FT& operator[](size_t i) { return coords[i]; }
         const FT& operator[](size_t i) const { return coords[i]; }
 
