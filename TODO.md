@@ -1,6 +1,7 @@
 -- Refactor ---
 
 - [ ] Make the binding across all possible combinations of <localize alg> and <predicate> automatic.
+- [ ] Use SIMD (xsimd) for forward method instead of for-loop
 
 # SDSL - TODO list
 This is a broad list of todo-tasks.
