@@ -9,4 +9,7 @@
 #include <nanobind/stl/vector.h>
 #include <nanobind/stl/tuple.h>
 namespace nb = nanobind;
+
+using pyFT = double; // Chosen field type for Python bindings
+
 #endif

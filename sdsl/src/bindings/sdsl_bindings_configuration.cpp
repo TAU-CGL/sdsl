@@ -55,13 +55,13 @@ void bind_voxel(nb::module_ &m, const char* name) {
 }
 
 void sdsl_bindings_configuration(nb::module_ &m) {
-    bind_configuration<1, double>(m, "R1"); // probably useless
-    bind_configuration<2, double>(m, "R2");
-    bind_configuration<3, double>(m, "R3");
-    bind_configuration<4, double>(m, "R4");
+    bind_configuration<1, pyFT>(m, "R1"); // probably useless
+    bind_configuration<2, pyFT>(m, "R2");
+    bind_configuration<3, pyFT>(m, "R3");
+    bind_configuration<4, pyFT>(m, "R4");
 
-    bind_voxel<1, double>(m, "Voxel_R1");
-    bind_voxel<2, double>(m, "Voxel_R2");
-    bind_voxel<3, double>(m, "Voxel_R3");
-    bind_voxel<4, double>(m, "Voxel_R4");
+    bind_voxel<1, pyFT>(m, "Voxel_R1");
+    bind_voxel<2, pyFT>(m, "Voxel_R2");
+    bind_voxel<3, pyFT>(m, "Voxel_R3");
+    bind_voxel<4, pyFT>(m, "Voxel_R4");
 }
