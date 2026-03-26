@@ -19,10 +19,10 @@ import sdsl
 MAP_PATH = "resources/maps/2d/checkpoint.poly"
 N_RAYS = 16
 RECURSION_DEPTH = 9  # 8^(depth-1) voxels with AlwaysTrue predicate
-KK_PRIME_RATIO = 0.8
+KK_PRIME_RATIO = 0.7
 ERROR_BOUND = 0.05
 POINT_SPACING = 0.15   # distance between consecutive samples along each edge
-TIMEOUT = 0.3
+TIMEOUT = 0.5
 
 
 def load_poly_as_pcd(path, spacing=POINT_SPACING):
@@ -45,6 +45,16 @@ def load_poly_as_pcd(path, spacing=POINT_SPACING):
             samples.append(p0 + t * (p1 - p0))
 
     return np.array(samples, dtype=np.float64)
+
+
+def corrupt_measurements(dists, kk_prime_ratio):
+    """Randomly corrupt (1 - kk_prime_ratio) fraction of measurements by a factor in [0.1, 3]."""
+    noisy = dists.copy()
+    n_corrupt = round((1 - kk_prime_ratio) * len(dists)) - 1
+    idx = np.random.choice(len(dists), size=n_corrupt, replace=False)
+    noisy[idx] *= np.random.uniform(0.1, 3.0, size=n_corrupt)
+    noisy += np.random.normal(0.0, 0.5 * ERROR_BOUND, size=len(noisy))
+    return noisy
 
 
 def cast_rays(env, x, y, n=N_RAYS):
@@ -90,8 +100,9 @@ def main():
         )
 
         # --- Localize ---
+        noisy_dists = corrupt_measurements(dists, KK_PRIME_RATIO)
         odometry = [sdsl.R3(0.0, 0.0, theta) for theta in angles]
-        pred = sdsl.Predicate_Fwd2D_Arr(env, odometry, list(dists), KK_PRIME_RATIO, ERROR_BOUND)
+        pred = sdsl.Predicate_Fwd2D_Arr(env, odometry, list(noisy_dists), KK_PRIME_RATIO, ERROR_BOUND)
         start_time = time.time()
         voxels = sdsl.localize_omp_forkjoin_3d(bbox, pred, RECURSION_DEPTH, timeout=TIMEOUT, verbose=True)
         end_time = time.time()

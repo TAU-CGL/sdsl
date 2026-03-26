@@ -29,6 +29,16 @@ def load_poly_as_segments(path):
     return np.column_stack([pts, dst])   # close the polygon automatically
 
 
+def corrupt_measurements(dists, kk_prime_ratio):
+    """Randomly corrupt (1 - kk_prime_ratio) fraction of measurements by a factor in [0.1, 3]."""
+    noisy = dists.copy()
+    n_corrupt = round((1 - kk_prime_ratio) * len(dists))
+    idx = np.random.choice(len(dists), size=n_corrupt, replace=False)
+    noisy[idx] *= np.random.uniform(0.1, 3.0, size=n_corrupt)
+    noisy += np.random.normal(0.0, 0.5 * ERROR_BOUND, size=len(noisy))
+    return noisy
+
+
 def cast_rays(env, x, y, n=N_RAYS):
     angles = np.linspace(0, 2 * np.pi, n, endpoint=False)
     dists = np.array([env.measure_distance(sdsl.R3(x, y, theta)) for theta in angles])
@@ -75,8 +85,9 @@ def main():
         # Odometry: K offsets from robot's origin, one per measurement.
         # Each entry is (dx=0, dy=0, dtheta=angle_i) — the robot didn't move,
         # it just measured in each direction.
+        noisy_dists = corrupt_measurements(dists, KK_PRIME_RATIO)
         odometry = [sdsl.R3(0.0, 0.0, theta) for theta in angles]
-        pred = sdsl.Predicate_Fwd2D_Arr(env, odometry, list(dists),KK_PRIME_RATIO, ERROR_BOUND)
+        pred = sdsl.Predicate_Fwd2D_Arr(env, odometry, list(noisy_dists), KK_PRIME_RATIO, ERROR_BOUND)
         start_time = time.time()
         voxels = sdsl.localize_omp_forkjoin_3d(bbox, pred, RECURSION_DEPTH, verbose=True)
         end_time = time.time()
