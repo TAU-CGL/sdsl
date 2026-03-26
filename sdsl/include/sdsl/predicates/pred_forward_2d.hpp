@@ -3,6 +3,7 @@
 #include <vector>
 
 #include "sdsl/predicate.hpp"
+#include "sdsl/math_utils.hpp"
 
 namespace sdsl {
     template<int D, typename FT, typename Env> // D should be at least 3
@@ -50,34 +51,6 @@ namespace sdsl {
         Env m_env;
         std::vector<Configuration<D,FT>> m_odometry;
         std::vector<FT> m_measurements;
-
-        // TODO: Move this to a common header
-        // Returns the maximum and minimum of the function h(x) = acos(x) + bsin(x)
-        // on the interval [x1, x2], where a, b are given contants.
-        // We assume that [x1, x2] \subseteq [0, 2pi]
-        static constexpr double INF = 1e10; // Arbitrary large number
-
-        static void maxMinOnTrigRange(FT a, FT b, FT x1, FT x2, FT& max, FT& min) {
-            FT tmp = a == FT(0) ? FT(atan(0)) : FT(atan(b / a)); //TODO: Check if we need to verify a != 0
-            // Values to test
-            FT v1 = x1;
-            FT v2 = x2;
-            FT v3 = tmp;
-            FT v4 = tmp + FT(M_PI);
-            FT v5 = tmp + FT(2 * M_PI);
-            FT v6 = tmp + FT(3 * M_PI);
-            FT v7 = tmp - FT(M_PI);
-            FT v8 = tmp - FT(2 * M_PI);
-            FT v9 = tmp - FT(3 * M_PI);
-
-            min = INF; max = -INF;
-            for (FT v : {v1, v2, v3, v4, v5, v6, v7, v8, v9}) {
-                if (v < x1 || v > x2) continue;
-                FT val = a * cos(v) + b * sin(v);
-                if (val < min) min = val;
-                if (val > max) max = val;
-            }
-        }
     };
 
 }
