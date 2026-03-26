@@ -64,7 +64,7 @@ namespace sdsl {
             }
         #endif
 
-        bool intersects(Voxel<D, FT> v) {
+        bool intersects(Voxel<D, FT> v) override {
             Box_3 box(
                 Point_3(v.bottomLeft[0], v.bottomLeft[1], -1), 
                 Point_3(v.topRight[0], v.topRight[1], 1));
@@ -176,7 +176,7 @@ namespace sdsl {
             );
         }
 
-        bool contains(Configuration<D,FT> q) {
+        bool contains(Configuration<D,FT> q) override {
             Segment upwards(Point(q[0], q[1]), Point(q[0], q[1] + INF));
             std::vector<CGAL::Object> res;
             CGAL::zone(m_arrangement, upwards, std::back_inserter(res), *m_pl);

@@ -76,8 +76,7 @@ def main():
         # Each entry is (dx=0, dy=0, dtheta=angle_i) — the robot didn't move,
         # it just measured in each direction.
         odometry = [sdsl.R3(0.0, 0.0, theta) for theta in angles]
-        pred = sdsl.Predicate_Fwd2D_Arr(
-            odometry, list(dists), env.intersects, env.is_inside, KK_PRIME_RATIO, ERROR_BOUND)
+        pred = sdsl.Predicate_Fwd2D_Arr(env, odometry, list(dists),KK_PRIME_RATIO, ERROR_BOUND)
         start_time = time.time()
         voxels = sdsl.localize_omp_forkjoin_3d(bbox, pred, RECURSION_DEPTH, verbose=True)
         end_time = time.time()

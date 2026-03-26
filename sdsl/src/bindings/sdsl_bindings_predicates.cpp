@@ -1,6 +1,8 @@
 #include "sdsl/bindings/sdsl_binding.hpp"
 
+#include <memory>
 #include "sdsl/predicate.hpp"
+#include "sdsl/environment.hpp"
 #include "sdsl/predicates/pred_always_true.hpp"
 #include "sdsl/predicates/pred_forward_2d.hpp"
 using namespace sdsl;
@@ -21,9 +23,8 @@ void sdsl_bindings_predicates(nb::module_ &m) {
 
     nb::class_<Predicate_Fwd2D<3,pyFT>>(m, "Predicate_Fwd2D_Arr")
         .def(nb::init<
-            std::vector<Configuration<3,pyFT>>, std::vector<pyFT>, 
-            std::function<bool(Voxel<3,pyFT>)>, 
-            std::function<bool(Configuration<3,pyFT>)>, 
+            std::shared_ptr<Environment<3,pyFT>>,
+            std::vector<Configuration<3,pyFT>>, std::vector<pyFT>,
             pyFT, pyFT>())
         .def("__call__", &Predicate_Fwd2D<3,pyFT>::operator())
         .def("forward", &Predicate_Fwd2D<3,pyFT>::forward)

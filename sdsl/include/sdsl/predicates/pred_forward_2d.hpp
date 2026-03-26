@@ -1,28 +1,24 @@
 #pragma once
 
 #include <vector>
-#include <functional>
+#include <memory>
 
 #include "sdsl/predicate.hpp"
 #include "sdsl/math_utils.hpp"
+#include "sdsl/environment.hpp"
 
 namespace sdsl {
     template<int D, typename FT> // D should be at least 3
     struct Predicate_Fwd2D {
-        using VoxelIntersectsFn = std::function<bool(Voxel<D,FT>)>;
-        using ConfigInsideFn = std::function<bool(Configuration<D,FT>)>;
-
     public:
         Predicate_Fwd2D(
+            std::shared_ptr<Environment<D,FT>> env,
             std::vector<Configuration<D,FT>> odometry,
             std::vector<FT> measurements,
-            VoxelIntersectsFn voxel_intersects_fn,
-            ConfigInsideFn config_inside_fn,
-            double kk_prime_ratio, 
+            double kk_prime_ratio,
             double error_bound
-        ) : m_odometry(odometry), m_measurements(measurements), 
-            m_kk_prime_ratio(kk_prime_ratio), m_error_bound(error_bound), 
-            m_voxel_intersects_fn(voxel_intersects_fn), m_config_inside_fn(config_inside_fn)       {
+        ) : m_env(env), m_odometry(odometry), m_measurements(measurements),
+            m_kk_prime_ratio(kk_prime_ratio), m_error_bound(error_bound) {
             assert(m_odometry.size() == m_measurements.size());
             m_kk_prime = std::ceil(m_odometry.size() * m_kk_prime_ratio);
         }
@@ -34,7 +30,7 @@ namespace sdsl {
 
                 Voxel<D,FT> v_ = forward(m_measurements[j], m_odometry[j], v);
                 v_.expandSelf(m_error_bound);
-                num_valid_measurements += m_voxel_intersects_fn(v_);
+                num_valid_measurements += m_env->intersects(v_);
                 
                 // We need at lease k' valid measurements to return true
                 // We can also prune early if we already know we will not reach k'
@@ -68,10 +64,9 @@ namespace sdsl {
         }
 
     private:
+        std::shared_ptr<Environment<D,FT>> m_env;
         std::vector<Configuration<D,FT>> m_odometry;
         std::vector<FT> m_measurements;
-        VoxelIntersectsFn m_voxel_intersects_fn;
-        ConfigInsideFn m_config_inside_fn;
         double m_kk_prime_ratio;
         double m_error_bound;
         int m_kk_prime; // Computed at construction from the ratio and number of measurements
