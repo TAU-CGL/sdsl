@@ -12,16 +12,27 @@ namespace sdsl {
         Predicate_Fwd2D(
             Env env,
             std::vector<Configuration<D,FT>> odometry,
-            std::vector<FT> measurements
-        ) : m_env(env), m_odometry(odometry), m_measurements(measurements) {}
+            std::vector<FT> measurements,
+            double kk_prime_ratio
+        ) : m_env(env), m_odometry(odometry), m_measurements(measurements), m_kk_prime_ratio(kk_prime_ratio) {
+            assert(m_odometry.size() == m_measurements.size());
+            m_kk_prime = std::ceil(m_odometry.size() * m_kk_prime_ratio);
+        }
 
         bool operator()(Voxel<D,FT> v) {
+            int num_valid_measurements = 0;
             for (int j = 0; j < m_odometry.size(); ++j) {
                 if (m_measurements[j] < 0) continue;
                 Voxel<D,FT> v_ = forward(m_measurements[j], m_odometry[j], v);
-                if (!m_env.intersects(v_)) return false; //TODO: expand error
+                if (!m_env.intersects(v_)) return false; 
+                num_valid_measurements += m_env.intersects(v_);
+                
+                // We need at lease k' valid measurements to return true
+                if (num_valid_measurements >= m_kk_prime) return true;
+                // We can also prune early if we already know we will not reach k'
+                if (m_odometry.size() - j + num_valid_measurements < m_kk_prime) return false;
             }
-            return true;
+            return false;
         }
 
         // F_dg(V), as described in the paper
@@ -51,6 +62,8 @@ namespace sdsl {
         Env m_env;
         std::vector<Configuration<D,FT>> m_odometry;
         std::vector<FT> m_measurements;
+        double m_kk_prime_ratio;
+        int m_kk_prime; // Computed at construction from the ratio and number of measurements
     };
 
 }
