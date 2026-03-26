@@ -3,9 +3,6 @@
 #include <vector>
 #include <memory>
 
-#define _USE_MATH_DEFINES
-#include <cmath>
-
 #include <CGAL/squared_distance_2.h>
 #include <CGAL/intersections.h>
 #include <CGAL/Arrangement_2.h>
