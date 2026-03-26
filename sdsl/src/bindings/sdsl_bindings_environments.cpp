@@ -13,7 +13,7 @@ using Kernel        = CGAL::Simple_cartesian<double>;
 using FT            = Kernel::FT;
 using Traits_2      = CGAL::Arr_non_caching_segment_traits_2<Kernel>;
 using Arrangement_2 = CGAL::Arrangement_2<Traits_2>;
-using Env           = Env_R2_Arrangement<Arrangement_2, Traits_2>;
+using Env           = Env_R2_Arrangement<Arrangement_2, Traits_2, 3>;
 
 // EPEC's FT is an exact rational, not double.
 // The Python interface stays double
@@ -24,12 +24,12 @@ void sdsl_bindings_environments(nb::module_ &m) {
     nb::class_<Env>(m, "Env_R2_Arrangement")
         .def(nb::init<>())
         .def(nb::init<const nb::ndarray<double, nb::shape<-1, 4>>&>())
-        .def("intersects", [](Env& e, const Voxel3& v) { return e.intersects<3>(v);}, nb::arg("voxel"))
-        .def("measure_distance", [](Env& e, const Config3& q) { return e.measureDistance<3>(q); }, nb::arg("q"))
-        .def("hausdorff_distance", [](Env& e, const Config3& q) { return e.hausdorffDistance<3>(q); }, nb::arg("q"))
-        .def("voxel_hausdorff_distance", [](Env& e, const Voxel3& v) { return e.voxelHausdorffDistance<3>(v); }, nb::arg("voxel"))
-        .def("bounding_box", [](Env& e) { return e.boundingBox<3>(); })
-        .def("is_inside", [](Env& e, const Config3& q) { return e.isInside<3>(q); }, nb::arg("q"))
+        .def("intersects", [](Env& e, const Voxel3& v) { return e.intersects(v);}, nb::arg("voxel"))
+        .def("measure_distance", [](Env& e, const Config3& q) { return e.measureDistance(q); }, nb::arg("q"))
+        .def("hausdorff_distance", [](Env& e, const Config3& q) { return e.hausdorffDistance(q); }, nb::arg("q"))
+        .def("voxel_hausdorff_distance", [](Env& e, const Voxel3& v) { return e.voxelHausdorffDistance(v); }, nb::arg("voxel"))
+        .def("bounding_box", [](Env& e) { return e.boundingBox(); })
+        .def("contains", [](Env& e, const Config3& q) { return e.contains(q); }, nb::arg("q"))
         .def("get_representation", [](Env& e) { return e.getRepresentation(); })
     ;
 }
