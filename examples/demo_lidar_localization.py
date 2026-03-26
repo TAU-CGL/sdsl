@@ -7,14 +7,17 @@ Red dots show the (x, y) projection of each localized voxel center.
 Run from the repo root:
     python examples/demo_lidar_localization.py
 """
+import time
+
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.collections import LineCollection
+
 import sdsl
 
 MAP_PATH = "resources/maps/2d/lab_lidar.poly"
 N_RAYS = 16
-RECURSION_DEPTH = 8  # 8^(depth-1) voxels with AlwaysTrue predicate
+RECURSION_DEPTH = 9  # 8^(depth-1) voxels with AlwaysTrue predicate
 
 
 def load_poly_as_segments(path):
@@ -72,7 +75,10 @@ def main():
         # it just measured in each direction.
         odometry = [sdsl.R3(0.0, 0.0, theta) for theta in angles]
         pred = sdsl.Predicate_Fwd2D_Arr(env, odometry, list(dists))
+        start_time = time.time()
         voxels = sdsl.localize_omp_forkjoin_3d(bbox, pred, RECURSION_DEPTH, verbose=True)
+        end_time = time.time()
+        print(f"Took: {end_time - start_time:.4f} [sec]")
 
         # Red dot at each voxel center — project onto xy plane (ignore theta)
         if state["dots"] is not None:
