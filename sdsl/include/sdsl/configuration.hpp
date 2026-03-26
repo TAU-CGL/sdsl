@@ -26,6 +26,11 @@ namespace sdsl {
         bool operator> (const Configuration& o) const { for (int i=0;i<D;++i) if (!(coords[i] >  o.coords[i])) return false; return true; }
         bool operator>=(const Configuration& o) const { for (int i=0;i<D;++i) if (!(coords[i] >= o.coords[i])) return false; return true; }
 
+        Configuration<D,FT> operator+(const FT& delta) const {Configuration result; for (int i=0;i<D;++i) result.coords[i] = coords[i] + delta; return result;}
+        Configuration<D,FT> operator-(const FT& delta) const { return *this + (-delta); }
+        Configuration<D,FT>& operator+=(const FT& delta) { *this = *this + delta; return *this; }
+        Configuration<D,FT>& operator-=(const FT& delta) { return *this += (-delta); }
+
         FT& operator[](size_t i) { return coords[i]; }
         const FT& operator[](size_t i) const { return coords[i]; }
 
@@ -69,8 +74,11 @@ namespace sdsl {
             return result;
         }
 
-        
-        
+        void expandSelf(const FT& delta) {
+            bottomLeft -= delta;
+            topRight += delta;
+        }
+
     private:
         // Generate subvoxel for a given binary index
         // Index's bits determine which corners to use (0 = bottom, 1 = top for each dimension)

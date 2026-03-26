@@ -15,10 +15,11 @@ from matplotlib.collections import LineCollection
 
 import sdsl
 
-MAP_PATH = "resources/maps/2d/lab_lidar.poly"
+MAP_PATH = "resources/maps/2d/checkpoint.poly"
 N_RAYS = 16
 RECURSION_DEPTH = 8  # 8^(depth-1) voxels with AlwaysTrue predicate
-KK_PRIME_RATIO = 0.5
+KK_PRIME_RATIO = 0.7
+ERROR_BOUND = 0.05
 
 
 def load_poly_as_segments(path):
@@ -75,7 +76,7 @@ def main():
         # Each entry is (dx=0, dy=0, dtheta=angle_i) — the robot didn't move,
         # it just measured in each direction.
         odometry = [sdsl.R3(0.0, 0.0, theta) for theta in angles]
-        pred = sdsl.Predicate_Fwd2D_Arr(env, odometry, list(dists), KK_PRIME_RATIO)
+        pred = sdsl.Predicate_Fwd2D_Arr(env, odometry, list(dists), KK_PRIME_RATIO, ERROR_BOUND)
         start_time = time.time()
         voxels = sdsl.localize_omp_forkjoin_3d(bbox, pred, RECURSION_DEPTH, verbose=True)
         end_time = time.time()

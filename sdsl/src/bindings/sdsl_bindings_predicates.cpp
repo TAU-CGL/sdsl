@@ -31,7 +31,7 @@ void sdsl_bindings_predicates(nb::module_ &m) {
     bind_predicate_always_true<4, double>(m, "Predicate_AlwaysTrue_4d");
 
     nb::class_<Predicate_Fwd2D<3,double,Env_Arr>>(m, "Predicate_Fwd2D_Arr")
-        .def(nb::init<Env_Arr, std::vector<Configuration<3,double>>, std::vector<double>, double>())
+        .def(nb::init<Env_Arr, std::vector<Configuration<3,double>>, std::vector<double>, double, double>())
         .def("__call__", &Predicate_Fwd2D<3,double,Env_Arr>::operator())
         .def("forward", &Predicate_Fwd2D<3,double,Env_Arr>::forward)
     ;
