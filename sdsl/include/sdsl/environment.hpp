@@ -8,5 +8,6 @@ namespace sdsl {
     public:
         virtual bool intersects(Voxel<D,FT> v) = 0;
         virtual bool contains(Configuration<D,FT> q) = 0;
+        virtual FT measureDistance(Configuration<D,FT> q) = 0;
     };
 }
