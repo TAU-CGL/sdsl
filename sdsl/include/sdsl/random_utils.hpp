@@ -1,5 +1,7 @@
 #pragma once
 
+#include <ctime>
+
 #include <boost/random/mersenne_twister.hpp>
 #include <boost/random/normal_distribution.hpp>
 #include <boost/random/uniform_real_distribution.hpp>
