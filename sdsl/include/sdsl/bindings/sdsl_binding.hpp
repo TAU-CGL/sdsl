@@ -1,3 +1,6 @@
+/// @file sdsl_binding.hpp
+/// @brief Common headers and defines used for Python bindings
+
 #pragma once
 
 #ifndef SDSL_CPP_ONLY

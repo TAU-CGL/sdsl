@@ -1,3 +1,5 @@
+/// @file math_utils.hpp
+/// @brief Common math utilities used in computations.
 #pragma once
 
 #define _USE_MATH_DEFINES
@@ -6,10 +8,21 @@
 namespace sdsl {
     constexpr double INF = 1e10; // Arbitrary large number
 
-
-    // Returns the maximum and minimum of the function h(x) = acos(x) + bsin(x)
-    // on the interval [x1, x2], where a, b are given contants.
-    // We assume that [x1, x2] \subseteq [0, 2pi]
+    
+    /// @brief Returns the maximum and minimum of the function h(x) = acos(x) + bsin(x)
+    ///
+    /// Returns the maximum and minimum of the function h(x) = acos(x) + bsin(x)
+    /// on the interval [x1, x2], where a, b are given contants.
+    ///
+    /// @note We assume that [x1, x2] \subseteq [0, 2pi]
+    ///
+    /// @tparam FT Field type. Usually double.
+    /// @param a 
+    /// @param b 
+    /// @param x1 
+    /// @param x2 
+    /// @param max Reference to max output (de-facto return) 
+    /// @param min Reference to min output (de-facto return) 
     template<typename FT>
     void maxMinOnTrigRange(FT a, FT b, FT x1, FT x2, FT& max, FT& min) {
         FT tmp = a == FT(0) ? FT(atan(0)) : FT(atan(b / a)); //TODO: Check if we need to verify a != 0
