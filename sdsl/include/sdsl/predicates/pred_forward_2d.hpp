@@ -1,3 +1,5 @@
+/// @file pred_forward_2d.hpp
+/// @brief Implementation of the voxel-intersection predicate in planar robots
 #pragma once
 
 #include <vector>
@@ -10,9 +12,23 @@
 #include "sdsl/environment.hpp"
 
 namespace sdsl {
+    /// @brief Implementation of the voxel-intersection predicate in planar robots
+    ///
+    /// Support the k-k'-dynamic-gap. That is, if out of k measurements, k' measured
+    /// the given environment's map, then the localization is guaranteed to return the ground truth location.
+    /// Is also robust under small measurement errors.
+    ///
+    /// @tparam D C-Space dimension. Should be at least 3 (X,Y,rotation)
+    /// @tparam FT Field type. Usually double.
     template<int D, typename FT> // D should be at least 3
     struct Predicate_Fwd2D {
     public:
+        /// @brief Constructor gets all needed information beforehand.
+        /// @param env
+        /// @param odometry List of configurations that represent the robot's odometry.
+        /// @param measurements  List of corresponding measurements to each odometry.
+        /// @param kk_prime_ratio The ratio between k' (good measurements) and k (total measurements).
+        /// @param error_bound An upper bound on the measurement error.
         Predicate_Fwd2D(
             std::shared_ptr<Environment<D,FT>> env,
             std::vector<Configuration<D,FT>> odometry,
@@ -63,8 +79,8 @@ namespace sdsl {
             return false;
         }
 
-        // F_dg(V), as described in the paper
-        // This helper method is public for testing/examples
+        /// @brief F_dg(V), as described in the paper
+        /// @note This helper method is public for testing/examples
         Voxel<D,FT> forward(FT d, Configuration<D,FT> g, Voxel<D,FT> v) {
             FT maxx, minx;
             maxMinOnTrigRange(
@@ -86,6 +102,8 @@ namespace sdsl {
             return Voxel<D,FT>(new_bl, new_tr);
         }
 
+        /// @brief The action of the odometry on the configuration space
+        /// @note This helper method is public for testing/examples
         Configuration<D,FT> odometryAction(Configuration<D,FT> q, Configuration<D,FT> g) {
             Configuration<D,FT> q_;
             q_[0] = q[0] + g[0] * cos(q[2]) - g[1] * sin(q[2]);
