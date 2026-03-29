@@ -79,6 +79,14 @@ namespace sdsl {
             topRight += delta;
         }
 
+        FT diameter() const {
+            FT res = 0;
+            for (int i = 0; i < D; ++i) {
+                res += (topRight[i] - bottomLeft[i]) * (topRight[i] - bottomLeft[i]);
+            }
+            return sqrt(res);
+        }
+
     private:
         // Generate subvoxel for a given binary index
         // Index's bits determine which corners to use (0 = bottom, 1 = top for each dimension)
