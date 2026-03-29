@@ -9,5 +9,8 @@ namespace sdsl {
         bool operator()(Voxel<D,FT> v) {
             return true;
         }
+        bool verify(Voxel<D,FT> v) {
+            return true;
+        }
     };
 }

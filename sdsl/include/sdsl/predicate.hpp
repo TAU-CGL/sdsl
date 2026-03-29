@@ -10,5 +10,6 @@ namespace sdsl {
     template<typename T, int D, typename FT>
     concept Predicate = requires(T t, Voxel<D, FT> v) {
         {t(v)} -> std::same_as<bool>;
+        {t.verify(v)} -> std::same_as<bool>;
     };
 }

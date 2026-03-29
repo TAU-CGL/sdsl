@@ -3,6 +3,8 @@
 #include <vector>
 #include <memory>
 
+#include <fmt/core.h>
+
 #include "sdsl/predicate.hpp"
 #include "sdsl/math_utils.hpp"
 #include "sdsl/environment.hpp"
@@ -40,6 +42,27 @@ namespace sdsl {
             return false;
         }
 
+        bool verify(Voxel<D,FT> v) {
+            Configuration<D,FT> q = v.midpoint();
+            Voxel<D,FT> v_planar(v.bottomLeft, v.topRight);
+            v_planar.bottomLeft[D-1] = 0;
+            v_planar.topRight[D-1] = 0;
+            FT v_planar_diam = v_planar.diameter();
+
+            int num_valid_measurements = 0;
+            for (int j = 0; j < m_odometry.size(); ++j) {
+                Configuration<D,FT> q_ = odometryAction(q, m_odometry[j]);
+                FT d = m_measurements[j];
+                FT d_ = m_env->measureDistance(q_);
+                if (abs(d - d_) < (v_planar_diam + m_error_bound) * 2) 
+                    num_valid_measurements++;
+
+                if (num_valid_measurements >= m_kk_prime - 1) return true;
+                if (m_odometry.size() - j + num_valid_measurements < m_kk_prime - 1) return false;
+            }
+            return false;
+        }
+
         // F_dg(V), as described in the paper
         // This helper method is public for testing/examples
         Voxel<D,FT> forward(FT d, Configuration<D,FT> g, Voxel<D,FT> v) {
@@ -61,6 +84,14 @@ namespace sdsl {
             new_bl[0] = v.bottomLeft[0] + minx; new_bl[1] = v.bottomLeft[1] + miny; new_bl[2] = v.bottomLeft[2];
             new_tr[0] = v.topRight[0] + maxx; new_tr[1] = v.topRight[1] + maxy; new_tr[2] = v.topRight[2];
             return Voxel<D,FT>(new_bl, new_tr);
+        }
+
+        Configuration<D,FT> odometryAction(Configuration<D,FT> q, Configuration<D,FT> g) {
+            Configuration<D,FT> q_;
+            q_[0] = q[0] + g[0] * cos(q[2]) - g[1] * sin(q[2]);
+            q_[1] = q[1] + g[0] * sin(q[2]) + g[1] * cos(q[2]);
+            q_[2] = q[2] + g[2];
+            return q_;
         }
 
     private:
