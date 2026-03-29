@@ -18,13 +18,13 @@ import yaml
 
 import sdsl
 
-MAP_DIR       = "resources/maps/2d/slam"
-MAP_YAML      = os.path.join(MAP_DIR, "apt.yaml")
-N_RAYS        = 16
+MAP_DIR       = "resources/maps/2d/slam/fl4_20250813_1725"
+MAP_YAML      = os.path.join(MAP_DIR, "my_map.yaml")
+N_RAYS        = 8
 RECURSION_DEPTH = 9
-KK_PRIME_RATIO  = 0.7
-ERROR_BOUND     = 0.025
-TIMEOUT         = 1.0
+KK_PRIME_RATIO  = 12/16
+ERROR_BOUND     = 0.015
+TIMEOUT         = 100.0
 
 
 def load_slam_map_as_pcd(yaml_path):
