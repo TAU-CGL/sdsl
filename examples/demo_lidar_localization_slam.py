@@ -20,16 +20,21 @@ import sdsl
 
 MAP_DIR       = "resources/maps/2d/slam/fl4_20250813_1725"
 MAP_YAML      = os.path.join(MAP_DIR, "my_map.yaml")
+VOXEL_SIZE    = 0.15   # metres; set to None to keep all occupied pixels
 N_RAYS        = 8
-RECURSION_DEPTH = 9
-KK_PRIME_RATIO  = 12/16
+RECURSION_DEPTH = 8
+KK_PRIME_RATIO  = 5/8
 ERROR_BOUND     = 0.015
 TIMEOUT         = 100.0
 
 
-def load_slam_map_as_pcd(yaml_path):
+def load_slam_map_as_pcd(yaml_path, voxel_size=None):
     """Parse a ROS-style occupancy-grid YAML+PGM and return occupied pixels
     as an (N, 2) float64 array of world-frame (x, y) coordinates.
+
+    If voxel_size is given, apply a 2-D voxel-grid filter: snap every point
+    to the nearest grid cell of that size and keep one point per cell.
+    This can reduce the cloud by an order of magnitude on dense SLAM maps.
     """
     with open(yaml_path) as f:
         cfg = yaml.safe_load(f)
@@ -55,7 +60,14 @@ def load_slam_map_as_pcd(yaml_path):
     x = origin_x + cols * resolution
     y = origin_y + (height - 1 - rows) * resolution
 
-    return np.column_stack([x, y]).astype(np.float64)
+    points = np.column_stack([x, y]).astype(np.float64)
+
+    if voxel_size is not None:
+        keys = np.floor(points / voxel_size).astype(np.int64)
+        _, unique_idx = np.unique(keys, axis=0, return_index=True)
+        points = points[unique_idx]
+
+    return points
 
 
 def corrupt_measurements(dists, kk_prime_ratio):
@@ -75,7 +87,7 @@ def cast_rays(env, x, y, n=N_RAYS):
 
 
 def main():
-    points = load_slam_map_as_pcd(MAP_YAML)
+    points = load_slam_map_as_pcd(MAP_YAML, voxel_size=VOXEL_SIZE)
     env = sdsl.Env_2D_PCD(points)
     bbox = env.bounding_box()
 
