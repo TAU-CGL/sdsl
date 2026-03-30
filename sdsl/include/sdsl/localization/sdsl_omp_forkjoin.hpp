@@ -56,15 +56,16 @@ namespace sdsl {
         }
 
         // Clean impossible localizations
-        for (auto v : localization) {
-            if (predicate.verify(v))
-                cleaned_localization.push_back(v);
-        }
+        // for (auto v : localization) {
+        //     if (predicate.verify(v))
+        //         cleaned_localization.push_back(v);
+        // }
 
-        if (verbose) fmt::print("[Cleaned] Left: {}/{} {:.2f}%\n", 
-            cleaned_localization.size(), localization.size(), 100.f * cleaned_localization.size() / (float)localization.size());
+        // if (verbose) fmt::print("[Cleaned] Left: {}/{} {:.2f}%\n", 
+        //     cleaned_localization.size(), localization.size(), 100.f * cleaned_localization.size() / (float)localization.size());
 
-        return cleaned_localization;
+        // return cleaned_localization;
+        return localization;
     }
 
 }

@@ -48,7 +48,7 @@ namespace sdsl {
 
                 Voxel<D,FT> v_ = forward(m_measurements[j], m_odometry[j], v);
                 v_.expandSelf(m_error_bound);
-                num_valid_measurements += m_env->intersects(v_);
+                num_valid_measurements += m_env->intersects(v_) && verify(v);
                 
                 // We need at lease k' valid measurements to return true
                 // We can also prune early if we already know we will not reach k'
