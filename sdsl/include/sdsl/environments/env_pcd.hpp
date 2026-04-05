@@ -114,17 +114,7 @@ namespace sdsl {
         // q[0..1] = (x, y) position; q[2] = yaw (D==3) or q[2] = z, q[3] = yaw (D>=4)
         // Ray direction derived from yaw angle stored at yawIdx
         double measureDistance(Configuration<D, FT> q) {
-            Ray_3 ray = makeRay(q);
-
-            std::vector<std::pair<Point_3, double>> intersections;
-            rayIntersections(ray, intersections);
-
-            double minDistance = std::numeric_limits<double>::max();
-            for (const auto& intersection : intersections) {
-                if (intersection.second < minDistance)
-                    minDistance = intersection.second;
-            }
-            return minDistance;
+            return rayClosestT(makeRay(q));
         }
 
         double hausdorffDistance(Configuration<D, FT> q) {
@@ -261,6 +251,32 @@ namespace sdsl {
         std::vector<double> m_representation; // This representation only updates when requested
         double m_averagePairDistance;
 
+        // Precomputed double coordinates to avoid CGAL::to_double in hot paths
+        std::vector<std::array<double, 3>> m_pointCoords;
+
+        // Uniform voxel grid for O(path_length) ray traversal instead of O(N)
+        struct VoxelGrid {
+            double cellSize;
+            double xmin, ymin, zmin;
+            int nx, ny, nz;
+            std::vector<std::vector<int>> cells; // point indices per cell
+
+            std::array<int, 3> cellOf(double x, double y, double z) const {
+                return {
+                    (int)std::floor((x - xmin) / cellSize),
+                    (int)std::floor((y - ymin) / cellSize),
+                    (int)std::floor((z - zmin) / cellSize)
+                };
+            }
+            bool valid(int ix, int iy, int iz) const {
+                return ix >= 0 && ix < nx && iy >= 0 && iy < ny && iz >= 0 && iz < nz;
+            }
+            int flat(int ix, int iy, int iz) const {
+                return iz * ny * nx + iy * nx + ix;
+            }
+        };
+        std::unique_ptr<VoxelGrid> m_grid;
+
         // ---------------------------------------------------------------------------------------------
 
         Point_3 toPoint3(const Configuration<D, FT>& q) const {
@@ -297,11 +313,17 @@ namespace sdsl {
 
         void fromPoints(std::vector<Point_3> points) {
             m_points = points;
+            m_pointCoords.resize(m_points.size());
+            for (size_t i = 0; i < m_points.size(); ++i)
+                m_pointCoords[i] = { CGAL::to_double(m_points[i].x()),
+                                     CGAL::to_double(m_points[i].y()),
+                                     CGAL::to_double(m_points[i].z()) };
             for (auto& pt : points)
                 m_triangles.push_back(Triangle_3(pt, pt, pt));
             m_tree = std::make_shared<AABB_tree>(m_triangles.begin(), m_triangles.end());
             m_tree->accelerate_distance_queries();
             calcDistances();
+            buildVoxelGrid(); // must follow calcDistances (needs m_averagePairDistance)
         }
 
         void calcDistances() {
@@ -331,17 +353,151 @@ namespace sdsl {
         }
 
         void rayIntersections(Ray_3& ray, std::vector<std::pair<Point_3, double>>& intersections) {
-            for (auto& pt : m_points) {
-                Point_3 proj = ray.supporting_line().projection(pt);
-                FT dot = (proj.x() - ray.source().x()) * ray.direction().dx() +
-                         (proj.y() - ray.source().y()) * ray.direction().dy() +
-                         (proj.z() - ray.source().z()) * ray.direction().dz();
+            // Cache ray components once outside the loop (fix 3)
+            double ox = CGAL::to_double(ray.source().x());
+            double oy = CGAL::to_double(ray.source().y());
+            double oz = CGAL::to_double(ray.source().z());
+            double dx = CGAL::to_double(ray.direction().dx());
+            double dy = CGAL::to_double(ray.direction().dy());
+            double dz = CGAL::to_double(ray.direction().dz());
+            double dirLenSq = dx*dx + dy*dy + dz*dz;
+            for (size_t i = 0; i < m_points.size(); ++i) {
+                const auto& c = m_pointCoords[i];
+                double rx = c[0] - ox, ry = c[1] - oy, rz = c[2] - oz;
+                double dot = rx*dx + ry*dy + rz*dz;
                 if (dot < 0) continue;
-
-                double t = CGAL::to_double(dot);
-                if (CGAL::squared_distance(proj, pt) > m_averagePairDistance) continue;
-                intersections.push_back({pt, t});
+                double perpSq = std::max(0.0, rx*rx + ry*ry + rz*rz - dot*dot / dirLenSq);
+                if (perpSq > m_averagePairDistance) continue;
+                intersections.push_back({m_points[i], dot});
             }
+        }
+
+        // Builds a uniform voxel grid for fast ray traversal.
+        // Cell size = 2*R where R = sqrt(m_averagePairDistance) so that a ±1 neighborhood
+        // around each DDA cell is guaranteed to cover all points within threshold R of the ray.
+        void buildVoxelGrid() {
+            if (m_pointCoords.empty() || m_averagePairDistance <= 0) return;
+            double R = std::sqrt(m_averagePairDistance);
+            double cs = 2.0 * R;
+
+            double xmin = m_pointCoords[0][0], xmax = xmin;
+            double ymin = m_pointCoords[0][1], ymax = ymin;
+            double zmin = m_pointCoords[0][2], zmax = zmin;
+            for (const auto& c : m_pointCoords) {
+                xmin = std::min(xmin, c[0]); xmax = std::max(xmax, c[0]);
+                ymin = std::min(ymin, c[1]); ymax = std::max(ymax, c[1]);
+                zmin = std::min(zmin, c[2]); zmax = std::max(zmax, c[2]);
+            }
+
+            // Cap grid to avoid excessive memory on very dense/large point clouds
+            constexpr long long MAX_TOTAL_CELLS = 5'000'000LL;
+            int nx = std::max(1, (int)std::ceil((xmax - xmin + 2*cs) / cs));
+            int ny = std::max(1, (int)std::ceil((ymax - ymin + 2*cs) / cs));
+            int nz = std::max(1, (int)std::ceil((zmax - zmin + 2*cs) / cs));
+            if ((long long)nx * ny * nz > MAX_TOTAL_CELLS) {
+                double scale = std::cbrt((double)((long long)nx * ny * nz) / (double)MAX_TOTAL_CELLS);
+                cs *= scale;
+                nx = std::max(1, (int)std::ceil((xmax - xmin + 2*cs) / cs));
+                ny = std::max(1, (int)std::ceil((ymax - ymin + 2*cs) / cs));
+                nz = std::max(1, (int)std::ceil((zmax - zmin + 2*cs) / cs));
+            }
+
+            m_grid = std::make_unique<VoxelGrid>();
+            auto& g = *m_grid;
+            g.cellSize = cs;
+            g.xmin = xmin - cs; g.ymin = ymin - cs; g.zmin = zmin - cs;
+            g.nx = nx; g.ny = ny; g.nz = nz;
+            g.cells.resize(g.nx * g.ny * g.nz);
+
+            for (int i = 0; i < (int)m_pointCoords.size(); ++i) {
+                auto [ix, iy, iz] = g.cellOf(m_pointCoords[i][0], m_pointCoords[i][1], m_pointCoords[i][2]);
+                if (g.valid(ix, iy, iz))
+                    g.cells[g.flat(ix, iy, iz)].push_back(i);
+            }
+        }
+
+        // Finds the closest hit distance along `ray` using Amanatides & Woo DDA traversal.
+        // O(path_length / cellSize + k) instead of O(N). Early-exits once the DDA position
+        // has passed the current best hit by more than one cell width.
+        double rayClosestT(const Ray_3& ray) const {
+            double ox = CGAL::to_double(ray.source().x());
+            double oy = CGAL::to_double(ray.source().y());
+            double oz = CGAL::to_double(ray.source().z());
+            double dx = CGAL::to_double(ray.direction().dx());
+            double dy = CGAL::to_double(ray.direction().dy());
+            double dz = CGAL::to_double(ray.direction().dz());
+            // Normalize so that t is an actual world-space distance
+            double invLen = 1.0 / std::sqrt(dx*dx + dy*dy + dz*dz);
+            dx *= invLen; dy *= invLen; dz *= invLen;
+
+            const VoxelGrid& g = *m_grid;
+            double cs = g.cellSize;
+            double sqThresh = m_averagePairDistance;
+
+            int stepX = (dx >= 0) ? 1 : -1;
+            int stepY = (dy >= 0) ? 1 : -1;
+            int stepZ = (dz >= 0) ? 1 : -1;
+            double tDeltaX = (std::abs(dx) > 1e-12) ? (cs / std::abs(dx)) : 1e300;
+            double tDeltaY = (std::abs(dy) > 1e-12) ? (cs / std::abs(dy)) : 1e300;
+            double tDeltaZ = (std::abs(dz) > 1e-12) ? (cs / std::abs(dz)) : 1e300;
+
+            // Distance to first cell boundary crossing in each dimension
+            auto tToFirst = [&](double o, double d, double gmin, int step) -> double {
+                if (std::abs(d) < 1e-12) return 1e300;
+                int ci = (int)std::floor((o - gmin) / cs);
+                double bound = gmin + (step > 0 ? ci + 1 : ci) * cs;
+                return (bound - o) / d;
+            };
+
+            auto [ix0, iy0, iz0] = g.cellOf(ox, oy, oz);
+            int ix = ix0, iy = iy0, iz = iz0;
+            double tMaxX = tToFirst(ox, dx, g.xmin, stepX);
+            double tMaxY = tToFirst(oy, dy, g.ymin, stepY);
+            double tMaxZ = tToFirst(oz, dz, g.zmin, stepZ);
+
+            double minT = std::numeric_limits<double>::max();
+            double tCurrent = 0.0;
+            // Upper bound: ray can't hit anything beyond the grid diagonal
+            double maxTraverse = std::sqrt(std::pow(g.nx * cs, 2) +
+                                           std::pow(g.ny * cs, 2) +
+                                           std::pow(g.nz * cs, 2));
+
+            while (tCurrent <= maxTraverse) {
+                // Check current cell + ±1 neighbors in all directions.
+                // cellSize = 2R, so this ±1 slab covers perpendicular distances up to 3R,
+                // which subsumes the threshold R with margin.
+                for (int dix = -1; dix <= 1; ++dix)
+                for (int diy = -1; diy <= 1; ++diy)
+                for (int diz = -1; diz <= 1; ++diz) {
+                    int cx = ix + dix, cy = iy + diy, cz = iz + diz;
+                    if (!g.valid(cx, cy, cz)) continue;
+                    for (int pidx : g.cells[g.flat(cx, cy, cz)]) {
+                        const auto& c = m_pointCoords[pidx];
+                        double rx = c[0] - ox, ry = c[1] - oy, rz = c[2] - oz;
+                        double t = rx*dx + ry*dy + rz*dz;
+                        if (t < 0) continue;
+                        double perpSq = std::max(0.0, rx*rx + ry*ry + rz*rz - t*t);
+                        if (perpSq > sqThresh) continue;
+                        if (t < minT) minT = t;
+                    }
+                }
+
+                // Early exit: ±1 neighborhood behind current position was already checked,
+                // so no future DDA cell can yield t < tCurrent - cs
+                if (minT < 1e298 && tCurrent > minT + cs)
+                    break;
+
+                // Advance to next cell boundary (standard DDA step)
+                if (tMaxX <= tMaxY && tMaxX <= tMaxZ) {
+                    ix += stepX; tCurrent = tMaxX; tMaxX += tDeltaX;
+                } else if (tMaxY <= tMaxZ) {
+                    iy += stepY; tCurrent = tMaxY; tMaxY += tDeltaY;
+                } else {
+                    iz += stepZ; tCurrent = tMaxZ; tMaxZ += tDeltaZ;
+                }
+            }
+
+            return minT;
         }
 
     };

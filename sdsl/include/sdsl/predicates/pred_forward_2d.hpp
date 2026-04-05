@@ -70,7 +70,7 @@ namespace sdsl {
                 Configuration<D,FT> q_ = odometryAction(q, m_odometry[j]);
                 FT d = m_measurements[j];
                 FT d_ = m_env->measureDistance(q_);
-                if (abs(d - d_) < (v_planar_diam + m_error_bound) * 2) 
+                if (abs(d - d_) < (v_planar_diam + m_error_bound) * 4) 
                     num_valid_measurements++;
 
                 if (num_valid_measurements >= m_kk_prime - 1) return true;
