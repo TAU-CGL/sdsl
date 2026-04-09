@@ -23,5 +23,6 @@ setup(
         "Programming Language :: Python :: 3.13",
     ],
     conanfile = "./conanfile.txt",
+    conan_profile_settings={"compiler.cppstd": "17"},
     install_requires=required,
 )
