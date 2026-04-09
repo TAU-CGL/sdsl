@@ -36,7 +36,7 @@ namespace sdsl {
             double kk_prime_ratio,
             double error_bound
         ) : m_env(env), m_odometry(odometry), m_measurements(measurements),
-            m_kk_prime_ratio(kk_prime_ratio), m_error_bound(error_bound) {
+            m_kk_prime_ratio(kk_prime_ratio), m_error_bound(error_bound), m_iteration(0) {
             assert(m_odometry.size() == m_measurements.size());
             m_kk_prime = std::ceil(m_odometry.size() * m_kk_prime_ratio);
         }
@@ -59,6 +59,7 @@ namespace sdsl {
         }
 
         bool verify(Voxel<D,FT> v) {
+            if (m_iteration < 3) return true; // TODO: !!! BAD CODE
             Configuration<D,FT> q = v.midpoint();
             Voxel<D,FT> v_planar(v.bottomLeft, v.topRight);
             v_planar.bottomLeft[D-1] = 0;
@@ -70,7 +71,7 @@ namespace sdsl {
                 Configuration<D,FT> q_ = odometryAction(q, m_odometry[j]);
                 FT d = m_measurements[j];
                 FT d_ = m_env->measureDistance(q_);
-                if (abs(d - d_) < (v_planar_diam + m_error_bound) * 4) 
+                if (abs(d - d_) < (v_planar_diam + m_error_bound) * 2) 
                     num_valid_measurements++;
 
                 if (num_valid_measurements >= m_kk_prime - 1) return true;
@@ -112,6 +113,10 @@ namespace sdsl {
             return q_;
         }
 
+        void updateIteration(int iter) {
+            m_iteration = iter;
+        }
+
     private:
         std::shared_ptr<Environment<D,FT>> m_env;
         std::vector<Configuration<D,FT>> m_odometry;
@@ -119,6 +124,7 @@ namespace sdsl {
         double m_kk_prime_ratio;
         double m_error_bound;
         int m_kk_prime; // Computed at construction from the ratio and number of measurements
+        int m_iteration;
     };
 
 }

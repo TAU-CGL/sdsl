@@ -22,6 +22,7 @@ namespace sdsl {
         auto startTime = std::chrono::steady_clock::now();
 
         for (int i = 0; i < recursionDepth; ++i) {
+            predicate.updateIteration(i);
             if (timeout > 0.0) {
                 double elapsed = std::chrono::duration<double>(
                     std::chrono::steady_clock::now() - startTime).count();

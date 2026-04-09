@@ -17,5 +17,6 @@ namespace sdsl {
         bool verify(Voxel<D,FT> v) {
             return true;
         }
+        void updateIteration(int _) {}
     };
 }
