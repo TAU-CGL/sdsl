@@ -1,6 +1,4 @@
-#ifndef _SDSL_ENV_R2_HPP
-#define _SDSL_ENV_R2_HPP
-#pragma once 
+#pragma once
 
 #include <vector>
 #include <memory>
@@ -15,14 +13,13 @@
 #include <CGAL/AABB_segment_primitive_3.h>
 #include <CGAL/AABB_triangle_primitive_3.h>
 
-#include "sdsl/configurations/config_R2xS1.hpp"
-#include "sdsl/environments/environment.hpp"
+#include "sdsl/configuration.hpp"
 #include "sdsl/math_utils.hpp"
-#include "sdsl/bindings/sdsl_binding.hpp"
+#include "sdsl/environment.hpp"
 
 namespace sdsl {
-    template<typename Arrangement_2, typename Traits_2>
-    class Env_R2_Arrangement {
+    template<typename Arrangement_2, typename Traits_2, int D>
+    class Env_R2_Arrangement : Environment<D, typename Traits_2::Kernel::FT> {
         using FT = Traits_2::Kernel::FT;
         using Ray = Traits_2::Kernel::Ray_2;
         using Point = Traits_2::Point_2;
@@ -41,7 +38,6 @@ namespace sdsl {
                 typename Traits_2::Kernel, 
                 CGAL::AABB_segment_primitive_3<typename Traits_2::Kernel, typename std::list<Segment_3>::iterator>>>;
 
-    
     public:
         Env_R2_Arrangement() {}
         Env_R2_Arrangement(Arrangement_2 arrangement) : m_arrangement(arrangement) { buildPointLocation();}
@@ -65,11 +61,10 @@ namespace sdsl {
             }
         #endif
 
-        
-        bool intersects(Voxel<R2xS1<FT>> v) {
+        bool intersects(Voxel<D, FT> v) override {
             Box_3 box(
-                Point_3(v.bottomLeft().getX(), v.bottomLeft().getY(), -1), 
-                Point_3(v.topRight().getX(), v.topRight().getY(), 1));
+                Point_3(v.bottomLeft[0], v.bottomLeft[1], -1), 
+                Point_3(v.topRight[0], v.topRight[1], 1));
             if (m_tree->do_intersect(box)) return true;
 
             // Edge case: entire room is contained in voxel
@@ -77,21 +72,19 @@ namespace sdsl {
             // We know the boundaries do not intersect. Hence either they are disjoint, or one is contained in the other.
             // This trick assumes that the environment is connected
             for (auto it = m_arrangement.vertices_begin(); it != m_arrangement.vertices_end(); ++it) {
-                if (v.contains(R2xS1<FT>(
-                    CGAL::to_double(it->point().x()), 
-                    CGAL::to_double(it->point().y()), 
-                    CGAL::to_double(v.bottomLeft().getR())))) return true; // Note we use the voxel's rotation so that we account only to XY
+                Configuration<D, FT> p = v.bottomLeft;
+                p[0] = it->point().x();
+                p[1] = it->point().y();
+                if (v.contains(p)) return true;
                 else return false;
             }
-
             return false;
         }
 
-
-        double measureDistance(R2xS1<FT> q) {
+        double measureDistance(Configuration<D,FT> q) {
             Segment ray(
-                Point(q.getX(), q.getY()), 
-                Point(q.getX() + FT(INF) * cos(q.getRDouble()), q.getY() + FT(INF) * sin(q.getRDouble()))
+                Point(q[0], q[1]), 
+                Point(q[0] + FT(INF) * cos(q[2]), q[1] + FT(INF) * sin(q[2]))
             );
 
             // Use arrangement zone to find intersections
@@ -119,46 +112,26 @@ namespace sdsl {
             return sqrt(CGAL::to_double(minDist));
         }
 
-        double hausdorffDistance(R2xS1<FT> q) {
-            Point_3 p1(q.getX(), q.getY(), 0);
+        double hausdorffDistance(Configuration<D,FT> q) {
+            Point_3 p1(q[0], q[1], 0);
             Point_3 p2 = m_tree->closest_point(p1);
             return sqrt(CGAL::to_double(CGAL::squared_distance(p1, p2)));
         }
 
-        double voxelHausdorffDistance(Voxel<R2xS1<FT>> v) {
-            double d1 = hausdorffDistance(v.bottomLeft());
-            double d2 = hausdorffDistance(R2xS1<FT>(v.bottomLeft().getX(), v.bottomLeft().getY(), v.topRight().getR()));
-            double d3 = hausdorffDistance(R2xS1<FT>(v.bottomLeft().getX(), v.topRight().getY(), v.bottomLeft().getR()));
-            double d4 = hausdorffDistance(R2xS1<FT>(v.bottomLeft().getX(), v.topRight().getY(), v.topRight().getR()));
-            double d5 = hausdorffDistance(R2xS1<FT>(v.topRight().getX(), v.bottomLeft().getY(), v.bottomLeft().getR()));
-            double d6 = hausdorffDistance(R2xS1<FT>(v.topRight().getX(), v.bottomLeft().getY(), v.topRight().getR()));
-            double d7 = hausdorffDistance(R2xS1<FT>(v.topRight().getX(), v.topRight().getY(), v.bottomLeft().getR()));
-            double d8 = hausdorffDistance(v.topRight());
-            double d9 = hausdorffDistance(middle(v));
+        double voxelHausdorffDistance(Voxel<D,FT> v) {
+            double d1 = hausdorffDistance(v.bottomLeft);
+            double d2 = hausdorffDistance(Configuration<D,FT>(v.bottomLeft[0], v.bottomLeft[1], v.topRight[2]));
+            double d3 = hausdorffDistance(Configuration<D,FT>(v.bottomLeft[0], v.topRight[1], v.bottomLeft[2]));
+            double d4 = hausdorffDistance(Configuration<D,FT>(v.bottomLeft[0], v.topRight[1], v.topRight[2]));
+            double d5 = hausdorffDistance(Configuration<D,FT>(v.topRight[0], v.bottomLeft[1], v.bottomLeft[2]));
+            double d6 = hausdorffDistance(Configuration<D,FT>(v.topRight[0], v.bottomLeft[1], v.topRight[2]));
+            double d7 = hausdorffDistance(Configuration<D,FT>(v.topRight[0], v.topRight[1], v.bottomLeft[2]));
+            double d8 = hausdorffDistance(v.topRight);
+            double d9 = hausdorffDistance(v.midpoint());
             return std::max({d1, d2, d3, d4, d5, d6, d7, d8, d9});
         }
 
-        Voxel<R2xS1<FT>> forward(FT d, R2xS1<FT> q, Voxel<R2xS1<FT>> v) {
-            FT maxx, minx;
-            maxMinOnTrigRange(
-                q.getX() + d * FT(cos(q.getRDouble())),
-                -q.getY() - d * FT(sin(q.getRDouble())),
-                v.bottomLeft().getR(), v.topRight().getR(), maxx, minx
-            );
 
-            FT maxy, miny;
-            maxMinOnTrigRange(
-                q.getY() + d * FT(sin(q.getRDouble())),
-                q.getX() + d * FT(cos(q.getRDouble())),
-                v.bottomLeft().getR(), v.topRight().getR(), maxy, miny
-            );
-
-            return Voxel<R2xS1<FT>>(
-                R2xS1<FT>(v.bottomLeft().getX() + minx, v.bottomLeft().getY() + miny, v.bottomLeft().getR()),
-                R2xS1<FT>(v.topRight().getX() + maxx, v.topRight().getY() + maxy, v.topRight().getR())
-            );
-        }
-        
         #ifndef SDSL_CPP_ONLY
             using Env_R2_Arrangement_repr = nb::ndarray<double, nb::numpy, nb::shape<-1, 2 * 2>, nb::f_contig>;
             Env_R2_Arrangement_repr getRepresentation() {
@@ -185,7 +158,7 @@ namespace sdsl {
             }
         #endif
 
-        Voxel<R2xS1<FT>> boundingBox() {
+        Voxel<D,FT> boundingBox() {
             FT xmin = FT(INF), ymin = FT(INF), xmax = -FT(INF), ymax = -FT(INF);
             for (auto it = m_arrangement.vertices_begin(); it != m_arrangement.vertices_end(); ++it) {
                 FT x = it->point().x(), y = it->point().y();
@@ -194,14 +167,14 @@ namespace sdsl {
                 if (y < ymin) ymin = y;
                 if (y > ymax) ymax = y;
             }
-            return Voxel<R2xS1<FT>>(
-                R2xS1<FT>(xmin, ymin, 0),
-                R2xS1<FT>(xmax, ymax, 2 * M_PI)
+            return Voxel<D,FT>(
+                Configuration<D,FT>(xmin, ymin, 0),
+                Configuration<D,FT>(xmax, ymax, 2 * M_PI)
             );
         }
 
-        bool isInside(R2xS1<FT> q) {
-            Segment upwards(Point(q.getX(), q.getY()), Point(q.getX(), q.getY() + INF));
+        bool contains(Configuration<D,FT> q) override {
+            Segment upwards(Point(q[0], q[1]), Point(q[0], q[1] + INF));
             std::vector<CGAL::Object> res;
             CGAL::zone(m_arrangement, upwards, std::back_inserter(res), *m_pl);
             int numIsects = 0;
@@ -212,7 +185,6 @@ namespace sdsl {
             }
             return numIsects % 2 == 1;
         }
-
     private:
         Arrangement_2 m_arrangement;
         std::shared_ptr<Point_location> m_pl;
@@ -233,11 +205,7 @@ namespace sdsl {
         }
 
         void buildPointLocation() {
-            // m_pl.detach();
-            // m_pl.attach(m_arrangement);
             m_pl = std::make_shared<Point_location>(m_arrangement);
         }
     };
-};
-
-#endif
+}

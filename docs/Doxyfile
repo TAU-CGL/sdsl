@@ -1,0 +1,33 @@
+# Doxyfile for SDSL — generates XML consumed by Breathe/Exhale
+
+PROJECT_NAME           = "SDSL"
+PROJECT_NUMBER         = 1.0
+PROJECT_BRIEF          = "Sparse Distance Sampling Localization"
+
+# Output — only XML is needed; HTML can be disabled to keep builds fast
+# NOTE: OUTPUT_DIRECTORY is intentionally absent — Exhale sets it internally
+#       from breathe_projects in conf.py when using exhaleExecutesDoxygen.
+GENERATE_HTML          = NO
+GENERATE_LATEX         = NO
+GENERATE_XML           = YES
+XML_OUTPUT             = xml
+XML_PROGRAMLISTING     = NO
+
+# Source
+INPUT                  = ../sdsl/include/sdsl
+RECURSIVE              = YES
+FILE_PATTERNS          = *.hpp *.h
+
+# Extraction settings
+EXTRACT_ALL            = YES
+EXTRACT_PRIVATE        = NO
+EXTRACT_STATIC         = YES
+ENABLE_PREPROCESSING   = YES
+MACRO_EXPANSION        = YES
+
+# Comment style — Doxygen triple-slash (///) comments
+JAVADOC_AUTOBRIEF      = YES
+QT_AUTOBRIEF           = YES
+
+QUIET                  = YES
+WARNINGS               = YES

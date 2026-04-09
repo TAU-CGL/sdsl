@@ -13,14 +13,35 @@ Supports deterministic solution for the kidnapped-robot problem for different ki
 
 ### Prerequisites
 
-For macOS (Tested an Apple Sillicon):
+* For macOS (Tested an Apple Sillicon):
 
-    brew install libomp
+    `brew install libomp`
+
+* For Windows, you should have MSVC installed, and set it as CMake generator.
+  For example, in PowerShell:
+
+    `$env:CMAKE_GENERATOR = "Visual Studio 18 2026"`
 
 ### Python Bindings
 
 To install the Python bindings, run:
 
+```
     pip3 install ./sdsl
+```
 
 This package uses `skbuild-conan` to automatically insteall all other necessary dependencies. 
+
+## Documentation
+
+The Python package must be installed first (so `autodoc` can import the compiled extension), then install the doc dependencies and build:
+
+```
+pip3 install ./sdsl
+pip install -r docs/requirements.txt
+sphinx-build docs/ docs/_build/html
+```
+
+Requires [Doxygen](https://www.doxygen.nl/download.html) on your PATH (`choco install doxygen.install` on Windows, `brew install doxygen` on macOS).
+
+Open `docs/_build/html/index.html` to browse locally.
