@@ -31,3 +31,16 @@ To install the Python bindings, run:
 ```
 
 This package uses `skbuild-conan` to automatically insteall all other necessary dependencies. 
+
+## Documentation
+
+Install the doc dependencies and build:
+
+```
+pip install -r docs/requirements.txt
+sphinx-build docs/ docs/_build/html
+```
+
+Requires [Doxygen](https://www.doxygen.nl/download.html) on your PATH (`choco install doxygen.install` on Windows, `brew install doxygen` on macOS).
+
+Open `docs/_build/html/index.html` to browse locally.
