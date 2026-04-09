@@ -1,0 +1,62 @@
+
+.. _file_sdsl_environment.hpp:
+
+File environment.hpp
+====================
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl>` (``sdsl``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+Abstract environment class. 
+
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``sdsl/environment.hpp``)
+-------------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``sdsl/configuration.hpp`` (:ref:`file_sdsl_configuration.hpp`)
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_sdsl_environments_env_R2_arrangement.hpp`
+
+- :ref:`file_sdsl_environments_env_pcd.hpp`
+
+- :ref:`file_sdsl_predicates_pred_forward_2d.hpp`
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_sdsl`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classsdsl_1_1Environment`
+

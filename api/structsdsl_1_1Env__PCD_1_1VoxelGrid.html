@@ -1,0 +1,226 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Struct Env_PCD::VoxelGrid &mdash; SDSL Docs</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
+      <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Template Struct Predicate_AlwaysTrue" href="structsdsl_1_1Predicate__AlwaysTrue.html" />
+    <link rel="prev" title="Template Struct Configuration" href="structsdsl_1_1Configuration.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            SDSL
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/configuration_space.html">Configuration Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/environments.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/predicates.html">Predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/localization.html">Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/python_bindings.html">Python Bindings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../python_api.html">Python API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">C++ API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="library_root.html">C++ API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="library_root.html#full-api">Full API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#namespaces">Namespaces</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="library_root.html#classes-and-structs">Classes and Structs</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html">Template Struct Configuration</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Struct Env_PCD::VoxelGrid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__AlwaysTrue.html">Template Struct Predicate_AlwaysTrue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__Fwd2D.html">Template Struct Predicate_Fwd2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html">Template Struct Voxel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html">Template Class Env_PCD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html">Template Class Env_R2_Arrangement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Environment.html">Template Class Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Random.html">Class Random</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#variables">Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#defines">Defines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#typedefs">Typedefs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SDSL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="library_root.html">C++ API Reference</a></li>
+      <li class="breadcrumb-item active">Struct Env_PCD::VoxelGrid</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/structsdsl_1_1Env__PCD_1_1VoxelGrid.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="struct-env-pcd-voxelgrid">
+<span id="exhale-struct-structsdsl-1-1env-pcd-1-1voxelgrid"></span><h1>Struct Env_PCD::VoxelGrid<a class="headerlink" href="#struct-env-pcd-voxelgrid" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file_sdsl_environments_env_pcd.hpp.html#file-sdsl-environments-env-pcd-hpp"><span class="std std-ref">File env_pcd.hpp</span></a></p></li>
+</ul>
+<section id="nested-relationships">
+<h2>Nested Relationships<a class="headerlink" href="#nested-relationships" title="Link to this heading"></a></h2>
+<p>This struct is a nested type of <a class="reference internal" href="classsdsl_1_1Env__PCD.html#exhale-class-classsdsl-1-1env-pcd"><span class="std std-ref">Template Class Env_PCD</span></a>.</p>
+</section>
+<section id="struct-documentation">
+<h2>Struct Documentation<a class="headerlink" href="#struct-documentation" title="Link to this heading"></a></h2>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PCD9VoxelGridE">
+<span id="_CPPv3N4sdsl7Env_PCD9VoxelGridE"></span><span id="_CPPv2N4sdsl7Env_PCD9VoxelGridE"></span><span id="sdsl::Env_PCD::VoxelGrid"></span><span class="target" id="structsdsl_1_1Env__PCD_1_1VoxelGrid"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">VoxelGrid</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PCD9VoxelGridE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4sdsl7Env_PCD9VoxelGrid6cellOfEddd">
+<span id="_CPPv3NK4sdsl7Env_PCD9VoxelGrid6cellOfEddd"></span><span id="_CPPv2NK4sdsl7Env_PCD9VoxelGrid6cellOfEddd"></span><span id="sdsl::Env_PCD::VoxelGrid::cellOf__double.double.doubleC"></span><span class="target" id="structsdsl_1_1Env__PCD_1_1VoxelGrid_1a4d1b39641e8230258f62e04c41a87038"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">array</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cellOf</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">x</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">y</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">z</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4sdsl7Env_PCD9VoxelGrid6cellOfEddd" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4sdsl7Env_PCD9VoxelGrid5validEiii">
+<span id="_CPPv3NK4sdsl7Env_PCD9VoxelGrid5validEiii"></span><span id="_CPPv2NK4sdsl7Env_PCD9VoxelGrid5validEiii"></span><span id="sdsl::Env_PCD::VoxelGrid::valid__i.i.iC"></span><span class="target" id="structsdsl_1_1Env__PCD_1_1VoxelGrid_1afdca0065bb31cc39dbc1b3eaa07b9c39"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">valid</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ix</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">iy</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">iz</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4sdsl7Env_PCD9VoxelGrid5validEiii" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4sdsl7Env_PCD9VoxelGrid4flatEiii">
+<span id="_CPPv3NK4sdsl7Env_PCD9VoxelGrid4flatEiii"></span><span id="_CPPv2NK4sdsl7Env_PCD9VoxelGrid4flatEiii"></span><span id="sdsl::Env_PCD::VoxelGrid::flat__i.i.iC"></span><span class="target" id="structsdsl_1_1Env__PCD_1_1VoxelGrid_1aeebb2f7c7acf7d73a760c05eaa1689ee"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">flat</span></span></span><span class="sig-paren">(</span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">ix</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">iy</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">iz</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4sdsl7Env_PCD9VoxelGrid4flatEiii" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PCD9VoxelGrid8cellSizeE">
+<span id="_CPPv3N4sdsl7Env_PCD9VoxelGrid8cellSizeE"></span><span id="_CPPv2N4sdsl7Env_PCD9VoxelGrid8cellSizeE"></span><span id="sdsl::Env_PCD::VoxelGrid::cellSize__double"></span><span class="target" id="structsdsl_1_1Env__PCD_1_1VoxelGrid_1a7262312976d01be8f7560131f29b6ca8"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cellSize</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PCD9VoxelGrid8cellSizeE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PCD9VoxelGrid4xminE">
+<span id="_CPPv3N4sdsl7Env_PCD9VoxelGrid4xminE"></span><span id="_CPPv2N4sdsl7Env_PCD9VoxelGrid4xminE"></span><span id="sdsl::Env_PCD::VoxelGrid::xmin__double"></span><span class="target" id="structsdsl_1_1Env__PCD_1_1VoxelGrid_1aae89fadcb0cd265b6b4ec625e1daa770"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">xmin</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PCD9VoxelGrid4xminE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PCD9VoxelGrid4yminE">
+<span id="_CPPv3N4sdsl7Env_PCD9VoxelGrid4yminE"></span><span id="_CPPv2N4sdsl7Env_PCD9VoxelGrid4yminE"></span><span id="sdsl::Env_PCD::VoxelGrid::ymin__double"></span><span class="target" id="structsdsl_1_1Env__PCD_1_1VoxelGrid_1af8544e8e8b05cec596ce1de011d5fa40"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ymin</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PCD9VoxelGrid4yminE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PCD9VoxelGrid4zminE">
+<span id="_CPPv3N4sdsl7Env_PCD9VoxelGrid4zminE"></span><span id="_CPPv2N4sdsl7Env_PCD9VoxelGrid4zminE"></span><span id="sdsl::Env_PCD::VoxelGrid::zmin__double"></span><span class="target" id="structsdsl_1_1Env__PCD_1_1VoxelGrid_1ab9c95814a2465559dbd6a3fab8c8824f"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">zmin</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PCD9VoxelGrid4zminE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PCD9VoxelGrid2nxE">
+<span id="_CPPv3N4sdsl7Env_PCD9VoxelGrid2nxE"></span><span id="_CPPv2N4sdsl7Env_PCD9VoxelGrid2nxE"></span><span id="sdsl::Env_PCD::VoxelGrid::nx__i"></span><span class="target" id="structsdsl_1_1Env__PCD_1_1VoxelGrid_1a0bbdfe12492fe9195c0854e57dfae9d4"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nx</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PCD9VoxelGrid2nxE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PCD9VoxelGrid2nyE">
+<span id="_CPPv3N4sdsl7Env_PCD9VoxelGrid2nyE"></span><span id="_CPPv2N4sdsl7Env_PCD9VoxelGrid2nyE"></span><span id="sdsl::Env_PCD::VoxelGrid::ny__i"></span><span class="target" id="structsdsl_1_1Env__PCD_1_1VoxelGrid_1a6cda51500a6a3415ebb2ac9304822abb"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">ny</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PCD9VoxelGrid2nyE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PCD9VoxelGrid2nzE">
+<span id="_CPPv3N4sdsl7Env_PCD9VoxelGrid2nzE"></span><span id="_CPPv2N4sdsl7Env_PCD9VoxelGrid2nzE"></span><span id="sdsl::Env_PCD::VoxelGrid::nz__i"></span><span class="target" id="structsdsl_1_1Env__PCD_1_1VoxelGrid_1a3a806b626cb0d84c5633fe5410640859"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nz</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PCD9VoxelGrid2nzE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PCD9VoxelGrid5cellsE">
+<span id="_CPPv3N4sdsl7Env_PCD9VoxelGrid5cellsE"></span><span id="_CPPv2N4sdsl7Env_PCD9VoxelGrid5cellsE"></span><span id="sdsl::Env_PCD::VoxelGrid::cells__std::vector:std::vector:i::"></span><span class="target" id="structsdsl_1_1Env__PCD_1_1VoxelGrid_1a1a6100abd4157c1292af005f145435d6"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cells</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PCD9VoxelGrid5cellsE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="structsdsl_1_1Configuration.html" class="btn btn-neutral float-left" title="Template Struct Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="structsdsl_1_1Predicate__AlwaysTrue.html" class="btn btn-neutral float-right" title="Template Struct Predicate_AlwaysTrue" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, TAU-CGL.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

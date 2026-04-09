@@ -1,0 +1,21 @@
+.. _dir_sdsl_bindings:
+
+
+Directory bindings
+==================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl>` (``sdsl``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+*Directory path:* ``sdsl/bindings``
+
+
+Files
+-----
+
+- :ref:`file_sdsl_bindings_sdsl_binding.hpp`
+
+

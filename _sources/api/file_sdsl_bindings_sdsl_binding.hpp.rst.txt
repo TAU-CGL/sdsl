@@ -1,0 +1,66 @@
+
+.. _file_sdsl_bindings_sdsl_binding.hpp:
+
+File sdsl_binding.hpp
+=====================
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl_bindings>` (``sdsl/bindings``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+Common headers and defines used for Python bindings. 
+
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``sdsl/bindings/sdsl_binding.hpp``)
+-----------------------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``nanobind/nanobind.h``
+
+- ``nanobind/ndarray.h``
+
+- ``nanobind/operators.h``
+
+- ``nanobind/stl/function.h``
+
+- ``nanobind/stl/shared_ptr.h``
+
+- ``nanobind/stl/string.h``
+
+- ``nanobind/stl/tuple.h``
+
+- ``nanobind/stl/vector.h``
+
+
+
+
+
+
+Defines
+-------
+
+
+- :ref:`exhale_define_sdsl__binding_8hpp_1ad1d9de6210b70b625cce329df2649980`
+
+
+Typedefs
+--------
+
+
+- :ref:`exhale_typedef_sdsl__binding_8hpp_1a651a5da176def1876b575c6c56902796`
+

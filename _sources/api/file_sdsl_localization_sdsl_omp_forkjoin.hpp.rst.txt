@@ -1,0 +1,63 @@
+
+.. _file_sdsl_localization_sdsl_omp_forkjoin.hpp:
+
+File sdsl_omp_forkjoin.hpp
+==========================
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl_localization>` (``sdsl/localization``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``sdsl/localization/sdsl_omp_forkjoin.hpp``)
+--------------------------------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``chrono``
+
+- ``fmt/core.h``
+
+- ``iostream``
+
+- ``omp.h``
+
+- ``queue``
+
+- ``sdsl/predicate.hpp`` (:ref:`file_sdsl_predicate.hpp`)
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_sdsl_sdsl.hpp`
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_sdsl`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespacesdsl_1ae3efda00614795b62b9f1cd7a5ce162a`
+

@@ -1,0 +1,26 @@
+.. _exhale_class_classsdsl_1_1Env__R2__Arrangement:
+
+Template Class Env_R2_Arrangement
+=================================
+
+- Defined in :ref:`file_sdsl_environments_env_R2_arrangement.hpp`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``private sdsl::Environment< D, Traits_2::Kernel::FT >`` (:ref:`exhale_class_classsdsl_1_1Environment`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: sdsl::Env_R2_Arrangement
+   :project: sdsl
+   :members:
+   :protected-members:
+   :undoc-members:

@@ -1,0 +1,263 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Template Class Env_R2_Arrangement &mdash; SDSL Docs</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
+      <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Template Class Environment" href="classsdsl_1_1Environment.html" />
+    <link rel="prev" title="Template Class Env_PCD" href="classsdsl_1_1Env__PCD.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            SDSL
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/configuration_space.html">Configuration Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/environments.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/predicates.html">Predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/localization.html">Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/python_bindings.html">Python Bindings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../python_api.html">Python API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">C++ API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="library_root.html">C++ API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="library_root.html#full-api">Full API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#namespaces">Namespaces</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="library_root.html#classes-and-structs">Classes and Structs</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html">Template Struct Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html">Struct Env_PCD::VoxelGrid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__AlwaysTrue.html">Template Struct Predicate_AlwaysTrue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__Fwd2D.html">Template Struct Predicate_Fwd2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html">Template Struct Voxel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html">Template Class Env_PCD</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Template Class Env_R2_Arrangement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Environment.html">Template Class Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Random.html">Class Random</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#variables">Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#defines">Defines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#typedefs">Typedefs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SDSL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="library_root.html">C++ API Reference</a></li>
+      <li class="breadcrumb-item active">Template Class Env_R2_Arrangement</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/classsdsl_1_1Env__R2__Arrangement.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="template-class-env-r2-arrangement">
+<span id="exhale-class-classsdsl-1-1env-r2-arrangement"></span><h1>Template Class Env_R2_Arrangement<a class="headerlink" href="#template-class-env-r2-arrangement" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file_sdsl_environments_env_R2_arrangement.hpp.html#file-sdsl-environments-env-r2-arrangement-hpp"><span class="std std-ref">File env_R2_arrangement.hpp</span></a></p></li>
+</ul>
+<section id="inheritance-relationships">
+<h2>Inheritance Relationships<a class="headerlink" href="#inheritance-relationships" title="Link to this heading"></a></h2>
+<section id="base-type">
+<h3>Base Type<a class="headerlink" href="#base-type" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">private</span> <span class="pre">sdsl::Environment&lt;</span> <span class="pre">D,</span> <span class="pre">Traits_2::Kernel::FT</span> <span class="pre">&gt;</span></code> (<a class="reference internal" href="classsdsl_1_1Environment.html#exhale-class-classsdsl-1-1environment"><span class="std std-ref">Template Class Environment</span></a>)</p></li>
+</ul>
+</section>
+</section>
+<section id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Link to this heading"></a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4I00_iEN4sdsl18Env_R2_ArrangementE">
+<span id="_CPPv3I00_iEN4sdsl18Env_R2_ArrangementE"></span><span id="_CPPv2I00_iEN4sdsl18Env_R2_ArrangementE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Arrangement_2</span></span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Traits_2</span></span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">D</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classsdsl_1_1Env__R2__Arrangement"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Env_R2_Arrangement</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">private</span></span><span class="w"> </span><span class="n"><span class="pre">sdsl</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="classsdsl_1_1Environment.html#_CPPv4I_i0EN4sdsl11EnvironmentE" title="sdsl::Environment"><span class="n"><span class="pre">Environment</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I00_iEN4sdsl18Env_R2_ArrangementE" title="sdsl::Env_R2_Arrangement::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I00_iEN4sdsl18Env_R2_ArrangementE" title="sdsl::Env_R2_Arrangement::Traits_2"><span class="n"><span class="pre">Traits_2</span></span></a><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">Kernel</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">FT</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I00_iEN4sdsl18Env_R2_ArrangementE" title="Link to this definition"></a><br /></dt>
+<dd><div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl18Env_R2_Arrangement23Env_R2_Arrangement_reprE">
+<span id="_CPPv3N4sdsl18Env_R2_Arrangement23Env_R2_Arrangement_reprE"></span><span id="_CPPv2N4sdsl18Env_R2_Arrangement23Env_R2_Arrangement_reprE"></span><span class="target" id="classsdsl_1_1Env__R2__Arrangement_1ae9e090e719b5d2afc8044f6d85c564f7"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Env_R2_Arrangement_repr</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="n"><span class="pre">nb</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ndarray</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">nb</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">numpy</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">nb</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">&lt;</span></span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><span class="w"> </span><span class="o"><span class="pre">*</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">nb</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">f_contig</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4N4sdsl18Env_R2_Arrangement23Env_R2_Arrangement_reprE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementEv">
+<span id="_CPPv3N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementEv"></span><span id="_CPPv2N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementEv"></span><span id="sdsl::Env_R2_Arrangement::Env_R2_Arrangement"></span><span class="target" id="classsdsl_1_1Env__R2__Arrangement_1acb36c14b95fa811f27b8f4ebd27f7dde"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Env_R2_Arrangement</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementE13Arrangement_2">
+<span id="_CPPv3N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementE13Arrangement_2"></span><span id="_CPPv2N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementE13Arrangement_2"></span><span id="sdsl::Env_R2_Arrangement::Env_R2_Arrangement__Arrangement_2"></span><span class="target" id="classsdsl_1_1Env__R2__Arrangement_1ab8e4c828837c8c38fc35972bffef240e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Env_R2_Arrangement</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I00_iEN4sdsl18Env_R2_ArrangementE" title="sdsl::Env_R2_Arrangement::Arrangement_2"><span class="n"><span class="pre">Arrangement_2</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">arrangement</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementE13Arrangement_2" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementENSt6vectorI7SegmentEE">
+<span id="_CPPv3N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementENSt6vectorI7SegmentEE"></span><span id="_CPPv2N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementENSt6vectorI7SegmentEE"></span><span id="sdsl::Env_R2_Arrangement::Env_R2_Arrangement__std::vector:Segment:"></span><span class="target" id="classsdsl_1_1Env__R2__Arrangement_1a5f8c17e462eb814bcbd1dd0e9f59c043"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Env_R2_Arrangement</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">Segment</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">segments</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementENSt6vectorI7SegmentEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementEKN2nb7ndarrayIdN2nb5shapeIXngL1EEXmlL2EL2EEEEEE">
+<span id="_CPPv3N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementEKN2nb7ndarrayIdN2nb5shapeIXngL1EEXmlL2EL2EEEEEE"></span><span id="_CPPv2N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementEKN2nb7ndarrayIdN2nb5shapeIX-1EX2 * 2EEEEE"></span><span id="sdsl::Env_R2_Arrangement::Env_R2_Arrangement__nb::ndarray:double.nb::shape:-1.2-*-2::C"></span><span class="target" id="classsdsl_1_1Env__R2__Arrangement_1a453e59b2b57bd84a8dd143a41faebfb8"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Env_R2_Arrangement</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">nb</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ndarray</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">nb</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">&lt;</span></span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><span class="w"> </span><span class="o"><span class="pre">*</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">a</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementEKN2nb7ndarrayIdN2nb5shapeIXngL1EEXmlL2EL2EEEEEE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl18Env_R2_Arrangement10intersectsE5VoxelI1D2FTE">
+<span id="_CPPv3N4sdsl18Env_R2_Arrangement10intersectsE5VoxelI1D2FTE"></span><span id="_CPPv2N4sdsl18Env_R2_Arrangement10intersectsE5VoxelI1D2FTE"></span><span id="sdsl::Env_R2_Arrangement::intersects__Voxel:D.FT:"></span><span class="target" id="classsdsl_1_1Env__R2__Arrangement_1ab51fe37e97e9fd1d7ee8983abd0684ec"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">intersects</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel"><span class="n"><span class="pre">Voxel</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I00_iEN4sdsl18Env_R2_ArrangementE" title="sdsl::Env_R2_Arrangement::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">FT</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">v</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N4sdsl18Env_R2_Arrangement10intersectsE5VoxelI1D2FTE" title="Link to this definition"></a><br /></dt>
+<dd><p>Test whether a voxel intersects with the environment. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>v</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if v intersects with the environment. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl18Env_R2_Arrangement15measureDistanceE13ConfigurationI1D2FTE">
+<span id="_CPPv3N4sdsl18Env_R2_Arrangement15measureDistanceE13ConfigurationI1D2FTE"></span><span id="_CPPv2N4sdsl18Env_R2_Arrangement15measureDistanceE13ConfigurationI1D2FTE"></span><span id="sdsl::Env_R2_Arrangement::measureDistance__Configuration:D.FT:"></span><span class="target" id="classsdsl_1_1Env__R2__Arrangement_1ae6e83fe8f9a2f984b82ff5bb423d155a"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">measureDistance</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4I_i0EN4sdsl13ConfigurationE" title="sdsl::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I00_iEN4sdsl18Env_R2_ArrangementE" title="sdsl::Env_R2_Arrangement::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">FT</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">q</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4sdsl18Env_R2_Arrangement15measureDistanceE13ConfigurationI1D2FTE" title="Link to this definition"></a><br /></dt>
+<dd><p>Measure the distance perceived from a configuration q. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The measured distance. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl18Env_R2_Arrangement17hausdorffDistanceE13ConfigurationI1D2FTE">
+<span id="_CPPv3N4sdsl18Env_R2_Arrangement17hausdorffDistanceE13ConfigurationI1D2FTE"></span><span id="_CPPv2N4sdsl18Env_R2_Arrangement17hausdorffDistanceE13ConfigurationI1D2FTE"></span><span id="sdsl::Env_R2_Arrangement::hausdorffDistance__Configuration:D.FT:"></span><span class="target" id="classsdsl_1_1Env__R2__Arrangement_1a3e18759953da9cb9da7e12fc45402788"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">hausdorffDistance</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4I_i0EN4sdsl13ConfigurationE" title="sdsl::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I00_iEN4sdsl18Env_R2_ArrangementE" title="sdsl::Env_R2_Arrangement::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">FT</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">q</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4sdsl18Env_R2_Arrangement17hausdorffDistanceE13ConfigurationI1D2FTE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl18Env_R2_Arrangement22voxelHausdorffDistanceE5VoxelI1D2FTE">
+<span id="_CPPv3N4sdsl18Env_R2_Arrangement22voxelHausdorffDistanceE5VoxelI1D2FTE"></span><span id="_CPPv2N4sdsl18Env_R2_Arrangement22voxelHausdorffDistanceE5VoxelI1D2FTE"></span><span id="sdsl::Env_R2_Arrangement::voxelHausdorffDistance__Voxel:D.FT:"></span><span class="target" id="classsdsl_1_1Env__R2__Arrangement_1ae4b8db3bb9f2cc6d75744e1c08ec94f6"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">voxelHausdorffDistance</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel"><span class="n"><span class="pre">Voxel</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I00_iEN4sdsl18Env_R2_ArrangementE" title="sdsl::Env_R2_Arrangement::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">FT</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4sdsl18Env_R2_Arrangement22voxelHausdorffDistanceE5VoxelI1D2FTE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl18Env_R2_Arrangement17getRepresentationEv">
+<span id="_CPPv3N4sdsl18Env_R2_Arrangement17getRepresentationEv"></span><span id="_CPPv2N4sdsl18Env_R2_Arrangement17getRepresentationEv"></span><span id="sdsl::Env_R2_Arrangement::getRepresentation"></span><span class="target" id="classsdsl_1_1Env__R2__Arrangement_1a66691d2602d8b5c5f417e4c9c5c25d59"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4sdsl18Env_R2_Arrangement23Env_R2_Arrangement_reprE" title="sdsl::Env_R2_Arrangement::Env_R2_Arrangement_repr"><span class="n"><span class="pre">Env_R2_Arrangement_repr</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">getRepresentation</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4sdsl18Env_R2_Arrangement17getRepresentationEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl18Env_R2_Arrangement11boundingBoxEv">
+<span id="_CPPv3N4sdsl18Env_R2_Arrangement11boundingBoxEv"></span><span id="_CPPv2N4sdsl18Env_R2_Arrangement11boundingBoxEv"></span><span id="sdsl::Env_R2_Arrangement::boundingBox"></span><span class="target" id="classsdsl_1_1Env__R2__Arrangement_1a1f7ebf7d04dea4988ed540a514342e36"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel"><span class="n"><span class="pre">Voxel</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I00_iEN4sdsl18Env_R2_ArrangementE" title="sdsl::Env_R2_Arrangement::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">FT</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">boundingBox</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4sdsl18Env_R2_Arrangement11boundingBoxEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl18Env_R2_Arrangement8containsE13ConfigurationI1D2FTE">
+<span id="_CPPv3N4sdsl18Env_R2_Arrangement8containsE13ConfigurationI1D2FTE"></span><span id="_CPPv2N4sdsl18Env_R2_Arrangement8containsE13ConfigurationI1D2FTE"></span><span id="sdsl::Env_R2_Arrangement::contains__Configuration:D.FT:"></span><span class="target" id="classsdsl_1_1Env__R2__Arrangement_1a3fa908d1773708e3cc049ba96677b191"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contains</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4I_i0EN4sdsl13ConfigurationE" title="sdsl::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I00_iEN4sdsl18Env_R2_ArrangementE" title="sdsl::Env_R2_Arrangement::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">FT</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">q</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N4sdsl18Env_R2_Arrangement8containsE13ConfigurationI1D2FTE" title="Link to this definition"></a><br /></dt>
+<dd><p>Test whever a configuration is contained whithin the environment. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if q is contained in the environment. </p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="classsdsl_1_1Env__PCD.html" class="btn btn-neutral float-left" title="Template Class Env_PCD" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="classsdsl_1_1Environment.html" class="btn btn-neutral float-right" title="Template Class Environment" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, TAU-CGL.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

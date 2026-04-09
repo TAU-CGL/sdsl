@@ -1,0 +1,17 @@
+.. _exhale_struct_structsdsl_1_1Configuration:
+
+Template Struct Configuration
+=============================
+
+- Defined in :ref:`file_sdsl_configuration.hpp`
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: sdsl::Configuration
+   :project: sdsl
+   :members:
+   :protected-members:
+   :undoc-members:

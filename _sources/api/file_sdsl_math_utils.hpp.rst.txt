@@ -1,0 +1,78 @@
+
+.. _file_sdsl_math_utils.hpp:
+
+File math_utils.hpp
+===================
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl>` (``sdsl``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+Common math utilities used in computations. 
+
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``sdsl/math_utils.hpp``)
+------------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``cmath``
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_sdsl_environments_env_R2_arrangement.hpp`
+
+- :ref:`file_sdsl_environments_env_pcd.hpp`
+
+- :ref:`file_sdsl_predicates_pred_forward_2d.hpp`
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_sdsl`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespacesdsl_1a2bc91993bafcb52a552eb0128dd50896`
+
+
+Defines
+-------
+
+
+- :ref:`exhale_define_math__utils_8hpp_1a525335710b53cb064ca56b936120431e`
+
+- :ref:`exhale_define_math__utils_8hpp_1ae71449b1cc6e6250b91f539153a7a0d3`
+
+
+Variables
+---------
+
+
+- :ref:`exhale_variable_namespacesdsl_1ae9fa3c21c9d997680fe00abad004b1ca`
+

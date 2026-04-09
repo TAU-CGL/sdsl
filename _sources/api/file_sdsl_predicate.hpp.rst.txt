@@ -1,0 +1,55 @@
+
+.. _file_sdsl_predicate.hpp:
+
+File predicate.hpp
+==================
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl>` (``sdsl``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+Decleration of the "Predicate" concept. 
+
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``sdsl/predicate.hpp``)
+-----------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``sdsl/configuration.hpp`` (:ref:`file_sdsl_configuration.hpp`)
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_sdsl_localization_sdsl_omp_forkjoin.hpp`
+
+- :ref:`file_sdsl_predicates_pred_always_true.hpp`
+
+- :ref:`file_sdsl_predicates_pred_forward_2d.hpp`
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_sdsl`
+

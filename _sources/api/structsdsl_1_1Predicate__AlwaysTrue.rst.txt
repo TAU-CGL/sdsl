@@ -1,0 +1,17 @@
+.. _exhale_struct_structsdsl_1_1Predicate__AlwaysTrue:
+
+Template Struct Predicate_AlwaysTrue
+====================================
+
+- Defined in :ref:`file_sdsl_predicates_pred_always_true.hpp`
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: sdsl::Predicate_AlwaysTrue
+   :project: sdsl
+   :members:
+   :protected-members:
+   :undoc-members:

@@ -1,0 +1,823 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Python API Reference &mdash; SDSL Docs</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="_static/doctools.js?v=9bcbadda"></script>
+      <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
+      <script src="_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="C++ API Reference" href="api/library_root.html" />
+    <link rel="prev" title="Python Bindings" href="tutorials/python_bindings.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            SDSL
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/configuration_space.html">Configuration Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/environments.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/predicates.html">Predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/localization.html">Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tutorials/python_bindings.html">Python Bindings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Python API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#core">Core</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.seed"><code class="docutils literal notranslate"><span class="pre">seed()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#configurations">Configurations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.R2"><code class="docutils literal notranslate"><span class="pre">R2</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.R2.__add__"><code class="docutils literal notranslate"><span class="pre">R2.__add__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.R2.__getitem__"><code class="docutils literal notranslate"><span class="pre">R2.__getitem__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.R2.__repr__"><code class="docutils literal notranslate"><span class="pre">R2.__repr__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.R2.__setitem__"><code class="docutils literal notranslate"><span class="pre">R2.__setitem__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.R2.__sub__"><code class="docutils literal notranslate"><span class="pre">R2.__sub__</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.R3"><code class="docutils literal notranslate"><span class="pre">R3</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.R3.__add__"><code class="docutils literal notranslate"><span class="pre">R3.__add__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.R3.__getitem__"><code class="docutils literal notranslate"><span class="pre">R3.__getitem__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.R3.__repr__"><code class="docutils literal notranslate"><span class="pre">R3.__repr__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.R3.__setitem__"><code class="docutils literal notranslate"><span class="pre">R3.__setitem__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.R3.__sub__"><code class="docutils literal notranslate"><span class="pre">R3.__sub__</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.R4"><code class="docutils literal notranslate"><span class="pre">R4</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.R4.__add__"><code class="docutils literal notranslate"><span class="pre">R4.__add__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.R4.__getitem__"><code class="docutils literal notranslate"><span class="pre">R4.__getitem__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.R4.__repr__"><code class="docutils literal notranslate"><span class="pre">R4.__repr__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.R4.__setitem__"><code class="docutils literal notranslate"><span class="pre">R4.__setitem__</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.R4.__sub__"><code class="docutils literal notranslate"><span class="pre">R4.__sub__</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#voxels">Voxels</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.Voxel_R2"><code class="docutils literal notranslate"><span class="pre">Voxel_R2</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R2.bottom_left"><code class="docutils literal notranslate"><span class="pre">Voxel_R2.bottom_left</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R2.expand_self"><code class="docutils literal notranslate"><span class="pre">Voxel_R2.expand_self</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R2.midpoint"><code class="docutils literal notranslate"><span class="pre">Voxel_R2.midpoint</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R2.split"><code class="docutils literal notranslate"><span class="pre">Voxel_R2.split</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R2.top_right"><code class="docutils literal notranslate"><span class="pre">Voxel_R2.top_right</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.Voxel_R3"><code class="docutils literal notranslate"><span class="pre">Voxel_R3</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R3.bottom_left"><code class="docutils literal notranslate"><span class="pre">Voxel_R3.bottom_left</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R3.expand_self"><code class="docutils literal notranslate"><span class="pre">Voxel_R3.expand_self</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R3.midpoint"><code class="docutils literal notranslate"><span class="pre">Voxel_R3.midpoint</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R3.split"><code class="docutils literal notranslate"><span class="pre">Voxel_R3.split</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R3.top_right"><code class="docutils literal notranslate"><span class="pre">Voxel_R3.top_right</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.Voxel_R4"><code class="docutils literal notranslate"><span class="pre">Voxel_R4</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R4.bottom_left"><code class="docutils literal notranslate"><span class="pre">Voxel_R4.bottom_left</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R4.expand_self"><code class="docutils literal notranslate"><span class="pre">Voxel_R4.expand_self</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R4.midpoint"><code class="docutils literal notranslate"><span class="pre">Voxel_R4.midpoint</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R4.split"><code class="docutils literal notranslate"><span class="pre">Voxel_R4.split</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R4.top_right"><code class="docutils literal notranslate"><span class="pre">Voxel_R4.top_right</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#environments">Environments</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.Environment"><code class="docutils literal notranslate"><span class="pre">Environment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Environment.contains"><code class="docutils literal notranslate"><span class="pre">Environment.contains</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Environment.intersects"><code class="docutils literal notranslate"><span class="pre">Environment.intersects</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.Env_R2_Arrangement"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_R2_Arrangement.bounding_box"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement.bounding_box</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_R2_Arrangement.contains"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement.contains</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_R2_Arrangement.get_representation"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement.get_representation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_R2_Arrangement.hausdorff_distance"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement.hausdorff_distance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_R2_Arrangement.intersects"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement.intersects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_R2_Arrangement.measure_distance"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement.measure_distance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_R2_Arrangement.voxel_hausdorff_distance"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement.voxel_hausdorff_distance</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.Env_2D_PCD"><code class="docutils literal notranslate"><span class="pre">Env_2D_PCD</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_2D_PCD.bounding_box"><code class="docutils literal notranslate"><span class="pre">Env_2D_PCD.bounding_box</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_2D_PCD.contains"><code class="docutils literal notranslate"><span class="pre">Env_2D_PCD.contains</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_2D_PCD.forward"><code class="docutils literal notranslate"><span class="pre">Env_2D_PCD.forward</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_2D_PCD.get_representation"><code class="docutils literal notranslate"><span class="pre">Env_2D_PCD.get_representation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_2D_PCD.hausdorff_distance"><code class="docutils literal notranslate"><span class="pre">Env_2D_PCD.hausdorff_distance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_2D_PCD.intersects"><code class="docutils literal notranslate"><span class="pre">Env_2D_PCD.intersects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_2D_PCD.measure_distance"><code class="docutils literal notranslate"><span class="pre">Env_2D_PCD.measure_distance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_2D_PCD.voxel_hausdorff_distance"><code class="docutils literal notranslate"><span class="pre">Env_2D_PCD.voxel_hausdorff_distance</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.Env_3D_PCD"><code class="docutils literal notranslate"><span class="pre">Env_3D_PCD</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_3D_PCD.bounding_box"><code class="docutils literal notranslate"><span class="pre">Env_3D_PCD.bounding_box</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_3D_PCD.contains"><code class="docutils literal notranslate"><span class="pre">Env_3D_PCD.contains</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_3D_PCD.forward"><code class="docutils literal notranslate"><span class="pre">Env_3D_PCD.forward</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_3D_PCD.get_representation"><code class="docutils literal notranslate"><span class="pre">Env_3D_PCD.get_representation</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_3D_PCD.hausdorff_distance"><code class="docutils literal notranslate"><span class="pre">Env_3D_PCD.hausdorff_distance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_3D_PCD.intersects"><code class="docutils literal notranslate"><span class="pre">Env_3D_PCD.intersects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_3D_PCD.measure_distance"><code class="docutils literal notranslate"><span class="pre">Env_3D_PCD.measure_distance</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_3D_PCD.voxel_hausdorff_distance"><code class="docutils literal notranslate"><span class="pre">Env_3D_PCD.voxel_hausdorff_distance</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#predicates">Predicates</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.Predicate_Fwd2D_Arr"><code class="docutils literal notranslate"><span class="pre">Predicate_Fwd2D_Arr</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Predicate_Fwd2D_Arr.forward"><code class="docutils literal notranslate"><span class="pre">Predicate_Fwd2D_Arr.forward</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.Predicate_AlwaysTrue_3d"><code class="docutils literal notranslate"><span class="pre">Predicate_AlwaysTrue_3d</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.Predicate_AlwaysTrue_4d"><code class="docutils literal notranslate"><span class="pre">Predicate_AlwaysTrue_4d</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#localization">Localization</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.localize_omp_forkjoin_3d"><code class="docutils literal notranslate"><span class="pre">localize_omp_forkjoin_3d()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.localize_omp_forkjoin_4d"><code class="docutils literal notranslate"><span class="pre">localize_omp_forkjoin_4d()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-sdsl.simulation">Simulation utilities</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sdsl.loaders.load_poly_as_pcd.load_poly_as_pcd"><code class="docutils literal notranslate"><span class="pre">load_poly_as_pcd()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">C++ API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/library_root.html">C++ API Reference</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SDSL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Python API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/python_api.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="python-api-reference">
+<h1>Python API Reference<a class="headerlink" href="#python-api-reference" title="Link to this heading"></a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">sdsl</span></code> package must be installed (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">./sdsl</span></code>) before
+building these docs so that <code class="docutils literal notranslate"><span class="pre">autodoc</span></code> can import the compiled extension.</p>
+</div>
+<section id="core">
+<h2>Core<a class="headerlink" href="#core" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="sdsl.seed">
+<span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">seed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">seed</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#sdsl.seed" title="Link to this definition"></a></dt>
+<dd><p>Seed the global random number generator used by SDSL.</p>
+</dd></dl>
+
+</section>
+<section id="configurations">
+<h2>Configurations<a class="headerlink" href="#configurations" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="sdsl.R2">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">R2</span></span><a class="headerlink" href="#sdsl.R2" title="Link to this definition"></a></dt>
+<dd><p>D-dimensional configuration (point in C-space ≅ R^D).</p>
+<p>Elements are accessed with <code class="docutils literal notranslate"><span class="pre">q[i]</span></code> and the usual comparison operators perform component-wise tests (not a total order).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.R2.__add__">
+<span class="sig-name descname"><span class="pre">__add__</span></span><a class="headerlink" href="#sdsl.R2.__add__" title="Link to this definition"></a></dt>
+<dd><p>Add a scalar delta to every coordinate.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.R2.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><a class="headerlink" href="#sdsl.R2.__getitem__" title="Link to this definition"></a></dt>
+<dd><p>Return the i-th coordinate.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.R2.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><a class="headerlink" href="#sdsl.R2.__repr__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.R2.__setitem__">
+<span class="sig-name descname"><span class="pre">__setitem__</span></span><a class="headerlink" href="#sdsl.R2.__setitem__" title="Link to this definition"></a></dt>
+<dd><p>Set the i-th coordinate.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.R2.__sub__">
+<span class="sig-name descname"><span class="pre">__sub__</span></span><a class="headerlink" href="#sdsl.R2.__sub__" title="Link to this definition"></a></dt>
+<dd><p>Subtract a scalar delta from every coordinate.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sdsl.R3">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">R3</span></span><a class="headerlink" href="#sdsl.R3" title="Link to this definition"></a></dt>
+<dd><p>D-dimensional configuration (point in C-space ≅ R^D).</p>
+<p>Elements are accessed with <code class="docutils literal notranslate"><span class="pre">q[i]</span></code> and the usual comparison operators perform component-wise tests (not a total order).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.R3.__add__">
+<span class="sig-name descname"><span class="pre">__add__</span></span><a class="headerlink" href="#sdsl.R3.__add__" title="Link to this definition"></a></dt>
+<dd><p>Add a scalar delta to every coordinate.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.R3.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><a class="headerlink" href="#sdsl.R3.__getitem__" title="Link to this definition"></a></dt>
+<dd><p>Return the i-th coordinate.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.R3.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><a class="headerlink" href="#sdsl.R3.__repr__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.R3.__setitem__">
+<span class="sig-name descname"><span class="pre">__setitem__</span></span><a class="headerlink" href="#sdsl.R3.__setitem__" title="Link to this definition"></a></dt>
+<dd><p>Set the i-th coordinate.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.R3.__sub__">
+<span class="sig-name descname"><span class="pre">__sub__</span></span><a class="headerlink" href="#sdsl.R3.__sub__" title="Link to this definition"></a></dt>
+<dd><p>Subtract a scalar delta from every coordinate.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sdsl.R4">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">R4</span></span><a class="headerlink" href="#sdsl.R4" title="Link to this definition"></a></dt>
+<dd><p>D-dimensional configuration (point in C-space ≅ R^D).</p>
+<p>Elements are accessed with <code class="docutils literal notranslate"><span class="pre">q[i]</span></code> and the usual comparison operators perform component-wise tests (not a total order).</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.R4.__add__">
+<span class="sig-name descname"><span class="pre">__add__</span></span><a class="headerlink" href="#sdsl.R4.__add__" title="Link to this definition"></a></dt>
+<dd><p>Add a scalar delta to every coordinate.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.R4.__getitem__">
+<span class="sig-name descname"><span class="pre">__getitem__</span></span><a class="headerlink" href="#sdsl.R4.__getitem__" title="Link to this definition"></a></dt>
+<dd><p>Return the i-th coordinate.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.R4.__repr__">
+<span class="sig-name descname"><span class="pre">__repr__</span></span><a class="headerlink" href="#sdsl.R4.__repr__" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.R4.__setitem__">
+<span class="sig-name descname"><span class="pre">__setitem__</span></span><a class="headerlink" href="#sdsl.R4.__setitem__" title="Link to this definition"></a></dt>
+<dd><p>Set the i-th coordinate.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.R4.__sub__">
+<span class="sig-name descname"><span class="pre">__sub__</span></span><a class="headerlink" href="#sdsl.R4.__sub__" title="Link to this definition"></a></dt>
+<dd><p>Subtract a scalar delta from every coordinate.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="voxels">
+<h2>Voxels<a class="headerlink" href="#voxels" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="sdsl.Voxel_R2">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">Voxel_R2</span></span><a class="headerlink" href="#sdsl.Voxel_R2" title="Link to this definition"></a></dt>
+<dd><p>Axis-aligned bounding box (voxel) in C-space ≅ R^D.</p>
+<p>Defined by a <code class="docutils literal notranslate"><span class="pre">bottom_left</span></code> and <code class="docutils literal notranslate"><span class="pre">top_right</span></code> <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Configuration</span></code>. Used both as the initial search region and as the result type of <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">localize_omp_forkjoin_3d()</span></code>.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="sdsl.Voxel_R2.bottom_left">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bottom_left</span></span><a class="headerlink" href="#sdsl.Voxel_R2.bottom_left" title="Link to this definition"></a></dt>
+<dd><p>Lower corner of the voxel.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Voxel_R2.expand_self">
+<span class="sig-name descname"><span class="pre">expand_self</span></span><a class="headerlink" href="#sdsl.Voxel_R2.expand_self" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">bottom_left</span> <span class="pre">-=</span> <span class="pre">delta</span></code>, <code class="docutils literal notranslate"><span class="pre">top_right</span> <span class="pre">+=</span> <span class="pre">delta</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Expand the voxel in-place</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Voxel_R2.midpoint">
+<span class="sig-name descname"><span class="pre">midpoint</span></span><a class="headerlink" href="#sdsl.Voxel_R2.midpoint" title="Link to this definition"></a></dt>
+<dd><p>Return the centre configuration of the voxel.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Voxel_R2.split">
+<span class="sig-name descname"><span class="pre">split</span></span><a class="headerlink" href="#sdsl.Voxel_R2.split" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">split(self)</span> <span class="pre">-&gt;</span> <span class="pre">list[sdsl._sdsl.Voxel_R2]</span></code></p></li>
+</ol>
+<p>Split into 2^D equal sub-voxels. Returns a list of child voxels.</p>
+<ol class="arabic simple" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">split(self,</span> <span class="pre">midpoint:</span> <span class="pre">sdsl._sdsl.R2)</span> <span class="pre">-&gt;</span> <span class="pre">list[sdsl._sdsl.Voxel_R2]</span></code></p></li>
+</ol>
+<p>Split into 2^D sub-voxels at a given midpoint. Returns a list of child voxels.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sdsl.Voxel_R2.top_right">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">top_right</span></span><a class="headerlink" href="#sdsl.Voxel_R2.top_right" title="Link to this definition"></a></dt>
+<dd><p>Upper corner of the voxel.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sdsl.Voxel_R3">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">Voxel_R3</span></span><a class="headerlink" href="#sdsl.Voxel_R3" title="Link to this definition"></a></dt>
+<dd><p>Axis-aligned bounding box (voxel) in C-space ≅ R^D.</p>
+<p>Defined by a <code class="docutils literal notranslate"><span class="pre">bottom_left</span></code> and <code class="docutils literal notranslate"><span class="pre">top_right</span></code> <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Configuration</span></code>. Used both as the initial search region and as the result type of <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">localize_omp_forkjoin_3d()</span></code>.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="sdsl.Voxel_R3.bottom_left">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bottom_left</span></span><a class="headerlink" href="#sdsl.Voxel_R3.bottom_left" title="Link to this definition"></a></dt>
+<dd><p>Lower corner of the voxel.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Voxel_R3.expand_self">
+<span class="sig-name descname"><span class="pre">expand_self</span></span><a class="headerlink" href="#sdsl.Voxel_R3.expand_self" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">bottom_left</span> <span class="pre">-=</span> <span class="pre">delta</span></code>, <code class="docutils literal notranslate"><span class="pre">top_right</span> <span class="pre">+=</span> <span class="pre">delta</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Expand the voxel in-place</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Voxel_R3.midpoint">
+<span class="sig-name descname"><span class="pre">midpoint</span></span><a class="headerlink" href="#sdsl.Voxel_R3.midpoint" title="Link to this definition"></a></dt>
+<dd><p>Return the centre configuration of the voxel.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Voxel_R3.split">
+<span class="sig-name descname"><span class="pre">split</span></span><a class="headerlink" href="#sdsl.Voxel_R3.split" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">split(self)</span> <span class="pre">-&gt;</span> <span class="pre">list[sdsl._sdsl.Voxel_R3]</span></code></p></li>
+</ol>
+<p>Split into 2^D equal sub-voxels. Returns a list of child voxels.</p>
+<ol class="arabic simple" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">split(self,</span> <span class="pre">midpoint:</span> <span class="pre">sdsl._sdsl.R3)</span> <span class="pre">-&gt;</span> <span class="pre">list[sdsl._sdsl.Voxel_R3]</span></code></p></li>
+</ol>
+<p>Split into 2^D sub-voxels at a given midpoint. Returns a list of child voxels.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sdsl.Voxel_R3.top_right">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">top_right</span></span><a class="headerlink" href="#sdsl.Voxel_R3.top_right" title="Link to this definition"></a></dt>
+<dd><p>Upper corner of the voxel.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sdsl.Voxel_R4">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">Voxel_R4</span></span><a class="headerlink" href="#sdsl.Voxel_R4" title="Link to this definition"></a></dt>
+<dd><p>Axis-aligned bounding box (voxel) in C-space ≅ R^D.</p>
+<p>Defined by a <code class="docutils literal notranslate"><span class="pre">bottom_left</span></code> and <code class="docutils literal notranslate"><span class="pre">top_right</span></code> <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Configuration</span></code>. Used both as the initial search region and as the result type of <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">localize_omp_forkjoin_3d()</span></code>.</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="sdsl.Voxel_R4.bottom_left">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bottom_left</span></span><a class="headerlink" href="#sdsl.Voxel_R4.bottom_left" title="Link to this definition"></a></dt>
+<dd><p>Lower corner of the voxel.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Voxel_R4.expand_self">
+<span class="sig-name descname"><span class="pre">expand_self</span></span><a class="headerlink" href="#sdsl.Voxel_R4.expand_self" title="Link to this definition"></a></dt>
+<dd><p><code class="docutils literal notranslate"><span class="pre">bottom_left</span> <span class="pre">-=</span> <span class="pre">delta</span></code>, <code class="docutils literal notranslate"><span class="pre">top_right</span> <span class="pre">+=</span> <span class="pre">delta</span></code>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Expand the voxel in-place</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Voxel_R4.midpoint">
+<span class="sig-name descname"><span class="pre">midpoint</span></span><a class="headerlink" href="#sdsl.Voxel_R4.midpoint" title="Link to this definition"></a></dt>
+<dd><p>Return the centre configuration of the voxel.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Voxel_R4.split">
+<span class="sig-name descname"><span class="pre">split</span></span><a class="headerlink" href="#sdsl.Voxel_R4.split" title="Link to this definition"></a></dt>
+<dd><p>Overloaded function.</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">split(self)</span> <span class="pre">-&gt;</span> <span class="pre">list[sdsl._sdsl.Voxel_R4]</span></code></p></li>
+</ol>
+<p>Split into 2^D equal sub-voxels. Returns a list of child voxels.</p>
+<ol class="arabic simple" start="2">
+<li><p><code class="docutils literal notranslate"><span class="pre">split(self,</span> <span class="pre">midpoint:</span> <span class="pre">sdsl._sdsl.R4)</span> <span class="pre">-&gt;</span> <span class="pre">list[sdsl._sdsl.Voxel_R4]</span></code></p></li>
+</ol>
+<p>Split into 2^D sub-voxels at a given midpoint. Returns a list of child voxels.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="sdsl.Voxel_R4.top_right">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">top_right</span></span><a class="headerlink" href="#sdsl.Voxel_R4.top_right" title="Link to this definition"></a></dt>
+<dd><p>Upper corner of the voxel.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="environments">
+<h2>Environments<a class="headerlink" href="#environments" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="sdsl.Environment">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">Environment</span></span><a class="headerlink" href="#sdsl.Environment" title="Link to this definition"></a></dt>
+<dd><p>Abstract base class for 3-DOF (x, y, θ) environments.</p>
+<p>All concrete environment classes inherit from this.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Environment.contains">
+<span class="sig-name descname"><span class="pre">contains</span></span><a class="headerlink" href="#sdsl.Environment.contains" title="Link to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if configuration <em>q</em> is inside the environment.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Environment.intersects">
+<span class="sig-name descname"><span class="pre">intersects</span></span><a class="headerlink" href="#sdsl.Environment.intersects" title="Link to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <em>voxel</em> intersects the occupied region.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sdsl.Env_R2_Arrangement">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">Env_R2_Arrangement</span></span><a class="headerlink" href="#sdsl.Env_R2_Arrangement" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sdsl.Environment" title="sdsl._sdsl.Environment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Environment</span></code></a></p>
+<p>2-D planar environment built from a polygon/arrangement of line segments.</p>
+<p>Internally uses a CGAL arrangement and a segment tree for exact and efficient ray-casting. The configuration space is 3-D: <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y,</span> <span class="pre">θ)</span></code>.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span><span class="o">,</span><span class="w"> </span><span class="nn">sdsl</span>
+<span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;map.poly&#39;</span><span class="p">)</span>
+<span class="n">segs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">pts</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)])</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">sdsl</span><span class="o">.</span><span class="n">Env_R2_Arrangement</span><span class="p">(</span><span class="n">segs</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_R2_Arrangement.bounding_box">
+<span class="sig-name descname"><span class="pre">bounding_box</span></span><a class="headerlink" href="#sdsl.Env_R2_Arrangement.bounding_box" title="Link to this definition"></a></dt>
+<dd><p>Return a <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Voxel_R3</span></code> covering the full (x, y, θ) configuration space.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_R2_Arrangement.contains">
+<span class="sig-name descname"><span class="pre">contains</span></span><a class="headerlink" href="#sdsl.Env_R2_Arrangement.contains" title="Link to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">(q[0],</span> <span class="pre">q[1])</span></code> is inside the polygon.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_R2_Arrangement.get_representation">
+<span class="sig-name descname"><span class="pre">get_representation</span></span><a class="headerlink" href="#sdsl.Env_R2_Arrangement.get_representation" title="Link to this definition"></a></dt>
+<dd><p>Return the segment array as an (N, 4) NumPy array <code class="docutils literal notranslate"><span class="pre">[x1,</span> <span class="pre">y1,</span> <span class="pre">x2,</span> <span class="pre">y2]</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_R2_Arrangement.hausdorff_distance">
+<span class="sig-name descname"><span class="pre">hausdorff_distance</span></span><a class="headerlink" href="#sdsl.Env_R2_Arrangement.hausdorff_distance" title="Link to this definition"></a></dt>
+<dd><p>Hausdorff distance between the ray from <em>q</em> and the nearest wall segment.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_R2_Arrangement.intersects">
+<span class="sig-name descname"><span class="pre">intersects</span></span><a class="headerlink" href="#sdsl.Env_R2_Arrangement.intersects" title="Link to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <em>voxel</em> intersects any wall segment.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_R2_Arrangement.measure_distance">
+<span class="sig-name descname"><span class="pre">measure_distance</span></span><a class="headerlink" href="#sdsl.Env_R2_Arrangement.measure_distance" title="Link to this definition"></a></dt>
+<dd><p>Cast a ray from <code class="docutils literal notranslate"><span class="pre">(q[0],</span> <span class="pre">q[1])</span></code> in direction <code class="docutils literal notranslate"><span class="pre">q[2]</span></code> and return the hit distance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_R2_Arrangement.voxel_hausdorff_distance">
+<span class="sig-name descname"><span class="pre">voxel_hausdorff_distance</span></span><a class="headerlink" href="#sdsl.Env_R2_Arrangement.voxel_hausdorff_distance" title="Link to this definition"></a></dt>
+<dd><p>Worst-case Hausdorff distance over all configurations in <em>voxel</em>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sdsl.Env_2D_PCD">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">Env_2D_PCD</span></span><a class="headerlink" href="#sdsl.Env_2D_PCD" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#sdsl.Environment" title="sdsl._sdsl.Environment"><code class="xref py py-class docutils literal notranslate"><span class="pre">Environment</span></code></a></p>
+<p>2-D point-cloud environment for 3-DOF (x, y, θ) localization.</p>
+<p>Builds an AABB tree and KD-tree over a set of 2-D points (e.g., a sampled obstacle boundary). Suitable when the map is given as a PCD rather than a clean polygon.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span><span class="o">,</span><span class="w"> </span><span class="nn">sdsl</span>
+<span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;cloud.txt&#39;</span><span class="p">)</span>  <span class="c1"># (N, 2)</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">sdsl</span><span class="o">.</span><span class="n">Env_2D_PCD</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_2D_PCD.bounding_box">
+<span class="sig-name descname"><span class="pre">bounding_box</span></span><a class="headerlink" href="#sdsl.Env_2D_PCD.bounding_box" title="Link to this definition"></a></dt>
+<dd><p>Return a <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Voxel_R3</span></code> covering the full configuration space.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_2D_PCD.contains">
+<span class="sig-name descname"><span class="pre">contains</span></span><a class="headerlink" href="#sdsl.Env_2D_PCD.contains" title="Link to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">(q[0],</span> <span class="pre">q[1])</span></code> is inside the point cloud hull.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_2D_PCD.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><a class="headerlink" href="#sdsl.Env_2D_PCD.forward" title="Link to this definition"></a></dt>
+<dd><p>Apply the forward map F_dg(V) as described in the SDSL paper.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_2D_PCD.get_representation">
+<span class="sig-name descname"><span class="pre">get_representation</span></span><a class="headerlink" href="#sdsl.Env_2D_PCD.get_representation" title="Link to this definition"></a></dt>
+<dd><p>Return the point cloud as an (N, 2) NumPy array.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_2D_PCD.hausdorff_distance">
+<span class="sig-name descname"><span class="pre">hausdorff_distance</span></span><a class="headerlink" href="#sdsl.Env_2D_PCD.hausdorff_distance" title="Link to this definition"></a></dt>
+<dd><p>Hausdorff distance from <em>q</em> to the nearest point.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_2D_PCD.intersects">
+<span class="sig-name descname"><span class="pre">intersects</span></span><a class="headerlink" href="#sdsl.Env_2D_PCD.intersects" title="Link to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <em>voxel</em> intersects the point cloud.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_2D_PCD.measure_distance">
+<span class="sig-name descname"><span class="pre">measure_distance</span></span><a class="headerlink" href="#sdsl.Env_2D_PCD.measure_distance" title="Link to this definition"></a></dt>
+<dd><p>Ray-cast distance from <code class="docutils literal notranslate"><span class="pre">(q[0],</span> <span class="pre">q[1])</span></code> in direction <code class="docutils literal notranslate"><span class="pre">q[2]</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_2D_PCD.voxel_hausdorff_distance">
+<span class="sig-name descname"><span class="pre">voxel_hausdorff_distance</span></span><a class="headerlink" href="#sdsl.Env_2D_PCD.voxel_hausdorff_distance" title="Link to this definition"></a></dt>
+<dd><p>Worst-case Hausdorff distance over all configurations in <em>voxel</em>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sdsl.Env_3D_PCD">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">Env_3D_PCD</span></span><a class="headerlink" href="#sdsl.Env_3D_PCD" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Environment4</span></code></p>
+<p>3-D point-cloud environment for 4-DOF (x, y, z, θ) localization.</p>
+<p>Builds an AABB tree and KD-tree over a set of 3-D points.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span><span class="o">,</span><span class="w"> </span><span class="nn">sdsl</span>
+<span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;cloud3d.txt&#39;</span><span class="p">)</span>  <span class="c1"># (N, 3)</span>
+<span class="n">env</span> <span class="o">=</span> <span class="n">sdsl</span><span class="o">.</span><span class="n">Env_3D_PCD</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_3D_PCD.bounding_box">
+<span class="sig-name descname"><span class="pre">bounding_box</span></span><a class="headerlink" href="#sdsl.Env_3D_PCD.bounding_box" title="Link to this definition"></a></dt>
+<dd><p>Return a <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Voxel_R4</span></code> covering the full configuration space.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_3D_PCD.contains">
+<span class="sig-name descname"><span class="pre">contains</span></span><a class="headerlink" href="#sdsl.Env_3D_PCD.contains" title="Link to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <em>q</em> is inside the point cloud hull.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_3D_PCD.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><a class="headerlink" href="#sdsl.Env_3D_PCD.forward" title="Link to this definition"></a></dt>
+<dd><p>Apply the forward map F_dg(V) as described in the SDSL paper.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_3D_PCD.get_representation">
+<span class="sig-name descname"><span class="pre">get_representation</span></span><a class="headerlink" href="#sdsl.Env_3D_PCD.get_representation" title="Link to this definition"></a></dt>
+<dd><p>Return the point cloud as an (N, 3) NumPy array.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_3D_PCD.hausdorff_distance">
+<span class="sig-name descname"><span class="pre">hausdorff_distance</span></span><a class="headerlink" href="#sdsl.Env_3D_PCD.hausdorff_distance" title="Link to this definition"></a></dt>
+<dd><p>Hausdorff distance from <em>q</em> to the nearest point.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_3D_PCD.intersects">
+<span class="sig-name descname"><span class="pre">intersects</span></span><a class="headerlink" href="#sdsl.Env_3D_PCD.intersects" title="Link to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <em>voxel</em> intersects the point cloud.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_3D_PCD.measure_distance">
+<span class="sig-name descname"><span class="pre">measure_distance</span></span><a class="headerlink" href="#sdsl.Env_3D_PCD.measure_distance" title="Link to this definition"></a></dt>
+<dd><p>Ray-cast distance from the 3-D pose <em>q</em>.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_3D_PCD.voxel_hausdorff_distance">
+<span class="sig-name descname"><span class="pre">voxel_hausdorff_distance</span></span><a class="headerlink" href="#sdsl.Env_3D_PCD.voxel_hausdorff_distance" title="Link to this definition"></a></dt>
+<dd><p>Worst-case Hausdorff distance over all configurations in <em>voxel</em>.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="predicates">
+<h2>Predicates<a class="headerlink" href="#predicates" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="sdsl.Predicate_Fwd2D_Arr">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">Predicate_Fwd2D_Arr</span></span><a class="headerlink" href="#sdsl.Predicate_Fwd2D_Arr" title="Link to this definition"></a></dt>
+<dd><p>Voxel-intersection predicate for planar (x, y, theta) robots.</p>
+<p>Implements the <em>k-k’ dynamic gap</em> guarantee: given <em>k</em> measurements of which at least <em>k’</em> are valid, the predicate provably retains the ground-truth voxel while pruning all others. Small measurement noise is handled via <code class="docutils literal notranslate"><span class="pre">error_bound</span></code>.</p>
+<p>Example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pred</span> <span class="o">=</span> <span class="n">sdsl</span><span class="o">.</span><span class="n">Predicate_Fwd2D_Arr</span><span class="p">(</span>
+    <span class="n">env</span><span class="p">,</span> <span class="n">odometry</span><span class="p">,</span> <span class="n">measurements</span><span class="p">,</span>
+    <span class="n">kk_prime_ratio</span><span class="o">=</span><span class="mf">0.7</span><span class="p">,</span> <span class="n">error_bound</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">voxels</span> <span class="o">=</span> <span class="n">sdsl</span><span class="o">.</span><span class="n">localize_omp_forkjoin_3d</span><span class="p">(</span><span class="n">bbox</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">recursion_depth</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Predicate_Fwd2D_Arr.forward">
+<span class="sig-name descname"><span class="pre">forward</span></span><a class="headerlink" href="#sdsl.Predicate_Fwd2D_Arr.forward" title="Link to this definition"></a></dt>
+<dd><p>Compute F_dg(V) — the forward-mapped voxel for measurement <em>d</em> and odometry <em>g</em>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sdsl.Predicate_AlwaysTrue_3d">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">Predicate_AlwaysTrue_3d</span></span><a class="headerlink" href="#sdsl.Predicate_AlwaysTrue_3d" title="Link to this definition"></a></dt>
+<dd><p>Trivial predicate that accepts every voxel.</p>
+<p>Useful for exhaustive space enumeration and benchmarking — passing this to <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">localize_omp_forkjoin_3d()</span></code> simply subdivides the entire bounding box without pruning.</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="sdsl.Predicate_AlwaysTrue_4d">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">Predicate_AlwaysTrue_4d</span></span><a class="headerlink" href="#sdsl.Predicate_AlwaysTrue_4d" title="Link to this definition"></a></dt>
+<dd><p>Trivial predicate that accepts every voxel.</p>
+<p>Useful for exhaustive space enumeration and benchmarking — passing this to <code class="xref cpp cpp-func docutils literal notranslate"><span class="pre">localize_omp_forkjoin_3d()</span></code> simply subdivides the entire bounding box without pruning.</p>
+</dd></dl>
+
+</section>
+<section id="localization">
+<h2>Localization<a class="headerlink" href="#localization" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="sdsl.localize_omp_forkjoin_3d">
+<span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">localize_omp_forkjoin_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#sdsl.Voxel_R3" title="sdsl._sdsl.Voxel_R3"><span class="pre">sdsl._sdsl.Voxel_R3</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#sdsl.Predicate_AlwaysTrue_3d" title="sdsl._sdsl.Predicate_AlwaysTrue_3d"><span class="pre">sdsl._sdsl.Predicate_AlwaysTrue_3d</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursion_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#sdsl.Voxel_R3" title="sdsl._sdsl.Voxel_R3"><span class="pre">sdsl._sdsl.Voxel_R3</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#sdsl.localize_omp_forkjoin_3d" title="Link to this definition"></a></dt>
+<dt class="sig sig-object py">
+<span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">localize_omp_forkjoin_3d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#sdsl.Voxel_R3" title="sdsl._sdsl.Voxel_R3"><span class="pre">sdsl._sdsl.Voxel_R3</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#sdsl.Predicate_Fwd2D_Arr" title="sdsl._sdsl.Predicate_Fwd2D_Arr"><span class="pre">sdsl._sdsl.Predicate_Fwd2D_Arr</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursion_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#sdsl.Voxel_R3" title="sdsl._sdsl.Voxel_R3"><span class="pre">sdsl._sdsl.Voxel_R3</span></a><span class="p"><span class="pre">]</span></span></span></span></dt>
+<dd><p>Run the parallel fork-join localization algorithm.</p>
+<p>Recursively subdivides <em>bounding_box</em> into 2^D sub-voxels, keeping only those accepted by <em>predicate</em>.  Subdivision continues for <em>recursion_depth</em> iterations (or until <em>timeout</em> seconds elapse).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bounding_box</strong> (<em>Voxel</em>) – The initial search region (use <code class="docutils literal notranslate"><span class="pre">env.bounding_box()</span></code>).</p></li>
+<li><p><strong>predicate</strong> (<em>callable</em>) – A predicate that accepts a voxel and returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if it may     contain the robot’s true configuration.</p></li>
+<li><p><strong>recursion_depth</strong> (<em>int</em>) – Number of subdivision iterations.  Resolution ≈ bbox / 2^depth.</p></li>
+<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) – Stop early after this many seconds (0 = no limit).</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Print iteration count and timing to stdout.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Candidate voxels that survived all predicate checks.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[Voxel]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sdsl.localize_omp_forkjoin_4d">
+<span class="sig-prename descclassname"><span class="pre">sdsl.</span></span><span class="sig-name descname"><span class="pre">localize_omp_forkjoin_4d</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bounding_box</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#sdsl.Voxel_R4" title="sdsl._sdsl.Voxel_R4"><span class="pre">sdsl._sdsl.Voxel_R4</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">predicate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#sdsl.Predicate_AlwaysTrue_4d" title="sdsl._sdsl.Predicate_AlwaysTrue_4d"><span class="pre">sdsl._sdsl.Predicate_AlwaysTrue_4d</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">recursion_depth</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">0.0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">list</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#sdsl.Voxel_R4" title="sdsl._sdsl.Voxel_R4"><span class="pre">sdsl._sdsl.Voxel_R4</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#sdsl.localize_omp_forkjoin_4d" title="Link to this definition"></a></dt>
+<dd><p>Run the parallel fork-join localization algorithm.</p>
+<p>Recursively subdivides <em>bounding_box</em> into 2^D sub-voxels, keeping only those accepted by <em>predicate</em>.  Subdivision continues for <em>recursion_depth</em> iterations (or until <em>timeout</em> seconds elapse).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bounding_box</strong> (<em>Voxel</em>) – The initial search region (use <code class="docutils literal notranslate"><span class="pre">env.bounding_box()</span></code>).</p></li>
+<li><p><strong>predicate</strong> (<em>callable</em>) – A predicate that accepts a voxel and returns <code class="docutils literal notranslate"><span class="pre">True</span></code> if it may     contain the robot’s true configuration.</p></li>
+<li><p><strong>recursion_depth</strong> (<em>int</em>) – Number of subdivision iterations.  Resolution ≈ bbox / 2^depth.</p></li>
+<li><p><strong>timeout</strong> (<em>float</em><em>, </em><em>optional</em>) – Stop early after this many seconds (0 = no limit).</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Print iteration count and timing to stdout.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Candidate voxels that survived all predicate checks.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list[Voxel]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="module-sdsl.simulation">
+<span id="simulation-utilities"></span><h2>Simulation utilities<a class="headerlink" href="#module-sdsl.simulation" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="sdsl.loaders.load_poly_as_pcd.load_poly_as_pcd">
+<span class="sig-prename descclassname"><span class="pre">sdsl.loaders.load_poly_as_pcd.</span></span><span class="sig-name descname"><span class="pre">load_poly_as_pcd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spacing</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/sdsl/loaders/load_poly_as_pcd.html#load_poly_as_pcd"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sdsl.loaders.load_poly_as_pcd.load_poly_as_pcd" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="tutorials/python_bindings.html" class="btn btn-neutral float-left" title="Python Bindings" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="api/library_root.html" class="btn btn-neutral float-right" title="C++ API Reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, TAU-CGL.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

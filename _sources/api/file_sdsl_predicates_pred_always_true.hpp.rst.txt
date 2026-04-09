@@ -1,0 +1,58 @@
+
+.. _file_sdsl_predicates_pred_always_true.hpp:
+
+File pred_always_true.hpp
+=========================
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl_predicates>` (``sdsl/predicates``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+Demo predicate that always returns true. 
+
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``sdsl/predicates/pred_always_true.hpp``)
+-----------------------------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``sdsl/predicate.hpp`` (:ref:`file_sdsl_predicate.hpp`)
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_sdsl_sdsl.hpp`
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_sdsl`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_struct_structsdsl_1_1Predicate__AlwaysTrue`
+

@@ -1,0 +1,14 @@
+.. _exhale_define_sdsl__binding_8hpp_1ad1d9de6210b70b625cce329df2649980:
+
+Define PY_NO_LINK_LIB
+=====================
+
+- Defined in :ref:`file_sdsl_bindings_sdsl_binding.hpp`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: PY_NO_LINK_LIB
+   :project: sdsl

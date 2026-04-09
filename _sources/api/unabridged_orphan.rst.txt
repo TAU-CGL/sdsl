@@ -1,0 +1,98 @@
+:orphan:
+
+
+Full API
+========
+
+Directories
+***********
+
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_sdsl.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_sdsl_bindings.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_sdsl_environments.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_sdsl_localization.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   dir_sdsl_predicates.rst
+
+Files
+*****
+
+
+.. toctree::
+   :maxdepth: 5
+
+   file_sdsl_configuration.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_sdsl_environments_env_pcd.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_sdsl_environments_env_R2_arrangement.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_sdsl_environment.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_sdsl_math_utils.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_sdsl_predicates_pred_always_true.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_sdsl_predicates_pred_forward_2d.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_sdsl_predicate.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_sdsl_random_utils.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_sdsl_sdsl.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_sdsl_bindings_sdsl_binding.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_sdsl_localization_sdsl_omp_forkjoin.hpp.rst

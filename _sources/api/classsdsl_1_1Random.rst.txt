@@ -1,0 +1,17 @@
+.. _exhale_class_classsdsl_1_1Random:
+
+Class Random
+============
+
+- Defined in :ref:`file_sdsl_random_utils.hpp`
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: sdsl::Random
+   :project: sdsl
+   :members:
+   :protected-members:
+   :undoc-members:

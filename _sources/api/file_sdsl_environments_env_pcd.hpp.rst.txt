@@ -1,0 +1,71 @@
+
+.. _file_sdsl_environments_env_pcd.hpp:
+
+File env_pcd.hpp
+================
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl_environments>` (``sdsl/environments``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``sdsl/environments/env_pcd.hpp``)
+----------------------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``CGAL/AABB_traits_3.h``
+
+- ``CGAL/AABB_tree.h``
+
+- ``CGAL/AABB_triangle_primitive_3.h``
+
+- ``CGAL/K_neighbor_search.h``
+
+- ``CGAL/Kd_tree.h``
+
+- ``CGAL/Search_traits_3.h``
+
+- ``CGAL/intersections.h``
+
+- ``CGAL/squared_distance_3.h``
+
+- ``memory``
+
+- ``sdsl/environment.hpp`` (:ref:`file_sdsl_environment.hpp`)
+
+- ``sdsl/math_utils.hpp`` (:ref:`file_sdsl_math_utils.hpp`)
+
+- ``vector``
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_sdsl`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_struct_structsdsl_1_1Env__PCD_1_1VoxelGrid`
+
+- :ref:`exhale_class_classsdsl_1_1Env__PCD`
+

@@ -1,0 +1,22 @@
+.. _dir_sdsl_predicates:
+
+
+Directory predicates
+====================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl>` (``sdsl``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+*Directory path:* ``sdsl/predicates``
+
+
+Files
+-----
+
+- :ref:`file_sdsl_predicates_pred_always_true.hpp`
+- :ref:`file_sdsl_predicates_pred_forward_2d.hpp`
+
+

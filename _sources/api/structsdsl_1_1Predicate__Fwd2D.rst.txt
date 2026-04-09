@@ -1,0 +1,17 @@
+.. _exhale_struct_structsdsl_1_1Predicate__Fwd2D:
+
+Template Struct Predicate_Fwd2D
+===============================
+
+- Defined in :ref:`file_sdsl_predicates_pred_forward_2d.hpp`
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: sdsl::Predicate_Fwd2D
+   :project: sdsl
+   :members:
+   :protected-members:
+   :undoc-members:

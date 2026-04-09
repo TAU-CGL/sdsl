@@ -1,0 +1,17 @@
+.. _exhale_class_classsdsl_1_1Environment:
+
+Template Class Environment
+==========================
+
+- Defined in :ref:`file_sdsl_environment.hpp`
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: sdsl::Environment
+   :project: sdsl
+   :members:
+   :protected-members:
+   :undoc-members:

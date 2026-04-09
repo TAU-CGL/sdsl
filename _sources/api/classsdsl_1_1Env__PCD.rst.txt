@@ -1,0 +1,36 @@
+.. _exhale_class_classsdsl_1_1Env__PCD:
+
+Template Class Env_PCD
+======================
+
+- Defined in :ref:`file_sdsl_environments_env_pcd.hpp`
+
+
+Nested Relationships
+--------------------
+
+
+Nested Types
+************
+
+- :ref:`exhale_struct_structsdsl_1_1Env__PCD_1_1VoxelGrid`
+
+
+Inheritance Relationships
+-------------------------
+
+Base Type
+*********
+
+- ``private sdsl::Environment< D, Kernel::FT >`` (:ref:`exhale_class_classsdsl_1_1Environment`)
+
+
+Class Documentation
+-------------------
+
+
+.. doxygenclass:: sdsl::Env_PCD
+   :project: sdsl
+   :members:
+   :protected-members:
+   :undoc-members:

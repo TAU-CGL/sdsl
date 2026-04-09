@@ -1,0 +1,23 @@
+.. _exhale_struct_structsdsl_1_1Env__PCD_1_1VoxelGrid:
+
+Struct Env_PCD::VoxelGrid
+=========================
+
+- Defined in :ref:`file_sdsl_environments_env_pcd.hpp`
+
+
+Nested Relationships
+--------------------
+
+This struct is a nested type of :ref:`exhale_class_classsdsl_1_1Env__PCD`.
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: sdsl::Env_PCD::VoxelGrid
+   :project: sdsl
+   :members:
+   :protected-members:
+   :undoc-members:

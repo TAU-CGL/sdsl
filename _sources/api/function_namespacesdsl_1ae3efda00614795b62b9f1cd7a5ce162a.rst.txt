@@ -1,0 +1,14 @@
+.. _exhale_function_namespacesdsl_1ae3efda00614795b62b9f1cd7a5ce162a:
+
+Template Function sdsl::localize_omp_forkjoin
+=============================================
+
+- Defined in :ref:`file_sdsl_localization_sdsl_omp_forkjoin.hpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: sdsl::localize_omp_forkjoin(Voxel<D, FT>, Pred, int, double, bool)
+   :project: sdsl

@@ -1,0 +1,14 @@
+.. _exhale_function_namespacesdsl_1a2bc91993bafcb52a552eb0128dd50896:
+
+Template Function sdsl::maxMinOnTrigRange
+=========================================
+
+- Defined in :ref:`file_sdsl_math_utils.hpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: sdsl::maxMinOnTrigRange(FT, FT, FT, FT, FT&, FT&)
+   :project: sdsl

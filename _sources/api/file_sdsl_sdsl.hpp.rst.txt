@@ -1,0 +1,48 @@
+
+.. _file_sdsl_sdsl.hpp:
+
+File sdsl.hpp
+=============
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl>` (``sdsl``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+Main file to include when using sdsl in C++ code. 
+
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``sdsl/sdsl.hpp``)
+------------------------------
+
+
+
+
+Detailed Description
+--------------------
+
+Contains includes to all possible predicates, environments and implementations. To generate a smaller compiled executable, you may skip including this file, and use only the implementations needed. 
+
+
+
+
+Includes
+--------
+
+
+- ``sdsl/localization/sdsl_omp_forkjoin.hpp`` (:ref:`file_sdsl_localization_sdsl_omp_forkjoin.hpp`)
+
+- ``sdsl/predicates/pred_always_true.hpp`` (:ref:`file_sdsl_predicates_pred_always_true.hpp`)
+
+- ``sdsl/predicates/pred_forward_2d.hpp`` (:ref:`file_sdsl_predicates_pred_forward_2d.hpp`)
+
+
+
+
+

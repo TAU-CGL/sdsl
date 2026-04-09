@@ -1,0 +1,68 @@
+
+.. _file_sdsl_predicates_pred_forward_2d.hpp:
+
+File pred_forward_2d.hpp
+========================
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl_predicates>` (``sdsl/predicates``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+Implementation of the voxel-intersection predicate in planar robots. 
+
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``sdsl/predicates/pred_forward_2d.hpp``)
+----------------------------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``fmt/core.h``
+
+- ``memory``
+
+- ``sdsl/environment.hpp`` (:ref:`file_sdsl_environment.hpp`)
+
+- ``sdsl/math_utils.hpp`` (:ref:`file_sdsl_math_utils.hpp`)
+
+- ``sdsl/predicate.hpp`` (:ref:`file_sdsl_predicate.hpp`)
+
+- ``vector``
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_sdsl_sdsl.hpp`
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_sdsl`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_struct_structsdsl_1_1Predicate__Fwd2D`
+

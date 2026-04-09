@@ -1,0 +1,21 @@
+.. _dir_sdsl_localization:
+
+
+Directory localization
+======================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl>` (``sdsl``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+*Directory path:* ``sdsl/localization``
+
+
+Files
+-----
+
+- :ref:`file_sdsl_localization_sdsl_omp_forkjoin.hpp`
+
+

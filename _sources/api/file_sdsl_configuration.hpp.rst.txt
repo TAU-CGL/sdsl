@@ -1,0 +1,72 @@
+
+.. _file_sdsl_configuration.hpp:
+
+File configuration.hpp
+======================
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl>` (``sdsl``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+Implementations of configuration-space elements (configuration and voxels). 
+
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``sdsl/configuration.hpp``)
+---------------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``array``
+
+- ``cstddef``
+
+- ``string``
+
+- ``utility``
+
+- ``vector``
+
+
+
+Included By
+-----------
+
+
+- :ref:`file_sdsl_environment.hpp`
+
+- :ref:`file_sdsl_environments_env_R2_arrangement.hpp`
+
+- :ref:`file_sdsl_predicate.hpp`
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_sdsl`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_struct_structsdsl_1_1Configuration`
+
+- :ref:`exhale_struct_structsdsl_1_1Voxel`
+

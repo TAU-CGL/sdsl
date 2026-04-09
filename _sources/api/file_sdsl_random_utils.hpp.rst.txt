@@ -1,0 +1,64 @@
+
+.. _file_sdsl_random_utils.hpp:
+
+File random_utils.hpp
+=====================
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl>` (``sdsl``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+Utilities for generating random numbers. 
+
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``sdsl/random_utils.hpp``)
+--------------------------------------
+
+
+
+
+Detailed Description
+--------------------
+
+Allows unified random interface across all implementations, and to set a unique/consistent seed. 
+
+
+
+
+Includes
+--------
+
+
+- ``boost/random/mersenne_twister.hpp``
+
+- ``boost/random/normal_distribution.hpp``
+
+- ``boost/random/uniform_real_distribution.hpp``
+
+- ``ctime``
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_sdsl`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classsdsl_1_1Random`
+

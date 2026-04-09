@@ -1,0 +1,500 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>C++ API Reference &mdash; SDSL Docs</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
+      <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Namespace sdsl" href="namespace_sdsl.html" />
+    <link rel="prev" title="Python API Reference" href="../python_api.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            SDSL
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/configuration_space.html">Configuration Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/environments.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/predicates.html">Predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/localization.html">Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/python_bindings.html">Python Bindings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../python_api.html">Python API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">C++ API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">C++ API Reference</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#full-api">Full API</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#namespaces">Namespaces</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="namespace_sdsl.html">Namespace sdsl</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#classes-and-structs">Classes and Structs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html">Template Struct Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html">Struct Env_PCD::VoxelGrid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__AlwaysTrue.html">Template Struct Predicate_AlwaysTrue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__Fwd2D.html">Template Struct Predicate_Fwd2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html">Template Struct Voxel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html">Template Class Env_PCD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html">Template Class Env_R2_Arrangement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Environment.html">Template Class Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Random.html">Class Random</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#functions">Functions</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacesdsl_1ae3efda00614795b62b9f1cd7a5ce162a.html">Template Function sdsl::localize_omp_forkjoin</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacesdsl_1a2bc91993bafcb52a552eb0128dd50896.html">Template Function sdsl::maxMinOnTrigRange</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#variables">Variables</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="variable_namespacesdsl_1ae9fa3c21c9d997680fe00abad004b1ca.html">Variable sdsl::INF</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#defines">Defines</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="define_math__utils_8hpp_1a525335710b53cb064ca56b936120431e.html">Define _USE_MATH_DEFINES</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_math__utils_8hpp_1ae71449b1cc6e6250b91f539153a7a0d3.html">Define M_PI</a></li>
+<li class="toctree-l4"><a class="reference internal" href="define_sdsl__binding_8hpp_1ad1d9de6210b70b625cce329df2649980.html">Define PY_NO_LINK_LIB</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#typedefs">Typedefs</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="typedef_sdsl__binding_8hpp_1a651a5da176def1876b575c6c56902796.html">Typedef pyFT</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SDSL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">C++ API Reference</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/library_root.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="c-api-reference">
+<h1>C++ API Reference<a class="headerlink" href="#c-api-reference" title="Link to this heading"></a></h1>
+<section id="class-hierarchy">
+<h2>Class Hierarchy<a class="headerlink" href="#class-hierarchy" title="Link to this heading"></a></h2>
+<ul class="treeView" id="class-treeView">
+  <li>
+    <ul class="collapsibleList">
+      <li class="lastChild">Namespace <a href="namespace_sdsl.html#namespace-sdsl">sdsl</a><ul><li>Template Struct <a href="structsdsl_1_1Configuration.html#exhale-struct-structsdsl-1-1Configuration">Configuration</a></li><li>Template Struct <a href="structsdsl_1_1Predicate__AlwaysTrue.html#exhale-struct-structsdsl-1-1Predicate-AlwaysTrue">Predicate_AlwaysTrue</a></li><li>Template Struct <a href="structsdsl_1_1Predicate__Fwd2D.html#exhale-struct-structsdsl-1-1Predicate-Fwd2D">Predicate_Fwd2D</a></li><li>Template Struct <a href="structsdsl_1_1Voxel.html#exhale-struct-structsdsl-1-1Voxel">Voxel</a></li><li>Template Class <a href="classsdsl_1_1Env__PCD.html#exhale-class-classsdsl-1-1Env-PCD">Env_PCD</a><ul><li class="lastChild">Struct <a href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html#exhale-struct-structsdsl-1-1Env-PCD-1-1VoxelGrid">Env_PCD::VoxelGrid</a></li></ul></li><li>Template Class <a href="classsdsl_1_1Env__R2__Arrangement.html#exhale-class-classsdsl-1-1Env-R2-Arrangement">Env_R2_Arrangement</a></li><li>Template Class <a href="classsdsl_1_1Environment.html#exhale-class-classsdsl-1-1Environment">Environment</a></li><li class="lastChild">Class <a href="classsdsl_1_1Random.html#exhale-class-classsdsl-1-1Random">Random</a></li></ul></li>
+    </ul>
+  </li><!-- only tree view element -->
+</ul><!-- /treeView class-treeView --></section>
+<section id="file-hierarchy">
+<h2>File Hierarchy<a class="headerlink" href="#file-hierarchy" title="Link to this heading"></a></h2>
+<ul class="treeView" id="file-treeView">
+  <li>
+    <ul class="collapsibleList">
+      <li class="lastChild">Directory <a href="dir_sdsl.html#dir-sdsl">sdsl</a><ul><li>Directory <a href="dir_sdsl_bindings.html#dir-sdsl-bindings">bindings</a><ul><li class="lastChild">File <a href="file_sdsl_bindings_sdsl_binding.hpp.html#file-sdsl-bindings-sdsl-binding.hpp">sdsl_binding.hpp</a></li></ul></li><li>Directory <a href="dir_sdsl_environments.html#dir-sdsl-environments">environments</a><ul><li>File <a href="file_sdsl_environments_env_pcd.hpp.html#file-sdsl-environments-env-pcd.hpp">env_pcd.hpp</a></li><li class="lastChild">File <a href="file_sdsl_environments_env_R2_arrangement.hpp.html#file-sdsl-environments-env-R2-arrangement.hpp">env_R2_arrangement.hpp</a></li></ul></li><li>Directory <a href="dir_sdsl_localization.html#dir-sdsl-localization">localization</a><ul><li class="lastChild">File <a href="file_sdsl_localization_sdsl_omp_forkjoin.hpp.html#file-sdsl-localization-sdsl-omp-forkjoin.hpp">sdsl_omp_forkjoin.hpp</a></li></ul></li><li>Directory <a href="dir_sdsl_predicates.html#dir-sdsl-predicates">predicates</a><ul><li>File <a href="file_sdsl_predicates_pred_always_true.hpp.html#file-sdsl-predicates-pred-always-true.hpp">pred_always_true.hpp</a></li><li class="lastChild">File <a href="file_sdsl_predicates_pred_forward_2d.hpp.html#file-sdsl-predicates-pred-forward-2d.hpp">pred_forward_2d.hpp</a></li></ul></li><li>File <a href="file_sdsl_configuration.hpp.html#file-sdsl-configuration.hpp">configuration.hpp</a></li><li>File <a href="file_sdsl_environment.hpp.html#file-sdsl-environment.hpp">environment.hpp</a></li><li>File <a href="file_sdsl_math_utils.hpp.html#file-sdsl-math-utils.hpp">math_utils.hpp</a></li><li>File <a href="file_sdsl_predicate.hpp.html#file-sdsl-predicate.hpp">predicate.hpp</a></li><li>File <a href="file_sdsl_random_utils.hpp.html#file-sdsl-random-utils.hpp">random_utils.hpp</a></li><li class="lastChild">File <a href="file_sdsl_sdsl.hpp.html#file-sdsl-sdsl.hpp">sdsl.hpp</a></li></ul></li>
+    </ul>
+  </li><!-- only tree view element -->
+</ul><!-- /treeView file-treeView --></section>
+<section id="full-api">
+<h2>Full API<a class="headerlink" href="#full-api" title="Link to this heading"></a></h2>
+<section id="namespaces">
+<h3>Namespaces<a class="headerlink" href="#namespaces" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="namespace_sdsl.html">Namespace sdsl</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="namespace_sdsl.html#classes">Classes</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_sdsl.html#functions">Functions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="namespace_sdsl.html#variables">Variables</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="classes-and-structs">
+<h3>Classes and Structs<a class="headerlink" href="#classes-and-structs" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="structsdsl_1_1Configuration.html">Template Struct Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="structsdsl_1_1Configuration.html#struct-documentation">Struct Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4I_i0EN4sdsl13ConfigurationE"><code class="docutils literal notranslate"><span class="pre">sdsl::Configuration</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4N4sdsl13Configuration13ConfigurationEv"><code class="docutils literal notranslate"><span class="pre">Configuration()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4IDpEN4sdsl13Configuration13ConfigurationEDp4Args"><code class="docutils literal notranslate"><span class="pre">Configuration()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4NK4sdsl13ConfigurationeqERK13Configuration"><code class="docutils literal notranslate"><span class="pre">operator==()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4NK4sdsl13ConfigurationneERK13Configuration"><code class="docutils literal notranslate"><span class="pre">operator!=()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4NK4sdsl13ConfigurationltERK13Configuration"><code class="docutils literal notranslate"><span class="pre">operator&lt;()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4NK4sdsl13ConfigurationleERK13Configuration"><code class="docutils literal notranslate"><span class="pre">operator&lt;=()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4NK4sdsl13ConfigurationgtERK13Configuration"><code class="docutils literal notranslate"><span class="pre">operator&gt;()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4NK4sdsl13ConfigurationgeERK13Configuration"><code class="docutils literal notranslate"><span class="pre">operator&gt;=()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4NK4sdsl13ConfigurationplERK2FT"><code class="docutils literal notranslate"><span class="pre">operator+()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4NK4sdsl13ConfigurationmiERK2FT"><code class="docutils literal notranslate"><span class="pre">operator-()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4N4sdsl13ConfigurationpLERK2FT"><code class="docutils literal notranslate"><span class="pre">operator+=()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4N4sdsl13ConfigurationmIERK2FT"><code class="docutils literal notranslate"><span class="pre">operator-=()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4N4sdsl13ConfigurationixE6size_t"><code class="docutils literal notranslate"><span class="pre">operator[]()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4NK4sdsl13ConfigurationixE6size_t"><code class="docutils literal notranslate"><span class="pre">operator[]()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4NK4sdsl13Configuration9to_stringEv"><code class="docutils literal notranslate"><span class="pre">to_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4N4sdsl13Configuration6coordsE"><code class="docutils literal notranslate"><span class="pre">coords</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html">Struct Env_PCD::VoxelGrid</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html#nested-relationships">Nested Relationships</a></li>
+<li class="toctree-l2"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html#struct-documentation">Struct Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html#_CPPv4N4sdsl7Env_PCD9VoxelGridE"><code class="docutils literal notranslate"><span class="pre">sdsl::Env_PCD::VoxelGrid</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html#_CPPv4NK4sdsl7Env_PCD9VoxelGrid6cellOfEddd"><code class="docutils literal notranslate"><span class="pre">cellOf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html#_CPPv4NK4sdsl7Env_PCD9VoxelGrid5validEiii"><code class="docutils literal notranslate"><span class="pre">valid()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html#_CPPv4NK4sdsl7Env_PCD9VoxelGrid4flatEiii"><code class="docutils literal notranslate"><span class="pre">flat()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html#_CPPv4N4sdsl7Env_PCD9VoxelGrid8cellSizeE"><code class="docutils literal notranslate"><span class="pre">cellSize</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html#_CPPv4N4sdsl7Env_PCD9VoxelGrid4xminE"><code class="docutils literal notranslate"><span class="pre">xmin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html#_CPPv4N4sdsl7Env_PCD9VoxelGrid4yminE"><code class="docutils literal notranslate"><span class="pre">ymin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html#_CPPv4N4sdsl7Env_PCD9VoxelGrid4zminE"><code class="docutils literal notranslate"><span class="pre">zmin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html#_CPPv4N4sdsl7Env_PCD9VoxelGrid2nxE"><code class="docutils literal notranslate"><span class="pre">nx</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html#_CPPv4N4sdsl7Env_PCD9VoxelGrid2nyE"><code class="docutils literal notranslate"><span class="pre">ny</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html#_CPPv4N4sdsl7Env_PCD9VoxelGrid2nzE"><code class="docutils literal notranslate"><span class="pre">nz</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html#_CPPv4N4sdsl7Env_PCD9VoxelGrid5cellsE"><code class="docutils literal notranslate"><span class="pre">cells</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="structsdsl_1_1Predicate__AlwaysTrue.html">Template Struct Predicate_AlwaysTrue</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="structsdsl_1_1Predicate__AlwaysTrue.html#struct-documentation">Struct Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="structsdsl_1_1Predicate__AlwaysTrue.html#_CPPv4I_i0EN4sdsl20Predicate_AlwaysTrueE"><code class="docutils literal notranslate"><span class="pre">sdsl::Predicate_AlwaysTrue</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__AlwaysTrue.html#_CPPv4N4sdsl20Predicate_AlwaysTrueclE5VoxelI1D2FTE"><code class="docutils literal notranslate"><span class="pre">operator()()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__AlwaysTrue.html#_CPPv4N4sdsl20Predicate_AlwaysTrue6verifyE5VoxelI1D2FTE"><code class="docutils literal notranslate"><span class="pre">verify()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="structsdsl_1_1Predicate__Fwd2D.html">Template Struct Predicate_Fwd2D</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="structsdsl_1_1Predicate__Fwd2D.html#struct-documentation">Struct Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="structsdsl_1_1Predicate__Fwd2D.html#_CPPv4I_i0EN4sdsl15Predicate_Fwd2DE"><code class="docutils literal notranslate"><span class="pre">sdsl::Predicate_Fwd2D</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__Fwd2D.html#_CPPv4N4sdsl15Predicate_Fwd2D15Predicate_Fwd2DENSt10shared_ptrI11EnvironmentI1D2FTEEENSt6vectorI13ConfigurationI1D2FTEEENSt6vectorI2FTEEdd"><code class="docutils literal notranslate"><span class="pre">Predicate_Fwd2D()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__Fwd2D.html#_CPPv4N4sdsl15Predicate_Fwd2DclE5VoxelI1D2FTE"><code class="docutils literal notranslate"><span class="pre">operator()()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__Fwd2D.html#_CPPv4N4sdsl15Predicate_Fwd2D6verifyE5VoxelI1D2FTE"><code class="docutils literal notranslate"><span class="pre">verify()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__Fwd2D.html#_CPPv4N4sdsl15Predicate_Fwd2D7forwardE2FT13ConfigurationI1D2FTE5VoxelI1D2FTE"><code class="docutils literal notranslate"><span class="pre">forward()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__Fwd2D.html#_CPPv4N4sdsl15Predicate_Fwd2D14odometryActionE13ConfigurationI1D2FTE13ConfigurationI1D2FTE"><code class="docutils literal notranslate"><span class="pre">odometryAction()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="structsdsl_1_1Voxel.html">Template Struct Voxel</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="structsdsl_1_1Voxel.html#struct-documentation">Struct Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4I_i0EN4sdsl5VoxelE"><code class="docutils literal notranslate"><span class="pre">sdsl::Voxel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4N4sdsl5Voxel5VoxelEv"><code class="docutils literal notranslate"><span class="pre">Voxel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4N4sdsl5Voxel5VoxelERK13ConfigurationI1D2FTERK13ConfigurationI1D2FTE"><code class="docutils literal notranslate"><span class="pre">Voxel()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4NK4sdsl5Voxel8midpointEv"><code class="docutils literal notranslate"><span class="pre">midpoint()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4NK4sdsl5Voxel8containsERK13ConfigurationI1D2FTE"><code class="docutils literal notranslate"><span class="pre">contains()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4N4sdsl5Voxel10expandSelfERK2FT"><code class="docutils literal notranslate"><span class="pre">expandSelf()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4NK4sdsl5Voxel8diameterEv"><code class="docutils literal notranslate"><span class="pre">diameter()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4NK4sdsl5Voxel5splitERK13ConfigurationI1D2FTERNSt6vectorI5VoxelI1D2FTEEE"><code class="docutils literal notranslate"><span class="pre">split()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4NK4sdsl5Voxel5splitERNSt6vectorI5VoxelI1D2FTEEE"><code class="docutils literal notranslate"><span class="pre">split()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4NK4sdsl5Voxel9to_stringEv"><code class="docutils literal notranslate"><span class="pre">to_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4N4sdsl5Voxel10bottomLeftE"><code class="docutils literal notranslate"><span class="pre">bottomLeft</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4N4sdsl5Voxel8topRightE"><code class="docutils literal notranslate"><span class="pre">topRight</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="classsdsl_1_1Env__PCD.html">Template Class Env_PCD</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#nested-relationships">Nested Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#nested-types">Nested Types</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#class-documentation">Class Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#_CPPv4I0_iEN4sdsl7Env_PCDE"><code class="docutils literal notranslate"><span class="pre">sdsl::Env_PCD</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#_CPPv4N4sdsl7Env_PCD12Env_PCD_reprE"><code class="docutils literal notranslate"><span class="pre">Env_PCD_repr</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#_CPPv4N4sdsl7Env_PCD7Env_PCDEv"><code class="docutils literal notranslate"><span class="pre">Env_PCD()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#_CPPv4N4sdsl7Env_PCD7Env_PCDENSt6vectorI7Point_3EE"><code class="docutils literal notranslate"><span class="pre">Env_PCD()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#_CPPv4N4sdsl7Env_PCD7Env_PCDEKN2nb7ndarrayIdN2nb5shapeIXngL1EEXL3EEEEEE"><code class="docutils literal notranslate"><span class="pre">Env_PCD()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#_CPPv4N4sdsl7Env_PCD7Env_PCDEKN2nb7ndarrayIdN2nb5shapeIXngL1EEXL2EEEEEE"><code class="docutils literal notranslate"><span class="pre">Env_PCD()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#_CPPv4N4sdsl7Env_PCD17getRepresentationEv"><code class="docutils literal notranslate"><span class="pre">getRepresentation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#_CPPv4N4sdsl7Env_PCD10intersectsE5VoxelI1D2FTE"><code class="docutils literal notranslate"><span class="pre">intersects()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#_CPPv4N4sdsl7Env_PCD15measureDistanceE13ConfigurationI1D2FTE"><code class="docutils literal notranslate"><span class="pre">measureDistance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#_CPPv4N4sdsl7Env_PCD17hausdorffDistanceE13ConfigurationI1D2FTE"><code class="docutils literal notranslate"><span class="pre">hausdorffDistance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#_CPPv4N4sdsl7Env_PCD22voxelHausdorffDistanceE5VoxelI1D2FTE"><code class="docutils literal notranslate"><span class="pre">voxelHausdorffDistance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#_CPPv4N4sdsl7Env_PCD11boundingBoxEv"><code class="docutils literal notranslate"><span class="pre">boundingBox()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#_CPPv4N4sdsl7Env_PCD8containsE13ConfigurationI1D2FTE"><code class="docutils literal notranslate"><span class="pre">contains()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html#_CPPv4N4sdsl7Env_PCD7forwardE2FT13ConfigurationI1D2FTE5VoxelI1D2FTE"><code class="docutils literal notranslate"><span class="pre">forward()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html">Template Class Env_R2_Arrangement</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#inheritance-relationships">Inheritance Relationships</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#base-type">Base Type</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#class-documentation">Class Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#_CPPv4I00_iEN4sdsl18Env_R2_ArrangementE"><code class="docutils literal notranslate"><span class="pre">sdsl::Env_R2_Arrangement</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#_CPPv4N4sdsl18Env_R2_Arrangement23Env_R2_Arrangement_reprE"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement_repr</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#_CPPv4N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementEv"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#_CPPv4N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementE13Arrangement_2"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#_CPPv4N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementENSt6vectorI7SegmentEE"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#_CPPv4N4sdsl18Env_R2_Arrangement18Env_R2_ArrangementEKN2nb7ndarrayIdN2nb5shapeIXngL1EEXmlL2EL2EEEEEE"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#_CPPv4N4sdsl18Env_R2_Arrangement10intersectsE5VoxelI1D2FTE"><code class="docutils literal notranslate"><span class="pre">intersects()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#_CPPv4N4sdsl18Env_R2_Arrangement15measureDistanceE13ConfigurationI1D2FTE"><code class="docutils literal notranslate"><span class="pre">measureDistance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#_CPPv4N4sdsl18Env_R2_Arrangement17hausdorffDistanceE13ConfigurationI1D2FTE"><code class="docutils literal notranslate"><span class="pre">hausdorffDistance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#_CPPv4N4sdsl18Env_R2_Arrangement22voxelHausdorffDistanceE5VoxelI1D2FTE"><code class="docutils literal notranslate"><span class="pre">voxelHausdorffDistance()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#_CPPv4N4sdsl18Env_R2_Arrangement17getRepresentationEv"><code class="docutils literal notranslate"><span class="pre">getRepresentation()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#_CPPv4N4sdsl18Env_R2_Arrangement11boundingBoxEv"><code class="docutils literal notranslate"><span class="pre">boundingBox()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html#_CPPv4N4sdsl18Env_R2_Arrangement8containsE13ConfigurationI1D2FTE"><code class="docutils literal notranslate"><span class="pre">contains()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="classsdsl_1_1Environment.html">Template Class Environment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classsdsl_1_1Environment.html#class-documentation">Class Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classsdsl_1_1Environment.html#_CPPv4I_i0EN4sdsl11EnvironmentE"><code class="docutils literal notranslate"><span class="pre">sdsl::Environment</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Environment.html#_CPPv4N4sdsl11Environment10intersectsE5VoxelI1D2FTE"><code class="docutils literal notranslate"><span class="pre">intersects()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Environment.html#_CPPv4N4sdsl11Environment8containsE13ConfigurationI1D2FTE"><code class="docutils literal notranslate"><span class="pre">contains()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Environment.html#_CPPv4N4sdsl11Environment15measureDistanceE13ConfigurationI1D2FTE"><code class="docutils literal notranslate"><span class="pre">measureDistance()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="classsdsl_1_1Random.html">Class Random</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="classsdsl_1_1Random.html#class-documentation">Class Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="classsdsl_1_1Random.html#_CPPv4N4sdsl6RandomE"><code class="docutils literal notranslate"><span class="pre">sdsl::Random</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Random.html#_CPPv4N4sdsl6Random12randomDoubleEv"><code class="docutils literal notranslate"><span class="pre">randomDouble()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Random.html#_CPPv4N4sdsl6Random14randomGaussianEd"><code class="docutils literal notranslate"><span class="pre">randomGaussian()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Random.html#_CPPv4N4sdsl6Random9randomIntEv"><code class="docutils literal notranslate"><span class="pre">randomInt()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Random.html#_CPPv4N4sdsl6Random4seedE7int32_t"><code class="docutils literal notranslate"><span class="pre">seed()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="functions">
+<h3>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_namespacesdsl_1ae3efda00614795b62b9f1cd7a5ce162a.html">Template Function sdsl::localize_omp_forkjoin</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacesdsl_1ae3efda00614795b62b9f1cd7a5ce162a.html#function-documentation">Function Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="function_namespacesdsl_1ae3efda00614795b62b9f1cd7a5ce162a.html#_CPPv4I_i0_9PredicateI1D2FTEEN4sdsl21localize_omp_forkjoinENSt6vectorI5VoxelI1D2FTEEE5VoxelI1D2FTE4Predidb"><code class="docutils literal notranslate"><span class="pre">localize_omp_forkjoin()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="function_namespacesdsl_1a2bc91993bafcb52a552eb0128dd50896.html">Template Function sdsl::maxMinOnTrigRange</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="function_namespacesdsl_1a2bc91993bafcb52a552eb0128dd50896.html#function-documentation">Function Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="function_namespacesdsl_1a2bc91993bafcb52a552eb0128dd50896.html#_CPPv4I0EN4sdsl17maxMinOnTrigRangeEv2FT2FT2FT2FTR2FTR2FT"><code class="docutils literal notranslate"><span class="pre">maxMinOnTrigRange()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="variables">
+<h3>Variables<a class="headerlink" href="#variables" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="variable_namespacesdsl_1ae9fa3c21c9d997680fe00abad004b1ca.html">Variable sdsl::INF</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="variable_namespacesdsl_1ae9fa3c21c9d997680fe00abad004b1ca.html#variable-documentation">Variable Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="variable_namespacesdsl_1ae9fa3c21c9d997680fe00abad004b1ca.html#_CPPv4N4sdsl3INFE"><code class="docutils literal notranslate"><span class="pre">INF</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="defines">
+<h3>Defines<a class="headerlink" href="#defines" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_math__utils_8hpp_1a525335710b53cb064ca56b936120431e.html">Define _USE_MATH_DEFINES</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_math__utils_8hpp_1a525335710b53cb064ca56b936120431e.html#define-documentation">Define Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="define_math__utils_8hpp_1a525335710b53cb064ca56b936120431e.html#c._USE_MATH_DEFINES"><code class="docutils literal notranslate"><span class="pre">_USE_MATH_DEFINES</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_math__utils_8hpp_1ae71449b1cc6e6250b91f539153a7a0d3.html">Define M_PI</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_math__utils_8hpp_1ae71449b1cc6e6250b91f539153a7a0d3.html#define-documentation">Define Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="define_math__utils_8hpp_1ae71449b1cc6e6250b91f539153a7a0d3.html#c.M_PI"><code class="docutils literal notranslate"><span class="pre">M_PI</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="define_sdsl__binding_8hpp_1ad1d9de6210b70b625cce329df2649980.html">Define PY_NO_LINK_LIB</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="define_sdsl__binding_8hpp_1ad1d9de6210b70b625cce329df2649980.html#define-documentation">Define Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="define_sdsl__binding_8hpp_1ad1d9de6210b70b625cce329df2649980.html#c.PY_NO_LINK_LIB"><code class="docutils literal notranslate"><span class="pre">PY_NO_LINK_LIB</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="typedefs">
+<h3>Typedefs<a class="headerlink" href="#typedefs" title="Link to this heading"></a></h3>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="typedef_sdsl__binding_8hpp_1a651a5da176def1876b575c6c56902796.html">Typedef pyFT</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="typedef_sdsl__binding_8hpp_1a651a5da176def1876b575c6c56902796.html#typedef-documentation">Typedef Documentation</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="typedef_sdsl__binding_8hpp_1a651a5da176def1876b575c6c56902796.html#_CPPv44pyFT"><code class="docutils literal notranslate"><span class="pre">pyFT</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../python_api.html" class="btn btn-neutral float-left" title="Python API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="namespace_sdsl.html" class="btn btn-neutral float-right" title="Namespace sdsl" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, TAU-CGL.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

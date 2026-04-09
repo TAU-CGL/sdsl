@@ -1,0 +1,17 @@
+.. _exhale_struct_structsdsl_1_1Voxel:
+
+Template Struct Voxel
+=====================
+
+- Defined in :ref:`file_sdsl_configuration.hpp`
+
+
+Struct Documentation
+--------------------
+
+
+.. doxygenstruct:: sdsl::Voxel
+   :project: sdsl
+   :members:
+   :protected-members:
+   :undoc-members:

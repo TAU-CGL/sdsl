@@ -1,0 +1,271 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Template Struct Voxel &mdash; SDSL Docs</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
+      <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Template Class Env_PCD" href="classsdsl_1_1Env__PCD.html" />
+    <link rel="prev" title="Template Struct Predicate_Fwd2D" href="structsdsl_1_1Predicate__Fwd2D.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            SDSL
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/configuration_space.html">Configuration Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/environments.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/predicates.html">Predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/localization.html">Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/python_bindings.html">Python Bindings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../python_api.html">Python API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">C++ API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="library_root.html">C++ API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="library_root.html#full-api">Full API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#namespaces">Namespaces</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="library_root.html#classes-and-structs">Classes and Structs</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html">Template Struct Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html">Struct Env_PCD::VoxelGrid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__AlwaysTrue.html">Template Struct Predicate_AlwaysTrue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__Fwd2D.html">Template Struct Predicate_Fwd2D</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Template Struct Voxel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html">Template Class Env_PCD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html">Template Class Env_R2_Arrangement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Environment.html">Template Class Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Random.html">Class Random</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#variables">Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#defines">Defines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#typedefs">Typedefs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SDSL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="library_root.html">C++ API Reference</a></li>
+      <li class="breadcrumb-item active">Template Struct Voxel</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/structsdsl_1_1Voxel.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="template-struct-voxel">
+<span id="exhale-struct-structsdsl-1-1voxel"></span><h1>Template Struct Voxel<a class="headerlink" href="#template-struct-voxel" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file_sdsl_configuration.hpp.html#file-sdsl-configuration-hpp"><span class="std std-ref">File configuration.hpp</span></a></p></li>
+</ul>
+<section id="struct-documentation">
+<h2>Struct Documentation<a class="headerlink" href="#struct-documentation" title="Link to this heading"></a></h2>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4I_i0EN4sdsl5VoxelE">
+<span id="_CPPv3I_i0EN4sdsl5VoxelE"></span><span id="_CPPv2I_i0EN4sdsl5VoxelE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">D</span></span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FT</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structsdsl_1_1Voxel"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Voxel</span></span></span><a class="headerlink" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="Link to this definition"></a><br /></dt>
+<dd><p><a class="reference internal" href="#structsdsl_1_1Voxel"><span class="std std-ref">Voxel</span></a> (range) in a configuration space that is ~= R^D. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>D</strong> – C-Space dimension. </p></li>
+<li><p><strong>FT</strong> – Field type. Usually double. </p></li>
+</ul>
+</dd>
+</dl>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl5Voxel5VoxelEv">
+<span id="_CPPv3N4sdsl5Voxel5VoxelEv"></span><span id="_CPPv2N4sdsl5Voxel5VoxelEv"></span><span id="sdsl::Voxel::Voxel"></span><span class="target" id="structsdsl_1_1Voxel_1ac8802d6f1bed5cc7ead397f06e05f0ef"></span><span class="sig-name descname"><span class="n"><span class="pre">Voxel</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N4sdsl5Voxel5VoxelEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl5Voxel5VoxelERK13ConfigurationI1D2FTERK13ConfigurationI1D2FTE">
+<span id="_CPPv3N4sdsl5Voxel5VoxelERK13ConfigurationI1D2FTERK13ConfigurationI1D2FTE"></span><span id="_CPPv2N4sdsl5Voxel5VoxelERK13ConfigurationI1D2FTERK13ConfigurationI1D2FTE"></span><span id="sdsl::Voxel::Voxel__Configuration:D.FT:CR.Configuration:D.FT:CR"></span><span class="target" id="structsdsl_1_1Voxel_1ad6722299e45e79cb8465530e64666a22"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Voxel</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4I_i0EN4sdsl13ConfigurationE" title="sdsl::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::FT"><span class="n"><span class="pre">FT</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">bl</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4I_i0EN4sdsl13ConfigurationE" title="sdsl::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::FT"><span class="n"><span class="pre">FT</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">tr</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4sdsl5Voxel5VoxelERK13ConfigurationI1D2FTERK13ConfigurationI1D2FTE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4sdsl5Voxel8midpointEv">
+<span id="_CPPv3NK4sdsl5Voxel8midpointEv"></span><span id="_CPPv2NK4sdsl5Voxel8midpointEv"></span><span id="sdsl::Voxel::midpointC"></span><span class="target" id="structsdsl_1_1Voxel_1a7c036e57663758d503c0e18f1b22be8e"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4I_i0EN4sdsl13ConfigurationE" title="sdsl::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::FT"><span class="n"><span class="pre">FT</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">midpoint</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4sdsl5Voxel8midpointEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Gets the midpoint of the voxel (in each dimension). </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="#structsdsl_1_1Voxel"><span class="std std-ref">Voxel</span></a>’s midpoint. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4sdsl5Voxel8containsERK13ConfigurationI1D2FTE">
+<span id="_CPPv3NK4sdsl5Voxel8containsERK13ConfigurationI1D2FTE"></span><span id="_CPPv2NK4sdsl5Voxel8containsERK13ConfigurationI1D2FTE"></span><span id="sdsl::Voxel::contains__Configuration:D.FT:CRC"></span><span class="target" id="structsdsl_1_1Voxel_1aad12fd10fcd9de7e9a3bd17f24fe2fa0"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contains</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4I_i0EN4sdsl13ConfigurationE" title="sdsl::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::FT"><span class="n"><span class="pre">FT</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">p</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4sdsl5Voxel8containsERK13ConfigurationI1D2FTE" title="Link to this definition"></a><br /></dt>
+<dd><p>Tests whether the voxel contains a given configuration. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl5Voxel10expandSelfERK2FT">
+<span id="_CPPv3N4sdsl5Voxel10expandSelfERK2FT"></span><span id="_CPPv2N4sdsl5Voxel10expandSelfERK2FT"></span><span id="sdsl::Voxel::expandSelf__FTCR"></span><span class="target" id="structsdsl_1_1Voxel_1a06e73e59fe107bbb32d164016f3339db"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">expandSelf</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::FT"><span class="n"><span class="pre">FT</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">delta</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4sdsl5Voxel10expandSelfERK2FT" title="Link to this definition"></a><br /></dt>
+<dd><p>Expands all coordinates of the topRight by +delta, and bottomLeft by -delta. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>delta</strong> – </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4sdsl5Voxel8diameterEv">
+<span id="_CPPv3NK4sdsl5Voxel8diameterEv"></span><span id="_CPPv2NK4sdsl5Voxel8diameterEv"></span><span id="sdsl::Voxel::diameterC"></span><span class="target" id="structsdsl_1_1Voxel_1ade26a8082805b21cfe2722c4d0029e2b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::FT"><span class="n"><span class="pre">FT</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">diameter</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4sdsl5Voxel8diameterEv" title="Link to this definition"></a><br /></dt>
+<dd><p>Computes the diameter of the voxel. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(Euclidean) distance between bottomLeft and topRight. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4sdsl5Voxel5splitERK13ConfigurationI1D2FTERNSt6vectorI5VoxelI1D2FTEEE">
+<span id="_CPPv3NK4sdsl5Voxel5splitERK13ConfigurationI1D2FTERNSt6vectorI5VoxelI1D2FTEEE"></span><span id="_CPPv2NK4sdsl5Voxel5splitERK13ConfigurationI1D2FTERNSt6vectorI5VoxelI1D2FTEEE"></span><span id="sdsl::Voxel::split__Configuration:D.FT:CR.std::vector:Voxel:D.FT::RC"></span><span class="target" id="structsdsl_1_1Voxel_1a863ffa46c92bb1e45f207b70e13c4cc4"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">split</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4I_i0EN4sdsl13ConfigurationE" title="sdsl::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::FT"><span class="n"><span class="pre">FT</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">mid</span></span>, <span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel"><span class="n"><span class="pre">Voxel</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::FT"><span class="n"><span class="pre">FT</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">output</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4sdsl5Voxel5splitERK13ConfigurationI1D2FTERNSt6vectorI5VoxelI1D2FTEEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Splits a voxel into 2^D subvoxels, along a given point (for non-uniform splitting). </p>
+<p>Appends the result into a list reference.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Uses template trickery to unfold as much as possible in compile time.</p>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>mid</strong> – A configuration representing the split value along each coordinate. </p></li>
+<li><p><strong>output</strong> – Output reference (De-facto return). </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4sdsl5Voxel5splitERNSt6vectorI5VoxelI1D2FTEEE">
+<span id="_CPPv3NK4sdsl5Voxel5splitERNSt6vectorI5VoxelI1D2FTEEE"></span><span id="_CPPv2NK4sdsl5Voxel5splitERNSt6vectorI5VoxelI1D2FTEEE"></span><span id="sdsl::Voxel::split__std::vector:Voxel:D.FT::RC"></span><span class="target" id="structsdsl_1_1Voxel_1a59dccce4a4e8aadc7bdcccabc01248c5"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">split</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel"><span class="n"><span class="pre">Voxel</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::FT"><span class="n"><span class="pre">FT</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">output</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4sdsl5Voxel5splitERNSt6vectorI5VoxelI1D2FTEEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Splits a voxel into 2^D subvoxels into equal sub-voxels. </p>
+<p>Appends the result into a list reference.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>output</strong> – Output reference (De-facto return). </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4sdsl5Voxel9to_stringEv">
+<span id="_CPPv3NK4sdsl5Voxel9to_stringEv"></span><span id="_CPPv2NK4sdsl5Voxel9to_stringEv"></span><span id="sdsl::Voxel::to_stringC"></span><span class="target" id="structsdsl_1_1Voxel_1a655c0f42487fadd6831212c014fa2c77"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">to_string</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4sdsl5Voxel9to_stringEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl5Voxel10bottomLeftE">
+<span id="_CPPv3N4sdsl5Voxel10bottomLeftE"></span><span id="_CPPv2N4sdsl5Voxel10bottomLeftE"></span><span id="sdsl::Voxel::bottomLeft__Configuration:D.FT:"></span><span class="target" id="structsdsl_1_1Voxel_1af391975c6212ec49043e5b8adce65a07"></span><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4I_i0EN4sdsl13ConfigurationE" title="sdsl::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::FT"><span class="n"><span class="pre">FT</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">bottomLeft</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl5Voxel10bottomLeftE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl5Voxel8topRightE">
+<span id="_CPPv3N4sdsl5Voxel8topRightE"></span><span id="_CPPv2N4sdsl5Voxel8topRightE"></span><span id="sdsl::Voxel::topRight__Configuration:D.FT:"></span><span class="target" id="structsdsl_1_1Voxel_1ad3fef63dfc3dcde8a2d1bf5af15469d7"></span><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4I_i0EN4sdsl13ConfigurationE" title="sdsl::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel::FT"><span class="n"><span class="pre">FT</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">topRight</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl5Voxel8topRightE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="structsdsl_1_1Predicate__Fwd2D.html" class="btn btn-neutral float-left" title="Template Struct Predicate_Fwd2D" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="classsdsl_1_1Env__PCD.html" class="btn btn-neutral float-right" title="Template Class Env_PCD" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, TAU-CGL.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

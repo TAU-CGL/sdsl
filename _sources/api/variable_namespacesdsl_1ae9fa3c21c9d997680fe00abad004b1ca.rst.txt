@@ -1,0 +1,14 @@
+.. _exhale_variable_namespacesdsl_1ae9fa3c21c9d997680fe00abad004b1ca:
+
+Variable sdsl::INF
+==================
+
+- Defined in :ref:`file_sdsl_math_utils.hpp`
+
+
+Variable Documentation
+----------------------
+
+
+.. doxygenvariable:: sdsl::INF
+   :project: sdsl

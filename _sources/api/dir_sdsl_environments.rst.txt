@@ -1,0 +1,22 @@
+.. _dir_sdsl_environments:
+
+
+Directory environments
+======================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl>` (``sdsl``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+*Directory path:* ``sdsl/environments``
+
+
+Files
+-----
+
+- :ref:`file_sdsl_environments_env_pcd.hpp`
+- :ref:`file_sdsl_environments_env_R2_arrangement.hpp`
+
+
