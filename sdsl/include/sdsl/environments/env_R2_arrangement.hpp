@@ -3,9 +3,6 @@
 #include <vector>
 #include <memory>
 
-#define _USE_MATH_DEFINES
-#include <cmath>
-
 #include <CGAL/squared_distance_2.h>
 #include <CGAL/intersections.h>
 #include <CGAL/Arrangement_2.h>
@@ -17,10 +14,12 @@
 #include <CGAL/AABB_triangle_primitive_3.h>
 
 #include "sdsl/configuration.hpp"
+#include "sdsl/math_utils.hpp"
+#include "sdsl/environment.hpp"
 
 namespace sdsl {
-    template<typename Arrangement_2, typename Traits_2>
-    class Env_R2_Arrangement {
+    template<typename Arrangement_2, typename Traits_2, int D>
+    class Env_R2_Arrangement : Environment<D, typename Traits_2::Kernel::FT> {
         using FT = Traits_2::Kernel::FT;
         using Ray = Traits_2::Kernel::Ray_2;
         using Point = Traits_2::Point_2;
@@ -38,9 +37,6 @@ namespace sdsl {
             CGAL::AABB_traits_3<
                 typename Traits_2::Kernel, 
                 CGAL::AABB_segment_primitive_3<typename Traits_2::Kernel, typename std::list<Segment_3>::iterator>>>;
-
-    static constexpr double INF = 100000.0;
-
 
     public:
         Env_R2_Arrangement() {}
@@ -65,8 +61,7 @@ namespace sdsl {
             }
         #endif
 
-        template<int D>
-        bool intersects(Voxel<D, FT> v) {
+        bool intersects(Voxel<D, FT> v) override {
             Box_3 box(
                 Point_3(v.bottomLeft[0], v.bottomLeft[1], -1), 
                 Point_3(v.topRight[0], v.topRight[1], 1));
@@ -86,7 +81,6 @@ namespace sdsl {
             return false;
         }
 
-        template<int D>
         double measureDistance(Configuration<D,FT> q) {
             Segment ray(
                 Point(q[0], q[1]), 
@@ -118,14 +112,12 @@ namespace sdsl {
             return sqrt(CGAL::to_double(minDist));
         }
 
-        template<int D>
         double hausdorffDistance(Configuration<D,FT> q) {
             Point_3 p1(q[0], q[1], 0);
             Point_3 p2 = m_tree->closest_point(p1);
             return sqrt(CGAL::to_double(CGAL::squared_distance(p1, p2)));
         }
 
-        template<int D>
         double voxelHausdorffDistance(Voxel<D,FT> v) {
             double d1 = hausdorffDistance(v.bottomLeft);
             double d2 = hausdorffDistance(Configuration<D,FT>(v.bottomLeft[0], v.bottomLeft[1], v.topRight[2]));
@@ -166,7 +158,6 @@ namespace sdsl {
             }
         #endif
 
-        template<int D>
         Voxel<D,FT> boundingBox() {
             FT xmin = FT(INF), ymin = FT(INF), xmax = -FT(INF), ymax = -FT(INF);
             for (auto it = m_arrangement.vertices_begin(); it != m_arrangement.vertices_end(); ++it) {
@@ -182,8 +173,7 @@ namespace sdsl {
             );
         }
 
-        template<int D>
-        bool isInside(Configuration<D,FT> q) {
+        bool contains(Configuration<D,FT> q) override {
             Segment upwards(Point(q[0], q[1]), Point(q[0], q[1] + INF));
             std::vector<CGAL::Object> res;
             CGAL::zone(m_arrangement, upwards, std::back_inserter(res), *m_pl);

@@ -1,3 +1,6 @@
+/// @file sdsl_binding.hpp
+/// @brief Common headers and defines used for Python bindings
+
 #pragma once
 
 #ifndef SDSL_CPP_ONLY
@@ -8,5 +11,10 @@
 #include <nanobind/stl/string.h>
 #include <nanobind/stl/vector.h>
 #include <nanobind/stl/tuple.h>
+#include <nanobind/stl/function.h>
+#include <nanobind/stl/shared_ptr.h>
 namespace nb = nanobind;
+
+using pyFT = double; // Chosen field type for Python bindings
+
 #endif

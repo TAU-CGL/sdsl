@@ -65,12 +65,12 @@ def test_Env_R2_Arrangement_intersects():
     assert not env.intersects(v3)
     assert env.intersects(v4)
 
-def test_Env_R2_Arrangement_is_inside():
+def test_Env_R2_Arrangement_contains():
     env = sdsl.Env_R2_Arrangement(TRIANGLE)
     q1 = sdsl.R3(0, 0, 0)
     q2 = sdsl.R3(2, 2, 0)
     q3 = sdsl.R3(0, 1, 0)
 
-    assert env.is_inside(q1)
-    assert not env.is_inside(q2)
-    assert env.is_inside(q3)
+    assert env.contains(q1)
+    assert not env.contains(q2)
+    assert env.contains(q3)
