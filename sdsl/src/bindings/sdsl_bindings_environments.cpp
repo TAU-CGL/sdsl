@@ -7,6 +7,7 @@
 #include "sdsl/environment.hpp"
 #include "sdsl/environments/env_R2_arrangement.hpp"
 #include "sdsl/environments/env_pcd.hpp"
+#include "sdsl/environments/env_pgm.hpp"
 #include "sdsl/configuration.hpp"
 
 using namespace sdsl;
@@ -30,6 +31,9 @@ using Voxel4       = Voxel<4, double>;
 // Env_3D_PCD: D=4, config=(x,y,z,yaw)
 using Env2DPCD     = Env_PCD<Kernel, 3>;
 using Env3DPCD     = Env_PCD<Kernel, 4>;
+
+// Env_2D_PGM: D=3, config=(x,y,yaw) — ROS2/SLAM PGM occupancy-grid environment
+using Env2DPGM     = Env_PGM<3>;
 
 void sdsl_bindings_environments(nb::module_ &m) {
     nb::class_<EnvBase3>(m, "Environment",
@@ -143,5 +147,50 @@ void sdsl_bindings_environments(nb::module_ &m) {
              "Apply the forward map F_dg(V) as described in the SDSL paper.")
         .def("get_representation",      [](Env3DPCD& e)                    { return e.getRepresentation(); },
              "Return the point cloud as an (N, 3) NumPy array.")
+    ;
+
+    nb::class_<Env2DPGM, EnvBase3>(m, "Env_2D_PGM",
+        "2-D occupancy-grid environment for 3-DOF (x, y, θ) localization.\n\n"
+        "Loads a ROS2/SLAM Toolbox PGM map (uint8 pixel grid + resolution and\n"
+        "origin metadata).  Obstacle queries use direct pixel lookups; ray\n"
+        "casting uses an Amanatides & Woo DDA traversal.\n\n"
+        "Typical usage with the bundled loader::\n\n"
+        "    from sdsl.loaders.load_pgm_map import load_pgm_map\n"
+        "    import sdsl\n"
+        "    m = load_pgm_map('map.yaml')\n"
+        "    env = sdsl.Env_2D_PGM(\n"
+        "        m.grid, m.resolution, m.origin_x, m.origin_y,\n"
+        "        m.occupied_thresh, m.negate)\n")
+        .def(nb::init<>(), "Construct an empty environment.")
+        .def(nb::init<
+                const nb::ndarray<uint8_t, nb::shape<-1, -1>>&,
+                double, double, double, double, bool>(),
+             nb::arg("grid"),
+             nb::arg("resolution"),
+             nb::arg("origin_x"),
+             nb::arg("origin_y"),
+             nb::arg("occupied_thresh") = 0.65,
+             nb::arg("negate")          = false,
+             "Construct from a (height, width) uint8 grid plus map metadata.")
+        .def("intersects",       [](Env2DPGM& e, const Voxel3& v)  { return e.intersects(v); },
+             nb::arg("voxel"),
+             "Return ``True`` if any occupied pixel falls within the spatial "
+             "footprint of *voxel*.")
+        .def("measure_distance", [](Env2DPGM& e, const Config3& q) { return e.measureDistance(q); },
+             nb::arg("q"),
+             "DDA ray-cast distance from ``(q[0], q[1])`` in direction ``q[2]`` "
+             "to the nearest occupied pixel (metres).")
+        .def("contains",         [](Env2DPGM& e, const Config3& q) { return e.contains(q); },
+             nb::arg("q"),
+             "Return ``True`` if ``(q[0], q[1])`` is inside the occupied region "
+             "(odd-crossing parity test along +x ray).")
+        .def("bounding_box",     [](Env2DPGM& e)                   { return e.boundingBox(); },
+             "Return a :class:`Voxel_R3` covering the full (x, y, θ) "
+             "configuration space.")
+        .def("forward",          [](Env2DPGM& e, double d, const Config3& g, const Voxel3& v) {
+                                     return e.forward(FT(d), g, v);
+                                 },
+             nb::arg("d"), nb::arg("g"), nb::arg("voxel"),
+             "Apply the forward map F_dg(V) as described in the SDSL paper.")
     ;
 }
