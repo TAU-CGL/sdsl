@@ -17,6 +17,7 @@ Files
 -----
 
 - :ref:`file_sdsl_environments_env_pcd.hpp`
+- :ref:`file_sdsl_environments_env_pgm.hpp`
 - :ref:`file_sdsl_environments_env_R2_arrangement.hpp`
 
 

@@ -29,6 +29,8 @@ Classes
 
 - :ref:`exhale_class_classsdsl_1_1Env__PCD`
 
+- :ref:`exhale_class_classsdsl_1_1Env__PGM`
+
 - :ref:`exhale_class_classsdsl_1_1Env__R2__Arrangement`
 
 - :ref:`exhale_class_classsdsl_1_1Environment`

@@ -1,0 +1,261 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Template Class Env_PGM &mdash; SDSL Docs</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
+      <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Template Class Env_R2_Arrangement" href="classsdsl_1_1Env__R2__Arrangement.html" />
+    <link rel="prev" title="Template Class Env_PCD" href="classsdsl_1_1Env__PCD.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            SDSL
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/configuration_space.html">Configuration Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/environments.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/predicates.html">Predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/localization.html">Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/python_bindings.html">Python Bindings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../python_api.html">Python API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">C++ API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="library_root.html">C++ API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="library_root.html#full-api">Full API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#namespaces">Namespaces</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="library_root.html#classes-and-structs">Classes and Structs</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html">Template Struct Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html">Struct Env_PCD::VoxelGrid</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__AlwaysTrue.html">Template Struct Predicate_AlwaysTrue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__Fwd2D.html">Template Struct Predicate_Fwd2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html">Template Struct Voxel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html">Template Class Env_PCD</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Template Class Env_PGM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html">Template Class Env_R2_Arrangement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Environment.html">Template Class Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Random.html">Class Random</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#variables">Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#defines">Defines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#typedefs">Typedefs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SDSL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="library_root.html">C++ API Reference</a></li>
+      <li class="breadcrumb-item active">Template Class Env_PGM</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/classsdsl_1_1Env__PGM.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="template-class-env-pgm">
+<span id="exhale-class-classsdsl-1-1env-pgm"></span><h1>Template Class Env_PGM<a class="headerlink" href="#template-class-env-pgm" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file_sdsl_environments_env_pgm.hpp.html#file-sdsl-environments-env-pgm-hpp"><span class="std std-ref">File env_pgm.hpp</span></a></p></li>
+</ul>
+<section id="inheritance-relationships">
+<h2>Inheritance Relationships<a class="headerlink" href="#inheritance-relationships" title="Link to this heading"></a></h2>
+<section id="base-type">
+<h3>Base Type<a class="headerlink" href="#base-type" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">public</span> <span class="pre">sdsl::Environment&lt;</span> <span class="pre">D,</span> <span class="pre">double</span> <span class="pre">&gt;</span></code> (<a class="reference internal" href="classsdsl_1_1Environment.html#exhale-class-classsdsl-1-1environment"><span class="std std-ref">Template Class Environment</span></a>)</p></li>
+</ul>
+</section>
+</section>
+<section id="class-documentation">
+<h2>Class Documentation<a class="headerlink" href="#class-documentation" title="Link to this heading"></a></h2>
+<dl class="cpp class">
+<dt class="sig sig-object cpp" id="_CPPv4I_iEN4sdsl7Env_PGME">
+<span id="_CPPv3I_iEN4sdsl7Env_PGME"></span><span id="_CPPv2I_iEN4sdsl7Env_PGME"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">D</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="classsdsl_1_1Env__PGM"></span><span class="k"><span class="pre">class</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Env_PGM</span></span></span><span class="w"> </span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="k"><span class="pre">public</span></span><span class="w"> </span><span class="n"><span class="pre">sdsl</span></span><span class="p"><span class="pre">::</span></span><a class="reference internal" href="classsdsl_1_1Environment.html#_CPPv4I_i0EN4sdsl11EnvironmentE" title="sdsl::Environment"><span class="n"><span class="pre">Environment</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_iEN4sdsl7Env_PGME" title="sdsl::Env_PGM::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><a class="headerlink" href="#_CPPv4I_iEN4sdsl7Env_PGME" title="Link to this definition"></a><br /></dt>
+<dd><p>2D occupancy-grid environment loaded from a ROS2/SLAM PGM map. </p>
+<p>The configuration space is 3-D: (x, y, θ), where (x, y) are world coordinates in metres and θ is the sensor yaw.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>D</strong> – C-space dimension. D == 3 is the intended use-case. </p>
+</dd>
+</dl>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PGM7Env_PGMEv">
+<span id="_CPPv3N4sdsl7Env_PGM7Env_PGMEv"></span><span id="_CPPv2N4sdsl7Env_PGM7Env_PGMEv"></span><span id="sdsl::Env_PGM::Env_PGM"></span><span class="target" id="classsdsl_1_1Env__PGM_1a69f95d0e4188f7ed05373fe223add3d3"></span><span class="sig-name descname"><span class="n"><span class="pre">Env_PGM</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">default</span></span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PGM7Env_PGMEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PGM7Env_PGMERKN2nb7ndarrayI7uint8_tN2nb5shapeIXngL1EEXngL1EEEEEEddddb">
+<span id="_CPPv3N4sdsl7Env_PGM7Env_PGMERKN2nb7ndarrayI7uint8_tN2nb5shapeIXngL1EEXngL1EEEEEEddddb"></span><span id="_CPPv2N4sdsl7Env_PGM7Env_PGMERKN2nb7ndarrayI7uint8_tN2nb5shapeIX-1EX-1EEEEEddddb"></span><span id="sdsl::Env_PGM::Env_PGM__nb::ndarray:uint8_t.nb::shape:-1.-1::CR.double.double.double.double.b"></span><span class="target" id="classsdsl_1_1Env__PGM_1aab5001c19b2d507c7d7e1a02443e1407"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">Env_PGM</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">nb</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">ndarray</span></span><span class="p"><span class="pre">&lt;</span></span><span class="n"><span class="pre">uint8_t</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">nb</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">&lt;</span></span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="o"><span class="pre">-</span></span><span class="m"><span class="pre">1</span></span><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">grid</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">resolution</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">origin_x</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">origin_y</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">occupied_thresh</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.65</span></span>, <span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">negate</span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="k"><span class="pre">false</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PGM7Env_PGMERKN2nb7ndarrayI7uint8_tN2nb5shapeIXngL1EEXngL1EEEEEEddddb" title="Link to this definition"></a><br /></dt>
+<dd><p>Construct from a (height × width) uint8 occupancy grid plus metadata. </p>
+<p>Pixel convention follows ROS2 map_saver:<ul class="simple">
+<li><p>negate == false (default): occupancy ∝ (255 − pixel) / 255 → 0 (black) = fully occupied, 255 (white) = fully free.</p></li>
+<li><p>negate == true: occupancy ∝ pixel / 255 → 255 = fully occupied, 0 = fully free.</p></li>
+</ul>
+</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>grid</strong> – (height, width) uint8 numpy array. </p></li>
+<li><p><strong>resolution</strong> – Metres per pixel. </p></li>
+<li><p><strong>origin_x</strong> – World x of the bottom-left corner of the map. </p></li>
+<li><p><strong>origin_y</strong> – World y of the bottom-left corner of the map. </p></li>
+<li><p><strong>occupied_thresh</strong> – Pixels with occupancy &gt; this threshold are obstacles. </p></li>
+<li><p><strong>negate</strong> – Invert the pixel-to-occupancy mapping. </p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PGM10intersectsE5VoxelI1D2FTE">
+<span id="_CPPv3N4sdsl7Env_PGM10intersectsE5VoxelI1D2FTE"></span><span id="_CPPv2N4sdsl7Env_PGM10intersectsE5VoxelI1D2FTE"></span><span id="sdsl::Env_PGM::intersects__Voxel:D.FT:"></span><span class="target" id="classsdsl_1_1Env__PGM_1a8569e41d8bb94bd0c3d2168e3af84945"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">intersects</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel"><span class="n"><span class="pre">Voxel</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_iEN4sdsl7Env_PGME" title="sdsl::Env_PGM::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">FT</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">v</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PGM10intersectsE5VoxelI1D2FTE" title="Link to this definition"></a><br /></dt>
+<dd><p>Test whether a voxel intersects with the environment. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>v</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if v intersects with the environment. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PGM15measureDistanceE13ConfigurationI1D2FTE">
+<span id="_CPPv3N4sdsl7Env_PGM15measureDistanceE13ConfigurationI1D2FTE"></span><span id="_CPPv2N4sdsl7Env_PGM15measureDistanceE13ConfigurationI1D2FTE"></span><span id="sdsl::Env_PGM::measureDistance__Configuration:D.FT:"></span><span class="target" id="classsdsl_1_1Env__PGM_1aa79db06e92e902f6761cab861fb1a244"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="n"><span class="pre">FT</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">measureDistance</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4I_i0EN4sdsl13ConfigurationE" title="sdsl::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_iEN4sdsl7Env_PGME" title="sdsl::Env_PGM::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">FT</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">q</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PGM15measureDistanceE13ConfigurationI1D2FTE" title="Link to this definition"></a><br /></dt>
+<dd><p>Measure the distance perceived from a configuration q. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The measured distance. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PGM8containsE13ConfigurationI1D2FTE">
+<span id="_CPPv3N4sdsl7Env_PGM8containsE13ConfigurationI1D2FTE"></span><span id="_CPPv2N4sdsl7Env_PGM8containsE13ConfigurationI1D2FTE"></span><span id="sdsl::Env_PGM::contains__Configuration:D.FT:"></span><span class="target" id="classsdsl_1_1Env__PGM_1a81b928b6cad04742d5d512c816a61c18"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">virtual</span></span><span class="w"> </span><span class="kt"><span class="pre">bool</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">contains</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4I_i0EN4sdsl13ConfigurationE" title="sdsl::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_iEN4sdsl7Env_PGME" title="sdsl::Env_PGM::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">FT</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">q</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">override</span></span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PGM8containsE13ConfigurationI1D2FTE" title="Link to this definition"></a><br /></dt>
+<dd><p>Test whever a configuration is contained whithin the environment. </p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>q</strong> – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if q is contained in the environment. </p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PGM11boundingBoxEv">
+<span id="_CPPv3N4sdsl7Env_PGM11boundingBoxEv"></span><span id="_CPPv2N4sdsl7Env_PGM11boundingBoxEv"></span><span id="sdsl::Env_PGM::boundingBox"></span><span class="target" id="classsdsl_1_1Env__PGM_1af05336801b0a210a571f6026ba14fe70"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel"><span class="n"><span class="pre">Voxel</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_iEN4sdsl7Env_PGME" title="sdsl::Env_PGM::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">FT</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">boundingBox</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PGM11boundingBoxEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl7Env_PGM7forwardE2FT13ConfigurationI1D2FTE5VoxelI1D2FTE">
+<span id="_CPPv3N4sdsl7Env_PGM7forwardE2FT13ConfigurationI1D2FTE5VoxelI1D2FTE"></span><span id="_CPPv2N4sdsl7Env_PGM7forwardE2FT13ConfigurationI1D2FTE5VoxelI1D2FTE"></span><span id="sdsl::Env_PGM::forward__FT.Configuration:D.FT:.Voxel:D.FT:"></span><span class="target" id="classsdsl_1_1Env__PGM_1a68f0f7d1653d64bf76930fa57ae54cc3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel"><span class="n"><span class="pre">Voxel</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_iEN4sdsl7Env_PGME" title="sdsl::Env_PGM::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">FT</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">forward</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">FT</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">d</span></span>, <a class="reference internal" href="structsdsl_1_1Configuration.html#_CPPv4I_i0EN4sdsl13ConfigurationE" title="sdsl::Configuration"><span class="n"><span class="pre">Configuration</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_iEN4sdsl7Env_PGME" title="sdsl::Env_PGM::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">FT</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">g</span></span>, <a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel"><span class="n"><span class="pre">Voxel</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_iEN4sdsl7Env_PGME" title="sdsl::Env_PGM::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="n"><span class="pre">FT</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">v</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4sdsl7Env_PGM7forwardE2FT13ConfigurationI1D2FTE5VoxelI1D2FTE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="classsdsl_1_1Env__PCD.html" class="btn btn-neutral float-left" title="Template Class Env_PCD" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="classsdsl_1_1Env__R2__Arrangement.html" class="btn btn-neutral float-right" title="Template Class Env_R2_Arrangement" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, TAU-CGL.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

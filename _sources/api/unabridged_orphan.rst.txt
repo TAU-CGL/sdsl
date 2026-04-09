@@ -50,6 +50,11 @@ Files
 .. toctree::
    :maxdepth: 5
 
+   file_sdsl_environments_env_pgm.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
    file_sdsl_environments_env_R2_arrangement.hpp.rst
 
 .. toctree::

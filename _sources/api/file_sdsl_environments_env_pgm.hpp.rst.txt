@@ -1,0 +1,57 @@
+
+.. _file_sdsl_environments_env_pgm.hpp:
+
+File env_pgm.hpp
+================
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl_environments>` (``sdsl/environments``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``sdsl/environments/env_pgm.hpp``)
+----------------------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``algorithm``
+
+- ``cmath``
+
+- ``limits``
+
+- ``sdsl/environment.hpp`` (:ref:`file_sdsl_environment.hpp`)
+
+- ``sdsl/math_utils.hpp`` (:ref:`file_sdsl_math_utils.hpp`)
+
+- ``vector``
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_sdsl`
+
+
+Classes
+-------
+
+
+- :ref:`exhale_class_classsdsl_1_1Env__PGM`
+
