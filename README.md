@@ -34,9 +34,10 @@ This package uses `skbuild-conan` to automatically insteall all other necessary 
 
 ## Documentation
 
-Install the doc dependencies and build:
+The Python package must be installed first (so `autodoc` can import the compiled extension), then install the doc dependencies and build:
 
 ```
+pip3 install ./sdsl
 pip install -r docs/requirements.txt
 sphinx-build docs/ docs/_build/html
 ```

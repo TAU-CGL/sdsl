@@ -26,6 +26,12 @@ The library is based on research presented at ICRA'23, WAFR'24 and ICRA'25.
 
 .. toctree::
    :maxdepth: 1
+   :caption: Python API Reference
+
+   python_api
+
+.. toctree::
+   :maxdepth: 1
    :caption: C++ API Reference
 
    api/library_root

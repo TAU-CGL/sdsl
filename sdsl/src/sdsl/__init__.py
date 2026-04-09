@@ -6,6 +6,7 @@ from ._sdsl import Predicate_AlwaysTrue_1d, Predicate_AlwaysTrue_2d, Predicate_A
 from ._sdsl import Predicate_Fwd2D_Arr
 from ._sdsl import localize_omp_forkjoin_3d, localize_omp_forkjoin_4d
 from ._sdsl import Env_R2_Arrangement, Env_2D_PCD, Env_3D_PCD
+from ._sdsl import Environment, Environment4
 
 __all__ = [
     "seed",
@@ -15,4 +16,5 @@ __all__ = [
     "Predicate_AlwaysTrue_1d", "Predicate_AlwaysTrue_2d", "Predicate_AlwaysTrue_3d", "Predicate_AlwaysTrue_4d",
     "localize_omp_forkjoin_3d", "localize_omp_forkjoin_4d",
     "Env_R2_Arrangement", "Env_2D_PCD", "Env_3D_PCD",
+    "Environment", "Environment4",
 ]
