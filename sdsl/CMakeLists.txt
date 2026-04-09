@@ -62,4 +62,8 @@ file(GLOB_RECURSE SDSL_BINDINGS_SRC
 nanobind_add_module(_sdsl src/sdsl_py.cpp ${SDSL_BINDINGS_SRC})
 target_link_libraries(_sdsl PRIVATE CGAL::CGAL OpenMP::OpenMP_CXX fmt::fmt ${Boost_LIBRARIES})
 
-install(TARGETS _sdsl LIBRARY DESTINATION lib/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages/sdsl)
+if (WIN32)
+    install(TARGETS _sdsl LIBRARY DESTINATION lib/site-packages/sdsl)
+else()
+    install(TARGETS _sdsl LIBRARY DESTINATION lib/python${Python_VERSION_MAJOR}.${Python_VERSION_MINOR}/site-packages/sdsl)
+endif()
