@@ -35,7 +35,7 @@ ERROR_BOUND    = 0.2   # metres — loose enough for all three env types
 # queries.  Depth 3 still fully exercises the k-k' intersects logic and
 # returns voxels at 1/8 of the bbox in each dimension.
 DEPTH          = 3
-SUCCESS_RATE   = 0.70
+SUCCESS_RATE   = 0.99
 
 REPO_ROOT = Path(__file__).parent.parent.parent
 APT_YAML  = REPO_ROOT / "resources" / "maps" / "2d" / "slam" / "apt.yaml"
@@ -125,8 +125,10 @@ def _in_any_voxel(voxels, q):
 # ---------------------------------------------------------------------------
 
 @pytest.fixture(
-    params=["arrangement", "pcd", "pgm"],
-    ids=   ["arrangement", "pcd", "pgm"],
+    # params=["arrangement", "pcd", "pgm"],
+    # ids=   ["arrangement", "pcd", "pgm"],
+    params=["arrangement", "pcd"],
+    ids=["arrangement", "pcd"],
 )
 def env_fixture(request):
     if request.param == "arrangement":

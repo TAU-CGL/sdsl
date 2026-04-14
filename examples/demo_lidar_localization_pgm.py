@@ -29,7 +29,7 @@ TIMEOUT         = 1.0
 def corrupt_measurements(dists, kk_prime_ratio):
     """Corrupt (1 − kk_prime_ratio) fraction of measurements by a random factor."""
     noisy = dists.copy()
-    n_corrupt = round((1 - kk_prime_ratio) * len(dists))
+    n_corrupt = round((1 - kk_prime_ratio) * len(dists)) - 1
     idx = np.random.choice(len(dists), size=n_corrupt, replace=False)
     noisy[idx] *= np.random.uniform(0.1, 3.0, size=n_corrupt)
     noisy += np.random.normal(0.0, 0.5 * ERROR_BOUND, size=len(noisy))
