@@ -29,5 +29,11 @@ namespace sdsl {
         /// @param q 
         /// @return The measured distance.
         virtual FT measureDistance(Configuration<D,FT> q) = 0;
+
+        /// @brief Test whether the line between two configurations intersects with the environment.
+        /// @param q1
+        /// @param q2
+        /// @return True if the line between q1 and q2 intersects with the environment.
+        virtual bool collisionDetection(Configuration<D,FT> q1, Configuration<D,FT> q2) = 0;
     };
 }

@@ -83,6 +83,9 @@ void sdsl_bindings_environments(nb::module_ &m) {
         .def("contains", [](Env& e, const Config3& q) { return e.contains(q); },
              nb::arg("q"),
              "Return ``True`` if ``(q[0], q[1])`` is inside the polygon.")
+        .def("collision_detection", [](Env& e, const Config3& q1, const Config3& q2) { return e.collisionDetection(q1, q2); },
+             nb::arg("q1"), nb::arg("q2"),
+             "Return ``True`` if the straight-line path from *q1* to *q2* crosses any wall segment.")
         .def("get_representation", [](Env& e) { return e.getRepresentation(); },
              "Return the segment array as an (N, 4) NumPy array ``[x1, y1, x2, y2]``.")
     ;
@@ -113,6 +116,9 @@ void sdsl_bindings_environments(nb::module_ &m) {
              "Return a :class:`Voxel_R3` covering the full configuration space.")
         .def("contains",                [](Env2DPCD& e, const Config3& q)  { return e.contains(q); },
              nb::arg("q"), "Return ``True`` if ``(q[0], q[1])`` is inside the point cloud hull.")
+        .def("collision_detection",     [](Env2DPCD& e, const Config3& q1, const Config3& q2) { return e.collisionDetection(q1, q2); },
+             nb::arg("q1"), nb::arg("q2"),
+             "Return ``True`` if the straight-line path from *q1* to *q2* crosses any point in the cloud.")
         .def("forward",                 [](Env2DPCD& e, double d, const Config3& g, const Voxel3& v) { return e.forward(FT(d), g, v); },
              nb::arg("d"), nb::arg("g"), nb::arg("voxel"),
              "Apply the forward map F_dg(V) as described in the SDSL paper.")
@@ -182,8 +188,10 @@ void sdsl_bindings_environments(nb::module_ &m) {
              "to the nearest occupied pixel (metres).")
         .def("contains",         [](Env2DPGM& e, const Config3& q) { return e.contains(q); },
              nb::arg("q"),
-             "Return ``True`` if ``(q[0], q[1])`` is inside the occupied region "
-             "(odd-crossing parity test along +x ray).")
+             "Return ``True`` if ``(q[0], q[1])`` falls on an occupied pixel.")
+        .def("collision_detection", [](Env2DPGM& e, const Config3& q1, const Config3& q2) { return e.collisionDetection(q1, q2); },
+             nb::arg("q1"), nb::arg("q2"),
+             "Return ``True`` if the straight-line path from *q1* to *q2* passes through any occupied pixel.")
         .def("bounding_box",     [](Env2DPGM& e)                   { return e.boundingBox(); },
              "Return a :class:`Voxel_R3` covering the full (x, y, θ) "
              "configuration space.")

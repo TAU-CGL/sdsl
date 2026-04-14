@@ -74,3 +74,22 @@ def test_Env_R2_Arrangement_contains():
     assert env.contains(q1)
     assert not env.contains(q2)
     assert env.contains(q3)
+
+def test_Env_R2_Arrangement_collision_detection():
+    # Triangle with vertices (-1,-1), (0,1), (1,-1).
+    #
+    # Collision: path from (-2, 0) to (2, 0) crosses the left wall
+    # [(-1,-1)→(0,1)] at (-0.5, 0) and the right wall [(0,1)→(1,-1)]
+    # at (0.5, 0).
+    #
+    # No collision: path from (0, -0.5) to (0, -0.1) stays entirely
+    # inside the triangle without touching any wall.
+    env = sdsl.Env_R2_Arrangement(TRIANGLE)
+
+    q_left  = sdsl.R3(-2,   0,   0)
+    q_right = sdsl.R3( 2,   0,   0)
+    q_in1   = sdsl.R3( 0,  -0.5, 0)
+    q_in2   = sdsl.R3( 0,  -0.1, 0)
+
+    assert     env.collision_detection(q_left, q_right)   # crosses two walls
+    assert not env.collision_detection(q_in1,  q_in2)     # wholly inside

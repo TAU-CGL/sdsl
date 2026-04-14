@@ -81,7 +81,7 @@ namespace sdsl {
             return false;
         }
 
-        double measureDistance(Configuration<D,FT> q) {
+        double measureDistance(Configuration<D,FT> q) override {
             Segment ray(
                 Point(q[0], q[1]), 
                 Point(q[0] + FT(INF) * cos(q[2]), q[1] + FT(INF) * sin(q[2]))
@@ -110,6 +110,37 @@ namespace sdsl {
             }
             
             return sqrt(CGAL::to_double(minDist));
+        }
+
+        bool collisionDetection(Configuration<D,FT> q1, Configuration<D,FT> q2) override {
+            Segment ray(
+                Point(q1[0], q1[1]), 
+                Point(q2[0], q2[1])
+            );
+
+            // Use arrangement zone to find intersections
+            std::vector<CGAL::Object> res;
+            CGAL::zone(m_arrangement, ray, std::back_inserter(res), *m_pl);
+
+            for (auto x : res) {
+                typename Arrangement_2::Halfedge_handle e;
+                typename Arrangement_2::Vertex_handle v;
+
+                if (assign(e, x)) {
+                    // Find intersection point
+                    Point p;
+                    if (CGAL::assign(p, CGAL::intersection(e->curve(), ray))) {
+                        FT dist = CGAL::squared_distance(p, ray.source());
+                        FT maxDist = CGAL::squared_distance(Point(q2[0], q2[1]), ray.source());
+                        if (dist <= maxDist) return true;
+                    }
+                } else if (assign(v, x)) {
+                    FT dist = CGAL::squared_distance(v->point(), ray.source());
+                    FT maxDist = CGAL::squared_distance(Point(q2[0], q2[1]), ray.source());
+                    if (dist <= maxDist) return true;
+                }
+            }
+            return false;
         }
 
         double hausdorffDistance(Configuration<D,FT> q) {

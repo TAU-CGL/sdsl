@@ -201,6 +201,18 @@ namespace sdsl {
             return count % 2 == 1;
         }
 
+        bool collisionDetection(Configuration<D,FT> q1, Configuration<D,FT> q2) override {
+            Ray_3 ray(toPoint3(q1), Direction_3(toPoint3(q2) - toPoint3(q1)));
+            std::vector<std::pair<Point_3, double>> intersections;
+            rayIntersections(ray, intersections);
+            // Check only intersections that lie between q1 and q2
+            double maxDist = sqrt(CGAL::to_double(CGAL::squared_distance(toPoint3(q1), toPoint3(q2))));
+            intersections.erase(std::remove_if(intersections.begin(), intersections.end(),
+                [&](const std::pair<Point_3, double>& p) { return p.second < 0 || p.second > maxDist; }),
+                intersections.end());
+            return !intersections.empty();
+        }
+
         // Propagate voxel v by gradient g, scaling z-movement (D>=4 only) by d.
         // g[0], g[1]: combined body-frame x/y coefficients (caller pre-scales with d as needed).
         // g[2] (D>=4 only): z-velocity, scaled by d.

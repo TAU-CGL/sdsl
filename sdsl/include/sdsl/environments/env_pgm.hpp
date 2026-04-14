@@ -108,12 +108,14 @@ public:
         double cosY = std::cos(yaw);
         double sinY = std::sin(yaw);
 
-        // Starting position in fractional pixel coords
+        // Fractional pixel coords (used for DDA step/boundary calculations).
         double col0F = (q[0] - m_origin_x) / m_resolution;
         double row0F = (double)(m_height - 1) - (q[1] - m_origin_y) / m_resolution;
 
+        // Starting integer pixel: must use the same formula as intersects()
+        // because floor((height-1) - y/res) != (height-1) - floor(y/res).
         int col = (int)std::floor(col0F);
-        int row = (int)std::floor(row0F);
+        int row = m_height - 1 - (int)std::floor((q[1] - m_origin_y) / m_resolution);
 
         // Rate of change of (col, row) per unit of world distance t:
         //   col(t) = col0F + t * cosY / resolution
@@ -169,20 +171,33 @@ public:
 
     // ------------------------------------------------------------------
     // contains
-    //   Cast a ray in the +x (east) world direction from q.
-    //   Walk along the fixed image row; each contiguous run of occupied
-    //   pixels counts as exactly one boundary crossing.
-    //   Returns true iff the crossing count is odd (point-in-polygon test).
+    //   Returns true iff the pixel at (x, y) is free (not an obstacle).
+    //   Consistent with Env_R2_Arrangement: "contains" means the
+    //   configuration lies in the navigable region.
     // ------------------------------------------------------------------
     bool contains(Configuration<D, FT> q) override {
-        // Convert world (x, y) to fractional pixel coords
-        double colF = (q[0] - m_origin_x) / m_resolution;
-        double rowF = (double)(m_height - 1) - (q[1] - m_origin_y) / m_resolution;
-        int col = (int)std::floor(colF);
-        int row = (int)std::floor(rowF);
+        // floor((height-1) - y/res) != (height-1) - floor(y/res) for non-integer y/res.
+        // Use the same formula as intersects() to get the correct pixel row.
+        int col = (int)std::floor((q[0] - m_origin_x) / m_resolution);
+        int row = m_height - 1 - (int)std::floor((q[1] - m_origin_y) / m_resolution);
         if (col < 0 || col >= m_width || row < 0 || row >= m_height)
-            return false; // Outside the grid is considered free
-        return m_occupied[row * m_width + col];
+            return false;
+        return !m_occupied[row * m_width + col];
+    }
+
+    bool collisionDetection(Configuration<D, FT> q1, Configuration<D, FT> q2) override {
+        // Sample points along the straight line from q1 to q2 and check whether
+        // any sample falls inside an occupied (obstacle) pixel.
+        int numSamples = 100;
+        for (int i = 0; i <= numSamples; ++i) {
+            double t = (double)i / numSamples;
+            Configuration<D, FT> q;
+            for (int d = 0; d < D; ++d)
+                q[d] = (1 - t) * q1[d] + t * q2[d];
+            if (!contains(q))
+                return true; // Path enters an obstacle pixel
+        }
+        return false; // No obstacle encountered along the path
     }
 
     // ------------------------------------------------------------------
