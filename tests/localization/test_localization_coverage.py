@@ -125,10 +125,8 @@ def _in_any_voxel(voxels, q):
 # ---------------------------------------------------------------------------
 
 @pytest.fixture(
-    # params=["arrangement", "pcd", "pgm"],
-    # ids=   ["arrangement", "pcd", "pgm"],
-    params=["arrangement", "pcd"],
-    ids=["arrangement", "pcd"],
+    params=["arrangement", "pcd", "pgm"],
+    ids=   ["arrangement", "pcd", "pgm"],
 )
 def env_fixture(request):
     if request.param == "arrangement":

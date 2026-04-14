@@ -175,25 +175,14 @@ public:
     //   Returns true iff the crossing count is odd (point-in-polygon test).
     // ------------------------------------------------------------------
     bool contains(Configuration<D, FT> q) override {
-        // Map y → row; row is fixed for the horizontal ray
-        int row = m_height - 1 - (int)std::floor((q[1] - m_origin_y) / m_resolution);
-        if (row < 0 || row >= m_height) return false;
-
-        // Starting column: clamp to grid; pixels to the left of col are
-        // assumed free (ROS maps have free borders outside the surveyed area).
-        int startCol = std::max((int)std::floor((q[0] - m_origin_x) / m_resolution), 0);
-
-        int  crossings   = 0;
-        bool wasOccupied = false;
-
-        for (int c = startCol; c < m_width; ++c) {
-            bool occ = m_occupied[row * m_width + c];
-            if (occ && !wasOccupied)
-                ++crossings;           // Entering a new occupied region
-            wasOccupied = occ;
-        }
-
-        return (crossings % 2) == 1;
+        // Convert world (x, y) to fractional pixel coords
+        double colF = (q[0] - m_origin_x) / m_resolution;
+        double rowF = (double)(m_height - 1) - (q[1] - m_origin_y) / m_resolution;
+        int col = (int)std::floor(colF);
+        int row = (int)std::floor(rowF);
+        if (col < 0 || col >= m_width || row < 0 || row >= m_height)
+            return false; // Outside the grid is considered free
+        return m_occupied[row * m_width + col];
     }
 
     // ------------------------------------------------------------------
