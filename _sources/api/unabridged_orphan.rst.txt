@@ -26,6 +26,11 @@ Directories
 .. toctree::
    :maxdepth: 5
 
+   dir_sdsl_fusion.rst
+
+.. toctree::
+   :maxdepth: 5
+
    dir_sdsl_localization.rst
 
 .. toctree::
@@ -61,6 +66,11 @@ Files
    :maxdepth: 5
 
    file_sdsl_environment.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
+   file_sdsl_fusion_fusion_2d.hpp.rst
 
 .. toctree::
    :maxdepth: 5

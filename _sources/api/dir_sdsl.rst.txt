@@ -12,6 +12,7 @@ Subdirectories
 
 - :ref:`dir_sdsl_bindings`
 - :ref:`dir_sdsl_environments`
+- :ref:`dir_sdsl_fusion`
 - :ref:`dir_sdsl_localization`
 - :ref:`dir_sdsl_predicates`
 

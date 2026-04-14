@@ -1,0 +1,56 @@
+
+.. _file_sdsl_fusion_fusion_2d.hpp:
+
+File fusion_2d.hpp
+==================
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl_fusion>` (``sdsl/fusion``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+Implementations of odometry fusion of SDSL in 2D environments (and SE(2) C-space). 
+
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``sdsl/fusion/fusion_2d.hpp``)
+------------------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``sdsl/configuration.hpp`` (:ref:`file_sdsl_configuration.hpp`)
+
+- ``sdsl/math_utils.hpp`` (:ref:`file_sdsl_math_utils.hpp`)
+
+- ``vector``
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_sdsl`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespacesdsl_1a4336496a948a4cb34eb9984955811395`
+

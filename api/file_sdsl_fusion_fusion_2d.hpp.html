@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>File math_utils.hpp &mdash; SDSL Docs</title>
+  <title>File fusion_2d.hpp &mdash; SDSL Docs</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
@@ -75,9 +75,9 @@
           <div role="navigation" aria-label="Page navigation">
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
-      <li class="breadcrumb-item active">File math_utils.hpp</li>
+      <li class="breadcrumb-item active">File fusion_2d.hpp</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/api/file_sdsl_math_utils.hpp.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/file_sdsl_fusion_fusion_2d.hpp.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -85,39 +85,28 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="file-math-utils-hpp">
-<span id="file-sdsl-math-utils-hpp"></span><h1>File math_utils.hpp<a class="headerlink" href="#file-math-utils-hpp" title="Link to this heading"></a></h1>
-<p>↰ <a class="reference internal" href="dir_sdsl.html#dir-sdsl"><span class="std std-ref">Parent directory</span></a> (<code class="docutils literal notranslate"><span class="pre">sdsl</span></code>)</p>
-<p>Common math utilities used in computations.</p>
+  <section id="file-fusion-2d-hpp">
+<span id="file-sdsl-fusion-fusion-2d-hpp"></span><h1>File fusion_2d.hpp<a class="headerlink" href="#file-fusion-2d-hpp" title="Link to this heading"></a></h1>
+<p>↰ <a class="reference internal" href="dir_sdsl_fusion.html#dir-sdsl-fusion"><span class="std std-ref">Parent directory</span></a> (<code class="docutils literal notranslate"><span class="pre">sdsl/fusion</span></code>)</p>
+<p>Implementations of odometry fusion of SDSL in 2D environments (and SE(2) C-space).</p>
 <nav class="contents local" id="contents">
 <p class="topic-title">Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#definition-sdsl-math-utils-hpp" id="id1">Definition (<code class="docutils literal notranslate"><span class="pre">sdsl/math_utils.hpp</span></code>)</a></p></li>
+<li><p><a class="reference internal" href="#definition-sdsl-fusion-fusion-2d-hpp" id="id1">Definition (<code class="docutils literal notranslate"><span class="pre">sdsl/fusion/fusion_2d.hpp</span></code>)</a></p></li>
 <li><p><a class="reference internal" href="#includes" id="id2">Includes</a></p></li>
-<li><p><a class="reference internal" href="#included-by" id="id3">Included By</a></p></li>
-<li><p><a class="reference internal" href="#namespaces" id="id4">Namespaces</a></p></li>
-<li><p><a class="reference internal" href="#functions" id="id5">Functions</a></p></li>
-<li><p><a class="reference internal" href="#defines" id="id6">Defines</a></p></li>
-<li><p><a class="reference internal" href="#variables" id="id7">Variables</a></p></li>
+<li><p><a class="reference internal" href="#namespaces" id="id3">Namespaces</a></p></li>
+<li><p><a class="reference internal" href="#functions" id="id4">Functions</a></p></li>
 </ul>
 </nav>
-<section id="definition-sdsl-math-utils-hpp">
-<h2>Definition (<code class="docutils literal notranslate"><span class="pre">sdsl/math_utils.hpp</span></code>)<a class="headerlink" href="#definition-sdsl-math-utils-hpp" title="Link to this heading"></a></h2>
+<section id="definition-sdsl-fusion-fusion-2d-hpp">
+<h2>Definition (<code class="docutils literal notranslate"><span class="pre">sdsl/fusion/fusion_2d.hpp</span></code>)<a class="headerlink" href="#definition-sdsl-fusion-fusion-2d-hpp" title="Link to this heading"></a></h2>
 </section>
 <section id="includes">
 <h2>Includes<a class="headerlink" href="#includes" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">cmath</span></code></p></li>
-</ul>
-</section>
-<section id="included-by">
-<h2>Included By<a class="headerlink" href="#included-by" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p><a class="reference internal" href="file_sdsl_environments_env_R2_arrangement.hpp.html#file-sdsl-environments-env-r2-arrangement-hpp"><span class="std std-ref">File env_R2_arrangement.hpp</span></a></p></li>
-<li><p><a class="reference internal" href="file_sdsl_environments_env_pcd.hpp.html#file-sdsl-environments-env-pcd-hpp"><span class="std std-ref">File env_pcd.hpp</span></a></p></li>
-<li><p><a class="reference internal" href="file_sdsl_environments_env_pgm.hpp.html#file-sdsl-environments-env-pgm-hpp"><span class="std std-ref">File env_pgm.hpp</span></a></p></li>
-<li><p><a class="reference internal" href="file_sdsl_fusion_fusion_2d.hpp.html#file-sdsl-fusion-fusion-2d-hpp"><span class="std std-ref">File fusion_2d.hpp</span></a></p></li>
-<li><p><a class="reference internal" href="file_sdsl_predicates_pred_forward_2d.hpp.html#file-sdsl-predicates-pred-forward-2d-hpp"><span class="std std-ref">File pred_forward_2d.hpp</span></a></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sdsl/configuration.hpp</span></code> (<a class="reference internal" href="file_sdsl_configuration.hpp.html#file-sdsl-configuration-hpp"><span class="std std-ref">File configuration.hpp</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sdsl/math_utils.hpp</span></code> (<a class="reference internal" href="file_sdsl_math_utils.hpp.html#file-sdsl-math-utils-hpp"><span class="std std-ref">File math_utils.hpp</span></a>)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">vector</span></code></p></li>
 </ul>
 </section>
 <section id="namespaces">
@@ -129,20 +118,7 @@
 <section id="functions">
 <h2>Functions<a class="headerlink" href="#functions" title="Link to this heading"></a></h2>
 <ul class="simple">
-<li><p><a class="reference internal" href="function_namespacesdsl_1a2bc91993bafcb52a552eb0128dd50896.html#exhale-function-namespacesdsl-1a2bc91993bafcb52a552eb0128dd50896"><span class="std std-ref">Template Function sdsl::maxMinOnTrigRange</span></a></p></li>
-</ul>
-</section>
-<section id="defines">
-<h2>Defines<a class="headerlink" href="#defines" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p><a class="reference internal" href="define_math__utils_8hpp_1a525335710b53cb064ca56b936120431e.html#exhale-define-math-utils-8hpp-1a525335710b53cb064ca56b936120431e"><span class="std std-ref">Define _USE_MATH_DEFINES</span></a></p></li>
-<li><p><a class="reference internal" href="define_math__utils_8hpp_1ae71449b1cc6e6250b91f539153a7a0d3.html#exhale-define-math-utils-8hpp-1ae71449b1cc6e6250b91f539153a7a0d3"><span class="std std-ref">Define M_PI</span></a></p></li>
-</ul>
-</section>
-<section id="variables">
-<h2>Variables<a class="headerlink" href="#variables" title="Link to this heading"></a></h2>
-<ul class="simple">
-<li><p><a class="reference internal" href="variable_namespacesdsl_1ae9fa3c21c9d997680fe00abad004b1ca.html#exhale-variable-namespacesdsl-1ae9fa3c21c9d997680fe00abad004b1ca"><span class="std std-ref">Variable sdsl::INF</span></a></p></li>
+<li><p><a class="reference internal" href="function_namespacesdsl_1a4336496a948a4cb34eb9984955811395.html#exhale-function-namespacesdsl-1a4336496a948a4cb34eb9984955811395"><span class="std std-ref">Template Function sdsl::fusion_2d</span></a></p></li>
 </ul>
 </section>
 </section>

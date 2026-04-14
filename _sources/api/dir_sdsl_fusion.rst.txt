@@ -1,0 +1,21 @@
+.. _dir_sdsl_fusion:
+
+
+Directory fusion
+================
+
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl>` (``sdsl``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+*Directory path:* ``sdsl/fusion``
+
+
+Files
+-----
+
+- :ref:`file_sdsl_fusion_fusion_2d.hpp`
+
+

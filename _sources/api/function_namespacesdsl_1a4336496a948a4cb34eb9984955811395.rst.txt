@@ -1,0 +1,14 @@
+.. _exhale_function_namespacesdsl_1a4336496a948a4cb34eb9984955811395:
+
+Template Function sdsl::fusion_2d
+=================================
+
+- Defined in :ref:`file_sdsl_fusion_fusion_2d.hpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: sdsl::fusion_2d(std::vector<Voxel<3, FT>>, std::vector<FT>, std::vector<Voxel<3, FT>>, Configuration<3, FT>, FT)
+   :project: sdsl

@@ -44,6 +44,8 @@ Included By
 
 - :ref:`file_sdsl_environments_env_pgm.hpp`
 
+- :ref:`file_sdsl_fusion_fusion_2d.hpp`
+
 - :ref:`file_sdsl_predicates_pred_forward_2d.hpp`
 
 

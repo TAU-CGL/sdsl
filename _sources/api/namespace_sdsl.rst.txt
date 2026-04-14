@@ -42,6 +42,8 @@ Functions
 ---------
 
 
+- :ref:`exhale_function_namespacesdsl_1a4336496a948a4cb34eb9984955811395`
+
 - :ref:`exhale_function_namespacesdsl_1ae3efda00614795b62b9f1cd7a5ce162a`
 
 - :ref:`exhale_function_namespacesdsl_1a2bc91993bafcb52a552eb0128dd50896`
