@@ -5,6 +5,7 @@ void sdsl_bindings_configuration(nb::module_ &);
 void sdsl_bindings_environments(nb::module_ &);
 void sdsl_bindings_predicates(nb::module_ &);
 void sdsl_bindings_localization(nb::module_ &);
+void sdsl_bindings_fusion(nb::module_ &);
 
 
 NB_MODULE(_sdsl, m) {
@@ -16,6 +17,7 @@ NB_MODULE(_sdsl, m) {
     sdsl_bindings_environments(m);
     sdsl_bindings_predicates(m);
     sdsl_bindings_localization(m);
+    sdsl_bindings_fusion(m);
 }
 
 
