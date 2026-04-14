@@ -123,6 +123,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#sdsl.Env_R2_Arrangement"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_R2_Arrangement.bounding_box"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement.bounding_box</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_R2_Arrangement.collision_detection"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement.collision_detection</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_R2_Arrangement.contains"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement.contains</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_R2_Arrangement.get_representation"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement.get_representation</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_R2_Arrangement.hausdorff_distance"><code class="docutils literal notranslate"><span class="pre">Env_R2_Arrangement.hausdorff_distance</span></code></a></li>
@@ -133,6 +134,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#sdsl.Env_2D_PCD"><code class="docutils literal notranslate"><span class="pre">Env_2D_PCD</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_2D_PCD.bounding_box"><code class="docutils literal notranslate"><span class="pre">Env_2D_PCD.bounding_box</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_2D_PCD.collision_detection"><code class="docutils literal notranslate"><span class="pre">Env_2D_PCD.collision_detection</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_2D_PCD.contains"><code class="docutils literal notranslate"><span class="pre">Env_2D_PCD.contains</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_2D_PCD.forward"><code class="docutils literal notranslate"><span class="pre">Env_2D_PCD.forward</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Env_2D_PCD.get_representation"><code class="docutils literal notranslate"><span class="pre">Env_2D_PCD.get_representation</span></code></a></li>
@@ -526,6 +528,12 @@ building these docs so that <code class="docutils literal notranslate"><span cla
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_R2_Arrangement.collision_detection">
+<span class="sig-name descname"><span class="pre">collision_detection</span></span><a class="headerlink" href="#sdsl.Env_R2_Arrangement.collision_detection" title="Link to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the straight-line path from <em>q1</em> to <em>q2</em> crosses any wall segment.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="sdsl.Env_R2_Arrangement.contains">
 <span class="sig-name descname"><span class="pre">contains</span></span><a class="headerlink" href="#sdsl.Env_R2_Arrangement.contains" title="Link to this definition"></a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if <code class="docutils literal notranslate"><span class="pre">(q[0],</span> <span class="pre">q[1])</span></code> is inside the polygon.</p>
@@ -579,6 +587,12 @@ building these docs so that <code class="docutils literal notranslate"><span cla
 <dt class="sig sig-object py" id="sdsl.Env_2D_PCD.bounding_box">
 <span class="sig-name descname"><span class="pre">bounding_box</span></span><a class="headerlink" href="#sdsl.Env_2D_PCD.bounding_box" title="Link to this definition"></a></dt>
 <dd><p>Return a <code class="xref cpp cpp-class docutils literal notranslate"><span class="pre">Voxel_R3</span></code> covering the full configuration space.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Env_2D_PCD.collision_detection">
+<span class="sig-name descname"><span class="pre">collision_detection</span></span><a class="headerlink" href="#sdsl.Env_2D_PCD.collision_detection" title="Link to this definition"></a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if the straight-line path from <em>q1</em> to <em>q2</em> crosses any point in the cloud.</p>
 </dd></dl>
 
 <dl class="py attribute">
