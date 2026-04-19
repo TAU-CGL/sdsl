@@ -18,7 +18,7 @@ from matplotlib.collections import LineCollection
 import sdsl
 from sdsl.loaders.load_pgm_map import load_pgm_map
 
-MAP_YAML     = "resources/maps/2d/slam/apt.yaml"
+MAP_YAML     = "resources/maps/2d/slam/apt_20250913_1449/my_map.yaml"
 N_RAYS       = 16
 RECURSION_DEPTH = 8
 KK_PRIME_RATIO  = 0.7
@@ -90,6 +90,10 @@ def main():
         if event.inaxes != ax or event.button != 1:
             return
         x, y = event.xdata, event.ydata
+
+        # -- Test if point is inside --
+        is_inside = env.contains(sdsl.R3(x, y, 0.0))
+        print(f"Clicked at ({x:.2f}, {y:.2f}) — inside={is_inside}")
 
         # --- Cast rays ---
         angles, dists = cast_rays(env, x, y)

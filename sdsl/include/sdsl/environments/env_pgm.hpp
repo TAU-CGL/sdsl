@@ -54,13 +54,16 @@ public:
         m_origin_y   = origin_y;
 
         m_occupied.resize(m_height * m_width, false);
+        m_contains.resize(m_height * m_width, false);
         for (int r = 0; r < m_height; ++r)
             for (int c = 0; c < m_width; ++c) {
                 uint8_t pix = grid(r, c);
                 double occ  = negate
-                    ? (double)pix / 255.0
-                    : 1.0 - (double)pix / 255.0;
+                ? (double)pix / 255.0
+                : 1.0 - (double)pix / 255.0;
+                // fmt::print("Pixel at ({}, {}): {}\t negate:{} occ: {}\n", r, c, pix, negate, occ);
                 m_occupied[r * m_width + c] = (occ > occupied_thresh);
+                m_contains[r * m_width + c] = (occ < 0.1); // TODO: parameterize this constant
             }
     }
 #endif // SDSL_CPP_ONLY
@@ -182,7 +185,7 @@ public:
         int row = m_height - 1 - (int)std::floor((q[1] - m_origin_y) / m_resolution);
         if (col < 0 || col >= m_width || row < 0 || row >= m_height)
             return false;
-        return !m_occupied[row * m_width + col];
+        return m_contains[row * m_width + col];
     }
 
     bool collisionDetection(Configuration<D, FT> q1, Configuration<D, FT> q2) override {
@@ -242,6 +245,7 @@ public:
 
 private:
     std::vector<bool> m_occupied; ///< row-major; true = obstacle
+    std::vector<bool> m_contains; ///< row-major; true = free (not an obstacle, and not gray void)
     int    m_width      = 0;
     int    m_height     = 0;
     double m_resolution = 1.0;
