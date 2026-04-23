@@ -3,6 +3,9 @@
 #pragma once
 
 #include <vector>
+#include <limits>
+#include <numeric>
+#include <algorithm>
 
 #include "sdsl/math_utils.hpp"
 #include "sdsl/configuration.hpp"
@@ -20,30 +23,58 @@ namespace sdsl {
     std::vector<FT> fusion_2d(
         std::vector<Voxel<3,FT>> Xt_, std::vector<FT> Bel_Xt_,
         std::vector<Voxel<3,FT>> Xt, Configuration<3,FT> Ut, FT eps) {
-        std::vector<FT> Bel_Xt(Xt.size(), 0.0);
+
         FT eps_ = 2 * eps * eps; // eps' = 2 * eps^2
+        FT log_normalization = -0.5 * log(eps_ * M_PI);
+        FT neg_inf = -std::numeric_limits<FT>::infinity();
+        std::vector<FT> log_Bel_Xt(Xt.size(), neg_inf);
+
         for (size_t i = 0; i < Xt.size(); ++i) {
             auto qi = Xt[i].midpoint();
-            Bel_Xt[i] = 0.0;
+
+            // Compute log-weights for log-sum-exp
+            std::vector<FT> log_w(Xt_.size(), neg_inf);
             for (size_t j = 0; j < Xt_.size(); ++j) {
+                if (Bel_Xt_[j] <= 0) continue;
                 auto qj = Xt_[j].midpoint();
                 Configuration<3,FT> Ut_qj( // Ut * qj
                     qj[0] + Ut[0] * cos(qj[2]) - Ut[1] * sin(qj[2]),
                     qj[1] + Ut[0] * sin(qj[2]) + Ut[1] * cos(qj[2]),
                     qj[2] + Ut[2]
                 );
-                FT norm2= (qi[0] - Ut_qj[0]) * (qi[0] - Ut_qj[0]) + (qi[1] - Ut_qj[1]) * (qi[1] - Ut_qj[1]);
-                FT s = 1 / sqrt(eps_ * M_PI) * exp(-norm2 / eps_);
-                Bel_Xt[i] += s * Bel_Xt_[j];
+                FT norm2 = (qi[0] - Ut_qj[0]) * (qi[0] - Ut_qj[0]) + (qi[1] - Ut_qj[1]) * (qi[1] - Ut_qj[1]);
+                log_w[j] = log_normalization - norm2 / eps_ + log(Bel_Xt_[j]);
             }
+
+            // log-sum-exp over j
+            FT m = *std::max_element(log_w.begin(), log_w.end());
+            if (m == neg_inf) continue;
+            FT sum = 0;
+            for (auto lw : log_w)
+                if (lw > neg_inf)
+                    sum += exp(lw - m);
+            log_Bel_Xt[i] = m + log(sum);
         }
 
-        // Normalize Bel_Xt
-        FT sum = 0.0;
-        for (auto b : Bel_Xt) sum += b;
-        if (sum > 0) {
-            for (auto& b : Bel_Xt) b /= sum;
-        }
+        // Normalize in log space, then exponentiate
+        FT log_m = *std::max_element(log_Bel_Xt.begin(), log_Bel_Xt.end());
+        FT log_sum = 0;
+        for (auto lb : log_Bel_Xt)
+            if (lb > neg_inf)
+                log_sum += exp(lb - log_m);
+        log_sum = log_m + log(log_sum);
+
+        std::vector<FT> Bel_Xt(Xt.size());
+        for (size_t i = 0; i < Xt.size(); ++i)
+            Bel_Xt[i] = exp(log_Bel_Xt[i] - log_sum);
+        
+        // Finally, add a small constant and re-normalize
+        for (auto& b : Bel_Xt)
+            b += 1e-4;
+        FT total = std::accumulate(Bel_Xt.begin(), Bel_Xt.end(), static_cast<FT>(0));
+        for (auto& b : Bel_Xt)
+            b /= total;
+
         return Bel_Xt;
     }
 }

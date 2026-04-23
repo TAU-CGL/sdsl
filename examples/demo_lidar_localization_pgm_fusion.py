@@ -25,12 +25,13 @@ import sdsl
 from sdsl.loaders.load_pgm_map import load_pgm_map
 
 MAP_YAML        = "resources/maps/2d/slam/simple_symmetry/map.yaml"
+# MAP_YAML        = "resources/maps/2d/slam/apt_20250913_1449/my_map.yaml"
 N_RAYS          = 16
-RECURSION_DEPTH = 7
+RECURSION_DEPTH = 9
 KK_PRIME_RATIO  = 0.8
 ERROR_BOUND     = 0.015
 TIMEOUT         = 1.0
-FUSION_EPS      = 0.01   # Gaussian std-dev for the motion model (metres / radians)
+FUSION_EPS      = 0.015   # Gaussian std-dev for the motion model (metres / radians)
 
 
 # ---------------------------------------------------------------------------
@@ -46,6 +47,8 @@ ROS_CMAP = _make_ros_cmap()
 def corrupt_measurements(dists, kk_prime_ratio):
     """Corrupt (1 − kk_prime_ratio) fraction of measurements by a random factor."""
     noisy     = dists.copy()
+    if kk_prime_ratio >= 1.0:
+        return noisy
     n_corrupt = round((1 - kk_prime_ratio) * len(dists)) - 1
     idx       = np.random.choice(len(dists), size=n_corrupt, replace=False)
     noisy[idx] *= np.random.uniform(0.1, 3.0, size=n_corrupt)
@@ -209,16 +212,37 @@ def main():
 
         fig.canvas.draw_idle()
 
-        vol=voxels[0].volume()
+        vol = voxels[0].volume() / (voxels[0].top_right[2] - voxels[0].bottom_left[2])   
+        vol = 1
         b = beliefs
         N = len(b)
         print(f"Belief distribution: {np.max(b)}, {np.min(b)}, {np.sum(b)}")
         b = b / b.sum()
         # print(f"Entropy: {-np.sum(b * np.log(b + 1e-12))}")
         mask = b > 0
-        H=-np.sum(b[mask] * np.log(b[mask]) * vol)
+        H = -np.sum(b[mask] * np.log(b[mask]) * vol)
         # H_norm = H / np.log(N)
         print(f"Entropy: {H}")
+
+        # Fixed entropy
+        projected_centers = []
+        projected_beliefs = []
+        for i, v in enumerate(voxels):
+            p = v.midpoint()
+            p = np.array([p[0], p[1]])
+            p = np.round(p, 6)
+            idx = next((j for j, c in enumerate(projected_centers) if np.array_equal(c, p)), None)
+            if idx is None:
+                projected_centers.append(p)
+                projected_beliefs.append(beliefs[i])
+            else:
+                projected_beliefs[idx] += beliefs[i]
+        b = np.array(projected_beliefs)
+        H = -np.sum(b * np.log(b + 1e-12) * vol)
+        for p, b in zip(projected_centers, projected_beliefs):
+            print(f"Projected voxel: center=({p[0]:.6f}, {p[1]:.6f}), belief={b:.4f}")
+        print(f"Projected entropy: {H}")
+
 
     fig.canvas.mpl_connect("button_press_event", on_click)
     plt.show()
