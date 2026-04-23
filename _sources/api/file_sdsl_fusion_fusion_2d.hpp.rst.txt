@@ -30,6 +30,12 @@ Includes
 --------
 
 
+- ``algorithm``
+
+- ``limits``
+
+- ``numeric``
+
 - ``sdsl/configuration.hpp`` (:ref:`file_sdsl_configuration.hpp`)
 
 - ``sdsl/math_utils.hpp`` (:ref:`file_sdsl_math_utils.hpp`)
