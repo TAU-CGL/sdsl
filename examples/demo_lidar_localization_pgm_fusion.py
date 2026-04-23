@@ -24,9 +24,9 @@ from matplotlib.colors import LinearSegmentedColormap, hsv_to_rgb
 import sdsl
 from sdsl.loaders.load_pgm_map import load_pgm_map
 
-MAP_YAML        = "resources/maps/2d/slam/apt.yaml"
+MAP_YAML        = "resources/maps/2d/slam/simple_symmetry/map.yaml"
 N_RAYS          = 16
-RECURSION_DEPTH = 9
+RECURSION_DEPTH = 7
 KK_PRIME_RATIO  = 0.8
 ERROR_BOUND     = 0.015
 TIMEOUT         = 1.0
@@ -188,6 +188,10 @@ def main():
         centers = np.array([[v.midpoint()[0], v.midpoint()[1]] for v in voxels])
         beliefs = np.array(belief, dtype=float)
 
+        for i, (v, b) in enumerate(zip(voxels, beliefs)):
+            print(f"Voxel {i}: center=({v.midpoint()[0]:.6f}, {v.midpoint()[1]:.6f}), ({v.midpoint()[2]:.6f}) "
+                  f"belief={b:.4f}, volume={v.volume():.4f}")
+
         if state["scatter"] is not None:
             state["scatter"].remove()
         state["scatter"] = ax.scatter(
@@ -204,6 +208,17 @@ def main():
         state["prev_pos"]    = (x, y)
 
         fig.canvas.draw_idle()
+
+        vol=voxels[0].volume()
+        b = beliefs
+        N = len(b)
+        print(f"Belief distribution: {np.max(b)}, {np.min(b)}, {np.sum(b)}")
+        b = b / b.sum()
+        # print(f"Entropy: {-np.sum(b * np.log(b + 1e-12))}")
+        mask = b > 0
+        H=-np.sum(b[mask] * np.log(b[mask]) * vol)
+        # H_norm = H / np.log(N)
+        print(f"Entropy: {H}")
 
     fig.canvas.mpl_connect("button_press_event", on_click)
     plt.show()
