@@ -91,26 +91,32 @@
 <li class="toctree-l2"><a class="reference internal" href="#voxels">Voxels</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#sdsl.Voxel_R2"><code class="docutils literal notranslate"><span class="pre">Voxel_R2</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R2.bottom_left"><code class="docutils literal notranslate"><span class="pre">Voxel_R2.bottom_left</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R2.diameter"><code class="docutils literal notranslate"><span class="pre">Voxel_R2.diameter</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R2.expand_self"><code class="docutils literal notranslate"><span class="pre">Voxel_R2.expand_self</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R2.midpoint"><code class="docutils literal notranslate"><span class="pre">Voxel_R2.midpoint</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R2.split"><code class="docutils literal notranslate"><span class="pre">Voxel_R2.split</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R2.top_right"><code class="docutils literal notranslate"><span class="pre">Voxel_R2.top_right</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R2.volume"><code class="docutils literal notranslate"><span class="pre">Voxel_R2.volume</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#sdsl.Voxel_R3"><code class="docutils literal notranslate"><span class="pre">Voxel_R3</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R3.bottom_left"><code class="docutils literal notranslate"><span class="pre">Voxel_R3.bottom_left</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R3.diameter"><code class="docutils literal notranslate"><span class="pre">Voxel_R3.diameter</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R3.expand_self"><code class="docutils literal notranslate"><span class="pre">Voxel_R3.expand_self</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R3.midpoint"><code class="docutils literal notranslate"><span class="pre">Voxel_R3.midpoint</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R3.split"><code class="docutils literal notranslate"><span class="pre">Voxel_R3.split</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R3.top_right"><code class="docutils literal notranslate"><span class="pre">Voxel_R3.top_right</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R3.volume"><code class="docutils literal notranslate"><span class="pre">Voxel_R3.volume</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="#sdsl.Voxel_R4"><code class="docutils literal notranslate"><span class="pre">Voxel_R4</span></code></a><ul>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R4.bottom_left"><code class="docutils literal notranslate"><span class="pre">Voxel_R4.bottom_left</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R4.diameter"><code class="docutils literal notranslate"><span class="pre">Voxel_R4.diameter</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R4.expand_self"><code class="docutils literal notranslate"><span class="pre">Voxel_R4.expand_self</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R4.midpoint"><code class="docutils literal notranslate"><span class="pre">Voxel_R4.midpoint</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R4.split"><code class="docutils literal notranslate"><span class="pre">Voxel_R4.split</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R4.top_right"><code class="docutils literal notranslate"><span class="pre">Voxel_R4.top_right</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#sdsl.Voxel_R4.volume"><code class="docutils literal notranslate"><span class="pre">Voxel_R4.volume</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -348,6 +354,12 @@ building these docs so that <code class="docutils literal notranslate"><span cla
 </dd></dl>
 
 <dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Voxel_R2.diameter">
+<span class="sig-name descname"><span class="pre">diameter</span></span><a class="headerlink" href="#sdsl.Voxel_R2.diameter" title="Link to this definition"></a></dt>
+<dd><p>Return the Euclidean distance between <code class="docutils literal notranslate"><span class="pre">bottom_left</span></code> and <code class="docutils literal notranslate"><span class="pre">top_right</span></code>.</p>
+</dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="sdsl.Voxel_R2.expand_self">
 <span class="sig-name descname"><span class="pre">expand_self</span></span><a class="headerlink" href="#sdsl.Voxel_R2.expand_self" title="Link to this definition"></a></dt>
 <dd><p><code class="docutils literal notranslate"><span class="pre">bottom_left</span> <span class="pre">-=</span> <span class="pre">delta</span></code>, <code class="docutils literal notranslate"><span class="pre">top_right</span> <span class="pre">+=</span> <span class="pre">delta</span></code>.</p>
@@ -384,6 +396,12 @@ building these docs so that <code class="docutils literal notranslate"><span cla
 <dd><p>Upper corner of the voxel.</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Voxel_R2.volume">
+<span class="sig-name descname"><span class="pre">volume</span></span><a class="headerlink" href="#sdsl.Voxel_R2.volume" title="Link to this definition"></a></dt>
+<dd><p>Return the volume of the voxel.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -395,6 +413,12 @@ building these docs so that <code class="docutils literal notranslate"><span cla
 <dt class="sig sig-object py" id="sdsl.Voxel_R3.bottom_left">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bottom_left</span></span><a class="headerlink" href="#sdsl.Voxel_R3.bottom_left" title="Link to this definition"></a></dt>
 <dd><p>Lower corner of the voxel.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Voxel_R3.diameter">
+<span class="sig-name descname"><span class="pre">diameter</span></span><a class="headerlink" href="#sdsl.Voxel_R3.diameter" title="Link to this definition"></a></dt>
+<dd><p>Return the Euclidean distance between <code class="docutils literal notranslate"><span class="pre">bottom_left</span></code> and <code class="docutils literal notranslate"><span class="pre">top_right</span></code>.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -434,6 +458,12 @@ building these docs so that <code class="docutils literal notranslate"><span cla
 <dd><p>Upper corner of the voxel.</p>
 </dd></dl>
 
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Voxel_R3.volume">
+<span class="sig-name descname"><span class="pre">volume</span></span><a class="headerlink" href="#sdsl.Voxel_R3.volume" title="Link to this definition"></a></dt>
+<dd><p>Return the volume of the voxel.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
@@ -445,6 +475,12 @@ building these docs so that <code class="docutils literal notranslate"><span cla
 <dt class="sig sig-object py" id="sdsl.Voxel_R4.bottom_left">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bottom_left</span></span><a class="headerlink" href="#sdsl.Voxel_R4.bottom_left" title="Link to this definition"></a></dt>
 <dd><p>Lower corner of the voxel.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Voxel_R4.diameter">
+<span class="sig-name descname"><span class="pre">diameter</span></span><a class="headerlink" href="#sdsl.Voxel_R4.diameter" title="Link to this definition"></a></dt>
+<dd><p>Return the Euclidean distance between <code class="docutils literal notranslate"><span class="pre">bottom_left</span></code> and <code class="docutils literal notranslate"><span class="pre">top_right</span></code>.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -482,6 +518,12 @@ building these docs so that <code class="docutils literal notranslate"><span cla
 <dt class="sig sig-object py" id="sdsl.Voxel_R4.top_right">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">top_right</span></span><a class="headerlink" href="#sdsl.Voxel_R4.top_right" title="Link to this definition"></a></dt>
 <dd><p>Upper corner of the voxel.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sdsl.Voxel_R4.volume">
+<span class="sig-name descname"><span class="pre">volume</span></span><a class="headerlink" href="#sdsl.Voxel_R4.volume" title="Link to this definition"></a></dt>
+<dd><p>Return the volume of the voxel.</p>
 </dd></dl>
 
 </dd></dl>
