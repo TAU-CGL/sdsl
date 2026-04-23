@@ -64,6 +64,10 @@ void bind_voxel(nb::module_ &m, const char* name) {
         .def("expand_self", &Voxel<D, double>::expandSelf,
              nb::arg("delta"),
              "Expand the voxel in-place: ``bottom_left -= delta``, ``top_right += delta``.")
+        .def("diameter", &Voxel<D, double>::diameter,
+             "Return the Euclidean distance between ``bottom_left`` and ``top_right``.")
+        .def("volume", [](const Voxel<D, double>& v) { return v.volume(); },
+             "Return the volume of the voxel.")
         .def("split", [](const Voxel<D, double>& v) {
             std::vector<Voxel<D, double>> result;
             v.split(result);

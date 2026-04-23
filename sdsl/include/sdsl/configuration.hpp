@@ -116,6 +116,23 @@ namespace sdsl {
             return sqrt(res);
         }
 
+        /// @brief Computes the volume of the first `m` dimensions of the voxel.
+        /// @param m Number of dimensions to consider (must be <= D).
+        /// @return Volume of the first `m` dimensions.
+        FT volume(size_t m) const {
+            FT vol = 1;
+            for (size_t i = 0; i < m; ++i) {
+                vol *= (topRight[i] - bottomLeft[i]);
+            }
+            return vol;
+        }
+
+        /// @brief Computes the volume of the voxel.
+        /// @return Volume of the voxel.
+        FT volume() const {
+            return volume(D);
+        }
+
     private:
         // Generate subvoxel for a given binary index
         // Index's bits determine which corners to use (0 = bottom, 1 = top for each dimension)

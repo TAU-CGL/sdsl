@@ -215,3 +215,37 @@ def test_voxel_4d_split_natural():
         for i in range(4):
             assert sv.bottom_left[i] >= bl[i]
             assert sv.top_right[i] <= tr[i]
+
+def test_voxel_3d_diameter():
+    bl = sdsl.R3()
+    bl[0] = 0.0
+    bl[1] = 0.0
+    bl[2] = 0.0
+    
+    tr = sdsl.R3()
+    tr[0] = 1.0
+    tr[1] = 2.0
+    tr[2] = 2.0
+    
+    v = sdsl.Voxel_R3(bl, tr)
+    diameter = v.diameter()
+    
+    expected_diameter = ((1.0 - 0.0)**2 + (2.0 - 0.0)**2 + (2.0 - 0.0)**2) ** 0.5
+    assert diameter == expected_diameter
+
+def test_voxel_3d_volume():
+    bl = sdsl.R3()
+    bl[0] = 0.0
+    bl[1] = 0.0
+    bl[2] = 0.0
+    
+    tr = sdsl.R3()
+    tr[0] = 2.0
+    tr[1] = 3.0
+    tr[2] = 4.0
+    
+    v = sdsl.Voxel_R3(bl, tr)
+    volume = v.volume()
+    
+    expected_volume = (2.0 - 0.0) * (3.0 - 0.0) * (4.0 - 0.0)
+    assert volume == expected_volume
