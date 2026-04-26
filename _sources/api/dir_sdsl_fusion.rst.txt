@@ -17,5 +17,6 @@ Files
 -----
 
 - :ref:`file_sdsl_fusion_fusion_2d.hpp`
+- :ref:`file_sdsl_fusion_metrics.hpp`
 
 

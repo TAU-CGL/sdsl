@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Template Function sdsl::maxMinOnTrigRange &mdash; SDSL Docs</title>
+  <title>Template Function sdsl::entropy_SE2 &mdash; SDSL Docs</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
@@ -22,8 +22,8 @@
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Variable sdsl::INF" href="variable_namespacesdsl_1ae9fa3c21c9d997680fe00abad004b1ca.html" />
-    <link rel="prev" title="Template Function sdsl::localize_omp_forkjoin" href="function_namespacesdsl_1ae3efda00614795b62b9f1cd7a5ce162a.html" /> 
+    <link rel="next" title="Template Function sdsl::fusion_2d" href="function_namespacesdsl_1a4336496a948a4cb34eb9984955811395.html" />
+    <link rel="prev" title="Class Random" href="classsdsl_1_1Random.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -67,10 +67,10 @@
 <li class="toctree-l3"><a class="reference internal" href="library_root.html#namespaces">Namespaces</a></li>
 <li class="toctree-l3"><a class="reference internal" href="library_root.html#classes-and-structs">Classes and Structs</a></li>
 <li class="toctree-l3 current"><a class="reference internal" href="library_root.html#functions">Functions</a><ul class="current">
-<li class="toctree-l4"><a class="reference internal" href="function_namespacesdsl_1a6a43a31d0167b953ec39eb3ffcb949e6.html">Template Function sdsl::entropy_SE2</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Template Function sdsl::entropy_SE2</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacesdsl_1a4336496a948a4cb34eb9984955811395.html">Template Function sdsl::fusion_2d</a></li>
 <li class="toctree-l4"><a class="reference internal" href="function_namespacesdsl_1ae3efda00614795b62b9f1cd7a5ce162a.html">Template Function sdsl::localize_omp_forkjoin</a></li>
-<li class="toctree-l4 current"><a class="current reference internal" href="#">Template Function sdsl::maxMinOnTrigRange</a></li>
+<li class="toctree-l4"><a class="reference internal" href="function_namespacesdsl_1a2bc91993bafcb52a552eb0128dd50896.html">Template Function sdsl::maxMinOnTrigRange</a></li>
 </ul>
 </li>
 <li class="toctree-l3"><a class="reference internal" href="library_root.html#variables">Variables</a></li>
@@ -97,9 +97,9 @@
   <ul class="wy-breadcrumbs">
       <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
           <li class="breadcrumb-item"><a href="library_root.html">C++ API Reference</a></li>
-      <li class="breadcrumb-item active">Template Function sdsl::maxMinOnTrigRange</li>
+      <li class="breadcrumb-item active">Template Function sdsl::entropy_SE2</li>
       <li class="wy-breadcrumbs-aside">
-            <a href="../_sources/api/function_namespacesdsl_1a2bc91993bafcb52a552eb0128dd50896.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../_sources/api/function_namespacesdsl_1a6a43a31d0167b953ec39eb3ffcb949e6.rst.txt" rel="nofollow"> View page source</a>
       </li>
   </ul>
   <hr/>
@@ -107,35 +107,29 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
              
-  <section id="template-function-sdsl-maxminontrigrange">
-<span id="exhale-function-namespacesdsl-1a2bc91993bafcb52a552eb0128dd50896"></span><h1>Template Function sdsl::maxMinOnTrigRange<a class="headerlink" href="#template-function-sdsl-maxminontrigrange" title="Link to this heading"></a></h1>
+  <section id="template-function-sdsl-entropy-se2">
+<span id="exhale-function-namespacesdsl-1a6a43a31d0167b953ec39eb3ffcb949e6"></span><h1>Template Function sdsl::entropy_SE2<a class="headerlink" href="#template-function-sdsl-entropy-se2" title="Link to this heading"></a></h1>
 <ul class="simple">
-<li><p>Defined in <a class="reference internal" href="file_sdsl_math_utils.hpp.html#file-sdsl-math-utils-hpp"><span class="std std-ref">File math_utils.hpp</span></a></p></li>
+<li><p>Defined in <a class="reference internal" href="file_sdsl_fusion_metrics.hpp.html#file-sdsl-fusion-metrics-hpp"><span class="std std-ref">File metrics.hpp</span></a></p></li>
 </ul>
 <section id="function-documentation">
 <h2>Function Documentation<a class="headerlink" href="#function-documentation" title="Link to this heading"></a></h2>
 <dl class="cpp function">
-<dt class="sig sig-object cpp" id="_CPPv4I0EN4sdsl17maxMinOnTrigRangeEv2FT2FT2FT2FTR2FTR2FT">
-<span id="_CPPv3I0EN4sdsl17maxMinOnTrigRangeE2FT2FT2FT2FTR2FTR2FT"></span><span id="_CPPv2I0EN4sdsl17maxMinOnTrigRangeE2FT2FT2FT2FTR2FTR2FT"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FT</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="namespacesdsl_1a2bc91993bafcb52a552eb0128dd50896"></span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">sdsl</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">maxMinOnTrigRange</span></span></span><span class="sig-paren">(</span><a class="reference internal" href="#_CPPv4I0EN4sdsl17maxMinOnTrigRangeEv2FT2FT2FT2FTR2FTR2FT" title="sdsl::maxMinOnTrigRange::FT"><span class="n"><span class="pre">FT</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">a</span></span>, <a class="reference internal" href="#_CPPv4I0EN4sdsl17maxMinOnTrigRangeEv2FT2FT2FT2FTR2FTR2FT" title="sdsl::maxMinOnTrigRange::FT"><span class="n"><span class="pre">FT</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">b</span></span>, <a class="reference internal" href="#_CPPv4I0EN4sdsl17maxMinOnTrigRangeEv2FT2FT2FT2FTR2FTR2FT" title="sdsl::maxMinOnTrigRange::FT"><span class="n"><span class="pre">FT</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">x1</span></span>, <a class="reference internal" href="#_CPPv4I0EN4sdsl17maxMinOnTrigRangeEv2FT2FT2FT2FTR2FTR2FT" title="sdsl::maxMinOnTrigRange::FT"><span class="n"><span class="pre">FT</span></span></a><span class="w"> </span><span class="n sig-param"><span class="pre">x2</span></span>, <a class="reference internal" href="#_CPPv4I0EN4sdsl17maxMinOnTrigRangeEv2FT2FT2FT2FTR2FTR2FT" title="sdsl::maxMinOnTrigRange::FT"><span class="n"><span class="pre">FT</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">max</span></span>, <a class="reference internal" href="#_CPPv4I0EN4sdsl17maxMinOnTrigRangeEv2FT2FT2FT2FTR2FTR2FT" title="sdsl::maxMinOnTrigRange::FT"><span class="n"><span class="pre">FT</span></span></a><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">min</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN4sdsl17maxMinOnTrigRangeEv2FT2FT2FT2FTR2FTR2FT" title="Link to this definition"></a><br /></dt>
-<dd><p>Returns the maximum and minimum of the function h(x) = acos(x) + bsin(x) </p>
-<p>Returns the maximum and minimum of the function h(x) = acos(x) + bsin(x) on the interval [x1, x2], where a, b are given contants.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>We assume that [x1, x2] \subseteq [0, 2pi]</p>
-</div>
+<dt class="sig sig-object cpp" id="_CPPv4I0EN4sdsl11entropy_SE2E2FTRKNSt6vectorI5VoxelIXL3EE2FTEEERKNSt6vectorI2FTEE">
+<span id="_CPPv3I0EN4sdsl11entropy_SE2ERKNSt6vectorI5VoxelIXL3EE2FTEEERKNSt6vectorI2FTEE"></span><span id="_CPPv2I0EN4sdsl11entropy_SE2ERKNSt6vectorI5VoxelIX3E2FTEEERKNSt6vectorI2FTEE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="k"><span class="pre">typename</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FT</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="namespacesdsl_1a6a43a31d0167b953ec39eb3ffcb949e6"></span><a class="reference internal" href="#_CPPv4I0EN4sdsl11entropy_SE2E2FTRKNSt6vectorI5VoxelIXL3EE2FTEEERKNSt6vectorI2FTEE" title="sdsl::entropy_SE2::FT"><span class="n"><span class="pre">FT</span></span></a><span class="w"> </span><span class="sig-prename descclassname"><span class="n"><span class="pre">sdsl</span></span><span class="p"><span class="pre">::</span></span></span><span class="sig-name descname"><span class="n"><span class="pre">entropy_SE2</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel"><span class="n"><span class="pre">Voxel</span></span></a><span class="p"><span class="pre">&lt;</span></span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I0EN4sdsl11entropy_SE2E2FTRKNSt6vectorI5VoxelIXL3EE2FTEEERKNSt6vectorI2FTEE" title="sdsl::entropy_SE2::FT"><span class="n"><span class="pre">FT</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">voxels</span></span>, <span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I0EN4sdsl11entropy_SE2E2FTRKNSt6vectorI5VoxelIXL3EE2FTEEERKNSt6vectorI2FTEE" title="sdsl::entropy_SE2::FT"><span class="n"><span class="pre">FT</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">beliefs</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4I0EN4sdsl11entropy_SE2E2FTRKNSt6vectorI5VoxelIXL3EE2FTEEERKNSt6vectorI2FTEE" title="Link to this definition"></a><br /></dt>
+<dd><p>Projected (on R2) entropy of a SE(2) belief distribution. </p>
+<p>Voxels that share the same (x, y) bounding box are collapsed into a single projected voxel and their beliefs are summed before computing entropy. This removes the angular redundancy that inflates a naive Shannon entropy when many voxels cover the same spatial location but differ only in their theta extent.</p>
+<p>H = -sum_i b_i * log(b_i + eps) * vol_xy</p>
+<p>where the sum is over the <em>projected</em> (x, y) voxels, eps = 1e-12, and vol_xy is the 2-D area of a voxel (first two dimensions).</p>
 <dl class="field-list simple">
-<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>FT</strong> – Field type. Usually double. </p>
-</dd>
-<dt class="field-even">Parameters<span class="colon">:</span></dt>
-<dd class="field-even"><ul class="simple">
-<li><p><strong>a</strong> – </p></li>
-<li><p><strong>b</strong> – </p></li>
-<li><p><strong>x1</strong> – </p></li>
-<li><p><strong>x2</strong> – </p></li>
-<li><p><strong>max</strong> – Reference to max output (de-facto return) </p></li>
-<li><p><strong>min</strong> – Reference to min output (de-facto return) </p></li>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>voxels</strong> – SE(2) voxels (D=3). All voxels are assumed to have the same (x, y) side-lengths (uniform recursion depth). </p></li>
+<li><p><strong>beliefs</strong> – Belief weight for each voxel (need not be normalised, but must be non-negative and correspond 1-to-1 with voxels). </p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Projected differential entropy H. </p>
 </dd>
 </dl>
 </dd></dl>
@@ -147,8 +141,8 @@
            </div>
           </div>
           <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
-        <a href="function_namespacesdsl_1ae3efda00614795b62b9f1cd7a5ce162a.html" class="btn btn-neutral float-left" title="Template Function sdsl::localize_omp_forkjoin" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
-        <a href="variable_namespacesdsl_1ae9fa3c21c9d997680fe00abad004b1ca.html" class="btn btn-neutral float-right" title="Variable sdsl::INF" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="classsdsl_1_1Random.html" class="btn btn-neutral float-left" title="Class Random" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="function_namespacesdsl_1a4336496a948a4cb34eb9984955811395.html" class="btn btn-neutral float-right" title="Template Function sdsl::fusion_2d" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
     </div>
 
   <hr/>

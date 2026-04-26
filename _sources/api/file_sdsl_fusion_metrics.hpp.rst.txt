@@ -1,0 +1,60 @@
+
+.. _file_sdsl_fusion_metrics.hpp:
+
+File metrics.hpp
+================
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl_fusion>` (``sdsl/fusion``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+Belief-distribution metrics for SDSL fusion (SE(2) C-space). 
+
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``sdsl/fusion/metrics.hpp``)
+----------------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``cmath``
+
+- ``map``
+
+- ``sdsl/configuration.hpp`` (:ref:`file_sdsl_configuration.hpp`)
+
+- ``tuple``
+
+- ``vector``
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_sdsl`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespacesdsl_1a6a43a31d0167b953ec39eb3ffcb949e6`
+

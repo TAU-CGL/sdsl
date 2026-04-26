@@ -80,6 +80,11 @@ Files
 .. toctree::
    :maxdepth: 5
 
+   file_sdsl_fusion_metrics.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
    file_sdsl_predicates_pred_always_true.hpp.rst
 
 .. toctree::

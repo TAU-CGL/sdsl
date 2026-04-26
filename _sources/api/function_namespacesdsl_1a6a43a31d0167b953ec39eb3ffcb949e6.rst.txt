@@ -1,0 +1,14 @@
+.. _exhale_function_namespacesdsl_1a6a43a31d0167b953ec39eb3ffcb949e6:
+
+Template Function sdsl::entropy_SE2
+===================================
+
+- Defined in :ref:`file_sdsl_fusion_metrics.hpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: sdsl::entropy_SE2(const std::vector<Voxel<3, FT>>&, const std::vector<FT>&)
+   :project: sdsl
