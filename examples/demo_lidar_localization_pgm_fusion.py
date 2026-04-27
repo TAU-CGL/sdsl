@@ -225,22 +225,7 @@ def main():
         print(f"Entropy: {H}")
 
         # Fixed entropy
-        projected_centers = []
-        projected_beliefs = []
-        for i, v in enumerate(voxels):
-            p = v.midpoint()
-            p = np.array([p[0], p[1]])
-            p = np.round(p, 6)
-            idx = next((j for j, c in enumerate(projected_centers) if np.array_equal(c, p)), None)
-            if idx is None:
-                projected_centers.append(p)
-                projected_beliefs.append(beliefs[i])
-            else:
-                projected_beliefs[idx] += beliefs[i]
-        b = np.array(projected_beliefs)
-        H = -np.sum(b * np.log(b + 1e-12) * vol)
-        for p, b in zip(projected_centers, projected_beliefs):
-            print(f"Projected voxel: center=({p[0]:.6f}, {p[1]:.6f}), belief={b:.4f}")
+        H = sdsl.entropy_SE2(voxels, list(beliefs))
         print(f"Projected entropy: {H}")
 
 

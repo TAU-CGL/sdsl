@@ -51,7 +51,7 @@ namespace sdsl {
         const FT eps  = static_cast<FT>(1e-12);
         FT H = static_cast<FT>(0);
         for (const auto& [k, b] : projected)
-            H -= b * std::log(b + eps) * vol;
+            H -= b * std::log(b + eps); // TODO: multiply by vol
 
         return H;
     }
