@@ -32,7 +32,7 @@ KK_PRIME_RATIO  = 0.8
 ERROR_BOUND     = 0.015
 TIMEOUT         = 1.0
 FUSION_EPS      = 0.015   # Gaussian std-dev for the motion model (metres / radians)
-INITIAL_THETA = 0.707
+INITIAL_THETA = 0.0
 
 
 # ---------------------------------------------------------------------------
