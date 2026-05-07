@@ -1,0 +1,26 @@
+
+.. _namespace_sdsl__detail:
+
+Namespace sdsl::detail
+======================
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+
+
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespacesdsl_1_1detail_1a5a6c570f42acba00fd07dfa3f8740da7`
+
+- :ref:`exhale_function_namespacesdsl_1_1detail_1a6bfa02e1340c56aeee2e8e092257b409`
+
+- :ref:`exhale_function_namespacesdsl_1_1detail_1a8b8e07425e5cf87018b83b2f231241e5`
+
+- :ref:`exhale_function_namespacesdsl_1_1detail_1a2741b1cdafc4839286fdd0edd23b8224`

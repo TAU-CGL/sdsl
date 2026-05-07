@@ -45,6 +45,11 @@ Files
 .. toctree::
    :maxdepth: 5
 
+   file_sdsl_cleanup.hpp.rst
+
+.. toctree::
+   :maxdepth: 5
+
    file_sdsl_configuration.hpp.rst
 
 .. toctree::

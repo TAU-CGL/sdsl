@@ -1,0 +1,85 @@
+
+.. _file_sdsl_cleanup.hpp:
+
+File cleanup.hpp
+================
+
+|exhale_lsh| :ref:`Parent directory <dir_sdsl>` (``sdsl``)
+
+.. |exhale_lsh| unicode:: U+021B0 .. UPWARDS ARROW WITH TIP LEFTWARDS
+
+
+
+Cleanup utility: partitions voxels into connected, radius-bounded chunks and returns one representative voxel per chunk. 
+
+
+
+.. contents:: Contents
+   :local:
+   :backlinks: none
+
+Definition (``sdsl/cleanup.hpp``)
+---------------------------------
+
+
+
+
+
+
+Includes
+--------
+
+
+- ``algorithm``
+
+- ``cmath``
+
+- ``limits``
+
+- ``numeric``
+
+- ``queue``
+
+- ``sdsl/configuration.hpp`` (:ref:`file_sdsl_configuration.hpp`)
+
+- ``unordered_map``
+
+- ``vector``
+
+
+
+
+
+
+Namespaces
+----------
+
+
+- :ref:`namespace_sdsl`
+
+- :ref:`namespace_sdsl__detail`
+
+
+Functions
+---------
+
+
+- :ref:`exhale_function_namespacesdsl_1ae98b16286252597860c8eb8343eda97f`
+
+- :ref:`exhale_function_namespacesdsl_1_1detail_1a5a6c570f42acba00fd07dfa3f8740da7`
+
+- :ref:`exhale_function_namespacesdsl_1_1detail_1a6bfa02e1340c56aeee2e8e092257b409`
+
+- :ref:`exhale_function_namespacesdsl_1_1detail_1a8b8e07425e5cf87018b83b2f231241e5`
+
+- :ref:`exhale_function_namespacesdsl_1_1detail_1a2741b1cdafc4839286fdd0edd23b8224`
+
+
+Defines
+-------
+
+
+- :ref:`exhale_define_cleanup_8hpp_1a525335710b53cb064ca56b936120431e`
+
+- :ref:`exhale_define_cleanup_8hpp_1ae71449b1cc6e6250b91f539153a7a0d3`
+

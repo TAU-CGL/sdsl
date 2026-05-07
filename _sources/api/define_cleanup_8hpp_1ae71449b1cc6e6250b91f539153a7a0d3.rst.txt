@@ -1,0 +1,14 @@
+.. _exhale_define_cleanup_8hpp_1ae71449b1cc6e6250b91f539153a7a0d3:
+
+Define M_PI
+===========
+
+- Defined in :ref:`file_sdsl_cleanup.hpp`
+
+
+Define Documentation
+--------------------
+
+
+.. doxygendefine:: M_PI
+   :project: sdsl

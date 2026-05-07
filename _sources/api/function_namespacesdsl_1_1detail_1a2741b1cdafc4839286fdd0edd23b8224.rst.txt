@@ -1,0 +1,14 @@
+.. _exhale_function_namespacesdsl_1_1detail_1a2741b1cdafc4839286fdd0edd23b8224:
+
+Template Function sdsl::detail::voxelsAreNeighbors
+==================================================
+
+- Defined in :ref:`file_sdsl_cleanup.hpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: sdsl::detail::voxelsAreNeighbors(const Voxel<D, FT>&, const Voxel<D, FT>&, const std::vector<bool>&, FT, FT)
+   :project: sdsl

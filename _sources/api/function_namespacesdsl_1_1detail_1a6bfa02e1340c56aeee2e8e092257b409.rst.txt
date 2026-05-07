@@ -1,0 +1,14 @@
+.. _exhale_function_namespacesdsl_1_1detail_1a6bfa02e1340c56aeee2e8e092257b409:
+
+Template Function sdsl::detail::cyclicDist
+==========================================
+
+- Defined in :ref:`file_sdsl_cleanup.hpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: sdsl::detail::cyclicDist(FT, FT, FT)
+   :project: sdsl

@@ -1,0 +1,14 @@
+.. _exhale_function_namespacesdsl_1_1detail_1a5a6c570f42acba00fd07dfa3f8740da7:
+
+Template Function sdsl::detail::chunkRepresentative
+===================================================
+
+- Defined in :ref:`file_sdsl_cleanup.hpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: sdsl::detail::chunkRepresentative(const std::vector<Voxel<D, FT>>&, const std::vector<int>&, const std::vector<bool>&, FT)
+   :project: sdsl

@@ -46,6 +46,8 @@ Included By
 -----------
 
 
+- :ref:`file_sdsl_cleanup.hpp`
+
 - :ref:`file_sdsl_environment.hpp`
 
 - :ref:`file_sdsl_environments_env_R2_arrangement.hpp`

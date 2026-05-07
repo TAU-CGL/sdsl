@@ -20,6 +20,7 @@ Subdirectories
 Files
 -----
 
+- :ref:`file_sdsl_cleanup.hpp`
 - :ref:`file_sdsl_configuration.hpp`
 - :ref:`file_sdsl_environment.hpp`
 - :ref:`file_sdsl_math_utils.hpp`

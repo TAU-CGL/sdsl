@@ -1,0 +1,14 @@
+.. _exhale_function_namespacesdsl_1_1detail_1a8b8e07425e5cf87018b83b2f231241e5:
+
+Template Function sdsl::detail::intervalsTouch
+==============================================
+
+- Defined in :ref:`file_sdsl_cleanup.hpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: sdsl::detail::intervalsTouch(FT, FT, FT, FT, FT)
+   :project: sdsl

@@ -13,6 +13,13 @@ Namespace sdsl
 
 
 
+Namespaces
+----------
+
+
+- :ref:`namespace_sdsl__detail`
+
+
 Classes
 -------
 
@@ -41,6 +48,8 @@ Classes
 Functions
 ---------
 
+
+- :ref:`exhale_function_namespacesdsl_1ae98b16286252597860c8eb8343eda97f`
 
 - :ref:`exhale_function_namespacesdsl_1a6a43a31d0167b953ec39eb3ffcb949e6`
 
