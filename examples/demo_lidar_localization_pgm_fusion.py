@@ -32,6 +32,7 @@ KK_PRIME_RATIO  = 0.8
 ERROR_BOUND     = 0.015
 TIMEOUT         = 1.0
 FUSION_EPS      = 0.015   # Gaussian std-dev for the motion model (metres / radians)
+INITIAL_THETA = 0.707
 
 
 # ---------------------------------------------------------------------------
@@ -57,7 +58,7 @@ def corrupt_measurements(dists, kk_prime_ratio):
 
 
 def cast_rays(env, x, y, n=N_RAYS):
-    angles = np.linspace(0, 2 * np.pi, n, endpoint=False)
+    angles = np.linspace(INITIAL_THETA, 2 * np.pi + INITIAL_THETA, n, endpoint=False)
     dists  = np.array([env.measure_distance(sdsl.R3(x, y, theta)) for theta in angles])
     return angles, dists
 
@@ -151,7 +152,7 @@ def main():
         # 3. Localize
         # ----------------------------------------------------------------
         noisy_dists = corrupt_measurements(dists, KK_PRIME_RATIO)
-        odometry    = [sdsl.R3(0.0, 0.0, theta) for theta in angles]
+        odometry    = [sdsl.R3(0.0, 0.0, theta - INITIAL_THETA) for theta in angles]
         pred        = sdsl.Predicate_Fwd2D_Arr(
             env, odometry, list(noisy_dists), KK_PRIME_RATIO, ERROR_BOUND)
 
@@ -159,6 +160,9 @@ def main():
         voxels = sdsl.localize_omp_forkjoin_3d(
             bbox, pred, RECURSION_DEPTH, timeout=TIMEOUT, verbose=True)
         print(f"Localization: {len(voxels)} voxels in {time.time()-t0:.3f} s")
+
+        voxels = sdsl.cleanup_SE2(voxels)
+        print(f"After cleanup: {len(voxels)} connected components")
 
         if not voxels:
             state["prev_pos"] = (x, y)

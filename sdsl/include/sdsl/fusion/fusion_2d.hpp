@@ -70,7 +70,7 @@ namespace sdsl {
         
         // Finally, add a small constant and re-normalize
         for (auto& b : Bel_Xt)
-            b += 1e-4;
+            b += 1e-3;
         FT total = std::accumulate(Bel_Xt.begin(), Bel_Xt.end(), static_cast<FT>(0));
         for (auto& b : Bel_Xt)
             b /= total;

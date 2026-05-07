@@ -8,6 +8,7 @@ from ._sdsl import localize_omp_forkjoin_3d, localize_omp_forkjoin_4d
 from ._sdsl import Env_R2_Arrangement, Env_2D_PCD, Env_3D_PCD, Env_2D_PGM
 from ._sdsl import Environment, Environment4
 from ._sdsl import fusion_2d, entropy_SE2
+from ._sdsl import cleanup_SE2
 
 __all__ = [
     "seed",
@@ -19,4 +20,5 @@ __all__ = [
     "Env_R2_Arrangement", "Env_2D_PCD", "Env_3D_PCD", "Env_2D_PGM",
     "Environment", "Environment4",
     "fusion_2d", "entropy_SE2",
+    "cleanup_SE2",
 ]
