@@ -6,6 +6,7 @@
 #include <limits>
 #include <numeric>
 #include <algorithm>
+#include <cstdio>
 
 #include "sdsl/math_utils.hpp"
 #include "sdsl/configuration.hpp"
@@ -28,6 +29,11 @@ namespace sdsl {
         FT log_normalization = -0.5 * log(eps_ * M_PI);
         FT neg_inf = -std::numeric_limits<FT>::infinity();
         std::vector<FT> log_Bel_Xt(Xt.size(), neg_inf);
+
+        size_t n_prev_nonzero = 0;
+        for (auto b : Bel_Xt_) if (b > 0) ++n_prev_nonzero;
+        fprintf(stderr, "[fusion_2d] Xt_=%zu (nonzero=%zu)  Xt=%zu  eps=%.4f  eps_=%.6f\n",
+                Xt_.size(), n_prev_nonzero, Xt.size(), (double)eps, (double)eps_);
 
         for (size_t i = 0; i < Xt.size(); ++i) {
             auto qi = Xt[i].midpoint();
@@ -56,6 +62,16 @@ namespace sdsl {
             log_Bel_Xt[i] = m + log(sum);
         }
 
+        size_t n_neginf = 0;
+        FT log_max = neg_inf, log_min = std::numeric_limits<FT>::infinity();
+        for (auto lb : log_Bel_Xt) {
+            if (lb == neg_inf) { ++n_neginf; continue; }
+            if (lb > log_max) log_max = lb;
+            if (lb < log_min) log_min = lb;
+        }
+        fprintf(stderr, "[fusion_2d] log_Bel_Xt: neginf=%zu  log_max=%.3f  log_min=%.3f\n",
+                n_neginf, (double)log_max, (double)log_min);
+
         // Normalize in log space, then exponentiate
         FT log_m = *std::max_element(log_Bel_Xt.begin(), log_Bel_Xt.end());
         FT log_sum = 0;
@@ -67,13 +83,25 @@ namespace sdsl {
         std::vector<FT> Bel_Xt(Xt.size());
         for (size_t i = 0; i < Xt.size(); ++i)
             Bel_Xt[i] = exp(log_Bel_Xt[i] - log_sum);
-        
-        // Finally, add a small constant and re-normalize
+
+        FT bmax = *std::max_element(Bel_Xt.begin(), Bel_Xt.end());
+        FT bmin = *std::min_element(Bel_Xt.begin(), Bel_Xt.end());
+        FT bsum = std::accumulate(Bel_Xt.begin(), Bel_Xt.end(), static_cast<FT>(0));
+        fprintf(stderr, "[fusion_2d] after norm: max=%.6f  min=%.6f  sum=%.6f\n",
+                (double)bmax, (double)bmin, (double)bsum);
+
+        // Mix with a small uniform component to prevent belief collapse.
+        // alpha is the weight assigned to the uniform prior (1/N per voxel).
+        FT alpha = static_cast<FT>(1e-2);
+        FT uniform = alpha / static_cast<FT>(Bel_Xt.size());
         for (auto& b : Bel_Xt)
-            b += 1e-3;
-        FT total = std::accumulate(Bel_Xt.begin(), Bel_Xt.end(), static_cast<FT>(0));
-        for (auto& b : Bel_Xt)
-            b /= total;
+            b = (1 - alpha) * b + uniform;
+
+        bmax = *std::max_element(Bel_Xt.begin(), Bel_Xt.end());
+        bmin = *std::min_element(Bel_Xt.begin(), Bel_Xt.end());
+        bsum = std::accumulate(Bel_Xt.begin(), Bel_Xt.end(), static_cast<FT>(0));
+        fprintf(stderr, "[fusion_2d] after mix:  max=%.6f  min=%.6f  sum=%.6f\n",
+                (double)bmax, (double)bmin, (double)bsum);
 
         return Bel_Xt;
     }
