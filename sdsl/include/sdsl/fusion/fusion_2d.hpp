@@ -6,7 +6,6 @@
 #include <limits>
 #include <numeric>
 #include <algorithm>
-#include <cstdio>
 
 #include "sdsl/math_utils.hpp"
 #include "sdsl/configuration.hpp"
@@ -36,19 +35,26 @@ namespace sdsl {
                 Xt_.size(), n_prev_nonzero, Xt.size(), (double)eps, (double)eps_);
 
         for (size_t i = 0; i < Xt.size(); ++i) {
-            auto qi = Xt[i].midpoint();
-
             // Compute log-weights for log-sum-exp
             std::vector<FT> log_w(Xt_.size(), neg_inf);
             for (size_t j = 0; j < Xt_.size(); ++j) {
                 if (Bel_Xt_[j] <= 0) continue;
+
                 auto qj = Xt_[j].midpoint();
-                Configuration<3,FT> Ut_qj( // Ut * qj
-                    qj[0] + Ut[0] * cos(qj[2]) - Ut[1] * sin(qj[2]),
-                    qj[1] + Ut[0] * sin(qj[2]) + Ut[1] * cos(qj[2]),
-                    qj[2] + Ut[2]
-                );
-                FT norm2 = (qi[0] - Ut_qj[0]) * (qi[0] - Ut_qj[0]) + (qi[1] - Ut_qj[1]) * (qi[1] - Ut_qj[1]);
+                // Translation offset in world frame after applying Ut at qj's orientation
+                FT offset_x = Ut[0] * cos(qj[2]) - Ut[1] * sin(qj[2]);
+                FT offset_y = Ut[0] * sin(qj[2]) + Ut[1] * cos(qj[2]);
+
+                // Minimum gap between voxel i and the translated voxel j (x,y only).
+                // Zero if the voxels overlap, so quantization shifts within a voxel width cost nothing.
+                FT dx = std::max(static_cast<FT>(0), std::max(
+                    Xt_[j].bottomLeft[0] + offset_x - Xt[i].topRight[0],
+                    Xt[i].bottomLeft[0] - Xt_[j].topRight[0] - offset_x));
+                FT dy = std::max(static_cast<FT>(0), std::max(
+                    Xt_[j].bottomLeft[1] + offset_y - Xt[i].topRight[1],
+                    Xt[i].bottomLeft[1] - Xt_[j].topRight[1] - offset_y));
+                FT norm2 = dx * dx + dy * dy;
+
                 log_w[j] = log_normalization - norm2 / eps_ + log(Bel_Xt_[j]);
             }
 
