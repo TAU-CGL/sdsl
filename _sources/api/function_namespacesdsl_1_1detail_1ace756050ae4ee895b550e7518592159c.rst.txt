@@ -1,0 +1,14 @@
+.. _exhale_function_namespacesdsl_1_1detail_1ace756050ae4ee895b550e7518592159c:
+
+Template Function sdsl::detail::chunkBoundingBox
+================================================
+
+- Defined in :ref:`file_sdsl_cleanup.hpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: sdsl::detail::chunkBoundingBox(const std::vector<Voxel<D, FT>>&, const std::vector<int>&)
+   :project: sdsl

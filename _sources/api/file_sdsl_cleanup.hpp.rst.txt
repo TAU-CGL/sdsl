@@ -32,9 +32,7 @@ Includes
 
 - ``algorithm``
 
-- ``cmath``
-
-- ``limits``
+- ``iostream``
 
 - ``numeric``
 
@@ -64,11 +62,11 @@ Functions
 ---------
 
 
-- :ref:`exhale_function_namespacesdsl_1ae98b16286252597860c8eb8343eda97f`
+- :ref:`exhale_function_namespacesdsl_1ad40fdcb4e39efe7411c15667ef633e79`
 
-- :ref:`exhale_function_namespacesdsl_1_1detail_1a5a6c570f42acba00fd07dfa3f8740da7`
+- :ref:`exhale_function_namespacesdsl_1_1detail_1ace756050ae4ee895b550e7518592159c`
 
-- :ref:`exhale_function_namespacesdsl_1_1detail_1a6bfa02e1340c56aeee2e8e092257b409`
+- :ref:`exhale_function_namespacesdsl_1_1detail_1a24571e935e7865cf9487bf7aa8076ea4`
 
 - :ref:`exhale_function_namespacesdsl_1_1detail_1a8b8e07425e5cf87018b83b2f231241e5`
 

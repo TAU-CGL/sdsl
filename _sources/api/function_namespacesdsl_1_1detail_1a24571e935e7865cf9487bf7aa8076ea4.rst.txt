@@ -1,0 +1,14 @@
+.. _exhale_function_namespacesdsl_1_1detail_1a24571e935e7865cf9487bf7aa8076ea4:
+
+Template Function sdsl::detail::intervalsContain
+================================================
+
+- Defined in :ref:`file_sdsl_cleanup.hpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: sdsl::detail::intervalsContain(FT, FT, FT, FT, FT)
+   :project: sdsl

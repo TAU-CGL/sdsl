@@ -1,0 +1,14 @@
+.. _exhale_function_namespacesdsl_1ad40fdcb4e39efe7411c15667ef633e79:
+
+Template Function sdsl::cleanup
+===============================
+
+- Defined in :ref:`file_sdsl_cleanup.hpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: sdsl::cleanup(const std::vector<Voxel<D, FT>>&, const std::vector<bool>&, FT, FT, int, bool)
+   :project: sdsl
