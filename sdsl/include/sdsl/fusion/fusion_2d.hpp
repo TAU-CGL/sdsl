@@ -116,7 +116,7 @@ namespace sdsl {
 
         FT bmax = *std::max_element(Bel_Xt.begin(), Bel_Xt.end());
         FT bmin = *std::min_element(Bel_Xt.begin(), Bel_Xt.end());
-        FT bsum = std::accumulate(Bel_Xt.begin()norm2, Bel_Xt.end(), static_cast<FT>(0));
+        FT bsum = std::accumulate(Bel_Xt.begin(), Bel_Xt.end(), static_cast<FT>(0));
         fprintf(stderr, "[fusion_2d] after norm: max=%.6f  min=%.6f  sum=%.6f\n",
                 (double)bmax, (double)bmin, (double)bsum);
 
