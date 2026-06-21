@@ -34,6 +34,29 @@ namespace sdsl {
         fprintf(stderr, "[fusion_2d] Xt_=%zu (nonzero=%zu)  Xt=%zu  eps=%.4f  eps_=%.6f\n",
                 Xt_.size(), n_prev_nonzero, Xt.size(), (double)eps, (double)eps_);
 
+        for (size_t i = 0; i < Xt.size(); ++i){
+            FT wx = Xt[i].topRight[0] - Xt[i].bottomLeft[0];
+            FT wy = Xt[i].topRight[1] - Xt[i].bottomLeft[1];
+            FT wz = Xt[i].topRight[2] - Xt[i].bottomLeft[2];
+            fprintf(stderr, "voxel i=%zu  (%.4f,%.4f,%.4f) (%.4f,%.4f,%.4f)  w=(%.4f,%.4f,%.4f)\n",
+                    i, Xt[i].bottomLeft[0], Xt[i].bottomLeft[1], Xt[i].bottomLeft[2],
+                    Xt[i].topRight[0], Xt[i].topRight[1], Xt[i].topRight[2], wx, wy, wz);
+        }
+
+        for (size_t j = 0; j < Xt_.size(); ++j) {
+            if (Bel_Xt_[j] <= 0) continue;
+            auto qj = Xt_[j].midpoint();
+            FT ox = Ut[0] * cos(qj[2]) - Ut[1] * sin(qj[2]);
+            FT oy = Ut[0] * sin(qj[2]) + Ut[1] * cos(qj[2]);
+            fprintf(stderr, "old voxel j=%zu  (%.4f,%.4f,%.4f) (%.4f,%.4f,%.4f)  bel=%.4f  -> translated (%.4f,%.4f) (%.4f,%.4f)\n",
+                    j,
+                    Xt_[j].bottomLeft[0], Xt_[j].bottomLeft[1], Xt_[j].bottomLeft[2],
+                    Xt_[j].topRight[0],   Xt_[j].topRight[1],   Xt_[j].topRight[2],
+                    double(Bel_Xt_[j]),
+                    Xt_[j].bottomLeft[0] + ox, Xt_[j].bottomLeft[1] + oy,
+                    Xt_[j].topRight[0]   + ox, Xt_[j].topRight[1]   + oy);
+        }
+
         for (size_t i = 0; i < Xt.size(); ++i) {
             // Compute log-weights for log-sum-exp
             std::vector<FT> log_w(Xt_.size(), neg_inf);
@@ -56,6 +79,7 @@ namespace sdsl {
                 FT norm2 = dx * dx + dy * dy;
 
                 log_w[j] = log_normalization - norm2 / eps_ + log(Bel_Xt_[j]);
+                fprintf(stderr, "voxel i=%zu  got from j=%zu weight=%f\n", i, j, double(log_w[j]));
             }
 
             // log-sum-exp over j
@@ -92,7 +116,7 @@ namespace sdsl {
 
         FT bmax = *std::max_element(Bel_Xt.begin(), Bel_Xt.end());
         FT bmin = *std::min_element(Bel_Xt.begin(), Bel_Xt.end());
-        FT bsum = std::accumulate(Bel_Xt.begin(), Bel_Xt.end(), static_cast<FT>(0));
+        FT bsum = std::accumulate(Bel_Xt.begin()norm2, Bel_Xt.end(), static_cast<FT>(0));
         fprintf(stderr, "[fusion_2d] after norm: max=%.6f  min=%.6f  sum=%.6f\n",
                 (double)bmax, (double)bmin, (double)bsum);
 
