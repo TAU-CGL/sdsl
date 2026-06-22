@@ -62,7 +62,7 @@ Functions
 ---------
 
 
-- :ref:`exhale_function_namespacesdsl_1ad40fdcb4e39efe7411c15667ef633e79`
+- :ref:`exhale_function_namespacesdsl_1a157163b12ccec0409d15eb6ccd109fe7`
 
 - :ref:`exhale_function_namespacesdsl_1_1detail_1ace756050ae4ee895b550e7518592159c`
 
@@ -70,7 +70,7 @@ Functions
 
 - :ref:`exhale_function_namespacesdsl_1_1detail_1a8b8e07425e5cf87018b83b2f231241e5`
 
-- :ref:`exhale_function_namespacesdsl_1_1detail_1a2741b1cdafc4839286fdd0edd23b8224`
+- :ref:`exhale_function_namespacesdsl_1_1detail_1a34af9db77c48bbf45ada9db978e8006a`
 
 
 Defines
