@@ -38,7 +38,7 @@ template<int D, typename FT>
 bool voxelsAreNeighbors(
     const Voxel<D, FT>& a, const Voxel<D, FT>& b,
     const std::vector<bool>& cyclic,
-    FT period, FT eps)
+    FT period, FT eps, bool use3rdDim = false)
 {
     // auto eq = [](FT x, FT target) { return std::abs(x - target) < FT(1e-6); };
     // if ((eq(a.bottomLeft[0], 18.214453125) && eq(a.bottomLeft[1], 37.5)    && eq(a.bottomLeft[2], 3.2152237314083036) &&
@@ -74,7 +74,8 @@ bool voxelsAreNeighbors(
     //     }
     // }
 
-    for (int i = 0; i < D; ++i) {
+    int dims = use3rdDim ? D : std::min(D, 2);
+    for (int i = 0; i < dims; ++i) {
         bool isCyclic = (i < (int)cyclic.size()) && cyclic[i];
         bool adj = intervalsTouch(a.bottomLeft[i], a.topRight[i],
                                   b.bottomLeft[i], b.topRight[i], eps)
@@ -91,6 +92,17 @@ bool voxelsAreNeighbors(
                                    b.bottomLeft[i] + period, b.topRight[i] + period, eps);
         if (!adj) return false;
     }
+
+    // If not using 3rd dim, require remaining dimensions to be exactly equal
+    if (!use3rdDim) {
+        for (int i = 2; i < D; ++i) {
+            if (std::abs(a.bottomLeft[i] - b.bottomLeft[i]) > eps ||
+                std::abs(a.topRight[i] - b.topRight[i]) > eps) {
+                return false;
+            }
+        }
+    }
+
     return true;
 }
 
@@ -135,6 +147,7 @@ Voxel<D, FT> chunkBoundingBox(
 /// @param eps          Adjacency tolerance (default 1e-9).
 /// @param chunkRadius  Maximum graph radius per chunk (default 3).
 /// @param size_bound   If true, apply radius-bound chunking; if false, each component is one chunk (default true).
+/// @param use3rdDim    If true, sort by all D dimensions; if false, only sort by first 2 dimensions (default true).
 /// @return One representative voxel per chunk.
 template<int D, typename FT = double>
 std::vector<Voxel<D, FT>> cleanup(
@@ -143,7 +156,8 @@ std::vector<Voxel<D, FT>> cleanup(
     FT period = static_cast<FT>(2.0 * M_PI),
     FT eps = static_cast<FT>(1e-9),
     int chunkRadius = 3,
-    bool size_bound = false)
+    bool size_bound = false,
+    bool use3rdDim = false)
 {
     int n = static_cast<int>(voxels.size());
     if (n == 0) return {};
@@ -159,7 +173,7 @@ std::vector<Voxel<D, FT>> cleanup(
     std::vector<std::vector<int>> adj(n);
     for (int i = 0; i < n; ++i)
         for (int j = i + 1; j < n; ++j)
-            if (detail::voxelsAreNeighbors<D, FT>(voxels[i], voxels[j], cyclic, period, eps)) {
+            if (detail::voxelsAreNeighbors<D, FT>(voxels[i], voxels[j], cyclic, period, eps, use3rdDim)) {
                 adj[i].push_back(j);
                 adj[j].push_back(i);
                 parent[find(i)] = find(j);
@@ -226,6 +240,7 @@ std::vector<Voxel<D, FT>> cleanup(
         }
     }
 
+    std::cout << use3rdDim;
     for (const auto& v : result) {
         std::cout << "bl: [";
         for (int i = 0; i < D; ++i) std::cout << (i ? ", " : "") << v.bottomLeft[i];
