@@ -240,14 +240,14 @@ std::vector<Voxel<D, FT>> cleanup(
         }
     }
 
-    std::cout << use3rdDim;
-    for (const auto& v : result) {
-        std::cout << "bl: [";
-        for (int i = 0; i < D; ++i) std::cout << (i ? ", " : "") << v.bottomLeft[i];
-        std::cout << "]  tr: [";
-        for (int i = 0; i < D; ++i) std::cout << (i ? ", " : "") << v.topRight[i];
-        std::cout << "]\n";
-    }
+    // std::cout << use3rdDim;
+    // for (const auto& v : result) {
+    //     std::cout << "bl: [";
+    //     for (int i = 0; i < D; ++i) std::cout << (i ? ", " : "") << v.bottomLeft[i];
+    //     std::cout << "]  tr: [";
+    //     for (int i = 0; i < D; ++i) std::cout << (i ? ", " : "") << v.topRight[i];
+    //     std::cout << "]\n";
+    // }
 
     return result;
 }

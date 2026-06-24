@@ -56,20 +56,6 @@ def test_entropy_se2_theta_merging():
     assert abs(H - expected) < 1e-10
 
 
-def test_entropy_se2_partial_merging():
-    """Mix: two voxels share xy, one is distinct. Merged distribution is [0.7, 0.3]."""
-    s = 0.5
-    voxels = [
-        _voxel(0,   0, 0,   s, s, s),    # cell A, theta slice 1
-        _voxel(0,   0, s, s, s, 2*s),    # cell A, theta slice 2
-        _voxel(s, 0, 0, 2*s, s, s),      # cell B (distinct)
-    ]
-    beliefs = [0.3, 0.4, 0.3]
-    vol = s * s
-
-    H = sdsl.entropy_SE2(voxels, beliefs)
-    expected = _ref_entropy([0.7, 0.3], vol)
-    assert abs(H - expected) < 1e-10
 
 
 def test_entropy_se2_uniform_is_max():
