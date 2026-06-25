@@ -18,8 +18,9 @@ import time
 
 import numpy as np
 import matplotlib.pyplot as plt
-from matplotlib.collections import LineCollection
+from matplotlib.collections import LineCollection, PatchCollection
 from matplotlib.colors import LinearSegmentedColormap, hsv_to_rgb
+from matplotlib.patches import Rectangle
 
 import sdsl
 from sdsl.loaders.load_pgm_map import load_pgm_map
@@ -161,7 +162,7 @@ def main():
             bbox, pred, RECURSION_DEPTH, timeout=TIMEOUT, verbose=True)
         print(f"Localization: {len(voxels)} voxels in {time.time()-t0:.3f} s")
 
-        voxels = sdsl.cleanup_SE2(voxels)
+        # voxels = sdsl.cleanup_SE2(voxels)
         print(f"After cleanup: {len(voxels)} connected components")
 
         if not voxels:
@@ -190,9 +191,8 @@ def main():
             )
 
         # ----------------------------------------------------------------
-        # 5. Draw voxel centres coloured by belief
+        # 5. Draw voxels coloured by belief
         # ----------------------------------------------------------------
-        centers = np.array([[v.midpoint()[0], v.midpoint()[1]] for v in voxels])
         beliefs = np.array(belief, dtype=float)
 
         for i, (v, b) in enumerate(zip(voxels, beliefs)):
@@ -201,11 +201,25 @@ def main():
 
         if state["scatter"] is not None:
             state["scatter"].remove()
-        state["scatter"] = ax.scatter(
-            centers[:, 0], centers[:, 1],
-            c=beliefs, cmap=ROS_CMAP, vmin=0.0, vmax=beliefs.max() or 1.0,
-            s=20, alpha=0.2, zorder=5, linewidths=0,
-        )
+
+        patches = []
+        colors = []
+
+        for v, b in zip(voxels, beliefs):
+            bl = v.bottom_left
+            tr = v.top_right
+            width = tr[0] - bl[0]
+            height = tr[1] - bl[1]
+            rect = Rectangle((bl[0], bl[1]), width, height,
+                           edgecolor="none", facecolor=(0, 0, 0, 0))
+            patches.append(rect)
+            colors.append(b)
+
+        state["scatter"] = PatchCollection(patches, cmap=ROS_CMAP, alpha=0.4,
+                                          zorder=5, linewidths=0)
+        state["scatter"].set_array(np.array(colors))
+        state["scatter"].set_clim(vmin=0.0, vmax=beliefs.max() or 1.0)
+        ax.add_collection(state["scatter"])
 
         # ----------------------------------------------------------------
         # 6. Save state for next fusion step
