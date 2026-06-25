@@ -110,8 +110,8 @@ namespace sdsl {
                 // FT norm2 = dx * dx + dy * dy + 1000*dz * dz;
                 
 
-                FT theta_j_min = Xt_[j].bottomLeft[2] + Ut[2];
-                FT theta_j_max = Xt_[j].topRight[2] + Ut[2];
+                FT theta_j_min = std::fmod(Xt_[j].bottomLeft[2] + Ut[2], (FT)(2*M_PI));
+                FT theta_j_max = std::fmod(Xt_[j].topRight[2] + Ut[2], (FT)(2*M_PI));
                 auto cyclic_gap = [](FT a1, FT a2) {
                     FT diff = a1 - a2;
                     FT wrapped = std::atan2(std::sin(diff), std::cos(diff));
