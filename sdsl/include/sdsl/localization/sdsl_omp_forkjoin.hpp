@@ -14,7 +14,7 @@ namespace sdsl {
     std::vector<Voxel<D,FT>> localize_omp_forkjoin(
         Voxel<D,FT> boundingBox, Pred predicate, int recursionDepth, double timeout, bool verbose
     ) {
-        omp_set_num_threads(omp_get_max_threads());
+ //       omp_set_num_threads(omp_get_max_threads());
 
         std::vector<Voxel<D,FT>> voxels, localization, cleaned_localization;
         voxels.push_back(boundingBox);
@@ -34,11 +34,11 @@ namespace sdsl {
             if (verbose) fmt::print("Iteration: {}\n\t{}\n", i, voxels.size());
             localization.clear();
 
-            #pragma omp parallel
+//            #pragma omp parallel
             {
                 std::vector<Voxel<D,FT>> tmp;
 
-                #pragma omp for nowait
+ //               #pragma omp for nowait
                 for (int v_i = 0; v_i < voxels.size(); ++v_i) {
                     auto v = voxels[v_i];
                     if (predicate(v)) {
@@ -46,7 +46,7 @@ namespace sdsl {
                     }
                 }
 
-                #pragma omp critical
+//                #pragma omp critical
                 {
                     localization.insert(localization.end(), tmp.begin(), tmp.end());
                 }
