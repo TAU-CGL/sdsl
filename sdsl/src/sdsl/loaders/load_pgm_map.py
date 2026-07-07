@@ -4,6 +4,7 @@ import os
 import struct
 from dataclasses import dataclass
 import numpy as np
+from PIL import Image
 
 
 @dataclass
@@ -135,7 +136,7 @@ def load_pgm_map(yaml_path: str) -> PgmMap:
     ----------
     yaml_path : str
         Path to the ``.yaml`` file produced by ``ros2 run nav2_map_server
-        map_saver_cli`` or SLAM Toolbox.
+        map_saver_cli`` or SLAM Toolbox. The image can be either PGM or PNG.
 
     Returns
     -------
@@ -144,7 +145,7 @@ def load_pgm_map(yaml_path: str) -> PgmMap:
 
     Notes
     -----
-    The ``.pgm`` path in the YAML is resolved relative to the directory that
+    The image path in the YAML is resolved relative to the directory that
     contains the YAML file when it is not an absolute path.
     """
     yaml_dir = os.path.dirname(os.path.abspath(yaml_path))
@@ -166,7 +167,11 @@ def load_pgm_map(yaml_path: str) -> PgmMap:
     free_thresh = float(params.get("free_thresh", 0.196))
     negate = bool(int(params.get("negate", 0)))
 
-    grid = _read_pgm(image_path)
+    # Load image based on file extension
+    if image_path.lower().endswith(".png"):
+        grid = _read_png(image_path)
+    else:
+        grid = _read_pgm(image_path)
 
     return PgmMap(
         grid=grid,
@@ -177,3 +182,16 @@ def load_pgm_map(yaml_path: str) -> PgmMap:
         free_thresh=free_thresh,
         negate=negate,
     )
+
+
+def _read_png(path: str) -> np.ndarray:
+    """Read a PNG file into a (height, width) uint8 array."""
+    img = Image.open(path)
+
+    if img.mode == "RGBA":
+        img = img.convert("L")
+    elif img.mode != "L":
+        img = img.convert("L")
+
+    grid = np.array(img, dtype=np.uint8)
+    return grid
