@@ -2,6 +2,7 @@
 /// @brief Implementation of the voxel-intersection predicate in planar robots
 #pragma once
 
+#include <cassert>
 #include <vector>
 #include <memory>
 
