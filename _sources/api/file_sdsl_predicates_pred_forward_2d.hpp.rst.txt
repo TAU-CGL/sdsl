@@ -30,6 +30,8 @@ Includes
 --------
 
 
+- ``cassert``
+
 - ``fmt/core.h``
 
 - ``memory``
