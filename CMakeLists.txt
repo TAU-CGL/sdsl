@@ -12,6 +12,7 @@ set(SDSL_PROJECT_URL "https://www.cgl.cs.tau.ac.il/projects/sensor-localization-
 ###################
 
 option(SDSL_WITH_PYBINDINGS "With Python bindings" ON)
+option(SDSL_WITH_APPS "With standalone C++ demo apps" ON)
 
 set(SDSL_MODULES_REL_DIR cmake/modules)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/${SDSL_MODULES_REL_DIR})
@@ -20,3 +21,7 @@ set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 add_subdirectory(sdsl)
+
+if(SDSL_WITH_APPS)
+    add_subdirectory(apps)
+endif()
