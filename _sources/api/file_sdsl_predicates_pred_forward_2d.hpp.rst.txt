@@ -32,6 +32,8 @@ Includes
 
 - ``cassert``
 
+- ``cmath``
+
 - ``fmt/core.h``
 
 - ``memory``
