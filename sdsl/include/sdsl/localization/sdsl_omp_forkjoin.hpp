@@ -15,6 +15,7 @@ namespace sdsl {
         Voxel<D,FT> boundingBox, Pred predicate, int recursionDepth, double timeout, bool verbose
     ) {
         omp_set_num_threads(omp_get_max_threads() - 1);
+        fmt::print("Running with OpenMP, with #{} threads...\n", omp_get_max_threads() - 1);
 
         std::vector<Voxel<D,FT>> voxels, localization, cleaned_localization;
         voxels.push_back(boundingBox);
