@@ -32,6 +32,8 @@ Includes
 
 - ``array``
 
+- ``cmath``
+
 - ``cstddef``
 
 - ``string``
