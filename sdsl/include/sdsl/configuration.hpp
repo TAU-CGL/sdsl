@@ -5,6 +5,7 @@
 #include <array>
 #include <vector>
 #include <cstddef>
+#include <cmath>
 #include <string>
 #include <utility>
 
