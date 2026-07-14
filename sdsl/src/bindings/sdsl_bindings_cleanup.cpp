@@ -38,4 +38,20 @@ void sdsl_bindings_cleanup(nb::module_ &m) {
         "-------\n"
         "list[Voxel_R3]\n"
         "    One representative voxel per chunk.\n");
+
+    m.def("test_func", []() { return "test"; });
+
+    m.def("connectedComponentsWithBeliefs",
+        [](const std::vector<Voxel<3,pyFT>>& voxels,
+           bool use3rdDim,
+           const std::vector<pyFT>& beliefs) {
+            auto [compVoxels, beliefSums] = connectedComponentsWithBeliefs<3, pyFT>(
+                voxels, {false, false, true},
+                static_cast<pyFT>(2.0 * M_PI),
+                static_cast<pyFT>(1e-9), use3rdDim, &beliefs);
+            return nb::make_tuple(compVoxels, beliefSums);
+        },
+        nb::arg("voxels"),
+        nb::arg("use3rdDim"),
+        nb::arg("beliefs"));
 }

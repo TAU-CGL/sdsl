@@ -4,3 +4,21 @@ origin: [0.0, 0.0, 0.0]
 negate: 0
 occupied_thresh: 0.65
 free_thresh: 0.196
+
+rooms:
+  - name: "room_left"
+    rgb: [254, 214, 214]
+  - name: "room_right"
+    rgb: [252, 214, 214]
+  - name: "main_hall"
+    rgb: [253, 214, 214]
+  - name: "hall_left"
+    rgb: [214, 214, 252]
+  - name: "hall_right"
+    rgb: [214, 214, 253]
+
+graph_edges:
+  - [room_left, hall_left]
+  - [hall_left, main_hall]
+  - [main_hall, hall_right]
+  - [hall_right, room_right]
