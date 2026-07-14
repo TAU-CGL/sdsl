@@ -47,6 +47,7 @@ public:
             double occupied_thresh = 0.65,
             bool   negate          = false)
     {
+        // TODO: Use load method instead!
         m_height     = (int)grid.shape(0);
         m_width      = (int)grid.shape(1);
         m_resolution = resolution;
@@ -67,7 +68,25 @@ public:
             }
     }
 #endif // SDSL_CPP_ONLY
+    
+    void load(const uint8_t* grid, int width, int height, double resolution, double origin_x, double origin_y, double occupied_thresh = 0.65, bool negate = false) {
+        m_width = width;
+        m_height = height;
+        m_resolution = resolution;
+        m_origin_x = origin_x;
+        m_origin_y = origin_y;
 
+        m_occupied.resize(m_height * m_width, false);
+        m_contains.resize(m_height * m_width, false);
+        for (int r = 0; r < m_height; ++r) {
+            for (int c = 0; c < m_width; ++c) {
+                uint8_t pix = grid[r * m_width + c];
+                double occ = negate ? (double) pix/255.0 : 1.0 - (double)pix/255.0;
+                m_occupied[r * m_width + c] = (occ > occupied_thresh);
+                m_contains[r * m_width + c] = (occ < 0.1); // TODO: parametrize this constant
+            }
+        }
+    }
     // ------------------------------------------------------------------
     // intersects
     //   Quantise the spatial extent of v into pixel (row, col) ranges,

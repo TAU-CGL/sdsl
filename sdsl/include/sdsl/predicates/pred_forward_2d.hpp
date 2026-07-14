@@ -2,6 +2,8 @@
 /// @brief Implementation of the voxel-intersection predicate in planar robots
 #pragma once
 
+#include <cassert>
+#include <cmath>
 #include <vector>
 #include <memory>
 
@@ -48,7 +50,7 @@ namespace sdsl {
 
                 Voxel<D,FT> v_ = forward(m_measurements[j], m_odometry[j], v);
                 v_.expandSelf(m_error_bound);
-                // num_valid_measurements += m_env->intersects(v_) && verify(v);
+                //num_valid_measurements += m_env->intersects(v_) && verify(v);
                 num_valid_measurements += m_env->intersects(v_);
                 
                 // We need at lease k' valid measurements to return true
@@ -60,7 +62,7 @@ namespace sdsl {
         }
 
         bool verify(Voxel<D,FT> v) {
-            if (m_iteration < 3) return true; // TODO: !!! BAD CODE
+            if (m_iteration < 2) return true; // TODO: !!! BAD CODE
             Configuration<D,FT> q = v.midpoint();
             Voxel<D,FT> v_planar(v.bottomLeft, v.topRight);
             v_planar.bottomLeft[D-1] = 0;

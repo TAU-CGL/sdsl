@@ -15,6 +15,7 @@ namespace sdsl {
         Voxel<D,FT> boundingBox, Pred predicate, int recursionDepth, double timeout, bool verbose
     ) {
         omp_set_num_threads(omp_get_max_threads());
+        fmt::print("Running with OpenMP, with #{} threads...\n", omp_get_max_threads());
 
         std::vector<Voxel<D,FT>> voxels, localization, cleaned_localization;
         voxels.push_back(boundingBox);
@@ -57,13 +58,12 @@ namespace sdsl {
         }
 
         // Clean impossible localizations
-        // for (auto v : localization) {
-        //     if (predicate.verify(v))
-        //         cleaned_localization.push_back(v);
-        // }
+        for (auto v : localization) {
+            if (predicate.verify(v))
+                cleaned_localization.push_back(v);
+        }
 
-        // if (verbose) fmt::print("[Cleaned] Left: {}/{} {:.2f}%\n", 
-        //     cleaned_localization.size(), localization.size(), 100.f * cleaned_localization.size() / (float)localization.size());
+        if (verbose) fmt::print("[Cleaned] Left: {}/{} {:.2f}%\n", cleaned_localization.size(), localization.size(), 100.f * cleaned_localization.size() / (float)localization.size());
 
         // return cleaned_localization;
         return localization;
