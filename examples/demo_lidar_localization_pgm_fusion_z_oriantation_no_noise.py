@@ -25,7 +25,7 @@ from matplotlib.patches import Rectangle
 import sdsl
 from sdsl.loaders.load_pgm_map import load_pgm_map
 
-MAP_YAML        = "resources/maps/2d/slam/simple_symmetry/symmetry_2.yaml"
+MAP_YAML        = "resources/maps/2d/slam/simple_symmetry/symmetry_2_c.yaml"
 N_RAYS          = 16
 RECURSION_DEPTH = 10
 KK_PRIME_RATIO  = 1.0
@@ -257,21 +257,28 @@ def main():
 
         fig.canvas.draw_idle()
 
-        vol = voxels[0].volume() / (voxels[0].top_right[2] - voxels[0].bottom_left[2])   
-        vol = 1
-        b = beliefs
-        N = len(b)
-        print(f"Belief distribution: {np.max(b)}, {np.min(b)}, {np.sum(b)}")
-        b = b / b.sum()
-        # print(f"Entropy: {-np.sum(b * np.log(b + 1e-12))}")
-        mask = b > 0
-        H = -np.sum(b[mask] * np.log(b[mask]) * vol)
-        # H_norm = H / np.log(N)
-        print(f"Entropy: {H}")
+        # vol = voxels[0].volume() / (voxels[0].top_right[2] - voxels[0].bottom_left[2])   
+        # vol = 1
+        # b = beliefs
+        # N = len(b)
+        # print(f"Belief distribution: {np.max(b)}, {np.min(b)}, {np.sum(b)}")
+        # b = b / b.sum()
+        # # print(f"Entropy: {-np.sum(b * np.log(b + 1e-12))}")
+        # mask = b > 0
+        # H = -np.sum(b[mask] * np.log(b[mask]) * vol)
+        # # H_norm = H / np.log(N)
+        # print(f"Entropy: {H}")
+
+        # Connected components in 3D with belief summation
+        components_3d, belief_sums = sdsl.connectedComponentsWithBeliefs(voxels, True, beliefs)
 
         # Fixed entropy
-        H = sdsl.entropy_SE2(voxels, list(beliefs))
-        print(f"Projected entropy: {H}")
+        H = sdsl.entropy_SE2(voxels, list(belief))
+        print(f"Entropy: {H}")
+
+        H1 = sdsl.entropy_SE2(components_3d, list(belief_sums))
+        print(f"Entropy: {H1}")
+
         print(f"Location: x={x}, y={y}, z={z}")
 
 
