@@ -124,6 +124,42 @@ Voxel<D, FT> chunkBoundingBox(
     return Voxel<D, FT>(bl, tr);
 }
 
+/// Builds connected components using Union-Find and returns them grouped by root.
+template<int D, typename FT>
+std::unordered_map<int, std::vector<int>> buildConnectedComponents(
+    const std::vector<Voxel<D, FT>>& voxels,
+    const std::vector<bool>& cyclic,
+    FT period,
+    FT eps,
+    bool use3rdDim)
+{
+    int n = static_cast<int>(voxels.size());
+    if (n == 0) return {};
+
+    std::vector<int> parent(n);
+    std::iota(parent.begin(), parent.end(), 0);
+    auto find = [&](int x) {
+        while (parent[x] != x) { parent[x] = parent[parent[x]]; x = parent[x]; }
+        return x;
+    };
+
+    // Find neighbors and union
+    for (int i = 0; i < n; ++i) {
+        for (int j = i + 1; j < n; ++j) {
+            if (voxelsAreNeighbors<D, FT>(voxels[i], voxels[j], cyclic, period, eps, use3rdDim)) {
+                parent[find(i)] = find(j);
+            }
+        }
+    }
+
+    // Group voxels by component root
+    std::unordered_map<int, std::vector<int>> components;
+    for (int i = 0; i < n; ++i)
+        components[find(i)].push_back(i);
+
+    return components;
+}
+
 } // namespace detail
 
 /// @brief Partitions voxels into connected, radius-bounded chunks and returns
@@ -250,6 +286,56 @@ std::vector<Voxel<D, FT>> cleanup(
     // }
 
     return result;
+}
+
+/// @brief Creates connected components of voxels with optional belief summation
+///
+/// Partitions voxels into connected components using vertex-sharing adjacency.
+/// Optionally sums beliefs per component if provided.
+///
+/// @tparam D           Configuration-space dimension
+/// @tparam FT          Field type (default double)
+/// @param voxels       Input voxels
+/// @param cyclic       Per-dimension cyclicity mask (length D). Empty = all linear
+/// @param period       Period for cyclic dimensions (default 2π)
+/// @param eps          Adjacency tolerance (default 1e-9)
+/// @param use3rdDim    If true, consider all D dimensions; if false, only 2D
+/// @param beliefs      Optional pointer to belief values per voxel. If nullptr, no summation
+/// @return Pair of (component representative voxels, aggregated beliefs per component)
+template<int D, typename FT = double>
+std::pair<std::vector<Voxel<D, FT>>, std::vector<FT>> connectedComponentsWithBeliefs(
+    const std::vector<Voxel<D, FT>>& voxels,
+    const std::vector<bool>& cyclic = {},
+    FT period = static_cast<FT>(2.0 * M_PI),
+    FT eps = static_cast<FT>(1e-9),
+    bool use3rdDim = false,
+    const std::vector<FT>* beliefs = nullptr)
+{
+    int n = static_cast<int>(voxels.size());
+    if (n == 0) return {};
+
+    auto components = detail::buildConnectedComponents<D, FT>(voxels, cyclic, period, eps, use3rdDim);
+
+    std::vector<Voxel<D, FT>> resultVoxels;
+    std::vector<FT> resultBeliefs;
+
+    for (auto& [compRoot, indices] : components) {
+        (void)compRoot;
+
+        // Bounding box of component
+        resultVoxels.push_back(detail::chunkBoundingBox<D, FT>(voxels, indices));
+
+        // Sum beliefs if provided
+        FT sumBelief = FT(0);
+        if (beliefs) {
+            for (int idx : indices) {
+                sumBelief += (*beliefs)[idx];
+            }
+        }
+        resultBeliefs.push_back(sumBelief);
+    }
+
+    return {resultVoxels, resultBeliefs};
 }
 
 } // namespace sdsl
