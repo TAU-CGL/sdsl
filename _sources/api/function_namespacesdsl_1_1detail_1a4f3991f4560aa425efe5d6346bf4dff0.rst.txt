@@ -1,0 +1,14 @@
+.. _exhale_function_namespacesdsl_1_1detail_1a4f3991f4560aa425efe5d6346bf4dff0:
+
+Template Function sdsl::detail::buildConnectedComponents
+========================================================
+
+- Defined in :ref:`file_sdsl_cleanup.hpp`
+
+
+Function Documentation
+----------------------
+
+
+.. doxygenfunction:: sdsl::detail::buildConnectedComponents(const std::vector<Voxel<D, FT>>&, const std::vector<bool>&, FT, FT, bool)
+   :project: sdsl

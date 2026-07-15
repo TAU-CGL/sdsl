@@ -64,6 +64,10 @@ Functions
 
 - :ref:`exhale_function_namespacesdsl_1a157163b12ccec0409d15eb6ccd109fe7`
 
+- :ref:`exhale_function_namespacesdsl_1a46f9f19e151891df8ea4ba78cdcf8a83`
+
+- :ref:`exhale_function_namespacesdsl_1_1detail_1a4f3991f4560aa425efe5d6346bf4dff0`
+
 - :ref:`exhale_function_namespacesdsl_1_1detail_1ace756050ae4ee895b550e7518592159c`
 
 - :ref:`exhale_function_namespacesdsl_1_1detail_1a24571e935e7865cf9487bf7aa8076ea4`
