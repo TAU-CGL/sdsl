@@ -28,6 +28,8 @@ Classes
 
 - :ref:`exhale_struct_structsdsl_1_1Env__PCD_1_1VoxelGrid`
 
+- :ref:`exhale_struct_structsdsl_1_1PgmLUT`
+
 - :ref:`exhale_struct_structsdsl_1_1Predicate__AlwaysTrue`
 
 - :ref:`exhale_struct_structsdsl_1_1Predicate__Fwd2D`

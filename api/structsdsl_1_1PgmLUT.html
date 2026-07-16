@@ -1,0 +1,298 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Template Struct PgmLUT &mdash; SDSL Docs</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../_static/collapsible-lists/css/tree_view.css?v=a885cde7" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/collapsible-lists/js/CollapsibleLists.compressed.js?v=73120307"></script>
+      <script src="../_static/collapsible-lists/js/apply-collapsible-lists.js?v=660e4f45"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Template Struct Predicate_AlwaysTrue" href="structsdsl_1_1Predicate__AlwaysTrue.html" />
+    <link rel="prev" title="Struct Env_PCD::VoxelGrid" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            SDSL
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Tutorials</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/getting_started.html">Getting Started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/configuration_space.html">Configuration Space</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/environments.html">Environments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/predicates.html">Predicates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/localization.html">Localization</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tutorials/python_bindings.html">Python Bindings</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Python API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../python_api.html">Python API Reference</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">C++ API Reference</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="library_root.html">C++ API Reference</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#class-hierarchy">Class Hierarchy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="library_root.html#file-hierarchy">File Hierarchy</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="library_root.html#full-api">Full API</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#namespaces">Namespaces</a></li>
+<li class="toctree-l3 current"><a class="reference internal" href="library_root.html#classes-and-structs">Classes and Structs</a><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Configuration.html">Template Struct Configuration</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html">Struct Env_PCD::VoxelGrid</a></li>
+<li class="toctree-l4 current"><a class="current reference internal" href="#">Template Struct PgmLUT</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__AlwaysTrue.html">Template Struct Predicate_AlwaysTrue</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Predicate__Fwd2D.html">Template Struct Predicate_Fwd2D</a></li>
+<li class="toctree-l4"><a class="reference internal" href="structsdsl_1_1Voxel.html">Template Struct Voxel</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PCD.html">Template Class Env_PCD</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__PGM.html">Template Class Env_PGM</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Env__R2__Arrangement.html">Template Class Env_R2_Arrangement</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Environment.html">Template Class Environment</a></li>
+<li class="toctree-l4"><a class="reference internal" href="classsdsl_1_1Random.html">Class Random</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#functions">Functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#variables">Variables</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#defines">Defines</a></li>
+<li class="toctree-l3"><a class="reference internal" href="library_root.html#typedefs">Typedefs</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">SDSL</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="library_root.html">C++ API Reference</a></li>
+      <li class="breadcrumb-item active">Template Struct PgmLUT</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/api/structsdsl_1_1PgmLUT.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="template-struct-pgmlut">
+<span id="exhale-struct-structsdsl-1-1pgmlut"></span><h1>Template Struct PgmLUT<a class="headerlink" href="#template-struct-pgmlut" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>Defined in <a class="reference internal" href="file_sdsl_environments_env_pgm.hpp.html#file-sdsl-environments-env-pgm-hpp"><span class="std std-ref">File env_pgm.hpp</span></a></p></li>
+</ul>
+<section id="struct-documentation">
+<h2>Struct Documentation<a class="headerlink" href="#struct-documentation" title="Link to this heading"></a></h2>
+<dl class="cpp struct">
+<dt class="sig sig-object cpp" id="_CPPv4I_iEN4sdsl6PgmLUTE">
+<span id="_CPPv3I_iEN4sdsl6PgmLUTE"></span><span id="_CPPv2I_iEN4sdsl6PgmLUTE"></span><span class="k"><span class="pre">template</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">D</span></span></span><span class="p"><span class="pre">&gt;</span></span><br /><span class="target" id="structsdsl_1_1PgmLUT"></span><span class="k"><span class="pre">struct</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">PgmLUT</span></span></span><a class="headerlink" href="#_CPPv4I_iEN4sdsl6PgmLUTE" title="Link to this definition"></a><br /></dt>
+<dd><p>Raw lidar-scan lookup table over a PGM occupancy grid: for every free pixel and every discretized orientation, the distances of k evenly spaced rays. </p>
+<p>Built by <a class="reference internal" href="classsdsl_1_1Env__PGM.html#classsdsl_1_1Env__PGM_1aada2453521c1f073f36845839f200e77"><span class="std std-ref">Env_PGM::buildLUT()</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Template Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>D</strong> – C-space dimension of the originating <a class="reference internal" href="classsdsl_1_1Env__PGM.html#classsdsl_1_1Env__PGM"><span class="std std-ref">Env_PGM</span></a> (x, y, …, yaw). </p>
+</dd>
+</dl>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-types">Public Types</p>
+<dl class="cpp type">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl6PgmLUT2FTE">
+<span id="_CPPv3N4sdsl6PgmLUT2FTE"></span><span id="_CPPv2N4sdsl6PgmLUT2FTE"></span><span class="target" id="structsdsl_1_1PgmLUT_1a314bf00c87613996d932c352e8d9e0ad"></span><span class="k"><span class="pre">using</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">FT</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><a class="headerlink" href="#_CPPv4N4sdsl6PgmLUT2FTE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-functions">Public Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4sdsl6PgmLUT9numPixelsEv">
+<span id="_CPPv3NK4sdsl6PgmLUT9numPixelsEv"></span><span id="_CPPv2NK4sdsl6PgmLUT9numPixelsEv"></span><span id="sdsl::PgmLUT::numPixelsC"></span><span class="target" id="structsdsl_1_1PgmLUT_1ab219950ab9a568240db9a3cb784c486c"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">numPixels</span></span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4sdsl6PgmLUT9numPixelsEv" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4sdsl6PgmLUT6pixelXE6size_t">
+<span id="_CPPv3NK4sdsl6PgmLUT6pixelXE6size_t"></span><span id="_CPPv2NK4sdsl6PgmLUT6pixelXE6size_t"></span><span id="sdsl::PgmLUT::pixelX__sC"></span><span class="target" id="structsdsl_1_1PgmLUT_1aaa2d24ac6b5734d4d138a894616082f0"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4sdsl6PgmLUT2FTE" title="sdsl::PgmLUT::FT"><span class="n"><span class="pre">FT</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pixelX</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">i</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4sdsl6PgmLUT6pixelXE6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4sdsl6PgmLUT6pixelYE6size_t">
+<span id="_CPPv3NK4sdsl6PgmLUT6pixelYE6size_t"></span><span id="_CPPv2NK4sdsl6PgmLUT6pixelYE6size_t"></span><span id="sdsl::PgmLUT::pixelY__sC"></span><span class="target" id="structsdsl_1_1PgmLUT_1a4ea99cb05f3f6465ea5ca276324c893b"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4sdsl6PgmLUT2FTE" title="sdsl::PgmLUT::FT"><span class="n"><span class="pre">FT</span></span></a><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">pixelY</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">i</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4sdsl6PgmLUT6pixelYE6size_t" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4sdsl6PgmLUT4scanE6size_ti">
+<span id="_CPPv3NK4sdsl6PgmLUT4scanE6size_ti"></span><span id="_CPPv2NK4sdsl6PgmLUT4scanE6size_ti"></span><span id="sdsl::PgmLUT::scan__s.iC"></span><span class="target" id="structsdsl_1_1PgmLUT_1a01017237b37a667b3efb1c819753c887"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="p"><span class="pre">*</span></span><span class="sig-name descname"><span class="n"><span class="pre">scan</span></span></span><span class="sig-paren">(</span><span class="n"><span class="pre">size_t</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">i</span></span>, <span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">t</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4sdsl6PgmLUT4scanE6size_ti" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4sdsl6PgmLUT4saveERKNSt6stringE">
+<span id="_CPPv3NK4sdsl6PgmLUT4saveERKNSt6stringE"></span><span id="_CPPv2NK4sdsl6PgmLUT4saveERKNSt6stringE"></span><span id="sdsl::PgmLUT::save__ssCRC"></span><span class="target" id="structsdsl_1_1PgmLUT_1a384db53626bc931fd82d441c8c0f26c0"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="kt"><span class="pre">void</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">save</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">path</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4sdsl6PgmLUT4saveERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Dump the LUT to a flat binary file. </p>
+</dd></dl>
+
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4NK4sdsl6PgmLUT5queryERKNSt6vectorIdEEd">
+<span id="_CPPv3NK4sdsl6PgmLUT5queryERKNSt6vectorIdEEd"></span><span id="_CPPv2NK4sdsl6PgmLUT5queryERKNSt6vectorIdEEd"></span><span id="sdsl::PgmLUT::query__std::vector:double:CR.doubleC"></span><span class="target" id="structsdsl_1_1PgmLUT_1a7c844df42957044f8e49b8e0b5935fc3"></span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="structsdsl_1_1Voxel.html#_CPPv4I_i0EN4sdsl5VoxelE" title="sdsl::Voxel"><span class="n"><span class="pre">Voxel</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_iEN4sdsl6PgmLUTE" title="sdsl::PgmLUT::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4N4sdsl6PgmLUT2FTE" title="sdsl::PgmLUT::FT"><span class="n"><span class="pre">FT</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">query</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">measurement</span></span>, <span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="n sig-param"><span class="pre">tolerance</span></span><span class="sig-paren">)</span><span class="w"> </span><span class="k"><span class="pre">const</span></span><a class="headerlink" href="#_CPPv4NK4sdsl6PgmLUT5queryERKNSt6vectorIdEEd" title="Link to this definition"></a><br /></dt>
+<dd><p>Given a kRays-long measurement, find every (x, y, theta) LUT entry whose recorded scan matches within <code class="docutils literal notranslate"><span class="pre">tolerance</span></code> (RMS distance over the rays), returned as the voxel spanned by its source pixel and theta bin. </p>
+<p>Traverses every (x, y, theta) triplet, parallelized over pixels with OpenMP. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-members">Public Members</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl6PgmLUT5widthE">
+<span id="_CPPv3N4sdsl6PgmLUT5widthE"></span><span id="_CPPv2N4sdsl6PgmLUT5widthE"></span><span id="sdsl::PgmLUT::width__i"></span><span class="target" id="structsdsl_1_1PgmLUT_1a404031d0a2cdd0e1d93fdaa0f8dcc267"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">width</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N4sdsl6PgmLUT5widthE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl6PgmLUT6heightE">
+<span id="_CPPv3N4sdsl6PgmLUT6heightE"></span><span id="_CPPv2N4sdsl6PgmLUT6heightE"></span><span id="sdsl::PgmLUT::height__i"></span><span class="target" id="structsdsl_1_1PgmLUT_1aa2350ec98e251728cf03e5c52288dc2e"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">height</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N4sdsl6PgmLUT6heightE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl6PgmLUT10resolutionE">
+<span id="_CPPv3N4sdsl6PgmLUT10resolutionE"></span><span id="_CPPv2N4sdsl6PgmLUT10resolutionE"></span><span id="sdsl::PgmLUT::resolution__double"></span><span class="target" id="structsdsl_1_1PgmLUT_1a2078b46a8c802d46120beb95f91b9e5f"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">resolution</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">1.0</span></span><a class="headerlink" href="#_CPPv4N4sdsl6PgmLUT10resolutionE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl6PgmLUT7originXE">
+<span id="_CPPv3N4sdsl6PgmLUT7originXE"></span><span id="_CPPv2N4sdsl6PgmLUT7originXE"></span><span id="sdsl::PgmLUT::originX__double"></span><span class="target" id="structsdsl_1_1PgmLUT_1a5ddcaaa813977d05c575e4cf94d409a2"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">originX</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0</span></span><a class="headerlink" href="#_CPPv4N4sdsl6PgmLUT7originXE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl6PgmLUT7originYE">
+<span id="_CPPv3N4sdsl6PgmLUT7originYE"></span><span id="_CPPv2N4sdsl6PgmLUT7originYE"></span><span id="sdsl::PgmLUT::originY__double"></span><span class="target" id="structsdsl_1_1PgmLUT_1a0a5bb594fafc310d0e447a78ed004ff0"></span><span class="kt"><span class="pre">double</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">originY</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0.0</span></span><a class="headerlink" href="#_CPPv4N4sdsl6PgmLUT7originYE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl6PgmLUT6nThetaE">
+<span id="_CPPv3N4sdsl6PgmLUT6nThetaE"></span><span id="_CPPv2N4sdsl6PgmLUT6nThetaE"></span><span id="sdsl::PgmLUT::nTheta__i"></span><span class="target" id="structsdsl_1_1PgmLUT_1acb9b4749fbafad3cf133d3ca6f4e8b24"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">nTheta</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N4sdsl6PgmLUT6nThetaE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl6PgmLUT5kRaysE">
+<span id="_CPPv3N4sdsl6PgmLUT5kRaysE"></span><span id="_CPPv2N4sdsl6PgmLUT5kRaysE"></span><span id="sdsl::PgmLUT::kRays__i"></span><span class="target" id="structsdsl_1_1PgmLUT_1aae0ea9df53c26df97a4a56492dec349d"></span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">kRays</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="m"><span class="pre">0</span></span><a class="headerlink" href="#_CPPv4N4sdsl6PgmLUT5kRaysE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl6PgmLUT4rowsE">
+<span id="_CPPv3N4sdsl6PgmLUT4rowsE"></span><span id="_CPPv2N4sdsl6PgmLUT4rowsE"></span><span id="sdsl::PgmLUT::rows__std::vector:i:"></span><span class="target" id="structsdsl_1_1PgmLUT_1a471ac7ef67887957a3d0ccc794bd98fa"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rows</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl6PgmLUT4rowsE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl6PgmLUT4colsE">
+<span id="_CPPv3N4sdsl6PgmLUT4colsE"></span><span id="_CPPv2N4sdsl6PgmLUT4colsE"></span><span id="sdsl::PgmLUT::cols__std::vector:i:"></span><span class="target" id="structsdsl_1_1PgmLUT_1a5df24e3a4dc584a310253a59f8ad6152"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">int</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">cols</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl6PgmLUT4colsE" title="Link to this definition"></a><br /></dt>
+<dd><p>free-pixel coordinates, size N </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl6PgmLUT6thetasE">
+<span id="_CPPv3N4sdsl6PgmLUT6thetasE"></span><span id="_CPPv2N4sdsl6PgmLUT6thetasE"></span><span id="sdsl::PgmLUT::thetas__std::vector:double:"></span><span class="target" id="structsdsl_1_1PgmLUT_1ae84964bd8e1cbb5f9350ad5d72153e5c"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">thetas</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl6PgmLUT6thetasE" title="Link to this definition"></a><br /></dt>
+<dd><p>orientations, size nTheta </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl6PgmLUT10rayOffsetsE">
+<span id="_CPPv3N4sdsl6PgmLUT10rayOffsetsE"></span><span id="_CPPv2N4sdsl6PgmLUT10rayOffsetsE"></span><span id="sdsl::PgmLUT::rayOffsets__std::vector:double:"></span><span class="target" id="structsdsl_1_1PgmLUT_1aa6d0c3fe0d78edab6c5509d83d8c5727"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">rayOffsets</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl6PgmLUT10rayOffsetsE" title="Link to this definition"></a><br /></dt>
+<dd><p>per-ray angle offsets, size kRays </p>
+</dd></dl>
+
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl6PgmLUT5distsE">
+<span id="_CPPv3N4sdsl6PgmLUT5distsE"></span><span id="_CPPv2N4sdsl6PgmLUT5distsE"></span><span id="sdsl::PgmLUT::dists__std::vector:double:"></span><span class="target" id="structsdsl_1_1PgmLUT_1a2cd91bdcdd3b7548050cfde98933bc3d"></span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">vector</span></span><span class="p"><span class="pre">&lt;</span></span><span class="kt"><span class="pre">double</span></span><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">dists</span></span></span><a class="headerlink" href="#_CPPv4N4sdsl6PgmLUT5distsE" title="Link to this definition"></a><br /></dt>
+<dd><p>raw distances, row-major [pixel][theta][ray], size N*nTheta*kRays </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-functions">Public Static Functions</p>
+<dl class="cpp function">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl6PgmLUT4loadERKNSt6stringE">
+<span id="_CPPv3N4sdsl6PgmLUT4loadERKNSt6stringE"></span><span id="_CPPv2N4sdsl6PgmLUT4loadERKNSt6stringE"></span><span id="sdsl::PgmLUT::load__ssCR"></span><span class="target" id="structsdsl_1_1PgmLUT_1afe14f0f8f0c3863e3f3275776f5515be"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">inline</span></span><span class="w"> </span><a class="reference internal" href="#_CPPv4I_iEN4sdsl6PgmLUTE" title="sdsl::PgmLUT"><span class="n"><span class="pre">PgmLUT</span></span></a><span class="p"><span class="pre">&lt;</span></span><a class="reference internal" href="#_CPPv4I_iEN4sdsl6PgmLUTE" title="sdsl::PgmLUT::D"><span class="n"><span class="pre">D</span></span></a><span class="p"><span class="pre">&gt;</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">load</span></span></span><span class="sig-paren">(</span><span class="k"><span class="pre">const</span></span><span class="w"> </span><span class="n"><span class="pre">std</span></span><span class="p"><span class="pre">::</span></span><span class="n"><span class="pre">string</span></span><span class="w"> </span><span class="p"><span class="pre">&amp;</span></span><span class="n sig-param"><span class="pre">path</span></span><span class="sig-paren">)</span><a class="headerlink" href="#_CPPv4N4sdsl6PgmLUT4loadERKNSt6stringE" title="Link to this definition"></a><br /></dt>
+<dd><p>Load a LUT previously written by <a class="reference internal" href="#structsdsl_1_1PgmLUT_1a384db53626bc931fd82d441c8c0f26c0"><span class="std std-ref">save()</span></a>. </p>
+</dd></dl>
+
+</div>
+<div class="breathe-sectiondef docutils container">
+<p class="breathe-sectiondef-title rubric" id="breathe-section-title-public-static-attributes">Public Static Attributes</p>
+<dl class="cpp var">
+<dt class="sig sig-object cpp" id="_CPPv4N4sdsl6PgmLUT6yawIdxE">
+<span id="_CPPv3N4sdsl6PgmLUT6yawIdxE"></span><span id="_CPPv2N4sdsl6PgmLUT6yawIdxE"></span><span id="sdsl::PgmLUT::yawIdx__i"></span><span class="target" id="structsdsl_1_1PgmLUT_1a3cb17b0c02ec2a8f41deb786467f05ee"></span><span class="k"><span class="pre">static</span></span><span class="w"> </span><span class="k"><span class="pre">constexpr</span></span><span class="w"> </span><span class="kt"><span class="pre">int</span></span><span class="w"> </span><span class="sig-name descname"><span class="n"><span class="pre">yawIdx</span></span></span><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="p"><span class="pre">(</span></span><a class="reference internal" href="#_CPPv4I_iEN4sdsl6PgmLUTE" title="sdsl::PgmLUT::D"><span class="n"><span class="pre">D</span></span></a><span class="w"> </span><span class="o"><span class="pre">==</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><span class="p"><span class="pre">)</span></span><span class="w"> </span><span class="o"><span class="pre">?</span></span><span class="w"> </span><span class="m"><span class="pre">2</span></span><span class="w"> </span><span class="o"><span class="pre">:</span></span><span class="w"> </span><span class="m"><span class="pre">3</span></span><a class="headerlink" href="#_CPPv4N4sdsl6PgmLUT6yawIdxE" title="Link to this definition"></a><br /></dt>
+<dd></dd></dl>
+
+</div>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="structsdsl_1_1Env__PCD_1_1VoxelGrid.html" class="btn btn-neutral float-left" title="Struct Env_PCD::VoxelGrid" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="structsdsl_1_1Predicate__AlwaysTrue.html" class="btn btn-neutral float-right" title="Template Struct Predicate_AlwaysTrue" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, TAU-CGL.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
