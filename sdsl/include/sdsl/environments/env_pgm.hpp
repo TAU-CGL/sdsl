@@ -71,14 +71,17 @@ struct PgmLUT {
     }
 
     /// @brief Given a kRays-long measurement, find every (x, y, theta) LUT
-    /// entry whose recorded scan matches within `tolerance` (RMS distance
-    /// over the rays), returned as the voxel spanned by its source pixel and
-    /// theta bin. Traverses every (x, y, theta) triplet, parallelized over
-    /// pixels with OpenMP.
-    std::vector<Voxel<D, FT>> query(const std::vector<double>& measurement, double tolerance) const {
+    /// entry consistent with it under the k-k'-dynamic-gap rule (see
+    /// Predicate_Fwd2D): a ray k matches if it's within `epsilon` of the
+    /// recorded distance, and the entry is kept iff at least
+    /// ceil(kRays * kkPrimeRatio) of its kRays rays match. Returned as the
+    /// voxel spanned by the entry's source pixel and theta bin. Traverses
+    /// every (x, y, theta) triplet, parallelized over pixels with OpenMP.
+    std::vector<Voxel<D, FT>> query(const std::vector<double>& measurement, double kkPrimeRatio, double epsilon) const {
         std::vector<Voxel<D, FT>> matches;
         double dTheta = (nTheta > 1) ? (thetas[1] - thetas[0]) : (2.0 * M_PI);
         double halfPixel = resolution * 0.5;
+        int kPrime = (int)std::ceil(kRays * kkPrimeRatio);
 
         #pragma omp parallel
         {
@@ -89,12 +92,12 @@ struct PgmLUT {
                 FT x = pixelX(i), y = pixelY(i);
                 for (int t = 0; t < nTheta; ++t) {
                     const double* s = scan(i, t);
-                    double err = 0.0;
+                    int numValid = 0;
                     for (int k = 0; k < kRays; ++k) {
-                        double d = s[k] - measurement[k];
-                        err += d * d;
+                        if (std::abs(s[k] - measurement[k]) <= epsilon) ++numValid;
+                        if (numValid >= kPrime) break; // early exit, mirrors Predicate_Fwd2D
                     }
-                    if (std::sqrt(err / kRays) <= tolerance) {
+                    if (numValid >= kPrime) {
                         Configuration<D, FT> bl, tr;
                         bl[0] = x - halfPixel;        tr[0] = x + halfPixel;
                         bl[1] = y - halfPixel;        tr[1] = y + halfPixel;
