@@ -4,11 +4,113 @@
 #include <cmath>
 #include <algorithm>
 #include <limits>
+#include <fstream>
+#include <string>
+
+#include <omp.h>
 
 #include "sdsl/environment.hpp"
 #include "sdsl/math_utils.hpp"
 
 namespace sdsl {
+
+/// @brief Raw lidar-scan lookup table over a PGM occupancy grid: for every
+/// free pixel and every discretized orientation, the distances of k evenly
+/// spaced rays. Built by Env_PGM::buildLUT().
+///
+/// @tparam D C-space dimension of the originating Env_PGM (x, y, ..., yaw).
+template<int D>
+struct PgmLUT {
+    using FT = double;
+    static constexpr int yawIdx = (D == 3) ? 2 : 3;
+
+    int    width = 0, height = 0;
+    double resolution = 1.0, originX = 0.0, originY = 0.0;
+    int    nTheta = 0, kRays = 0;
+
+    std::vector<int>    rows, cols;    ///< free-pixel coordinates, size N
+    std::vector<double> thetas;        ///< orientations, size nTheta
+    std::vector<double> rayOffsets;    ///< per-ray angle offsets, size kRays
+    std::vector<double> dists;         ///< raw distances, row-major [pixel][theta][ray], size N*nTheta*kRays
+
+    size_t numPixels() const { return rows.size(); }
+    FT pixelX(size_t i) const { return originX + (cols[i] + 0.5) * resolution; }
+    FT pixelY(size_t i) const { return originY + (height - 1 - rows[i] + 0.5) * resolution; }
+    const double* scan(size_t i, int t) const { return &dists[(i * nTheta + t) * kRays]; }
+
+    /// @brief Dump the LUT to a flat binary file.
+    void save(const std::string& path) const {
+        std::ofstream f(path, std::ios::binary);
+        auto putPOD = [&](const auto& v) { f.write(reinterpret_cast<const char*>(&v), sizeof(v)); };
+        auto putVec = [&](const auto& v) {
+            size_t n = v.size();
+            putPOD(n);
+            if (n) f.write(reinterpret_cast<const char*>(v.data()), n * sizeof(v[0]));
+        };
+        putPOD(width); putPOD(height);
+        putPOD(resolution); putPOD(originX); putPOD(originY);
+        putPOD(nTheta); putPOD(kRays);
+        putVec(rows); putVec(cols); putVec(thetas); putVec(rayOffsets); putVec(dists);
+    }
+
+    /// @brief Load a LUT previously written by save().
+    static PgmLUT<D> load(const std::string& path) {
+        PgmLUT<D> lut;
+        std::ifstream f(path, std::ios::binary);
+        auto getPOD = [&](auto& v) { f.read(reinterpret_cast<char*>(&v), sizeof(v)); };
+        auto getVec = [&](auto& v) {
+            size_t n = 0; getPOD(n);
+            v.resize(n);
+            if (n) f.read(reinterpret_cast<char*>(v.data()), n * sizeof(v[0]));
+        };
+        getPOD(lut.width); getPOD(lut.height);
+        getPOD(lut.resolution); getPOD(lut.originX); getPOD(lut.originY);
+        getPOD(lut.nTheta); getPOD(lut.kRays);
+        getVec(lut.rows); getVec(lut.cols); getVec(lut.thetas); getVec(lut.rayOffsets); getVec(lut.dists);
+        return lut;
+    }
+
+    /// @brief Given a kRays-long measurement, find every (x, y, theta) LUT
+    /// entry whose recorded scan matches within `tolerance` (RMS distance
+    /// over the rays), returned as the voxel spanned by its source pixel and
+    /// theta bin. Traverses every (x, y, theta) triplet, parallelized over
+    /// pixels with OpenMP.
+    std::vector<Voxel<D, FT>> query(const std::vector<double>& measurement, double tolerance) const {
+        std::vector<Voxel<D, FT>> matches;
+        double dTheta = (nTheta > 1) ? (thetas[1] - thetas[0]) : (2.0 * M_PI);
+        double halfPixel = resolution * 0.5;
+
+        #pragma omp parallel
+        {
+            std::vector<Voxel<D, FT>> local;
+
+            #pragma omp for schedule(dynamic) nowait
+            for (int i = 0; i < (int)rows.size(); ++i) {
+                FT x = pixelX(i), y = pixelY(i);
+                for (int t = 0; t < nTheta; ++t) {
+                    const double* s = scan(i, t);
+                    double err = 0.0;
+                    for (int k = 0; k < kRays; ++k) {
+                        double d = s[k] - measurement[k];
+                        err += d * d;
+                    }
+                    if (std::sqrt(err / kRays) <= tolerance) {
+                        Configuration<D, FT> bl, tr;
+                        bl[0] = x - halfPixel;        tr[0] = x + halfPixel;
+                        bl[1] = y - halfPixel;        tr[1] = y + halfPixel;
+                        bl[yawIdx] = thetas[t] - dTheta * 0.5;
+                        tr[yawIdx] = thetas[t] + dTheta * 0.5;
+                        local.emplace_back(bl, tr);
+                    }
+                }
+            }
+
+            #pragma omp critical
+            matches.insert(matches.end(), local.begin(), local.end());
+        }
+        return matches;
+    }
+};
 
 /// @brief 2D occupancy-grid environment loaded from a ROS2/SLAM PGM map.
 ///
@@ -235,6 +337,50 @@ public:
         tr[2] = FT(2.0 * M_PI);
         for (int i = 3; i < D; ++i) { bl[i] = FT(0); tr[i] = FT(2.0 * M_PI); }
         return Voxel<D, FT>(bl, tr);
+    }
+
+    // ------------------------------------------------------------------
+    // buildLUT
+    //   Precompute a raw lidar-scan LUT: for every free pixel and every one
+    //   of nTheta orientations, cast kRays evenly spaced rays. Parallelized
+    //   over pixels with OpenMP.
+    // ------------------------------------------------------------------
+    PgmLUT<D> buildLUT(int nTheta = 200, int kRays = 16) {
+        PgmLUT<D> lut;
+        lut.width = m_width; lut.height = m_height;
+        lut.resolution = m_resolution; lut.originX = m_origin_x; lut.originY = m_origin_y;
+        lut.nTheta = nTheta; lut.kRays = kRays;
+
+        lut.thetas.resize(nTheta);
+        for (int t = 0; t < nTheta; ++t)
+            lut.thetas[t] = (nTheta > 1) ? (2.0 * M_PI * t / (nTheta - 1)) : 0.0;
+
+        lut.rayOffsets.resize(kRays);
+        for (int k = 0; k < kRays; ++k)
+            lut.rayOffsets[k] = 2.0 * M_PI * k / kRays;
+
+        for (int r = 0; r < m_height; ++r)
+            for (int c = 0; c < m_width; ++c)
+                if (m_contains[r * m_width + c]) {
+                    lut.rows.push_back(r);
+                    lut.cols.push_back(c);
+                }
+
+        int n = (int)lut.rows.size();
+        lut.dists.resize((size_t)n * nTheta * kRays);
+
+        #pragma omp parallel for schedule(dynamic)
+        for (int i = 0; i < n; ++i) {
+            FT x = lut.pixelX(i), y = lut.pixelY(i);
+            for (int t = 0; t < nTheta; ++t) {
+                for (int k = 0; k < kRays; ++k) {
+                    Configuration<D, FT> q;
+                    q[0] = x; q[1] = y; q[yawIdx] = lut.thetas[t] + lut.rayOffsets[k];
+                    lut.dists[((size_t)i * nTheta + t) * kRays + k] = measureDistance(q);
+                }
+            }
+        }
+        return lut;
     }
 
     // ------------------------------------------------------------------
