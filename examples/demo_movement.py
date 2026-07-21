@@ -17,8 +17,10 @@ try:
 except ImportError:  # pragma: no cover - direct script execution fallback
     from ChooseMovement import ChooseMovement
 
-MAP_YAML        = "resources/maps/2d/slam/simple_symmetry/symmetry_2.yaml"
-IMG_PATH        = "resources/maps/2d/slam/simple_symmetry/symmetry_2_c.png"
+MAP_YAML    = "resources/maps/2d/slam/simple_symmetry/square.yaml"
+IMG_PATH    = "resources/maps/2d/slam/simple_symmetry/square_c.png"
+# MAP_YAML        = "resources/maps/2d/slam/simple_symmetry/symmetry_2.yaml"
+# IMG_PATH        = "resources/maps/2d/slam/simple_symmetry/symmetry_2_c.png"
 N_RAYS          = 16
 RECURSION_DEPTH = 10
 KK_PRIME_RATIO  = 1.0
@@ -36,6 +38,14 @@ def _make_ros_cmap(n=256):
 
 ROS_CMAP = _make_ros_cmap()
 
+def relative_to_global_movement(dx,dy, theta):
+    delta = np.asarray([dx,dy], dtype=float)
+    R = np.array([
+        [np.cos(theta), -np.sin(theta)],
+        [np.sin(theta),  np.cos(theta)]
+    ])
+
+    return R @ delta
 
 def corrupt_measurements(dists, kk_prime_ratio):
     """Corrupt (1 − kk_prime_ratio) fraction of measurements by a random factor."""
@@ -58,9 +68,9 @@ def cast_rays(env, x, y, z, n=N_RAYS):
     return angles, dists
 
 def localize(env, x, y, z, state):
-    angles, dists = cast_rays(env, x, y, z)
+    angles, dists = cast_rays(env, x, y, z) #glabal xyz, global angles
     noisy_dists   = corrupt_measurements(dists, KK_PRIME_RATIO)
-    odometry      = [sdsl.R3(0.0, 0.0, theta - z) for theta in angles]
+    odometry      = [sdsl.R3(0.0, 0.0, theta - z) for theta in angles] #relative angles
     pred          = sdsl.Predicate_Fwd2D_Arr(
         env, odometry, list(noisy_dists), KK_PRIME_RATIO, ERROR_BOUND)
 
@@ -207,44 +217,54 @@ def main():
         if click_count["value"] == 0:
             state["x"] = event.xdata
             state["y"] = event.ydata
-            state["z"] = 0
+            # state["x"] = 2.790
+            # state["y"] = 8.166
+            state["z"] = np.pi/2.0
 
         click_count["value"] += 1
 
         angles, dists, voxels, belief = localize(env, state["x"], state["y"], state["z"], state)
+        visualize(fig, ax, state, angles, dists)
         sim_results = mover.simulate_movements(angles, dists, voxels, belief)
         print(f'Simulated {len(sim_results)} motion hypotheses')
-        mover.visualize_voxels(ax, voxels,
-                           color=(1.0, 0.0, 0.0, 0.25),
-                           edgecolor='green',
-                           label='original')
-        for sim_idx, sim in enumerate(sim_results):
-            moved = sim['cleaned_voxels'] or sim['surviving_voxels']
-            mover.visualize_voxels(ax, moved,
-                               color=(1.0, 0.65, 0.0, 0.30),
-                               edgecolor='brown',
-                               label=f'moved_{sim_idx}')
-        visualize(fig, ax, state, angles, dists)
+        # mover.visualize_voxels(ax, voxels,
+        #                    color=(1.0, 0.0, 0.0, 0.25),
+        #                    edgecolor='green',
+        #                    label='original')
+        # for sim_idx, sim in enumerate(sim_results):
+        #     moved = sim['cleaned_voxels'] or sim['surviving_voxels']
+        #     mover.visualize_voxels(ax, moved,
+        #                        color=(1.0, 0.65, 0.0, 0.30),
+        #                        edgecolor='brown',
+        #                        label=f'moved_{sim_idx}')
+        # visualize(fig, ax, state, angles, dists)
         mover.visualize_simulation_result(ax, sim_results, voxels)
         def score(sim):
             entropy = sim.get('entropy')
             avg_dist = sim.get('avg_neighbor_room_distance')
-            if entropy is None or avg_dist is None:
+            avg_wall_dist = sim.get('avg_wall_distance') # if samller than 0.2 then panelize
+            if entropy is None or avg_dist is None or avg_wall_dist is None:
                 return float('inf')
-            return entropy + avg_dist
+            return entropy + avg_dist + (0.2 - avg_wall_dist)*10.0 if avg_wall_dist < 0.2 else entropy + avg_dist 
 
         best_sim = min(
             sim_results,
             key=score,
             default=None,
         )
+        # dx, dy = relative_to_global_movement(best_sim['dx'], best_sim['dy'], state['z']) if best_sim else (0, 0)
+        # dx, dy = best_sim['dx'], best_sim['dy'] if best_sim else (0, 0)
         print(f"Best simulation: {best_sim if best_sim else 'None'}")
-        print(f"Best movement: dx={best_sim['dx'] if best_sim else 0:.3f}, dy={best_sim['dy'] if best_sim else 0:.3f}, angle={best_sim['angle'] if best_sim else 0:.3f}")
+        step = float(np.minimum(np.maximum(best_sim["distance"]-0.05, 0), 0.3))
+        dx = step * np.cos(best_sim['angle'] + state['z']) if best_sim else 0
+        dy = step * np.sin(best_sim['angle'] + state['z']) if best_sim else 0
+        print(f"Best movement: dx={dx:.3f}, dy={dy:.3f}, angle={best_sim['angle'] if best_sim else 0:.3f}")
         print(f"prev position: x={state['x']:.3f}, y={state['y']:.3f}, z={state['z']:.3f}")
-        state["x"] += best_sim['dx'] if best_sim else 0
-        state["y"] += best_sim['dy'] if best_sim else 0
-        state["z"] = (best_sim['angle'])% (2 * np.pi) if best_sim else state["z"]
+        state["x"] += dx
+        state["y"] += dy
+        state["z"] = (best_sim['angle']+state['z'])% (2 * np.pi) if best_sim else state["z"]
         print(f"Updated position: x={state['x']:.3f}, y={state['y']:.3f}, z={state['z']:.3f}")
+        print("..")
 
     fig.canvas.mpl_connect("button_press_event", on_click)
     plt.show()
