@@ -32,6 +32,8 @@ rooms:
     rgb: [58, 125, 125]
   - name: "center_room"
     rgb: [255, 255, 255]
+  - name: "adv_room"
+    rgb: [100, 100, 100]
   
 
 graph_edges:
@@ -50,4 +52,5 @@ graph_edges:
   - [room_left, room_top2]
   - [room_top, room_right2]
   - [room_right, room_bottom2]
-  - [room_bottom, room_left2]
+  - [room_bottom, adv_room]
+  - [adv_room, room_left2]
