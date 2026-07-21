@@ -1,3 +1,5 @@
+from collections import deque
+
 from PIL import Image
 import numpy as np
 from scipy.ndimage import distance_transform_edt
@@ -61,6 +63,45 @@ class ChooseMovement:
         distance_meters = distance_pixels * self.resolution
         return distance_pixels, distance_meters
 
+    def room_to_room_distance(self, source_room, target_room):
+        """
+        Calculate the minimum distance between two room regions.
+
+        Args:
+            source_room: name of the source room defined in the YAML config
+            target_room: name of the target room defined in the YAML config
+
+        Returns:
+            (distance_pixels, distance_meters) or (None, None) if either room is
+            missing or the image/config is unavailable.
+        """
+        if self.pixels is None or self.resolution is None:
+            return None, None
+
+        if source_room not in self.room_colors or target_room not in self.room_colors:
+            return None, None
+
+        if source_room == target_room:
+            return 0.0, 0.0
+
+        source_rgb = self.room_colors[source_room]
+        target_rgb = self.room_colors[target_room]
+
+        source_mask = np.all(self.pixels == source_rgb, axis=2)
+        target_mask = np.all(self.pixels == target_rgb, axis=2)
+
+        if not np.any(source_mask) or not np.any(target_mask):
+            return None, None
+
+        distance_map = distance_transform_edt(~target_mask)
+        source_distances = distance_map[source_mask]
+        if source_distances.size == 0:
+            return None, None
+
+        distance_pixels = float(np.min(source_distances))
+        distance_meters = distance_pixels * self.resolution
+        return distance_pixels, distance_meters
+
     def get_room_at_point(self, current_point):
         """
         Determine which room a point is in based on pixel color.
@@ -112,13 +153,23 @@ class ChooseMovement:
         return world_x, world_y
 
     def create_room_graph(self):
-        """Create a graph from room configuration."""
+        """Create a graph from room configuration and initialize visit flags."""
         graph = nx.Graph()
         for room in self.config['rooms']:
-            graph.add_node(room['name'], rgb=room['rgb'])
+            graph.add_node(room['name'], rgb=room['rgb'], visited=False)
         for edge in self.config.get('graph_edges', []):
             graph.add_edge(edge[0], edge[1])
         return graph
+
+    def reset_visited_flags(self):
+        """Reset the visited flag for every node in the room graph."""
+        for node in self.room_graph.nodes:
+            self.room_graph.nodes[node]['visited'] = False
+
+    def mark_node_visited(self, room_name):
+        """Mark a room node as visited."""
+        if room_name in self.room_graph:
+            self.room_graph.nodes[room_name]['visited'] = True
 
     @staticmethod
     def print_graph_info(graph):
@@ -138,10 +189,12 @@ class ChooseMovement:
 
     def _compute_neighbor_distances(self, current_point, graph, verbose=False):
         """
-        Compute distances from the current point to each neighboring room.
+        Compute room-edge distances using breadth-first traversal over the room graph.
 
-        Returns a dict mapping neighbor room names to (distance_pixels, distance_meters)
-        or an empty dict when no neighbor distances are available.
+        The traversal starts from the current room. If the current room is unvisited,
+        its distance is treated as 0. Otherwise, the BFS explores the current room's
+        neighbors, then the neighbors of any visited room, while avoiding revisits and
+        keeping the minimal distance discovered for each room.
         """
         current_room = self.get_room_at_point(current_point)
         if current_room is None:
@@ -154,24 +207,49 @@ class ChooseMovement:
                 print(f"  {current_room} is not in graph")
             return {}
 
-        neighbors = list(graph.neighbors(current_room))
-        if not neighbors:
+        if not graph.nodes[current_room].get('visited', False):
             if verbose:
-                print(f"  No neighbors for {current_room}")
-            return {}
-
-        if verbose:
-            print(f"  Distances from point {current_point} to neighbors of {current_room}:")
+                print(f"  Current room {current_room} is unvisited; distance = 0")
+            return {current_room: 0.0}
 
         distances = {}
-        for neighbor in sorted(neighbors):
-            dist_px, dist_m = self.point_to_room_edge_distance(current_point, neighbor)
-            distances[neighbor] = (dist_px, dist_m)
-            if verbose:
-                if dist_m is not None:
-                    print(f"    -> {neighbor}: {dist_px:.2f} px = {dist_m:.3f} m")
+        queue = deque([(current_room, None, 0.0)])
+        processed = set()
+
+        if verbose:
+            print(f"  BFS distances from point {current_point} starting at {current_room}:")
+
+        while queue:
+            room, parent, distance_from_parent = queue.popleft()
+            if room in processed:
+                continue
+            processed.add(room)
+
+            for neighbor in sorted(graph.neighbors(room)):
+                if neighbor in processed:
+                    continue
+
+                if parent is None:
+                    _, dist_m = self.point_to_room_edge_distance(current_point, neighbor)
                 else:
-                    print(f"    -> {neighbor}: out of bounds")
+                    _, dist_m = self.room_to_room_distance(parent, neighbor)
+                if dist_m is None:
+                    if verbose:
+                        print(f"    -> {neighbor}: out of bounds")
+                    continue
+
+                total_distance = distance_from_parent + dist_m
+                
+
+                if verbose:
+                    print(f"    -> {neighbor}: {dist_m:.3f} m (total {total_distance:.3f} m)")
+
+                if graph.nodes.get(neighbor, {}).get('visited', True): #continue BFS to its neighbors
+                    queue.append((neighbor, room, total_distance))
+                else: 
+                    if neighbor not in distances or total_distance < distances[neighbor]:
+                        distances[neighbor] = total_distance
+
         return distances
 
     def distances_to_neighbors(self, current_point, graph):
@@ -185,7 +263,7 @@ class ChooseMovement:
         Return the minimal distance to any neighboring room edge, or None if unavailable.
         """
         distances = self._compute_neighbor_distances(current_point, graph, verbose=False)
-        neighbor_distances = [dist_m for _, dist_m in distances.values() if dist_m is not None]
+        neighbor_distances = [dist_m for dist_m in distances.values() if dist_m is not None]
         if not neighbor_distances:
             return None
         return min(neighbor_distances)
@@ -242,7 +320,16 @@ class ChooseMovement:
                        alpha=alpha, linewidths=0.5)
         ax.add_collection(coll)
         return coll
-
+    
+    def mark_voxels_visited(self, voxels):
+        """Mark the rooms containing the given voxels as visited."""
+        for voxel in voxels:
+            mid = voxel.midpoint()
+            pixel_point = self.world_to_pixel((float(mid[0]), float(mid[1])))
+            room_name = self.get_room_at_point(pixel_point)
+            if room_name is not None:
+                self.mark_node_visited(room_name)
+    
     def visualize_simulation_result(self, ax, simulation, base_voxels=None):
         """Visualize original voxels and the simulation's cleaned voxels.
 
@@ -292,6 +379,7 @@ class ChooseMovement:
             return results
 
         room_graph = self.room_graph
+        self.mark_voxels_visited(voxels)
         for angle, dist in zip(angles, dists):
             step = float(np.minimum(dist, max_step))
             dx = step * np.cos(angle)
@@ -305,8 +393,14 @@ class ChooseMovement:
                 moved_mid = self._voxel_midpoint(moved_voxel)
                 q_old = sdsl.R3(float(orig_mid[0]), float(orig_mid[1]), float(orig_mid[2]))
                 q_new = sdsl.R3(float(moved_mid[0]), float(moved_mid[1]), float(moved_mid[2]))
+                bottom_left = sdsl.R3(float(moved_voxel.bottom_left[0]), float(moved_voxel.bottom_left[1]), float(moved_voxel.bottom_left[2]))
+                top_right = sdsl.R3(float(moved_voxel.top_right[0]), float(moved_voxel.top_right[1]), float(moved_voxel.top_right[2]))
+                top_left = sdsl.R3(float(moved_voxel.bottom_left[0]), float(moved_voxel.top_right[1]), float(moved_voxel.midpoint()[2]))
+                bottom_right = sdsl.R3(float(moved_voxel.top_right[0]), float(moved_voxel.bottom_left[1]), float(moved_voxel.midpoint()[2]))
+
 
                 collided = (not self.env.contains(q_new)) or self.env.collision_detection(q_old, q_new)
+                collided = collided or (not self.env.contains(bottom_left)) or (not self.env.contains(top_right)) or (not self.env.contains(top_left)) or (not self.env.contains(bottom_right))
                 if not collided:
                     kept_voxels.append(moved_voxel)
                     kept_beliefs.append(float(belief))
@@ -334,11 +428,16 @@ class ChooseMovement:
                     if current_room is None:
                         continue
 
+                    
+
                     min_dist = self.min_distance_to_neighbor_rooms(pixel_point, room_graph)
                     if min_dist is None:
                         continue
 
-                    weighted_distance += belief * min_dist
+                    try:
+                        weighted_distance += belief * min_dist
+                    except (TypeError, ValueError):
+                        print("failed to compute weighted distance for voxel with belief:", belief, min_dist)
                     valid_weight += belief
 
                 if valid_weight > 0:
@@ -368,10 +467,22 @@ class ChooseMovement:
         if not simulation_results:
             return {'movement': None, 'reason': 'no_simulation_results', 'simulations': simulation_results}
 
+        def score(sim):
+                    entropy = sim.get('entropy')
+                    avg_dist = sim.get('avg_neighbor_room_distance')
+                    if entropy is None or avg_dist is None:
+                        return float('inf')
+                    return entropy + avg_dist
+
         best = min(
-            simulation_results,
-            key=lambda item: float('inf') if item['entropy'] is None else item['entropy'],
+            sim_results,
+            key=score,
+            default=None,
         )
+        # best = min(
+        #     simulation_results,
+        #     key=lambda item: float('inf') if item['entropy'] is None else item['entropy'],
+        # )
 
         return {
             'movement': {

@@ -214,14 +214,6 @@ def main():
         angles, dists, voxels, belief = localize(env, state["x"], state["y"], state["z"], state)
         sim_results = mover.simulate_movements(angles, dists, voxels, belief)
         print(f'Simulated {len(sim_results)} motion hypotheses')
-        for sim_idx, sim in enumerate(sim_results):
-            entropy = sim.get('entropy')
-            avg_dist = sim.get('avg_neighbor_room_distance')
-            # print(
-            #     f"sim[{sim_idx}] angle={sim['angle']:.3f} "
-            #     f"entropy={entropy if entropy is None else f'{entropy:.6f}'} "
-            #     f"avg_neighbor_room_distance={avg_dist if avg_dist is None else f'{avg_dist:.6f}'}"
-            # )
         mover.visualize_voxels(ax, voxels,
                            color=(1.0, 0.0, 0.0, 0.25),
                            edgecolor='green',
