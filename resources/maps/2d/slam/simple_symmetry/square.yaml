@@ -4,3 +4,50 @@ origin: [0.0, 0.0, 0.0]
 negate: 0
 occupied_thresh: 0.65
 free_thresh: 0.196
+
+rooms:
+  - name: "room_left"
+    rgb: [255, 0, 0]
+  - name: "room_right"
+    rgb: [0, 0, 255]
+  - name: "room_top"
+    rgb: [0, 255, 0]
+  - name: "room_bottom"
+    rgb: [0, 255, 255]
+  - name: "room_left2"
+    rgb: [200, 0, 0]
+  - name: "room_right2"
+    rgb: [0, 0, 200]
+  - name: "room_top2"
+    rgb: [0, 200, 0]
+  - name: "room_bottom2"
+    rgb: [0, 255, 200]    
+  - name: "hall_left"
+    rgb: [116, 55, 55]
+  - name: "hall_right"
+    rgb: [57, 57, 117]
+  - name: "hall_top"
+    rgb: [55, 116, 55]
+  - name: "hall_bottom"
+    rgb: [58, 125, 125]
+  - name: "center_room"
+    rgb: [255, 255, 255]
+  
+
+graph_edges:
+  - [room_left, hall_left]
+  - [room_left2, hall_left]
+  - [hall_left, center_room]
+  - [room_right, hall_right]
+  - [room_right2, hall_right]
+  - [hall_right, center_room]
+  - [room_top, hall_top]
+  - [room_top2, hall_top]
+  - [hall_top, center_room]
+  - [room_bottom, hall_bottom]
+  - [room_bottom2, hall_bottom]
+  - [hall_bottom, center_room]
+  - [room_left, room_top2]
+  - [room_top, room_right2]
+  - [room_right, room_bottom2]
+  - [room_bottom, room_left2]
