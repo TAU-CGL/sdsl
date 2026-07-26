@@ -23,6 +23,8 @@ class ChooseMovement:
         self.room_colors = {room['name']: room['rgb'] for room in self.config['rooms']} if self.config else {}
         self.img_height = self.pixels.shape[0] if self.pixels is not None else None
         self.room_graph = self.create_room_graph() if self.config else nx.Graph()
+        self.room_distance_lookup = self.precompute_room_distance_lookup()
+
         self.wall_mask = np.all(self.pixels == (0, 0, 0), axis=2)
         self.distance_map = distance_transform_edt(~self.wall_mask)
 
@@ -192,6 +194,38 @@ class ChooseMovement:
             graph.add_edge(edge[0], edge[1])
         return graph
 
+    def precompute_room_distance_lookup(self):
+        """Precompute distances for room pairs whose graph distance is exactly 2."""
+        if not self.room_graph:
+            return {}
+
+        if self.pixels is None or self.resolution is None:
+            return {}
+
+        lookup = {}
+        for source_room, shortest_paths in nx.all_pairs_shortest_path_length(self.room_graph):
+            for target_room, path_length in shortest_paths.items():
+                if source_room == target_room or path_length != 2:
+                    continue
+
+                pair_key = tuple(sorted((source_room, target_room)))
+                if pair_key in lookup:
+                    continue
+
+                distance = self.room_to_room_distance(source_room, target_room)
+                if distance is not None:
+                    lookup[pair_key] = distance
+
+        return lookup
+
+    def get_precomputed_room_distance(self, source_room, target_room):
+        """Retrieve a cached room-to-room distance in O(1)."""
+        if source_room == target_room:
+            return 0.0, 0.0
+
+        pair_key = tuple(sorted((source_room, target_room)))
+        return self.room_distance_lookup.get(pair_key)
+
     def reset_visited_flags(self):
         """Reset the visited flag for every node in the room graph."""
         for node in self.room_graph.nodes:
@@ -263,7 +297,7 @@ class ChooseMovement:
                 if parent is None:
                     _, dist_m = self.point_to_room_edge_distance(current_point, neighbor)
                 else:
-                    _, dist_m = self.room_to_room_distance(parent, neighbor)
+                    _, dist_m = self.get_precomputed_room_distance(parent, neighbor)
                 if dist_m is None:
                     if verbose:
                         print(f"    -> {neighbor}: out of bounds")
