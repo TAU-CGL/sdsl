@@ -23,6 +23,8 @@ class ChooseMovement:
         self.room_colors = {room['name']: room['rgb'] for room in self.config['rooms']} if self.config else {}
         self.img_height = self.pixels.shape[0] if self.pixels is not None else None
         self.room_graph = self.create_room_graph() if self.config else nx.Graph()
+        self.wall_mask = np.all(self.pixels == (0, 0, 0), axis=2)
+        self.distance_map = distance_transform_edt(~self.wall_mask)
 
     @staticmethod
     def _load_map_config(yaml_path):
@@ -74,14 +76,14 @@ class ChooseMovement:
         Returns:
             (distance_pixels, distance_meters) or (None, None) if unavailable.
         """
-        if self.pixels is None or self.resolution is None:
-            return None, None
+        # if self.pixels is None or self.resolution is None:
+        #     return None, None
 
-        wall_mask = np.all(self.pixels == np.array(wall_rgb, dtype=np.uint8), axis=2)
-        if not np.any(wall_mask):
-            return None, None
+        # wall_mask = np.all(self.pixels == np.array(wall_rgb, dtype=np.uint8), axis=2)
+        # if not np.any(wall_mask):
+        #     return None, None
 
-        distance_map = distance_transform_edt(~wall_mask)
+        distance_map = self.distance_map  # Precomputed distance transform to walls
 
         x_pixel, y_pixel = int(current_point[0]), int(current_point[1])
         h, w = distance_map.shape
@@ -411,7 +413,7 @@ class ChooseMovement:
         room_graph = self.room_graph
         self.mark_voxels_visited(voxels)
         for angle, dist in zip(angles, dists):
-            step = float(np.minimum(np.maximum(dist-0.05, 0), max_step))
+            step = float(np.minimum(np.maximum(dist-0.15, 0), max_step))
             if step <= 0.01: continue
 
             kept_voxels = []
@@ -439,7 +441,7 @@ class ChooseMovement:
 
             entropy = None
             avg_neighbor_room_distance = None
-            avg_wall_distance = None
+            # avg_wall_distance = None
             cleaned_voxels = []
             normalized_beliefs = []
             if kept_voxels:
@@ -465,19 +467,20 @@ class ChooseMovement:
                     min_dist = self.min_distance_to_neighbor_rooms(pixel_point, room_graph)
                     if min_dist is None:
                         continue
-                    
-                    min_wall_dist = self.distance_to_closest_wall(pixel_point)
-                    min_wall_dist = min(min_wall_dist, self.distance_to_closest_wall(self.world_to_pixel((float(voxel.top_right[0]), float(voxel.top_right[1])))))
-                    min_wall_dist = min(min_wall_dist, self.distance_to_closest_wall(self.world_to_pixel((float(voxel.top_right[0]), float(voxel.bottom_left[1])))))
-                    min_wall_dist = min(min_wall_dist, self.distance_to_closest_wall(self.world_to_pixel((float(voxel.bottom_left[0]), float(voxel.bottom_left[1])))))
-                    min_wall_dist = min(min_wall_dist, self.distance_to_closest_wall(self.world_to_pixel((float(voxel.bottom_left[0]), float(voxel.top_right[1])))))
                     weighted_distance += belief * min_dist
-                    weighted_wall_distance += belief * min_wall_dist
+                    
+                    # min_wall_dist = self.distance_to_closest_wall(pixel_point)
+                    # min_wall_dist = min(min_wall_dist, self.distance_to_closest_wall(self.world_to_pixel((float(voxel.top_right[0]), float(voxel.top_right[1])))))
+                    # min_wall_dist = min(min_wall_dist, self.distance_to_closest_wall(self.world_to_pixel((float(voxel.top_right[0]), float(voxel.bottom_left[1])))))
+                    # min_wall_dist = min(min_wall_dist, self.distance_to_closest_wall(self.world_to_pixel((float(voxel.bottom_left[0]), float(voxel.bottom_left[1])))))
+                    # min_wall_dist = min(min_wall_dist, self.distance_to_closest_wall(self.world_to_pixel((float(voxel.bottom_left[0]), float(voxel.top_right[1])))))
+                    
+                    # weighted_wall_distance += belief * min_wall_dist
                     valid_weight += belief
 
                 if valid_weight > 0:
                     avg_neighbor_room_distance = float(weighted_distance / valid_weight)
-                    avg_wall_distance = float(weighted_wall_distance / valid_weight)
+                    # avg_wall_distance = float(weighted_wall_distance / valid_weight)
                 
             results.append({
                 'angle': float(angle),
@@ -491,7 +494,7 @@ class ChooseMovement:
                 'survival_ratio': len(kept_voxels) / len(voxels),
                 'entropy': entropy,
                 'avg_neighbor_room_distance': avg_neighbor_room_distance,
-                'avg_wall_distance': avg_wall_distance,
+                # 'avg_wall_distance': avg_wall_distance,
             })
 
         return results
@@ -533,7 +536,7 @@ class ChooseMovement:
             'entropy': best['entropy'],
             'collision_count': best['collision_count'],
             'survival_ratio': best['survival_ratio'],
-            'avg_wall_distance': best['avg_wall_distance'],
+            # 'avg_wall_distance': best['avg_wall_distance'],
             'simulations': simulation_results,
         }
 

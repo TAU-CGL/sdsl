@@ -255,7 +255,7 @@ def main():
         # dx, dy = relative_to_global_movement(best_sim['dx'], best_sim['dy'], state['z']) if best_sim else (0, 0)
         # dx, dy = best_sim['dx'], best_sim['dy'] if best_sim else (0, 0)
         print(f"Best simulation: {best_sim if best_sim else 'None'}")
-        step = float(np.minimum(np.maximum(best_sim["distance"]-0.05, 0), 0.3))
+        step = float(np.minimum(np.maximum(best_sim["distance"]-0.15, 0), 0.3))
         dx = step * np.cos(best_sim['angle'] + state['z']) if best_sim else 0
         dy = step * np.sin(best_sim['angle'] + state['z']) if best_sim else 0
         print(f"Best movement: dx={dx:.3f}, dy={dy:.3f}, angle={best_sim['angle'] if best_sim else 0:.3f}")
