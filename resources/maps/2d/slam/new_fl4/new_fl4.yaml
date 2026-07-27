@@ -5,3 +5,22 @@ origin: [-7.35, -6.87, 0]
 negate: 0
 occupied_thresh: 0.65
 free_thresh: 0.25
+
+rooms:
+  - name: "r446"
+    rgb: [255, 0, 0]
+  - name: "r470"
+    rgb: [0, 0, 255]
+  - name: "r400"
+    rgb: [0, 255, 255]
+  - name: "hall1"
+    rgb: [0, 255, 0]   
+  - name: "hall2"
+    rgb: [255, 255, 0]
+  
+
+graph_edges:
+  - [r446, hall1]
+  - [r470, hall1]
+  - [r400, hall1]
+  - [hall1, hall2]

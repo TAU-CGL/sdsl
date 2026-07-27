@@ -5,3 +5,28 @@ origin: [-7.53, -5.44, 0]
 negate: 0
 occupied_thresh: 0.65
 free_thresh: 0.25
+
+rooms:
+  - name: "entrence"
+    rgb: [0, 255, 0]
+  - name: "living_room"
+    rgb: [181, 125, 178]
+  - name: "hall1"
+    rgb: [255, 255, 0]
+  - name: "hall2"
+    rgb: [0, 255, 255]   
+  - name: "game_room"
+    rgb: [255, 0, 0]
+  - name: "bedroom"
+    rgb: [0, 0, 255]
+  - name: "bathroom"
+    rgb: [255, 0, 255]
+  
+
+graph_edges:
+  - [entrence, living_room]
+  - [living_room, hall1]
+  - [hall1, game_room]
+  - [hall1, hall2]
+  - [hall2, bathroom]
+  - [hall2, bedroom]
