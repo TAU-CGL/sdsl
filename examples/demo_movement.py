@@ -17,13 +17,17 @@ try:
 except ImportError:  # pragma: no cover - direct script execution fallback
     from ChooseMovement import ChooseMovement
 
-MAP_YAML    = "resources/maps/2d/slam/simple_symmetry/square.yaml"
-IMG_PATH    = "resources/maps/2d/slam/simple_symmetry/square_c.png"
+MAP_YAML    = "resources/maps/2d/slam/new_fl4/new_fl4.yaml"
+IMG_PATH    = "resources/maps/2d/slam/new_fl4/new_fl4.png"
+# MAP_YAML    = "resources/maps/2d/slam/apt_20250913_1449/my_map.yaml"
+# IMG_PATH    = "resources/maps/2d/slam/apt_20250913_1449/my_map_c.png"
+# MAP_YAML    = "resources/maps/2d/slam/simple_symmetry/square.yaml"
+# IMG_PATH    = "resources/maps/2d/slam/simple_symmetry/square_c.png"
 # MAP_YAML        = "resources/maps/2d/slam/simple_symmetry/symmetry_2.yaml"
 # IMG_PATH        = "resources/maps/2d/slam/simple_symmetry/symmetry_2_c.png"
 N_RAYS          = 16
 RECURSION_DEPTH = 10
-KK_PRIME_RATIO  = 1.0
+KK_PRIME_RATIO  = 0.7
 ERROR_BOUND     = 0.015
 TIMEOUT         = 1.0
 FUSION_EPS      = 0.015   # Gaussian std-dev for the motion model (metres / radians)
@@ -112,6 +116,11 @@ def localize(env, x, y, z, state):
     state["prev_voxels"] = voxels
     state["prev_belief"] = belief
     state["prev_pos"]    = (x, y, z)
+
+    components_3d, belief_sums = sdsl.connectedComponentsWithBeliefs(voxels, True, belief)
+    if max(belief_sums) > 0.55:
+        print("!!!!!!!!!!! High confidence localization achieved. !!!!!!!!!!!")
+    print(max(belief_sums), "at", components_3d[np.argmax(belief_sums)])
 
     return angles, dists, voxels, belief
     
@@ -226,7 +235,7 @@ def main():
         angles, dists, voxels, belief = localize(env, state["x"], state["y"], state["z"], state)
         visualize(fig, ax, state, angles, dists)
         sim_results = mover.simulate_movements(angles, dists, voxels, belief)
-        print(f'Simulated {len(sim_results)} motion hypotheses')
+        # print(f'Simulated {len(sim_results)} motion hypotheses')
         # mover.visualize_voxels(ax, voxels,
         #                    color=(1.0, 0.0, 0.0, 0.25),
         #                    edgecolor='green',
@@ -254,16 +263,16 @@ def main():
         )
         # dx, dy = relative_to_global_movement(best_sim['dx'], best_sim['dy'], state['z']) if best_sim else (0, 0)
         # dx, dy = best_sim['dx'], best_sim['dy'] if best_sim else (0, 0)
-        print(f"Best simulation: {best_sim if best_sim else 'None'}")
+        # print(f"Best simulation: {best_sim if best_sim else 'None'}")
         step = float(np.minimum(np.maximum(best_sim["distance"]-0.15, 0), 0.3))
         dx = step * np.cos(best_sim['angle'] + state['z']) if best_sim else 0
         dy = step * np.sin(best_sim['angle'] + state['z']) if best_sim else 0
-        print(f"Best movement: dx={dx:.3f}, dy={dy:.3f}, angle={best_sim['angle'] if best_sim else 0:.3f}")
-        print(f"prev position: x={state['x']:.3f}, y={state['y']:.3f}, z={state['z']:.3f}")
+        # print(f"Best movement: dx={dx:.3f}, dy={dy:.3f}, angle={best_sim['angle'] if best_sim else 0:.3f}")
+        # print(f"prev position: x={state['x']:.3f}, y={state['y']:.3f}, z={state['z']:.3f}")
         state["x"] += dx
         state["y"] += dy
         state["z"] = (best_sim['angle']+state['z'])% (2 * np.pi) if best_sim else state["z"]
-        print(f"Updated position: x={state['x']:.3f}, y={state['y']:.3f}, z={state['z']:.3f}")
+        # print(f"Updated position: x={state['x']:.3f}, y={state['y']:.3f}, z={state['z']:.3f}")
         print("..")
 
     fig.canvas.mpl_connect("button_press_event", on_click)

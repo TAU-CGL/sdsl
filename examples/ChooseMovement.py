@@ -481,7 +481,8 @@ class ChooseMovement:
             if kept_voxels:
                 cleaned_voxels = sdsl.cleanup_SE2(kept_voxels)
                 if cleaned_voxels:
-                    entropy = float(sdsl.entropy_SE2(cleaned_voxels, list(kept_beliefs)))
+                    components_3d, belief_sums = sdsl.connectedComponentsWithBeliefs(voxels, True, beliefs)
+                    entropy = float(sdsl.entropy_SE2(components_3d, list(belief_sums)))
 
                 kept_beliefs = np.asarray(kept_beliefs, dtype=float)
                 belief_sum = float(np.sum(kept_beliefs))
