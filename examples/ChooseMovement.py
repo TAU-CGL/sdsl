@@ -2,7 +2,7 @@ from collections import deque
 
 from PIL import Image
 import numpy as np
-from scipy.ndimage import distance_transform_edt
+from scipy.ndimage import distance_transform_edt, binary_dilation
 import yaml
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -27,6 +27,15 @@ class ChooseMovement:
 
         self.wall_mask = np.all(self.pixels == (0, 0, 0), axis=2)
         self.distance_map = distance_transform_edt(~self.wall_mask)
+        # Inflate walls by 10 cm to create a conservative forbidden zone
+        if self.resolution is not None and self.resolution > 0:
+            pixel_margin = int(np.ceil(0.10 / float(self.resolution)))
+        else:
+            pixel_margin = 0
+        if pixel_margin > 0:
+            self.inflated_wall_mask = binary_dilation(self.wall_mask, iterations=pixel_margin)
+        else:
+            self.inflated_wall_mask = np.copy(self.wall_mask)
 
     @staticmethod
     def _load_map_config(yaml_path):
@@ -433,12 +442,66 @@ class ChooseMovement:
                 label=f'sim_{sim_idx}',
             )
 
-    def simulate_movements(self, angles, dists, voxels, beliefs, max_step=0.3):
+    def _move_voxels_and_normalize_beliefs(self, voxels, beliefs, angle, step):
+        """Move surviving voxels for one angle and normalize their beliefs."""
+        kept_voxels = []
+        kept_beliefs = []
+        for voxel, belief in zip(voxels, beliefs):
+            alpha = (float(angle) + voxel.midpoint()[2]) % (2 * np.pi)  # global
+            dx = step * np.cos(alpha)
+            dy = step * np.sin(alpha)
+            moved_voxel = self._translate_voxel(voxel, dx, dy)
+            orig_mid = self._voxel_midpoint(voxel)
+            moved_mid = self._voxel_midpoint(moved_voxel)
+            q_old = sdsl.R3(float(orig_mid[0]), float(orig_mid[1]), float(orig_mid[2]))
+            q_new = sdsl.R3(float(moved_mid[0]), float(moved_mid[1]), float(moved_mid[2]))
+            bottom_left = sdsl.R3(float(moved_voxel.bottom_left[0]), float(moved_voxel.bottom_left[1]), float(moved_voxel.bottom_left[2]))
+            top_right = sdsl.R3(float(moved_voxel.top_right[0]), float(moved_voxel.top_right[1]), float(moved_voxel.top_right[2]))
+            top_left = sdsl.R3(float(moved_voxel.bottom_left[0]), float(moved_voxel.top_right[1]), float(moved_voxel.midpoint()[2]))
+            bottom_right = sdsl.R3(float(moved_voxel.top_right[0]), float(moved_voxel.bottom_left[1]), float(moved_voxel.midpoint()[2]))
+            collided = (not self.env.contains(q_new)) or self.env.collision_detection(q_old, q_new)
+            collided = collided or (not self.env.contains(bottom_left)) or (not self.env.contains(top_right)) or (not self.env.contains(top_left)) or (not self.env.contains(bottom_right))
+
+            # Also reject if any sampled point of the moved voxel lies inside the inflated wall mask
+            try:
+                samples = [moved_mid,
+                        #    moved_voxel.bottom_left,
+                        #    moved_voxel.top_right,
+                        #    (moved_voxel.bottom_left[0], moved_voxel.top_right[1], moved_voxel.midpoint()[2]),
+                        #    (moved_voxel.top_right[0], moved_voxel.bottom_left[1], moved_voxel.midpoint()[2])
+                           ]
+                h, w = self.distance_map.shape
+                for s in samples:
+                    px, py = self.world_to_pixel((float(s[0]), float(s[1])))
+                    if not (0 <= px < h and 0 <= py < w):
+                        collided = True
+                        break
+                    if self.inflated_wall_mask[px, py]:
+                        collided = True
+                        break
+            except Exception:
+                collided = True
+            if not collided:
+                kept_voxels.append(moved_voxel)
+                kept_beliefs.append(float(belief))
+
+        kept_beliefs_array = np.asarray(kept_beliefs, dtype=float)
+        if kept_beliefs_array.size == 0:
+            return kept_voxels, kept_beliefs, []
+
+        belief_sum = float(np.sum(kept_beliefs_array))
+        normalized_beliefs = (
+            kept_beliefs_array / belief_sum if belief_sum > 0 else np.full_like(kept_beliefs_array, 1.0 / len(kept_beliefs_array))
+        ).tolist()
+        return kept_voxels, kept_beliefs, normalized_beliefs
+
+    def simulate_movements(self, angles, dists, voxels, beliefs, max_step=0.3, alpha=0.05):
         """Simulate moving voxels along each ray direction and evaluate collisions."""
         # angles = np.asarray(angles, dtype=float) #global
         angles = np.linspace(0, 2 * np.pi , 16, endpoint=False) #relative
         dists = np.asarray(dists, dtype=float)
         beliefs = np.asarray(beliefs, dtype=float)
+        total_belief = float(np.sum(beliefs)) if beliefs.size > 0 else 0.0
 
         results = []
         if len(voxels) == 0 or len(angles) == 0:
@@ -450,49 +513,41 @@ class ChooseMovement:
             step = float(np.minimum(np.maximum(dist-0.15, 0), max_step))
             if step <= 0.01: continue
 
-            kept_voxels = []
-            kept_beliefs = []
-            for voxel, belief in zip(voxels, beliefs):
-                alpha = (float(angle) + voxel.midpoint()[2]) % (2 * np.pi)  # global
-                dx = step * np.cos(alpha)
-                dy = step * np.sin(alpha) 
-                moved_voxel = self._translate_voxel(voxel, dx, dy)
-                orig_mid = self._voxel_midpoint(voxel)
-                moved_mid = self._voxel_midpoint(moved_voxel)
-                q_old = sdsl.R3(float(orig_mid[0]), float(orig_mid[1]), float(orig_mid[2]))
-                q_new = sdsl.R3(float(moved_mid[0]), float(moved_mid[1]), float(moved_mid[2]))
-                bottom_left = sdsl.R3(float(moved_voxel.bottom_left[0]), float(moved_voxel.bottom_left[1]), float(moved_voxel.bottom_left[2]))
-                top_right = sdsl.R3(float(moved_voxel.top_right[0]), float(moved_voxel.top_right[1]), float(moved_voxel.top_right[2]))
-                top_left = sdsl.R3(float(moved_voxel.bottom_left[0]), float(moved_voxel.top_right[1]), float(moved_voxel.midpoint()[2]))
-                bottom_right = sdsl.R3(float(moved_voxel.top_right[0]), float(moved_voxel.bottom_left[1]), float(moved_voxel.midpoint()[2]))
+            kept_voxels, kept_beliefs, normalized_beliefs = self._move_voxels_and_normalize_beliefs(
+                voxels,
+                beliefs,
+                angle,
+                step,
+            )
+            # Compute belief-weighted survival / collision probability early to allow pruning
+            survived_belief = float(np.sum(np.asarray(kept_beliefs, dtype=float))) if len(kept_beliefs) > 0 else 0.0
+            if total_belief > 0.0:
+                collision_prob = max(0.0, 1.0 - (survived_belief / total_belief))
+                survival_prob = max(0.0, (survived_belief / total_belief))
+            else:
+                # If no belief mass provided, fall back to count-based metrics
+                collision_prob = 1.0 - (len(kept_voxels) / len(voxels)) if len(voxels) > 0 else 0.0
+                survival_prob = (len(kept_voxels) / len(voxels)) if len(voxels) > 0 else 0.0
 
+            # Chance-constrained acceptance: skip moves with collision probability > alpha
+            if collision_prob > float(alpha):
+                continue
 
-                collided = (not self.env.contains(q_new)) or self.env.collision_detection(q_old, q_new)
-                collided = collided or (not self.env.contains(bottom_left)) or (not self.env.contains(top_right)) or (not self.env.contains(top_left)) or (not self.env.contains(bottom_right))
-                if not collided:
-                    kept_voxels.append(moved_voxel)
-                    kept_beliefs.append(float(belief))
-
+            # Only compute expensive metrics after the move passed the chance constraint
             entropy = None
             avg_neighbor_room_distance = None
             # avg_wall_distance = None
             cleaned_voxels = []
-            normalized_beliefs = []
             if kept_voxels:
                 cleaned_voxels = sdsl.cleanup_SE2(kept_voxels)
                 if cleaned_voxels:
                     components_3d, belief_sums = sdsl.connectedComponentsWithBeliefs(voxels, True, beliefs)
                     entropy = float(sdsl.entropy_SE2(components_3d, list(belief_sums)))
 
-                kept_beliefs = np.asarray(kept_beliefs, dtype=float)
-                belief_sum = float(np.sum(kept_beliefs))
-                norm_beliefs = kept_beliefs / belief_sum if belief_sum > 0 else np.full_like(kept_beliefs, 1.0 / len(kept_beliefs))
-                normalized_beliefs = norm_beliefs.tolist()
-
                 weighted_distance = 0.0
                 valid_weight = 0.0
                 weighted_wall_distance = 0.0
-                for voxel, belief in zip(kept_voxels, norm_beliefs):
+                for voxel, belief in zip(kept_voxels, normalized_beliefs):
                     moved_mid = self._voxel_midpoint(voxel)
                     pixel_point = self.world_to_pixel((float(moved_mid[0]), float(moved_mid[1])))
                     current_room = self.get_room_at_point(pixel_point)
@@ -516,7 +571,7 @@ class ChooseMovement:
                 if valid_weight > 0:
                     avg_neighbor_room_distance = float(weighted_distance / valid_weight)
                     # avg_wall_distance = float(weighted_wall_distance / valid_weight)
-                
+
             results.append({
                 'angle': float(angle),
                 'distance': float(dist),
@@ -526,7 +581,9 @@ class ChooseMovement:
                 'normalized_beliefs': normalized_beliefs,
                 'cleaned_voxels': cleaned_voxels,
                 'collision_count': len(voxels) - len(kept_voxels),
-                'survival_ratio': len(kept_voxels) / len(voxels),
+                'collision_prob': collision_prob,
+                'survival_prob': survival_prob,
+                'survival_ratio': len(kept_voxels) / len(voxels) if len(voxels) > 0 else 0.0,
                 'entropy': entropy,
                 'avg_neighbor_room_distance': avg_neighbor_room_distance,
                 # 'avg_wall_distance': avg_wall_distance,
