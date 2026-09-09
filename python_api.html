@@ -558,7 +558,7 @@ building these docs so that <code class="docutils literal notranslate"><span cla
 <p>Internally uses a CGAL arrangement and a segment tree for exact and efficient ray-casting. The configuration space is 3-D: <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y,</span> <span class="pre">θ)</span></code>.</p>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span><span class="o">,</span><span class="w"> </span><span class="nn">sdsl</span>
-<span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;map.poly&#39;</span><span class="p">)</span>
+<span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">'map.poly'</span><span class="p">)</span>
 <span class="n">segs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span><span class="n">pts</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">pts</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)])</span>
 <span class="n">env</span> <span class="o">=</span> <span class="n">sdsl</span><span class="o">.</span><span class="n">Env_R2_Arrangement</span><span class="p">(</span><span class="n">segs</span><span class="p">)</span>
 </pre></div>
@@ -621,7 +621,7 @@ building these docs so that <code class="docutils literal notranslate"><span cla
 <p>Builds an AABB tree and KD-tree over a set of 2-D points (e.g., a sampled obstacle boundary). Suitable when the map is given as a PCD rather than a clean polygon.</p>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span><span class="o">,</span><span class="w"> </span><span class="nn">sdsl</span>
-<span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;cloud.txt&#39;</span><span class="p">)</span>  <span class="c1"># (N, 2)</span>
+<span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">'cloud.txt'</span><span class="p">)</span>  <span class="c1"># (N, 2)</span>
 <span class="n">env</span> <span class="o">=</span> <span class="n">sdsl</span><span class="o">.</span><span class="n">Env_2D_PCD</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
 </pre></div>
 </div>
@@ -689,7 +689,7 @@ building these docs so that <code class="docutils literal notranslate"><span cla
 <p>Builds an AABB tree and KD-tree over a set of 3-D points.</p>
 <p>Example:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span><span class="o">,</span><span class="w"> </span><span class="nn">sdsl</span>
-<span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">&#39;cloud3d.txt&#39;</span><span class="p">)</span>  <span class="c1"># (N, 3)</span>
+<span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s1">'cloud3d.txt'</span><span class="p">)</span>  <span class="c1"># (N, 3)</span>
 <span class="n">env</span> <span class="o">=</span> <span class="n">sdsl</span><span class="o">.</span><span class="n">Env_3D_PCD</span><span class="p">(</span><span class="n">pts</span><span class="p">)</span>
 </pre></div>
 </div>
