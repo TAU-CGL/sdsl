@@ -25,7 +25,7 @@ from matplotlib.patches import Rectangle
 import sdsl
 from sdsl.loaders.load_pgm_map import load_pgm_map
 
-MAP_YAML        = "resources/maps/2d/slam/simple_symmetry/symmetry_2_c.yaml"
+MAP_YAML        = "resources/maps/2d/slam/simple_symmetry/symmetry_2.yaml"
 N_RAYS          = 16
 RECURSION_DEPTH = 10
 KK_PRIME_RATIO  = 1.0

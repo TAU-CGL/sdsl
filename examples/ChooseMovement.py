@@ -600,10 +600,9 @@ class ChooseMovement:
         def score(sim):
                     entropy = sim.get('entropy')
                     avg_dist = sim.get('avg_neighbor_room_distance')
-                    avg_wall_dist = sim.get('avg_wall_distance')
-                    if entropy is None or avg_dist is None or avg_wall_dist is None:
+                    if entropy is None or avg_dist is None:
                         return float('inf')
-                    return entropy + avg_dist - avg_wall_dist
+                    return entropy + avg_dist 
 
         best = min(
             simulation_results,

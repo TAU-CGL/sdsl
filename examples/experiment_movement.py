@@ -14,10 +14,18 @@ import time
 
 import numpy as np
 import matplotlib.pyplot as plt
+import sdsl
 
 # Defaults copied from demo_movement.py
-DEFAULT_MAP = "resources/maps/2d/slam/simple_symmetry/square.yaml"
-DEFAULT_IMG = "resources/maps/2d/slam/simple_symmetry/square_c.png"
+DEFAULT_MAP_LIST = ["resources/maps/2d/slam/simple_symmetry/square.yaml",
+                    "resources/maps/2d/slam/simple_symmetry/symmetry_2.yaml",
+                    "resources/maps/2d/slam/simple_symmetry/plus.yaml",
+                    "resources/maps/2d/slam/apt_20250913_1449/my_map.yaml"
+                    ]
+DEFAULT_IMG_LIST = ["resources/maps/2d/slam/simple_symmetry/square_c.png",
+                    "resources/maps/2d/slam/simple_symmetry/symmetry_2_c.png",
+                    "resources/maps/2d/slam/simple_symmetry/plus_c.png",
+                    "resources/maps/2d/slam/apt_20250913_1449/my_map_c.png"]
 
 
 def load_demo_module():
@@ -27,6 +35,26 @@ def load_demo_module():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def state_is_in_dominant_belief_voxel(voxels, belief, x, y):
+    """Return True only when the current pose lies inside the dominant belief voxel."""
+    if not voxels or not belief:
+        return False
+
+    try:
+        components, belief_sums = sdsl.connectedComponentsWithBeliefs(voxels, True, belief)
+    except Exception:
+        return False
+
+    if not components or not belief_sums:
+        return False
+
+    best_idx = int(np.argmax(belief_sums))
+    dominant_voxel = components[best_idx]
+    bl = dominant_voxel.bottom_left
+    tr = dominant_voxel.top_right
+    return bl[0] <= x <= tr[0] and bl[1] <= y <= tr[1]
 
 
 def sample_free_point(pgm, env, min_clearance=0.3, max_tries=200):
@@ -47,7 +75,7 @@ def sample_free_point(pgm, env, min_clearance=0.3, max_tries=200):
     return None
 
 
-def run_on_map(module, map_yaml, image_path, repeats=10, max_steps=200, threshold=0.55, seed=None, visualize=False):
+def run_on_map(module, map_yaml, image_path, repeats=10, max_steps=200, threshold=0.55, seed=None, visualize=False, random_move=False):
     if seed is not None:
         random.seed(seed)
         np.random.seed(seed)
@@ -106,7 +134,7 @@ def run_on_map(module, map_yaml, image_path, repeats=10, max_steps=200, threshol
         }
 
         total_distance = 0.0
-        converged = False
+        converged = None
         steps = 0
 
         for step in range(max_steps):
@@ -115,16 +143,27 @@ def run_on_map(module, map_yaml, image_path, repeats=10, max_steps=200, threshol
 
             # compute component confidence if possible
             max_conf = 0.0
+            inside_dominant_voxel = False
             if belief:
                 try:
                     comps, belief_sums = module.sdsl.connectedComponentsWithBeliefs(voxels, True, belief)
                     if belief_sums:
                         max_conf = max(belief_sums)
+                        inside_dominant_voxel = state_is_in_dominant_belief_voxel(voxels, belief, state["x"], state["y"])
                 except Exception:
                     max_conf = max(belief) if belief else 0.0
+                    inside_dominant_voxel = False
 
-            if max_conf >= threshold:
+            if max_conf >= threshold and inside_dominant_voxel:
                 converged = True
+                break
+            if max_conf >= threshold and not inside_dominant_voxel:
+                # the posterior is concentrated but not aligned with the current pose;
+                # treat it as a failed convergence instead of a success.
+                converged = False
+                # Do not continue the run once the belief has been classified as
+                # a definite outcome. This prevents a strong but wrong posterior
+                # from being treated as a still-running trial.
                 break
 
             sim_results = mover.simulate_movements(angles, dists, voxels, belief)
@@ -141,12 +180,19 @@ def run_on_map(module, map_yaml, image_path, repeats=10, max_steps=200, threshol
             def score(sim):
                 entropy = sim.get('entropy')
                 avg_dist = sim.get('avg_neighbor_room_distance')
-                avg_wall_dist = sim.get('avg_wall_distance')
-                if entropy is None or avg_dist is None or avg_wall_dist is None:
+                if entropy is None or avg_dist is None:
                     return float('inf')
-                return entropy + avg_dist + (0.2 - avg_wall_dist) * 10.0 if avg_wall_dist < 0.2 else entropy + avg_dist
-
-            best_sim = min(sim_results, key=score, default=None)
+                return entropy + avg_dist 
+            if random_move:
+                # pick a random feasible movement instead of the best-scored one
+                best_sim = None
+                try:
+                    if sim_results:
+                        best_sim = random.choice(sim_results)
+                except Exception:
+                    best_sim = None
+            else:
+                best_sim = min(sim_results, key=score, default=None)
             if best_sim is None:
                 break
 
@@ -183,9 +229,9 @@ def run_on_map(module, map_yaml, image_path, repeats=10, max_steps=200, threshol
 
 def parse_args():
     p = argparse.ArgumentParser(description="Run headless localization experiments")
-    p.add_argument("--maps", nargs="+", default=[DEFAULT_MAP], help="YAML map files to run (space separated)")
-    p.add_argument("--images", nargs="*", default=[DEFAULT_IMG], help="Optional image paths matching maps")
-    p.add_argument("--repeats", type=int, default=5)
+    p.add_argument("--maps", nargs="+", default=DEFAULT_MAP_LIST, help="YAML map files to run (space separated)")
+    p.add_argument("--images", nargs="*", default=DEFAULT_IMG_LIST, help="Optional image paths matching maps")
+    p.add_argument("--repeats", type=int, default=50)
     p.add_argument("--max-steps", type=int, default=200)
     p.add_argument("--threshold", type=float, default=0.55)
     p.add_argument("--seed", type=int, default=None)
@@ -194,7 +240,7 @@ def parse_args():
     vis_group = p.add_mutually_exclusive_group()
     vis_group.add_argument("--visualize", dest="visualize", action="store_true", help="Enable visualization (default)")
     vis_group.add_argument("--no-visualize", dest="visualize", action="store_false", help="Disable visualization")
-    p.set_defaults(visualize=True)
+    p.set_defaults(visualize=False)
     return p.parse_args()
 
 
@@ -209,26 +255,61 @@ def main():
     for i, map_yaml in enumerate(maps):
         img = images[i] if i < len(images) else None
         print(f"Running map: {map_yaml} repeats={args.repeats}")
-        res = run_on_map(module, map_yaml, img, repeats=args.repeats, max_steps=args.max_steps, threshold=args.threshold, seed=args.seed, visualize=args.visualize)
-        distances = [r['distance'] for r in res if r['converged']]
-        conv_count = sum(1 for r in res if r['converged'])
-        avg_distance = statistics.mean(distances) if distances else float('nan')
-        all_summary[map_yaml] = {
-            'results': res,
-            'converged': conv_count,
-            'avg_distance': avg_distance,
-        }
-        print(f"Map {map_yaml}: converged {conv_count}/{len(res)}; avg distance (converged) = {avg_distance:.3f}")
+        # run experiments with best-movement selection
+        res_best = run_on_map(module, map_yaml, img, repeats=args.repeats, max_steps=args.max_steps, threshold=args.threshold, seed=args.seed, visualize=args.visualize, random_move=False)
+        # run experiments with random-movement selection
+        res_rand = run_on_map(module, map_yaml, img, repeats=args.repeats, max_steps=args.max_steps, threshold=args.threshold, seed=args.seed, visualize=False, random_move=True)
+
+        def summarize(res):
+            distances = [r['distance'] for r in res if r['converged']]
+            conv_count = sum(1 for r in res if r['converged'])
+            avg_distance = statistics.mean(distances) if distances else float('nan')
+            return {'results': res, 'converged': conv_count, 'avg_distance': avg_distance}
+
+        sum_best = summarize(res_best)
+        sum_rand = summarize(res_rand)
+
+        all_summary[map_yaml] = {'best': sum_best, 'random': sum_rand}
+
+        print(f"Map {map_yaml} (best): converged {sum_best['converged']}/{len(res_best)}; avg distance (converged) = {sum_best['avg_distance']:.3f}")
+        print(f"Map {map_yaml} (random): converged {sum_rand['converged']}/{len(res_rand)}; avg distance (converged) = {sum_rand['avg_distance']:.3f}")
+
+        print("\nCurrent results so far:")
+        for current_map, info in all_summary.items():
+            for mode in ('best', 'random'):
+                summary = info[mode]
+                total = len(summary['results'])
+                conv = summary['converged']
+                avg = summary['avg_distance']
+                avg_str = f"{avg:.3f}" if not math.isnan(avg) else "nan"
+                print(f"  Map: {current_map} | Mode: {mode} | Converged: {conv}/{total} | Avg distance (converged): {avg_str}")
 
     if args.out:
         import csv
         with open(args.out, 'w', newline='') as fh:
             w = csv.writer(fh)
-            w.writerow(['map', 'repeat', 'converged', 'distance', 'steps'])
+            w.writerow(['map', 'mode', 'repeat', 'converged', 'distance', 'steps'])
             for m, info in all_summary.items():
-                for idx, r in enumerate(info['results']):
-                    w.writerow([m, idx, int(r['converged']), f"{r['distance']:.6f}", r['steps']])
-    print("Done.")
+                for mode in ('best', 'random'):
+                    for idx, r in enumerate(info[mode]['results']):
+                        w.writerow([m, mode, idx, int(r['converged']), f"{r['distance']:.6f}", r['steps']])
+    # Print detailed human-readable summary of all statistics
+    print("\n=== Final Experiment Summary ===")
+    for m, info in all_summary.items():
+        print(f"\nMap: {m}")
+        for mode in ('best', 'random'):
+            summary = info[mode]
+            total = len(summary['results'])
+            conv = summary['converged']
+            avg = summary['avg_distance']
+            print(f"  Mode: {mode}")
+            print(f"    Converged: {conv}/{total}")
+            print(f"    Average distance (converged runs): {avg if not (avg!=avg) else 'nan'}")
+            print(f"    Per-run details:")
+            for i, r in enumerate(summary['results']):
+                print(f"      - Repeat {i}: converged={r['converged']}, distance={r['distance']:.6f}, steps={r['steps']}")
+
+    print("\nDone.")
 
 
 if __name__ == '__main__':
