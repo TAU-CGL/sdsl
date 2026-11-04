@@ -17,14 +17,14 @@ try:
 except ImportError:  # pragma: no cover - direct script execution fallback
     from ChooseMovement import ChooseMovement
 
-MAP_YAML    = "resources/maps/2d/slam/new_fl4/new_fl4.yaml"
-IMG_PATH    = "resources/maps/2d/slam/new_fl4/new_fl4.png"
+# MAP_YAML    = "resources/maps/2d/slam/new_fl4/new_fl4.yaml"
+# IMG_PATH    = "resources/maps/2d/slam/new_fl4/new_fl4.png"
 # MAP_YAML    = "resources/maps/2d/slam/apt_20250913_1449/my_map.yaml"
 # IMG_PATH    = "resources/maps/2d/slam/apt_20250913_1449/my_map_c.png"
 # MAP_YAML    = "resources/maps/2d/slam/simple_symmetry/square.yaml"
 # IMG_PATH    = "resources/maps/2d/slam/simple_symmetry/square_c.png"
-# MAP_YAML        = "resources/maps/2d/slam/simple_symmetry/symmetry_2.yaml"
-# IMG_PATH        = "resources/maps/2d/slam/simple_symmetry/symmetry_2_c.png"
+MAP_YAML        = "resources/maps/2d/slam/simple_symmetry/symmetry_2.yaml"
+IMG_PATH        = "resources/maps/2d/slam/simple_symmetry/symmetry_2_c.png"
 N_RAYS          = 16
 RECURSION_DEPTH = 10
 KK_PRIME_RATIO  = 0.7
@@ -83,7 +83,10 @@ def localize(env, x, y, z, state):
         bbox, pred, RECURSION_DEPTH, timeout=TIMEOUT, verbose=True)
     voxels = sdsl.cleanup_SE2(voxels)
 
-    if state["prev_voxels"] is None or state["prev_belief"] is None:
+    if not voxels:
+        belief = []
+        print("No voxels returned by localization; using empty belief.")
+    elif state["prev_voxels"] is None or state["prev_belief"] is None:
         # First click — uniform belief
         n      = len(voxels)
         belief = [1.0 / n] * n
@@ -117,10 +120,17 @@ def localize(env, x, y, z, state):
     state["prev_belief"] = belief
     state["prev_pos"]    = (x, y, z)
 
-    components_3d, belief_sums = sdsl.connectedComponentsWithBeliefs(voxels, True, belief)
-    if max(belief_sums) > 0.55:
-        print("!!!!!!!!!!! High confidence localization achieved. !!!!!!!!!!!")
-    print(max(belief_sums), "at", components_3d[np.argmax(belief_sums)])
+    if belief:
+        components_3d, belief_sums = sdsl.connectedComponentsWithBeliefs(voxels, True, belief)
+        if belief_sums:
+            max_belief = max(belief_sums)
+            if max_belief > 0.55:
+                print("!!!!!!!!!!! High confidence localization achieved. !!!!!!!!!!!")
+            print(max_belief, "at", components_3d[np.argmax(belief_sums)])
+        else:
+            print("No belief sums available.")
+    else:
+        print("No belief available for evaluation.")
 
     return angles, dists, voxels, belief
     
@@ -248,19 +258,27 @@ def main():
         #                        label=f'moved_{sim_idx}')
         # visualize(fig, ax, state, angles, dists)
         mover.visualize_simulation_result(ax, sim_results, voxels)
-        def score(sim):
-            entropy = sim.get('entropy')
-            avg_dist = sim.get('avg_neighbor_room_distance')
-            avg_wall_dist = sim.get('avg_wall_distance') # if samller than 0.2 then panelize
-            if entropy is None or avg_dist is None or avg_wall_dist is None:
-                return float('inf')
-            return entropy + avg_dist + (0.2 - avg_wall_dist)*10.0 if avg_wall_dist < 0.2 else entropy + avg_dist 
+        entropy_eps = 0.01
+        best_idx, best_sim = mover.select_best_simulation(sim_results, entropy_eps=entropy_eps)
+        valid_entropies = [sim['entropy'] for sim in sim_results if sim.get('entropy') is not None]
+        e_min = min(valid_entropies) if valid_entropies else None
 
-        best_sim = min(
-            sim_results,
-            key=score,
-            default=None,
-        )
+        for idx, sim in enumerate(sim_results):
+            entropy = sim.get('entropy')
+            tie = e_min is not None and entropy is not None and entropy <= e_min + entropy_eps
+            print(
+                f"move[{idx}] tie={tie} "
+                f"distance={sim.get('distance', 'n/a')} "
+                f"angle={sim.get('angle', 'n/a')} "
+                f"entropy={sim.get('entropy', 'n/a')} "
+                f"avg_neighbor_room_distance={sim.get('avg_neighbor_room_distance', 'n/a')} "
+                f"avg_wall_distance={sim.get('avg_wall_distance', 'n/a')}"
+            )
+
+        print(f"best move index: {best_idx}")
+        if best_sim is None:
+            print("..")
+            return
         # dx, dy = relative_to_global_movement(best_sim['dx'], best_sim['dy'], state['z']) if best_sim else (0, 0)
         # dx, dy = best_sim['dx'], best_sim['dy'] if best_sim else (0, 0)
         # print(f"Best simulation: {best_sim if best_sim else 'None'}")

@@ -404,7 +404,7 @@ class ChooseMovement:
             if room_name is not None:
                 self.mark_node_visited(room_name)
     
-    def visualize_simulation_result(self, ax, simulation, base_voxels=None):
+    def visualize_simulation_result(self, ax, simulation, base_voxels=None, show_simulations=False):
         """Visualize original voxels and the simulation's cleaned voxels.
 
         Args:
@@ -412,6 +412,7 @@ class ChooseMovement:
             simulation: A simulation dictionary (or a list of them) that contains
                 either 'cleaned_voxels' or 'surviving_voxels'.
             base_voxels: Optional original voxel set to draw first as the baseline.
+            show_simulations: If True, also draw each simulation's moved voxels.
         """
         for artist in list(ax.collections):
             if isinstance(artist, PatchCollection):
@@ -426,6 +427,9 @@ class ChooseMovement:
                 edgecolor='darkred',
                 label='original',
             )
+
+        if not show_simulations:
+            return
 
         simulations_to_plot = [simulation] if isinstance(simulation, dict) else list(simulation or [])
         for sim_idx, sim in enumerate(simulations_to_plot):
@@ -539,10 +543,8 @@ class ChooseMovement:
             # avg_wall_distance = None
             cleaned_voxels = []
             if kept_voxels:
-                cleaned_voxels = sdsl.cleanup_SE2(kept_voxels)
-                if cleaned_voxels:
-                    components_3d, belief_sums = sdsl.connectedComponentsWithBeliefs(voxels, True, beliefs)
-                    entropy = float(sdsl.entropy_SE2(components_3d, list(belief_sums)))
+                components_3d, belief_sums = sdsl.connectedComponentsWithBeliefs(kept_voxels, True, normalized_beliefs)
+                entropy = float(sdsl.entropy_SE2(components_3d, list(belief_sums)))
 
                 weighted_distance = 0.0
                 valid_weight = 0.0
@@ -591,24 +593,32 @@ class ChooseMovement:
 
         return results
 
+    def select_best_simulation(self, sim_results, entropy_eps=0.01):
+        """Lexicographic choice: lowest entropy first, then lowest
+        avg_neighbor_room_distance among moves within entropy_eps of the minimum.
+
+        Returns (best_idx, best_sim), or (None, None) if no candidate is valid.
+        """
+        valid = [
+            (idx, sim) for idx, sim in enumerate(sim_results)
+            if sim.get('entropy') is not None and sim.get('avg_neighbor_room_distance') is not None
+        ]
+        if not valid:
+            return None, None
+
+        e_min = min(sim['entropy'] for _, sim in valid)
+        ties = [(idx, sim) for idx, sim in valid if sim['entropy'] <= e_min + entropy_eps]
+        return min(ties, key=lambda item: item[1]['avg_neighbor_room_distance'])
+
     def choose_movement(self, angles, dists, voxels, beliefs):
         """Choose the best movement based on simulated entropy."""
         simulation_results = self.simulate_movements(angles, dists, voxels, beliefs)
         if not simulation_results:
             return {'movement': None, 'reason': 'no_simulation_results', 'simulations': simulation_results}
 
-        def score(sim):
-                    entropy = sim.get('entropy')
-                    avg_dist = sim.get('avg_neighbor_room_distance')
-                    if entropy is None or avg_dist is None:
-                        return float('inf')
-                    return entropy + avg_dist 
-
-        best = min(
-            simulation_results,
-            key=score,
-            default=None,
-        )
+        _, best = self.select_best_simulation(simulation_results)
+        if best is None:
+            return {'movement': None, 'reason': 'no_valid_simulation', 'simulations': simulation_results}
         # best = min(
         #     simulation_results,
         #     key=lambda item: float('inf') if item['entropy'] is None else item['entropy'],
