@@ -132,7 +132,7 @@ def localize(env, x, y, z, state):
     else:
         print("No belief available for evaluation.")
 
-    return angles, dists, voxels, belief
+    return angles, noisy_dists, voxels, belief
     
 def visualize(fig,ax, state, angles, dists):
     x, y, z = state["prev_pos"]
