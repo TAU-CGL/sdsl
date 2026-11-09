@@ -14,8 +14,10 @@ from sdsl.loaders.load_pgm_map import load_pgm_map
 class ChooseMovement:
     """Encapsulate room-edge and graph reasoning with optional voxel motion simulation."""
 
-    def __init__(self, env=None, yaml_path=None, image_path=None):
+    def __init__(self, env=None, yaml_path=None, image_path=None, robot_radius=0.10, min_clearance=0.10):
         self.env = env
+        self.robot_radius = robot_radius
+        self.min_clearance = min_clearance
         self.config = self._load_map_config(yaml_path) if yaml_path else None
         self.pixels = self._load_image(image_path) if image_path else None
         self.resolution = self.config['resolution'] if self.config else None
@@ -27,9 +29,9 @@ class ChooseMovement:
 
         self.wall_mask = np.all(self.pixels == (0, 0, 0), axis=2)
         self.distance_map = distance_transform_edt(~self.wall_mask)
-        # Inflate walls by 10 cm to create a conservative forbidden zone
+        total_margin = robot_radius + min_clearance
         if self.resolution is not None and self.resolution > 0:
-            pixel_margin = int(np.ceil(0.10 / float(self.resolution)))
+            pixel_margin = int(np.ceil(total_margin / float(self.resolution)))
         else:
             pixel_margin = 0
         if pixel_margin > 0:
@@ -499,7 +501,7 @@ class ChooseMovement:
         ).tolist()
         return kept_voxels, kept_beliefs, normalized_beliefs
 
-    def simulate_movements(self, angles, dists, voxels, beliefs, max_step=0.3, alpha=0.05):
+    def simulate_movements(self, angles, dists, voxels, beliefs, max_step=0.3, alpha=0.05, forward_safety_margin=0.15):
         """Simulate moving voxels along each ray direction and evaluate collisions."""
         # angles = np.asarray(angles, dtype=float) #global
         angles = np.linspace(0, 2 * np.pi , 16, endpoint=False) #relative
@@ -514,7 +516,7 @@ class ChooseMovement:
         room_graph = self.room_graph
         self.mark_voxels_visited(voxels)
         for angle, dist in zip(angles, dists):
-            step = float(np.minimum(np.maximum(dist-0.15, 0), max_step))
+            step = float(np.minimum(np.maximum(dist - forward_safety_margin, 0), max_step))
             if step <= 0.01: continue
 
             kept_voxels, kept_beliefs, normalized_beliefs = self._move_voxels_and_normalize_beliefs(
@@ -628,8 +630,6 @@ class ChooseMovement:
             'movement': {
                 'type': 'step_along_angle',
                 'angle': best['angle'],
-                'dx': best['dx'],
-                'dy': best['dy'],
                 'distance': best['distance'],
                 'step': best['step'],
             },

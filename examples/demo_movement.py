@@ -230,6 +230,7 @@ def main():
     }
 
     mover = ChooseMovement(env, yaml_path=MAP_YAML, image_path=IMG_PATH)
+    print(f"Wall clearance: robot_radius={mover.robot_radius:.2f} m, min_clearance={mover.min_clearance:.2f} m (total margin: {mover.robot_radius + mover.min_clearance:.2f} m)")
     click_count = {"value": 0}
 
     def on_click(event):
