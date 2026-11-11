@@ -219,3 +219,12 @@ CMakeUserPresets.json
 
 data/raw
 cache/
+
+# Local Claude Code notes
+CLAUDE.md
+
+# Active-SDSL benchmark harness: build outputs, raw results, generated report
+benchmarks/active_sdsl/cpp/bin/
+benchmarks/active_sdsl/cpp/inputs/
+benchmarks/active_sdsl/results/
+benchmarks/active_sdsl/report/index.html
