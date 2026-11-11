@@ -564,8 +564,12 @@ def sec_native_flags(native):
                  "localize, fixed split (sum)": sum(x["t_fixed_all"] for x in ok),
                  "predicate filter phase (sum)": sum(x["fixedall_filter"] for x in ok)}
             for k, pts in d.get("belief_scaling", {}).items():
-                if pts:
+                if pts and k != "entropy_SE2":  # µs-scale, irrelevant; keeps the chart within 8 hues
                     m[f"{k} @n={pts[-1]['n']}"] = (pts[-1]["n"], pts[-1]["s"])
+            for k, label in (("measureDistance_ns_apt", "Env_PGM::measureDistance (apt)"),
+                             ("intersects_ns_apt", "Env_PGM::intersects (apt)")):
+                if d.get(k):
+                    m[label] = d[k]
             return m
         mb = metrics(base)
         variants = [v for v in order if (h, v) in native]

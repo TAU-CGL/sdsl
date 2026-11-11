@@ -1,51 +1,124 @@
 {
   "kpis": [
-    {"v": "~14×", "l": "RPi 4 vs M1 Pro, one active step (original code, same maps/seeds)"},
-    {"v": "97–99%", "l": "share of an original active step spent re-computing room distance transforms (ChooseMovement)"},
-    {"v": "38–100×", "l": "faster active step on the M1 after the (bit-identical) example optimizations (square/plus/symmetry_2; apartment ≈1×, localization-bound)"},
-    {"v": "22–66×", "l": "faster active step on the RPi after the same optimizations (simulate_movements alone 240–320×)"},
-    {"v": "up to 15× / ≫100×", "l": "localization speed-up from a one-line Voxel::split fix (measured / ambiguous poses)"},
-    {"v": "1.2×", "l": "OpenMP speed-up of localization at 4 threads on the RPi (serial split dominates)"}
+    {
+      "v": "~14×",
+      "l": "RPi 4 vs M1 Pro, one active step (original code, same maps/seeds)"
+    },
+    {
+      "v": "97–99%",
+      "l": "share of an original active step spent re-computing room distance transforms (ChooseMovement)"
+    },
+    {
+      "v": "38–100×",
+      "l": "faster active step on the M1 after the (bit-identical) example optimizations (square/plus/symmetry_2; apartment ≈1×, localization-bound)"
+    },
+    {
+      "v": "22–66×",
+      "l": "faster active step on the RPi after the same optimizations (simulate_movements alone 240–320×)"
+    },
+    {
+      "v": "37× (RPi)",
+      "l": "localization speed-up from a one-line Voxel::split fix, native, summed over 14 poses (per pose up to 113× on the RPi, 15× on the M1); identical output"
+    },
+    {
+      "v": "1.2×",
+      "l": "OpenMP speed-up of localization at 4 threads on the RPi today (serial split dominates); 3.6× once the split is fixed"
+    }
   ],
   "notice": [
-    {"crit": true, "html": "<b>The active step was ~99% wasted work, now fixed outside the core.</b> <code>ChooseMovement.point_to_room_edge_distance</code> ran a full-image <code>np.all</code> + <code>scipy distance_transform_edt</code> for <i>every room-graph neighbour of every hypothesis voxel of every feasible move</i> (47,743 EDTs in 20 profiled steps on the M1; 1.2–1.9 ms each on the M1, 13–24 ms on the RPi) and read a single pixel of it. The result depends only on the map, so it is now cached per room; together with a room-label image and a per-call memo, <code>simulate_movements</code> went from 5.6 s → 0.017 s per step (square map, M1). Outputs are bit-identical (equivalence test: 0 mismatches over every pixel, 4,200 edge-distance pairs, 1,918 accepted moves, lock-step episodes)."},
-    {"crit": true, "html": "<b>After that fix, an RPi step is almost entirely core localization.</b> With the same examples optimization on the RPi, deployed steps went 103 s → 4.7 s (square), 24.4 s → 0.41 s (plus), 11.5 s → 0.17 s (symmetry_2), with <code>simulate_movements</code> 240–320× faster and identical poses at every matched step. What is left is <code>localize_omp_forkjoin_3d</code> + <code>cleanup_SE2</code>: e.g. a fixed-work square step is 12.6 s on the RPi, of which ~12.2 s is localization; apartment steps stay at ~16 s in both variants. Optimized, the RPi is 17–22× behind the M1 on these steps (square: 4.7 s vs 0.22 s), a wider gap than the ~14× of the original code, so the next RPi win has to come from the core (split fix, build flags), not from the active layer."},
-    {"crit": true, "html": "<b>The core localizer has an O(N²) bug that dominates whenever a pose is ambiguous.</b> <code>Voxel::split</code> calls <code>output.reserve(output.size() + 2^D)</code> per voxel, which defeats <code>std::vector</code>'s geometric growth, so the serial split loop in <code>localize_omp_forkjoin</code> re-copies the whole output once per voxel. It is 72–98% of localization time whenever more than a few thousand voxels survive (M1: 1.47 s → 0.095 s on an apartment pose with identical output; an ambiguous pose that took 60 s in Python finishes in 0.19 s), and on the RPi it is ~50–85× slower than on the M1 (memory bandwidth), e.g. one apartment pose at depth 7: 16 s on the M1, 776 s on the RPi. Fix = one <code>voxels.reserve(localization.size() &lt;&lt; D)</code> before the split loop (plus skipping the final, unused split)."},
-    {"crit": true, "html": "<b>On the RPi the 1 s timeout changes the answer, not just the speed.</b> The timeout is checked only between recursion levels, so the Pi stops at 6–9 levels where the M1 reaches 10. On the apartment map the coarser voxels merge into a few large components that immediately pass the 0.55 confidence threshold: <b>RPi episodes \"converge\" at step 0 while the M1 (1,516 voxels at full depth) does not.</b> Any experiment comparing hosts (or tuning the threshold) must account for resolution; consider a resolution-aware convergence test or a depth target instead of a wall-clock timeout."},
-    {"html": "<b>The timeout does not bound the step either.</b> It only gates the <i>start</i> of a level; the level that starts at 0.99 s (filter + quadratic split), <code>cleanup_SE2</code> (O(n²) on the raw output) and <code>fusion_2d</code> (O(N·M)) all run afterwards. Worst deployed <code>localize()</code> seen: 2.6 s on the M1 and 30 s on the RPi with TIMEOUT = 1.0."},
-    {"html": "<b>Build flags leave RPi performance on the table.</b> nanobind appends <code>-Os</code> after CMake's <code>-O3</code> (verified in the generated <code>build.ninja</code>), so the entire core library inside the Python extension is size-optimized; and Raspbian's gcc defaults to <code>-march=armv6+fp</code> (no ARMv7/ARMv8 instructions, no NEON). See the native flag comparison below: RPI_FLAG_SUMMARY"},
-    {"html": "<b>OpenMP buys almost nothing today.</b> Localization at 4 threads is 1.24× faster than 1 thread on the RPi (1.37× on the M1 at 8 threads) because the serial O(N²) split dominates (Amdahl). With the split fixed, the M1 native benchmark scales ~4.5× (8 threads)."},
-    {"html": "<b>Behavioural observations (not performance):</b> with the 5% collision chance-constraint, every apartment-map episode stops after one step (no feasible move for ~600–2,400 scattered hypotheses); square/plus episodes never converge within 15 steps; the experiment's measurement-corruption is disabled (<code>corrupt_measurements</code> returns early), so all runs use noise-free rays; trajectories are not bit-reproducible run-to-run because OpenMP's critical-section order changes voxel order (and hence float summation order downstream)."}
+    {
+      "crit": true,
+      "html": "<b>The active step was ~99% wasted work, now fixed outside the core.</b> <code>ChooseMovement.point_to_room_edge_distance</code> ran a full-image <code>np.all</code> + <code>scipy distance_transform_edt</code> for <i>every room-graph neighbour of every hypothesis voxel of every feasible move</i> (47,743 EDTs in 20 profiled steps on the M1; 1.2–1.9 ms each on the M1, 13–24 ms on the RPi) and read a single pixel of it. The result depends only on the map, so it is now cached per room; together with a room-label image and a per-call memo, <code>simulate_movements</code> went from 5.6 s → 0.017 s per step (square map, M1). Outputs are bit-identical (equivalence test: 0 mismatches over every pixel, 4,200 edge-distance pairs, 1,918 accepted moves, lock-step episodes)."
+    },
+    {
+      "crit": true,
+      "html": "<b>After that fix, an RPi step is almost entirely core localization.</b> With the same examples optimization on the RPi, deployed steps went 103 s → 4.7 s (square), 24.4 s → 0.41 s (plus), 11.5 s → 0.17 s (symmetry_2), with <code>simulate_movements</code> 240–320× faster and identical poses at every matched step. What is left is <code>localize_omp_forkjoin_3d</code> + <code>cleanup_SE2</code>: e.g. a fixed-work square step is 12.6 s on the RPi, of which ~12.2 s is localization; apartment steps stay at ~16 s in both variants. Optimized, the RPi is 17–22× behind the M1 on these steps (square: 4.7 s vs 0.22 s), a wider gap than the ~14× of the original code, so the next RPi win has to come from the core (split fix, build flags), not from the active layer."
+    },
+    {
+      "crit": true,
+      "html": "<b>The core localizer has an O(N²) bug that dominates whenever a pose is ambiguous.</b> <code>Voxel::split</code> calls <code>output.reserve(output.size() + 2^D)</code> per voxel, which defeats <code>std::vector</code>'s geometric growth, so the serial split loop in <code>localize_omp_forkjoin</code> re-copies the whole output once per voxel. It is 72–98% of localization time whenever more than a few thousand voxels survive (M1: 1.47 s → 0.095 s on an apartment pose with identical output; an ambiguous pose that took 60 s in Python finishes in 0.19 s), and on the RPi it is ~50–85× slower than on the M1 (memory bandwidth), e.g. one apartment pose at depth 7: 16 s on the M1, 776 s on the RPi. Fix = one <code>voxels.reserve(localization.size() &lt;&lt; D)</code> before the split loop (plus skipping the final, unused split)."
+    },
+    {
+      "crit": true,
+      "html": "<b>On the RPi the 1 s timeout changes the answer, not just the speed.</b> The timeout is checked only between recursion levels, so the Pi stops at 6–9 levels where the M1 reaches 10. On the apartment map the coarser voxels merge into a few large components that immediately pass the 0.55 confidence threshold: <b>RPi episodes \"converge\" at step 0 while the M1 (1,516 voxels at full depth) does not.</b> Any experiment comparing hosts (or tuning the threshold) must account for resolution; consider a resolution-aware convergence test or a depth target instead of a wall-clock timeout."
+    },
+    {
+      "html": "<b>The timeout does not bound the step either.</b> It only gates the <i>start</i> of a level; the level that starts at 0.99 s (filter + quadratic split), <code>cleanup_SE2</code> (O(n²) on the raw output) and <code>fusion_2d</code> (O(N·M)) all run afterwards. Worst deployed <code>localize()</code> seen: 2.6 s on the M1 and 30 s on the RPi with TIMEOUT = 1.0."
+    },
+    {
+      "html": "<b>Build flags leave RPi performance on the table.</b> nanobind appends <code>-Os</code> after CMake's <code>-O3</code> (verified in the generated <code>build.ninja</code>), so the entire core library inside the Python extension is size-optimized; and Raspbian's gcc defaults to <code>-march=armv6+fp</code> (no ARMv7/ARMv8 instructions, no NEON). See the native flag comparison below: on the RPi, <code>-O3</code> instead of <code>-Os</code> makes localization (split fixed) 1.44× faster and <code>cleanup_SE2</code> / connected components 3.7× / 4.9× faster; <code>-mcpu=cortex-a72</code> adds little to localization totals but speeds the environment queries (<code>measureDistance</code> 391 → 289 ns, <code>intersects</code> 230 → 128 ns); a static 64-bit (aarch64) build, run on the Pi's 64-bit kernel, is best everywhere: 1.8× on localization, 2.7–2.9× on the environment queries, and even 2.3× on the <i>original</i> quadratic split (faster 64-bit memory copies). On the M1 the same flags are worth only ~1.1× on localization (1.4–1.5× on the belief kernels)."
+    },
+    {
+      "html": "<b>OpenMP buys almost nothing today.</b> Localization at 4 threads is 1.24× faster than 1 thread on the RPi (1.37× on the M1 at 8 threads) because the serial O(N²) split dominates (Amdahl). With the split fixed, the native benchmark scales 3.6× on the RPi (4 threads: 13.9 s → 3.9 s) and 4.5× on the M1 (8 threads); with the original split the RPi gains only 1.08×."
+    },
+    {
+      "html": "<b>Behavioural observations (not performance):</b> with the 5% collision chance-constraint, every apartment-map episode stops after one step (no feasible move for ~600–2,400 scattered hypotheses); square/plus episodes never converge within 15 steps; the experiment's measurement-corruption is disabled (<code>corrupt_measurements</code> returns early), so all runs use noise-free rays; trajectories are not bit-reproducible run-to-run because OpenMP's critical-section order changes voxel order (and hence float summation order downstream)."
+    }
   ],
   "e2e": [
-    {"html": "Boxes: per-step wall time; outlined = original code, filled = optimized examples (same core library). On both machines the original step is dominated by <i>room-distance BFS / EDT</i> (pink). After the optimization what remains is the core library: fork-join localization, <code>cleanup_SE2</code> and <code>fusion_2d</code> — i.e. exactly the parts covered by the core recommendations below. Note the RPi ran a prefix of the M1's episodes (first 2 repeats × 10 steps deployed; 1 × 8 fixed, apartment map excluded from fixed-work runs) — comparisons use that common subset."}
+    {
+      "html": "Boxes: per-step wall time; outlined = original code, filled = optimized examples (same core library). On both machines the original step is dominated by <i>room-distance BFS / EDT</i> (pink). After the optimization what remains is the core library: fork-join localization, <code>cleanup_SE2</code> and <code>fusion_2d</code> — i.e. exactly the parts covered by the core recommendations below. Note the RPi ran a prefix of the M1's episodes (first 2 repeats × 10 steps deployed; 1 × 8 fixed, apartment map excluded from fixed-work runs) — comparisons use that common subset."
+    }
   ],
   "timeout": [
-    {"html": "Same seeds, same start poses. Recursion levels actually run and whether the 1 s timeout fired, per host. Fewer levels ⇒ coarser voxels ⇒ different hypotheses, different moves and (on the apartment map) a different convergence outcome."}
+    {
+      "html": "Same seeds, same start poses. Recursion levels actually run and whether the 1 s timeout fired, per host. Fewer levels ⇒ coarser voxels ⇒ different hypotheses, different moves and (on the apartment map) a different convergence outcome."
+    }
   ],
   "profile": [
-    {"html": "cProfile over one episode per map (deployed settings, original examples; M1: 8 steps per map, RPi: 4). Self time is shown; the top four rows are all the same call chain (<code>point_to_room_edge_distance</code> → <code>distance_transform_edt</code> → <code>euclidean_feature_transform</code> + the <code>np.all</code> reduction building the room mask). A native flame graph from <code>py-spy --native</code> on the RPi is in <code>results/rpi/orig/profiles/pyspy_orig.svg</code> (open it in a browser; the extension is stripped, so C++ frames inside <code>_sdsl</code> appear as addresses — the native benchmark below breaks them down instead)."}
+    {
+      "html": "cProfile over one episode per map (deployed settings, original examples; M1: 8 steps per map, RPi: 4). Self time is shown; the top four rows are all the same call chain (<code>point_to_room_edge_distance</code> → <code>distance_transform_edt</code> → <code>euclidean_feature_transform</code> + the <code>np.all</code> reduction building the room mask). A native flame graph from <code>py-spy --native</code> on the RPi is in <code>results/rpi/orig/profiles/pyspy_orig.svg</code> (open it in a browser; the extension is stripped, so C++ frames inside <code>_sdsl</code> appear as addresses — the native benchmark below breaks them down instead)."
+    }
   ],
   "kernels": [
-    {"html": "Localization cost explodes with pose ambiguity rather than with depth per se: most poses stay in the 5–60 ms range at depth 10 on the M1, but ambiguous ones (several apartment poses, one square pose) jump by 10–1000× as the raw voxel count passes ~10k, which is where the O(N²) split takes over. The belief-layer kernels are all quadratic (fitted exponents 1.9–2.0): <code>cleanup_SE2</code> and <code>connectedComponentsWithBeliefs</code> are all-pairs union-finds, <code>fusion_2d</code> is N×M with ~12 libm calls per pair. <b><code>fusion_2d</code> is the outlier on the RPi: 58× slower than the M1 vs ~11× for the other kernels</b> — transcendental-heavy code is where the armv6/VFP baseline code-gen and the 32-bit soft libm hurt most."}
+    {
+      "html": "Localization cost explodes with pose ambiguity rather than with depth per se: most poses stay in the 5–60 ms range at depth 10 on the M1, but ambiguous ones (several apartment poses, one square pose) jump by 10–1000× as the raw voxel count passes ~10k, which is where the O(N²) split takes over. The belief-layer kernels are all quadratic (fitted exponents 1.9–2.0): <code>cleanup_SE2</code> and <code>connectedComponentsWithBeliefs</code> are all-pairs union-finds, <code>fusion_2d</code> is N×M with ~12 libm calls per pair. <b><code>fusion_2d</code> is the outlier on the RPi: 58× slower than the M1 vs ~11× for the other kernels</b> — and the native flag variants show it is not a code-gen problem: <code>-O3</code> gains 1.1×, a 64-bit build 1.3×, and the RPi stays ~60× behind the M1. It is the libm/transcendental throughput of the Cortex-A72 (~12 <code>exp</code>/<code>log</code>/trig calls per voxel pair), so the fix is algorithmic: prune the N×M loop to spatially overlapping pairs and drop the unused <code>dz</code> terms (recommendation 5 and 4)."
+    }
   ],
   "native": [
-    {"html": "<code>benchmarks/active_sdsl/cpp/bench_kernels.cpp</code> includes the core headers unmodified and re-implements <code>localize_omp_forkjoin</code> line-for-line as a \"mirror\" so each phase can be timed; variants that would need a core change (pre-reserving the split output, skipping the final split and the discarded <code>verify()</code> pass) exist only in the benchmark, and their output is checked to be identical to the original. Poses whose original split would exceed 150k voxels are not run with the original algorithm (hours); poses exceeding 2M voxels per level are aborted (the RPi has 4 GB and no swap)."}
+    {
+      "html": "<code>benchmarks/active_sdsl/cpp/bench_kernels.cpp</code> includes the core headers unmodified and re-implements <code>localize_omp_forkjoin</code> line-for-line as a \"mirror\" so each phase can be timed; variants that would need a core change (pre-reserving the split output, skipping the final split and the discarded <code>verify()</code> pass) exist only in the benchmark, and their output is checked to be identical to the original. Poses whose original split would exceed 150k voxels are not run with the original algorithm (hours); poses exceeding 2M voxels per level are aborted (the RPi has 4 GB and no swap)."
+    },
+    {
+      "html": "<b>RPi results</b> (one repetition per variant; 14 of 16 poses run with both algorithms, 1 skipped as too large for the original split, 1 aborted above 2M voxels): the split fix takes localization from 144.7 s to 3.88 s at <code>-Os</code> (37×; up to 113× on one 70k-voxel pose). Here the RPi is 59× slower than the M1 with the original split but only 15.5× with it fixed, so the quadratic copy is what hurts the Pi disproportionately (memory bandwidth). Outputs are identical across all variants on both hosts."
+    }
   ],
   "opt": [
-    {"html": "All changes are in <code>examples/</code> (core library untouched) and are verified bit-identical to git HEAD by <code>benchmarks/active_sdsl/test_equivalence.py</code> (M1: full test, 4 maps; RPi: quick test). <ul><li><b>ChooseMovement</b>: per-room masks and distance transforms computed once (lazily) instead of per query; a room-label image replaces the per-pixel <code>np.array_equal</code> colour scan; neighbour-room distances memoized within a <code>simulate_movements</code> call (visited flags are fixed during it); voxel bounds read once per call instead of ~60 binding crossings per voxel per angle; cheap collision tests (inflated wall mask, <code>contains</code>) before the 101-sample <code>collision_detection</code>; R3/Voxel_R3 objects only for kept voxels; conservative early exit for moves that certainly violate the chance constraint; new <code>compute_metrics=False</code> for callers that never read entropy/room distance.</li><li><b>experiment_movement.py</b>: the random baseline no longer computes metrics it never reads (same RNG consumption, same chosen moves); connected components computed once per step instead of three times.</li><li><b>demo_movement.py</b>: caches its connected-components result in <code>state['cc']</code> for reuse.</li></ul>"}
+    {
+      "html": "All changes are in <code>examples/</code> (core library untouched) and are verified bit-identical to the original code (commit 328423d) by <code>benchmarks/active_sdsl/test_equivalence.py</code> (M1: full test, 4 maps; RPi: quick test). <ul><li><b>ChooseMovement</b>: per-room masks and distance transforms computed once (lazily) instead of per query; a room-label image replaces the per-pixel <code>np.array_equal</code> colour scan; neighbour-room distances memoized within a <code>simulate_movements</code> call (visited flags are fixed during it); voxel bounds read once per call instead of ~60 binding crossings per voxel per angle; cheap collision tests (inflated wall mask, <code>contains</code>) before the 101-sample <code>collision_detection</code>; R3/Voxel_R3 objects only for kept voxels; conservative early exit for moves that certainly violate the chance constraint; new <code>compute_metrics=False</code> for callers that never read entropy/room distance.</li><li><b>experiment_movement.py</b>: the random baseline no longer computes metrics it never reads (same RNG consumption, same chosen moves); connected components computed once per step instead of three times.</li><li><b>demo_movement.py</b>: caches its connected-components result in <code>state['cc']</code> for reuse.</li></ul>"
+    }
   ],
   "recs": [
-    {"crit": true, "html": "<b>1 · Fix the O(N²) split</b> (<code>sdsl_omp_forkjoin.hpp</code>, <code>configuration.hpp</code>): reserve <code>localization.size() &lt;&lt; D</code> once per level (or drop the per-call reserve in <code>Voxel::split</code>), and skip the split after the last level. Measured 1.4–25× on real poses (M1), orders of magnitude on ambiguous ones, identical output. Biggest single win on the RPi; it also unlocks OpenMP scaling."},
-    {"crit": true, "html": "<b>2 · Build flags</b>: pass <code>NOMINSIZE</code> to <code>nanobind_add_module</code> (or otherwise stop <code>-Os</code> overriding <code>-O3</code>), and on Raspberry Pi add <code>-mcpu=cortex-a72 -mfpu=neon-fp-armv8</code> (or better: run a 64-bit Raspberry Pi OS). RPI_FLAG_REC"},
-    {"html": "<b>3 · Make the timeout meaningful</b>: check it inside the filter/split (or predict the next level's cost from its voxel count), and decide whether convergence should depend on resolution reached. Today the RPi silently returns coarser, differently-behaving answers."},
-    {"html": "<b>4 · Remove dead work in the hot path</b>: the post-loop <code>verify()</code> pass (up to 16 ray casts per survivor, result discarded), <code>fusion_2d</code>'s debug passes and its never-used <code>dz</code> (6 transcendental calls per pair), per-<code>i</code> heap allocation of <code>log_w</code>, the unconditional <code>fmt::print</code> and per-call <code>omp_set_num_threads</code>. Hoist per-measurement constants out of <code>Predicate_Fwd2D::forward</code> (≈14 libm calls per voxel per measurement, only ~4 depend on the voxel)."},
-    {"html": "<b>5 · Replace the all-pairs O(n²) neighbour scans</b> in <code>cleanup.hpp</code> (<code>cleanup_SE2</code>, <code>connectedComponentsWithBeliefs</code>, called up to ~19× per active step) with a grid/hash of voxel corners (voxels at one level are aligned), and parallelize <code>fusion_2d</code>'s independent outer loop; prune its inner loop to spatially overlapping previous voxels."},
-    {"html": "<b>6 · Keep raw voxels in C++</b>: <code>localize_omp_forkjoin_3d</code> returns the full raw list to Python only for <code>cleanup_SE2</code> to convert it straight back; a fused <code>localize_and_cleanup</code> binding (or an opaque bound vector) removes two conversions of up to 10⁵ objects per step."}
+    {
+      "crit": true,
+      "html": "<b>1 · Fix the O(N²) split</b> (<code>sdsl_omp_forkjoin.hpp</code>, <code>configuration.hpp</code>): reserve <code>localization.size() &lt;&lt; D</code> once per level (or drop the per-call reserve in <code>Voxel::split</code>), and skip the split after the last level. Measured 1.4–25× on real poses on the M1 and up to 113× on the RPi (37× summed over 14 poses), identical output. Biggest single win on the RPi; it also unlocks OpenMP scaling."
+    },
+    {
+      "crit": true,
+      "html": "<b>2 · Build flags</b>: pass <code>NOMINSIZE</code> to <code>nanobind_add_module</code> (or otherwise stop <code>-Os</code> overriding <code>-O3</code>), and on Raspberry Pi add <code>-mcpu=cortex-a72 -mfpu=neon-fp-armv8</code> (or better: run a 64-bit Raspberry Pi OS). Measured on the RPi with the split fixed (sum over 14 poses): 3.88 s at -Os → 2.70 s at -O3 → 2.17 s as a 64-bit build; at n = 6,400, <code>cleanup_SE2</code> 0.91 s → 0.24 s and connected components 0.92 s → 0.19 s at -O3."
+    },
+    {
+      "html": "<b>3 · Make the timeout meaningful</b>: check it inside the filter/split (or predict the next level's cost from its voxel count), and decide whether convergence should depend on resolution reached. Today the RPi silently returns coarser, differently-behaving answers."
+    },
+    {
+      "html": "<b>4 · Remove dead work in the hot path</b>: the post-loop <code>verify()</code> pass (up to 16 ray casts per survivor, result discarded), <code>fusion_2d</code>'s debug passes and its never-used <code>dz</code> (6 transcendental calls per pair), per-<code>i</code> heap allocation of <code>log_w</code>, the unconditional <code>fmt::print</code> and per-call <code>omp_set_num_threads</code>. Hoist per-measurement constants out of <code>Predicate_Fwd2D::forward</code> (≈14 libm calls per voxel per measurement, only ~4 depend on the voxel)."
+    },
+    {
+      "html": "<b>5 · Replace the all-pairs O(n²) neighbour scans</b> in <code>cleanup.hpp</code> (<code>cleanup_SE2</code>, <code>connectedComponentsWithBeliefs</code>, called up to ~19× per active step) with a grid/hash of voxel corners (voxels at one level are aligned), and parallelize <code>fusion_2d</code>'s independent outer loop; prune its inner loop to spatially overlapping previous voxels."
+    },
+    {
+      "html": "<b>6 · Keep raw voxels in C++</b>: <code>localize_omp_forkjoin_3d</code> returns the full raw list to Python only for <code>cleanup_SE2</code> to convert it straight back; a fused <code>localize_and_cleanup</code> binding (or an opaque bound vector) removes two conversions of up to 10⁵ objects per step."
+    }
   ],
   "method": [
-    {"html": "<b>Harness</b>: <code>benchmarks/active_sdsl/</code> — <code>run_all.py</code> (Python suite, tasks in <code>tasks.py</code>), <code>run_native.py</code> + <code>cpp/</code> (native kernels and compiler-flag variants), <code>test_equivalence.py</code>, <code>phase2.sh</code> (equivalence → optimized variant → native → compile/test checks), <code>make_report.py</code> (this page). Raw results: <code>results/&lt;host&gt;/&lt;variant&gt;/*.json</code>; live progress was streamed to visdom (envs <code>sdsl_mac</code>, <code>sdsl_rpi</code>, <code>…_opt</code>, <code>…_native</code>, <code>sdsl_overview</code>)."},
-    {"html": "<b>Faithfulness</b>: the active loop is a line-for-line re-implementation of <code>experiment_movement.run_on_map</code> (best-move mode, entropy + room-distance score, same convergence test, same RNG seeding) with timing wrappers installed at runtime on <code>sdsl</code> entry points and <code>ChooseMovement</code> methods — no source changes for instrumentation. The \"orig\" variant runs <code>examples/</code> exactly as in git HEAD (extracted to a temp dir); \"opt\" runs the working tree. The core library (<code>sdsl/</code>) was not modified; both hosts use sdsl 1.1.0 @ 328423d."},
-    {"html": "<b>Caveats</b>: RPi = Raspbian armhf (32-bit userland, gcc 12, Python 3.12 via pyenv), NFS root file system (irrelevant for these CPU-bound runs), no matplotlib wheel for cp312/armhf so the harness stubs it (examples only use it for plotting). The M1 numbers were taken on a desktop machine with other apps open. Measurement corruption is disabled in the examples (noise-free rays). Some long sweeps are capped by per-call budgets (skipped points are listed). The RPi stayed below RPI_MAX_TEMP °C with no throttling during the runs (chart below)."}
+    {
+      "html": "<b>Harness</b>: <code>benchmarks/active_sdsl/</code> — <code>run_all.py</code> (Python suite, tasks in <code>tasks.py</code>), <code>run_native.py</code> + <code>cpp/</code> (native kernels and compiler-flag variants), <code>test_equivalence.py</code>, <code>phase2.sh</code> (equivalence → optimized variant → native → compile/test checks), <code>make_report.py</code> (this page). Raw results: <code>results/&lt;host&gt;/&lt;variant&gt;/*.json</code>; live progress was streamed to visdom (envs <code>sdsl_mac</code>, <code>sdsl_rpi</code>, <code>…_opt</code>, <code>…_native</code>, <code>sdsl_overview</code>)."
+    },
+    {
+      "html": "<b>Faithfulness</b>: the active loop is a line-for-line re-implementation of <code>experiment_movement.run_on_map</code> (best-move mode, entropy + room-distance score, same convergence test, same RNG seeding) with timing wrappers installed at runtime on <code>sdsl</code> entry points and <code>ChooseMovement</code> methods — no source changes for instrumentation. The \"orig\" variant runs <code>examples/</code> exactly as at commit 328423d (extracted to a temp dir; <code>SDSL_ORIG_REF</code> overrides); \"opt\" runs the working tree. The core library (<code>sdsl/</code>) was not modified; both hosts use sdsl 1.1.0 @ 328423d."
+    },
+    {
+      "html": "<b>Caveats</b>: RPi = Raspbian armhf (32-bit userland, gcc 12, Python 3.12 via pyenv), NFS root file system (irrelevant for these CPU-bound runs), no matplotlib wheel for cp312/armhf so the harness stubs it (examples only use it for plotting). The M1 numbers were taken on a desktop machine with other apps open. Measurement corruption is disabled in the examples (noise-free rays). Some long sweeps are capped by per-call budgets (skipped points are listed). The RPi stayed below 53 °C with no throttling during the runs (chart below)."
+    }
   ]
 }
