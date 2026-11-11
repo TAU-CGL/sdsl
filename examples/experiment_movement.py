@@ -37,13 +37,19 @@ def load_demo_module():
     return module
 
 
-def state_is_in_dominant_belief_voxel(voxels, belief, x, y):
-    """Return True only when the current pose lies inside the dominant belief voxel."""
+def state_is_in_dominant_belief_voxel(voxels, belief, x, y, components_and_sums=None):
+    """Return True only when the current pose lies inside the dominant belief voxel.
+
+    components_and_sums: optional precomputed
+    sdsl.connectedComponentsWithBeliefs(voxels, True, belief) result (avoids recomputing it).
+    """
     if not voxels or not belief:
         return False
 
     try:
-        components, belief_sums = sdsl.connectedComponentsWithBeliefs(voxels, True, belief)
+        if components_and_sums is None:
+            components_and_sums = sdsl.connectedComponentsWithBeliefs(voxels, True, belief)
+        components, belief_sums = components_and_sums
     except Exception:
         return False
 
@@ -146,10 +152,14 @@ def run_on_map(module, map_yaml, image_path, repeats=10, max_steps=200, threshol
             inside_dominant_voxel = False
             if belief:
                 try:
-                    comps, belief_sums = module.sdsl.connectedComponentsWithBeliefs(voxels, True, belief)
+                    # localize() already computed the connected components of this exact
+                    # (voxels, belief); reuse them instead of recomputing (twice).
+                    cc = state.get("cc") or module.sdsl.connectedComponentsWithBeliefs(voxels, True, belief)
+                    comps, belief_sums = cc
                     if belief_sums:
                         max_conf = max(belief_sums)
-                        inside_dominant_voxel = state_is_in_dominant_belief_voxel(voxels, belief, state["x"], state["y"])
+                        inside_dominant_voxel = state_is_in_dominant_belief_voxel(
+                            voxels, belief, state["x"], state["y"], components_and_sums=cc)
                 except Exception:
                     max_conf = max(belief) if belief else 0.0
                     inside_dominant_voxel = False
@@ -166,7 +176,10 @@ def run_on_map(module, map_yaml, image_path, repeats=10, max_steps=200, threshol
                 # from being treated as a still-running trial.
                 break
 
-            sim_results = mover.simulate_movements(angles, dists, voxels, belief)
+            # The random baseline never reads entropy / room distance, so skip computing them
+            # (same result list, same RNG consumption, same chosen move).
+            sim_results = mover.simulate_movements(angles, dists, voxels, belief,
+                                                   compute_metrics=not random_move)
 
             if visualize and fig is not None and ax is not None:
                 try:

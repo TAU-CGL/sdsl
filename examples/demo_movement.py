@@ -120,8 +120,11 @@ def localize(env, x, y, z, state):
     state["prev_belief"] = belief
     state["prev_pos"]    = (x, y, z)
 
+    state["cc"] = None
     if belief:
         components_3d, belief_sums = sdsl.connectedComponentsWithBeliefs(voxels, True, belief)
+        # Cached so callers (e.g. experiment_movement.py) need not recompute it.
+        state["cc"] = (components_3d, belief_sums)
         if belief_sums:
             max_belief = max(belief_sums)
             if max_belief > 0.55:
