@@ -1,0 +1,9 @@
+map,mode,total,correct,incorrect,timeout,stuck_no_step,stuck_chance,stuck_no_entropy,collision,avg_distance_correct
+resources/maps/2d/slam/simple_symmetry/square.yaml,best,30,15,13,2,0,0,0,0,13.574492
+resources/maps/2d/slam/simple_symmetry/square.yaml,random,30,17,13,0,0,0,0,0,20.464085
+resources/maps/2d/slam/simple_symmetry/symmetry_2.yaml,best,30,28,0,2,0,0,0,0,4.109381
+resources/maps/2d/slam/simple_symmetry/symmetry_2.yaml,random,30,16,4,10,0,0,0,0,8.214283
+resources/maps/2d/slam/simple_symmetry/plus.yaml,best,30,18,7,5,0,0,0,0,15.963225
+resources/maps/2d/slam/simple_symmetry/plus.yaml,random,30,19,11,0,0,0,0,0,18.334709
+resources/maps/2d/slam/apt_20250913_1449/my_map.yaml,best,30,28,1,0,0,1,0,0,0.195691
+resources/maps/2d/slam/apt_20250913_1449/my_map.yaml,random,30,28,1,0,0,1,0,0,0.248168

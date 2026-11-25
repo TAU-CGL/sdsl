@@ -120,8 +120,11 @@ def localize(env, x, y, z, state):
     state["prev_belief"] = belief
     state["prev_pos"]    = (x, y, z)
 
+    state["cc"] = None
     if belief:
         components_3d, belief_sums = sdsl.connectedComponentsWithBeliefs(voxels, True, belief)
+        # Cached so callers (e.g. tests/experiment_movement.py) need not recompute it.
+        state["cc"] = (components_3d, belief_sums)
         if belief_sums:
             max_belief = max(belief_sums)
             if max_belief > 0.55:
@@ -230,7 +233,7 @@ def main():
     }
 
     mover = ChooseMovement(env, yaml_path=MAP_YAML, image_path=IMG_PATH)
-    print(f"Wall clearance: robot_radius={mover.robot_radius:.2f} m, min_clearance={mover.min_clearance:.2f} m (total margin: {mover.robot_radius + mover.min_clearance:.2f} m)")
+    print(f"Wall clearance: min_clearance={mover.min_clearance:.2f} m")
     click_count = {"value": 0}
 
     def on_click(event):
@@ -272,8 +275,7 @@ def main():
                 f"distance={sim.get('distance', 'n/a')} "
                 f"angle={sim.get('angle', 'n/a')} "
                 f"entropy={sim.get('entropy', 'n/a')} "
-                f"avg_neighbor_room_distance={sim.get('avg_neighbor_room_distance', 'n/a')} "
-                f"avg_wall_distance={sim.get('avg_wall_distance', 'n/a')}"
+                f"avg_neighbor_room_distance={sim.get('avg_neighbor_room_distance', 'n/a')}"
             )
 
         print(f"best move index: {best_idx}")

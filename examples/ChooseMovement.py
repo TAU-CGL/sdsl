@@ -14,9 +14,9 @@ from sdsl.loaders.load_pgm_map import load_pgm_map
 class ChooseMovement:
     """Encapsulate room-edge and graph reasoning with optional voxel motion simulation."""
 
-    def __init__(self, env=None, yaml_path=None, image_path=None, robot_radius=0.10, min_clearance=0.10):
+    def __init__(self, env=None, yaml_path=None, image_path=None, min_clearance=0.05, visited_belief_threshold=0.05):
         self.env = env
-        self.robot_radius = robot_radius
+        self.visited_belief_threshold = visited_belief_threshold
         self.min_clearance = min_clearance
         self.config = self._load_map_config(yaml_path) if yaml_path else None
         self.pixels = self._load_image(image_path) if image_path else None
@@ -24,12 +24,22 @@ class ChooseMovement:
         self.origin = tuple(self.config['origin'][:2]) if self.config and 'origin' in self.config else (0.0, 0.0)
         self.room_colors = {room['name']: room['rgb'] for room in self.config['rooms']} if self.config else {}
         self.img_height = self.pixels.shape[0] if self.pixels is not None else None
+        # Map-static caches (performance only; results are bit-identical):
+        # per-room masks / distance transforms are computed once per room
+        # instead of on every query, and a room-label image replaces the
+        # per-pixel linear colour scan in get_room_at_point().
+        self._room_mask_cache = {}
+        self._room_edt_cache = {}
+        self._room_names = list(self.room_colors)
+        self._room_label = self._build_room_label_image()
         self.room_graph = self.create_room_graph() if self.config else nx.Graph()
         self.room_distance_lookup = self.precompute_room_distance_lookup()
 
         self.wall_mask = np.all(self.pixels == (0, 0, 0), axis=2)
         self.distance_map = distance_transform_edt(~self.wall_mask)
-        total_margin = robot_radius + min_clearance
+        # The map is assumed to be already inflated by the robot's footprint, so the
+        # only extra wall margin is min_clearance.
+        total_margin = min_clearance
         if self.resolution is not None and self.resolution > 0:
             pixel_margin = int(np.ceil(total_margin / float(self.resolution)))
         else:
@@ -53,6 +63,35 @@ class ChooseMovement:
             img = img.convert('RGB')
         return np.array(img)
 
+    def _room_mask(self, room_name):
+        """Boolean mask of the pixels painted in the room's colour (cached)."""
+        mask = self._room_mask_cache.get(room_name)
+        if mask is None:
+            mask = np.all(self.pixels == self.room_colors[room_name], axis=2)
+            self._room_mask_cache[room_name] = mask
+        return mask
+
+    def _room_edt(self, room_name):
+        """Distance transform to the room's region (cached; depends only on the map)."""
+        edt = self._room_edt_cache.get(room_name)
+        if edt is None:
+            edt = distance_transform_edt(~self._room_mask(room_name))
+            self._room_edt_cache[room_name] = edt
+        return edt
+
+    def _build_room_label_image(self):
+        """Per-pixel index into self._room_names (-1 = no room).
+
+        Filled in reverse order so that, if colours ever overlapped, the first
+        room in dict order wins, which matches the original first-match scan.
+        """
+        if self.pixels is None:
+            return None
+        label = np.full(self.pixels.shape[:2], -1, dtype=np.int32)
+        for idx in reversed(range(len(self._room_names))):
+            label[self._room_mask(self._room_names[idx])] = idx
+        return label
+
     def point_to_room_edge_distance(self, current_point, target_room):
         """
         Calculate distance from the current point to the nearest edge of a target room.
@@ -64,10 +103,7 @@ class ChooseMovement:
         Returns:
             (distance_pixels, distance_meters) or (None, None) if out of bounds
         """
-        target_room_rgb = self.room_colors[target_room]
-
-        mask = np.all(self.pixels == target_room_rgb, axis=2)
-        distance_map = distance_transform_edt(~mask)
+        distance_map = self._room_edt(target_room)
 
         x_pixel, y_pixel = int(current_point[0]), int(current_point[1])
         h, w = distance_map.shape
@@ -128,16 +164,13 @@ class ChooseMovement:
         if source_room == target_room:
             return 0.0, 0.0
 
-        source_rgb = self.room_colors[source_room]
-        target_rgb = self.room_colors[target_room]
-
-        source_mask = np.all(self.pixels == source_rgb, axis=2)
-        target_mask = np.all(self.pixels == target_rgb, axis=2)
+        source_mask = self._room_mask(source_room)
+        target_mask = self._room_mask(target_room)
 
         if not np.any(source_mask) or not np.any(target_mask):
             return None, None
 
-        distance_map = distance_transform_edt(~target_mask)
+        distance_map = self._room_edt(target_room)
         source_distances = distance_map[source_mask]
         if source_distances.size == 0:
             return None, None
@@ -161,11 +194,8 @@ class ChooseMovement:
         if not (0 <= x_pixel < h and 0 <= y_pixel < w):
             return None
 
-        pixel_color = self.pixels[x_pixel, y_pixel]
-        for room_name, room_rgb in self.room_colors.items():
-            if np.array_equal(pixel_color, room_rgb):
-                return room_name
-        return None
+        idx = int(self._room_label[x_pixel, y_pixel])
+        return self._room_names[idx] if idx >= 0 else None
 
     def world_to_pixel(self, world_point):
         """
@@ -397,13 +427,27 @@ class ChooseMovement:
         ax.add_collection(coll)
         return coll
     
-    def mark_voxels_visited(self, voxels):
-        """Mark the rooms containing the given voxels as visited."""
-        for voxel in voxels:
+    def mark_voxels_visited(self, voxels, beliefs=None, min_room_belief=0.05):
+        """Mark rooms as visited if the voxels inside them hold at least min_room_belief
+        of the total belief. Without beliefs, every room containing a voxel is marked."""
+        if beliefs is None:
+            beliefs = np.ones(len(voxels), dtype=float)
+            min_room_belief = 0.0
+        beliefs = np.asarray(beliefs, dtype=float)
+        total = float(np.sum(beliefs))
+        if total <= 0:
+            return
+
+        room_belief = {}
+        for voxel, belief in zip(voxels, beliefs):
             mid = voxel.midpoint()
             pixel_point = self.world_to_pixel((float(mid[0]), float(mid[1])))
             room_name = self.get_room_at_point(pixel_point)
             if room_name is not None:
+                room_belief[room_name] = room_belief.get(room_name, 0.0) + belief / total
+
+        for room_name, mass in room_belief.items():
+            if mass >= min_room_belief:
                 self.mark_node_visited(room_name)
     
     def visualize_simulation_result(self, ax, simulation, base_voxels=None, show_simulations=False):
@@ -448,61 +492,101 @@ class ChooseMovement:
                 label=f'sim_{sim_idx}',
             )
 
-    def _move_voxels_and_normalize_beliefs(self, voxels, beliefs, angle, step):
-        """Move surviving voxels for one angle and normalize their beliefs."""
+    @staticmethod
+    def _unpack_voxels(voxels):
+        """Read every voxel's bounds and midpoint once, as Python floats.
+
+        Returns tuples (bl0, bl1, bl2, tr0, tr1, tr2, mid0, mid1, mid2). This
+        avoids ~60 Python<->C++ binding crossings per voxel per angle.
+        """
+        out = []
+        for v in voxels:
+            bl, tr, mid = v.bottom_left, v.top_right, v.midpoint()
+            out.append((bl[0], bl[1], bl[2], tr[0], tr[1], tr[2], mid[0], mid[1], mid[2]))
+        return out
+
+    def _move_voxels_and_normalize_beliefs(self, voxels, beliefs, angle, step, _unpacked=None, _reject_limit=None):
+        """Move surviving voxels for one angle and normalize their beliefs.
+
+        Returns (kept_voxels, kept_beliefs, normalized_beliefs, n_env_rejected, n_mask_rejected).
+        n_env_rejected: voxels rejected by env.contains / collision_detection.
+        n_mask_rejected: voxels that passed env checks but were rejected by the inflated wall mask.
+
+        _unpacked: optional precomputed self._unpack_voxels(voxels) (shared across angles).
+        _reject_limit: optional belief mass; once the rejected mass strictly exceeds it the
+            move is certain to fail the chance constraint and None is returned early.
+        """
+        if _unpacked is None:
+            _unpacked = self._unpack_voxels(voxels)
         kept_voxels = []
         kept_beliefs = []
-        for voxel, belief in zip(voxels, beliefs):
-            alpha = (float(angle) + voxel.midpoint()[2]) % (2 * np.pi)  # global
+        n_env_rejected = 0
+        n_mask_rejected = 0
+        rejected_mass = 0.0
+        h, w = self.distance_map.shape
+        env = self.env
+        R3 = sdsl.R3
+        for voxel, cached, belief in zip(voxels, _unpacked, beliefs):
+            bl0, bl1, bl2, tr0, tr1, tr2, mid0, mid1, mid2 = cached
+            alpha = (float(angle) + mid2) % (2 * np.pi)  # global
             dx = step * np.cos(alpha)
             dy = step * np.sin(alpha)
-            moved_voxel = self._translate_voxel(voxel, dx, dy)
-            orig_mid = self._voxel_midpoint(voxel)
-            moved_mid = self._voxel_midpoint(moved_voxel)
-            q_old = sdsl.R3(float(orig_mid[0]), float(orig_mid[1]), float(orig_mid[2]))
-            q_new = sdsl.R3(float(moved_mid[0]), float(moved_mid[1]), float(moved_mid[2]))
-            bottom_left = sdsl.R3(float(moved_voxel.bottom_left[0]), float(moved_voxel.bottom_left[1]), float(moved_voxel.bottom_left[2]))
-            top_right = sdsl.R3(float(moved_voxel.top_right[0]), float(moved_voxel.top_right[1]), float(moved_voxel.top_right[2]))
-            top_left = sdsl.R3(float(moved_voxel.bottom_left[0]), float(moved_voxel.top_right[1]), float(moved_voxel.midpoint()[2]))
-            bottom_right = sdsl.R3(float(moved_voxel.top_right[0]), float(moved_voxel.bottom_left[1]), float(moved_voxel.midpoint()[2]))
-            collided = (not self.env.contains(q_new)) or self.env.collision_detection(q_old, q_new)
-            collided = collided or (not self.env.contains(bottom_left)) or (not self.env.contains(top_right)) or (not self.env.contains(top_left)) or (not self.env.contains(bottom_right))
+            # Moved voxel bounds / midpoint, computed with the same IEEE operations as
+            # _translate_voxel() + Voxel::midpoint() ((bl + tr) * 0.5), so bit-identical.
+            nbl0, nbl1, ntr0, ntr1 = bl0 + dx, bl1 + dy, tr0 + dx, tr1 + dy
+            mx, my, mz = (nbl0 + ntr0) * 0.5, (nbl1 + ntr1) * 0.5, (bl2 + tr2) * 0.5
 
-            # Also reject if any sampled point of the moved voxel lies inside the inflated wall mask
-            try:
-                samples = [moved_mid,
-                        #    moved_voxel.bottom_left,
-                        #    moved_voxel.top_right,
-                        #    (moved_voxel.bottom_left[0], moved_voxel.top_right[1], moved_voxel.midpoint()[2]),
-                        #    (moved_voxel.top_right[0], moved_voxel.bottom_left[1], moved_voxel.midpoint()[2])
-                           ]
-                h, w = self.distance_map.shape
-                for s in samples:
-                    px, py = self.world_to_pixel((float(s[0]), float(s[1])))
+            # env tests are side-effect free and ORed together, so the cheap contains()
+            # lookups run before the 101-sample collision_detection().
+            env_collided = ((not env.contains(R3(mx, my, mz)))
+                            or (not env.contains(R3(nbl0, nbl1, bl2)))
+                            or (not env.contains(R3(ntr0, ntr1, tr2)))
+                            or (not env.contains(R3(nbl0, ntr1, mz)))
+                            or (not env.contains(R3(ntr0, nbl1, mz)))
+                            or env.collision_detection(R3(mid0, mid1, mid2), R3(mx, my, mz)))
+
+            if env_collided:
+                n_env_rejected += 1
+            else:
+                # Reject if the moved voxel midpoint lies inside the inflated wall mask
+                mask_collided = False
+                try:
+                    px, py = self.world_to_pixel((float(mx), float(my)))
                     if not (0 <= px < h and 0 <= py < w):
-                        collided = True
-                        break
-                    if self.inflated_wall_mask[px, py]:
-                        collided = True
-                        break
-            except Exception:
-                collided = True
-            if not collided:
-                kept_voxels.append(moved_voxel)
-                kept_beliefs.append(float(belief))
+                        mask_collided = True
+                    elif self.inflated_wall_mask[px, py]:
+                        mask_collided = True
+                except Exception:
+                    mask_collided = True
+
+                if not mask_collided:
+                    kept_voxels.append(self._translate_voxel(voxel, dx, dy))
+                    kept_beliefs.append(float(belief))
+                    continue
+                n_mask_rejected += 1
+
+            if _reject_limit is not None:
+                rejected_mass += float(belief)
+                if rejected_mass > _reject_limit:
+                    return None
 
         kept_beliefs_array = np.asarray(kept_beliefs, dtype=float)
         if kept_beliefs_array.size == 0:
-            return kept_voxels, kept_beliefs, []
+            return kept_voxels, kept_beliefs, [], n_env_rejected, n_mask_rejected
 
         belief_sum = float(np.sum(kept_beliefs_array))
         normalized_beliefs = (
             kept_beliefs_array / belief_sum if belief_sum > 0 else np.full_like(kept_beliefs_array, 1.0 / len(kept_beliefs_array))
         ).tolist()
-        return kept_voxels, kept_beliefs, normalized_beliefs
+        return kept_voxels, kept_beliefs, normalized_beliefs, n_env_rejected, n_mask_rejected
 
-    def simulate_movements(self, angles, dists, voxels, beliefs, max_step=0.3, alpha=0.05, forward_safety_margin=0.15):
-        """Simulate moving voxels along each ray direction and evaluate collisions."""
+    def simulate_movements(self, angles, dists, voxels, beliefs, max_step=0.3, alpha=0.05, forward_safety_margin=0.15, compute_metrics=True):
+        """Simulate moving voxels along each ray direction and evaluate collisions.
+
+        compute_metrics=False skips the entropy / room-distance metrics of accepted
+        moves (they are left as None), e.g. for a random-move baseline that never
+        reads them. Everything else in the returned list is unchanged.
+        """
         # angles = np.asarray(angles, dtype=float) #global
         angles = np.linspace(0, 2 * np.pi , 16, endpoint=False) #relative
         dists = np.asarray(dists, dtype=float)
@@ -514,17 +598,32 @@ class ChooseMovement:
             return results
 
         room_graph = self.room_graph
-        self.mark_voxels_visited(voxels)
+        self.mark_voxels_visited(voxels, beliefs, self.visited_belief_threshold)
+        # Per-call caches. Visited flags do not change for the rest of this call,
+        # so the neighbour-room distance depends only on the pixel.
+        unpacked = self._unpack_voxels(voxels)
+        room_dist_cache = {}
+        # Early exit for moves that certainly violate the chance constraint. The
+        # 1e-9 relative margin keeps this strictly conservative: borderline moves
+        # still go through the exact test below, so the accepted set is unchanged.
+        # (Valid because beliefs are non-negative.)
+        reject_limit = (float(alpha) * total_belief * (1.0 + 1e-9)
+                        if total_belief > 0.0 and float(alpha) > 0.0 else None)
         for angle, dist in zip(angles, dists):
             step = float(np.minimum(np.maximum(dist - forward_safety_margin, 0), max_step))
             if step <= 0.01: continue
 
-            kept_voxels, kept_beliefs, normalized_beliefs = self._move_voxels_and_normalize_beliefs(
+            moved = self._move_voxels_and_normalize_beliefs(
                 voxels,
                 beliefs,
                 angle,
                 step,
+                _unpacked=unpacked,
+                _reject_limit=reject_limit,
             )
+            if moved is None:
+                continue  # collision probability certainly > alpha
+            kept_voxels, kept_beliefs, normalized_beliefs, n_env_rejected, n_mask_rejected = moved
             # Compute belief-weighted survival / collision probability early to allow pruning
             survived_belief = float(np.sum(np.asarray(kept_beliefs, dtype=float))) if len(kept_beliefs) > 0 else 0.0
             if total_belief > 0.0:
@@ -544,7 +643,7 @@ class ChooseMovement:
             avg_neighbor_room_distance = None
             # avg_wall_distance = None
             cleaned_voxels = []
-            if kept_voxels:
+            if kept_voxels and compute_metrics:
                 components_3d, belief_sums = sdsl.connectedComponentsWithBeliefs(kept_voxels, True, normalized_beliefs)
                 entropy = float(sdsl.entropy_SE2(components_3d, list(belief_sums)))
 
@@ -558,7 +657,11 @@ class ChooseMovement:
                     if current_room is None:
                         continue
 
-                    min_dist = self.min_distance_to_neighbor_rooms(pixel_point, room_graph)
+                    if pixel_point in room_dist_cache:
+                        min_dist = room_dist_cache[pixel_point]
+                    else:
+                        min_dist = self.min_distance_to_neighbor_rooms(pixel_point, room_graph)
+                        room_dist_cache[pixel_point] = min_dist
                     if min_dist is None:
                         continue
                     weighted_distance += belief * min_dist
@@ -585,6 +688,8 @@ class ChooseMovement:
                 'normalized_beliefs': normalized_beliefs,
                 'cleaned_voxels': cleaned_voxels,
                 'collision_count': len(voxels) - len(kept_voxels),
+                'collision_count_env': n_env_rejected,
+                'collision_count_mask': n_mask_rejected,
                 'collision_prob': collision_prob,
                 'survival_prob': survival_prob,
                 'survival_ratio': len(kept_voxels) / len(voxels) if len(voxels) > 0 else 0.0,
@@ -598,19 +703,26 @@ class ChooseMovement:
     def select_best_simulation(self, sim_results, entropy_eps=0.01):
         """Lexicographic choice: lowest entropy first, then lowest
         avg_neighbor_room_distance among moves within entropy_eps of the minimum.
+        Moves without a room distance (e.g. no unvisited room left) are ranked last
+        in the tie-break, so selection falls back to entropy alone.
 
         Returns (best_idx, best_sim), or (None, None) if no candidate is valid.
         """
         valid = [
             (idx, sim) for idx, sim in enumerate(sim_results)
-            if sim.get('entropy') is not None and sim.get('avg_neighbor_room_distance') is not None
+            if sim.get('entropy') is not None
         ]
         if not valid:
             return None, None
 
         e_min = min(sim['entropy'] for _, sim in valid)
         ties = [(idx, sim) for idx, sim in valid if sim['entropy'] <= e_min + entropy_eps]
-        return min(ties, key=lambda item: item[1]['avg_neighbor_room_distance'])
+
+        def room_distance(item):
+            d = item[1].get('avg_neighbor_room_distance')
+            return float('inf') if d is None else d
+
+        return min(ties, key=room_distance)
 
     def choose_movement(self, angles, dists, voxels, beliefs):
         """Choose the best movement based on simulated entropy."""
