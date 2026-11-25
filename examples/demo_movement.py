@@ -262,7 +262,7 @@ def main():
         #                        label=f'moved_{sim_idx}')
         # visualize(fig, ax, state, angles, dists)
         mover.visualize_simulation_result(ax, sim_results, voxels)
-        entropy_eps = 0.01
+        entropy_eps = 0.05  # validation candidate A
         best_idx, best_sim = mover.select_best_simulation(sim_results, entropy_eps=entropy_eps)
         valid_entropies = [sim['entropy'] for sim in sim_results if sim.get('entropy') is not None]
         e_min = min(valid_entropies) if valid_entropies else None

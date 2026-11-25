@@ -101,7 +101,7 @@ def sample_free_point(pgm, env, min_clearance=0.3, max_tries=200):
     return None
 
 
-def run_on_map(module, map_yaml, image_path, repeats=10, max_steps=200, threshold=0.55, seed=None, visualize=False, random_move=False, min_clearance=0.10, alpha=0.05, forward_safety_margin=0.15, entropy_eps=0.01):
+def run_on_map(module, map_yaml, image_path, repeats=10, max_steps=200, threshold=0.55, seed=None, visualize=False, random_move=False, min_clearance=0.0, alpha=1.0, forward_safety_margin=0.2, entropy_eps=0.05):
     if seed is not None:
         random.seed(seed)
         np.random.seed(seed)
@@ -327,10 +327,11 @@ def parse_args():
     p.add_argument("--threshold", type=float, default=0.55)
     p.add_argument("--seed", type=int, default=None)
     p.add_argument("--out", default=None, help="Optional CSV output path")
-    p.add_argument("--min-clearance", type=float, default=0.10, help="Minimum wall clearance in metres (default: 0.10)")
-    p.add_argument("--alpha", type=float, default=0.05, help="Chance-constraint threshold: max allowed collision probability (default: 0.05)")
-    p.add_argument("--forward-safety-margin", type=float, default=0.15, help="Metres subtracted from forward ray before stepping (default: 0.15)")
-    p.add_argument("--entropy-eps", type=float, default=0.01, help="Entropy tie window for best-move selection; ties broken by room distance (default: 0.01)")
+    # Defaults = validation candidate A (validation/run_validation.sh, analyze_validation.py).
+    p.add_argument("--min-clearance", type=float, default=0.0, help="Minimum wall clearance in metres (default: 0.0)")
+    p.add_argument("--alpha", type=float, default=1.0, help="Chance-constraint threshold: max allowed collision probability (default: 1.0, i.e. disabled)")
+    p.add_argument("--forward-safety-margin", type=float, default=0.2, help="Metres subtracted from forward ray before stepping (default: 0.2)")
+    p.add_argument("--entropy-eps", type=float, default=0.05, help="Entropy tie window for best-move selection; ties broken by room distance (default: 0.05)")
     p.add_argument("--grid-search", action="store_true", help="Run grid search over min_clearance, alpha, forward_safety_margin, entropy_eps")
     p.add_argument("--grid-maps-count", type=int, default=2, help="Number of maps (from the top of the list) to use in grid search (default: 2)")
     p.add_argument("--grid-repeats", type=int, default=20, help="Repeats per combo in grid search (default: 20)")
@@ -396,7 +397,7 @@ def parse_args():
 #   - KK_PRIME_RATIO  [0.5, 0.7, 1.0]      — fraction of uncorrupted rays
 # ---------------------------------------------------------------------------
 
-# 0.05 is demo_movement's margin (ChooseMovement's default min_clearance)
+# 0.0 is ChooseMovement's default min_clearance (validation candidate A)
 GRID_MIN_CLEARANCE      = [0.0, 0.05, 0.10, 0.15, 0.20, 0.25]
 GRID_ALPHA              = [0.05, 0.10, 0.15, 1.0]
 GRID_FORWARD_SAFETY     = [0.05, 0.10, 0.20]

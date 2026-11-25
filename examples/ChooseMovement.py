@@ -14,7 +14,8 @@ from sdsl.loaders.load_pgm_map import load_pgm_map
 class ChooseMovement:
     """Encapsulate room-edge and graph reasoning with optional voxel motion simulation."""
 
-    def __init__(self, env=None, yaml_path=None, image_path=None, min_clearance=0.05, visited_belief_threshold=0.05):
+    # Defaults = validation candidate A (validation/run_validation.sh, analyze_validation.py).
+    def __init__(self, env=None, yaml_path=None, image_path=None, min_clearance=0.0, visited_belief_threshold=0.05):
         self.env = env
         self.visited_belief_threshold = visited_belief_threshold
         self.min_clearance = min_clearance
@@ -580,7 +581,7 @@ class ChooseMovement:
         ).tolist()
         return kept_voxels, kept_beliefs, normalized_beliefs, n_env_rejected, n_mask_rejected
 
-    def simulate_movements(self, angles, dists, voxels, beliefs, max_step=0.3, alpha=0.05, forward_safety_margin=0.15, compute_metrics=True):
+    def simulate_movements(self, angles, dists, voxels, beliefs, max_step=0.3, alpha=1.0, forward_safety_margin=0.2, compute_metrics=True):
         """Simulate moving voxels along each ray direction and evaluate collisions.
 
         compute_metrics=False skips the entropy / room-distance metrics of accepted
@@ -700,7 +701,7 @@ class ChooseMovement:
 
         return results
 
-    def select_best_simulation(self, sim_results, entropy_eps=0.01):
+    def select_best_simulation(self, sim_results, entropy_eps=0.05):
         """Lexicographic choice: lowest entropy first, then lowest
         avg_neighbor_room_distance among moves within entropy_eps of the minimum.
         Moves without a room distance (e.g. no unvisited room left) are ranked last
